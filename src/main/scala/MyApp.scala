@@ -3,6 +3,7 @@ import zio.console._
 import zio.clock._
 
 object MyApp extends App {
+  // TODO ScalaJS version of App
   override def run(args: List[String]): ZIO[zio.ZEnv, Nothing, Int] = {
     val logic = for {
       _ <- putStr("name: ")
