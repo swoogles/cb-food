@@ -1,5 +1,6 @@
 import java.io.IOException
 import java.time.LocalTime
+import java.util.concurrent.TimeUnit
 
 import zio.{App, Schedule, ZIO}
 import zio.console.{putStrLn, _}
@@ -17,11 +18,20 @@ object MyApp extends App {
       _ <- putStrLn(s"hello, $name - $now")
     } yield (0)
 
-    DomManipulation.addWelcomeMessage()
-      .flatMap( _ => BusTimes.printBusInfo)
-        .flatMap( _ => ScheduleSandbox.liveBusses)
-      .flatMap{case (left, right)=> putStrLn("left: " + left + " right: " + right)}
-      .map( _ => 0)
+    for {
+      _ <- DomManipulation.addWelcomeMessage()
+      now <- currentDateTime
+      _ <- putStrLn("CurrentDateTime: " + now)
+      nowTime <- currentTime(TimeUnit.MINUTES)
+      _ <- putStrLn("CurrentTime in minutes: " + nowTime)
+
+      _ <- BusTimes.printBusInfo
+      _ <- ScheduleSandbox.liveBusses
+//        (left, right) <- putStrLn("left: " + left + " right: " + right)
+    } yield {
+      0
+
+    }
   }
 }
 
@@ -50,12 +60,14 @@ object BusTimes {
   val startTime = LocalTime.parse("07:00:00")
   val endTime = LocalTime.parse("23:00:00")
   val totalBusRunTime = java.time.Duration.between(startTime, endTime)
+  val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
 
   val printBusInfo =
     for {
       _ <- putStrLn("First Bus: " +  BusTimes.startTime)
       _ <- putStrLn("Last Bus: " +  BusTimes.endTime)
-      _ <- putStrLn("Total Bus Run Time" +  BusTimes.totalBusRunTime)
+      _ <- putStrLn("Total Bus Run Time:" +  BusTimes.totalBusRunTime)
+      _ <- putStrLn("Number of buses per day:" +  BusTimes.numberOfBusesPerDay)
     } yield ()
 }
 

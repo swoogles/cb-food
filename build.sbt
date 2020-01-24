@@ -9,6 +9,7 @@ libraryDependencies ++= Seq(
 //  "dev.zio" %%% "zio" % "1.0.0-RC15",
   "org.scala-js" %%% "scalajs-dom" % "0.9.7",
   "io.github.cquiroz" %%% "scala-java-time" % "2.0.0-RC3",
+  "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0-RC3_2019a",
 //  "org.scala-js" %%% "scalajs-java-time" % "0.2.5"
 //  "org.scala-js" %%% "scalajs-java-time" % "0.2.6"
 //    libraryDependencies += "io.github.cquiroz" % "scala-java-time_2.13" % "2.0.0-RC3"
