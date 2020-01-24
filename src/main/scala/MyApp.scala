@@ -2,7 +2,7 @@ import java.io.IOException
 import java.time.LocalTime
 
 import zio.{App, Schedule, ZIO}
-import zio.console._
+import zio.console.{putStrLn, _}
 import zio.clock._
 import zio._
 import zio.duration.Duration
@@ -18,9 +18,8 @@ object MyApp extends App {
     } yield (0)
 
     DomManipulation.addWelcomeMessage()
-      .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
+      .flatMap( _ => BusTimes.printBusInfo)
         .flatMap( _ => ScheduleSandbox.liveBusses)
-
       .flatMap{case (left, right)=> putStrLn("left: " + left + " right: " + right)}
       .map( _ => 0)
   }
@@ -47,11 +46,28 @@ object ScheduleSandbox {
       .repeat(realBusSchedule(5))
 }
 
+object BusTimes {
+  val startTime = LocalTime.parse("07:00:00")
+  val endTime = LocalTime.parse("23:00:00")
+  val totalBusRunTime = java.time.Duration.between(startTime, endTime)
+
+  val printBusInfo =
+    for {
+      _ <- putStrLn("First Bus: " +  BusTimes.startTime)
+      _ <- putStrLn("Last Bus: " +  BusTimes.endTime)
+      _ <- putStrLn("Total Bus Run Time" +  BusTimes.totalBusRunTime)
+    } yield ()
+}
+
 object DomManipulation {
   import org.scalajs.dom
   import dom.document
 
-  def appendMessageToPage(message: String) = ZIO {
+  def appendMessageToPage(message: String) =
+    for {
+      _ <- putStrLn(message)
+    } yield
+    ZIO {
     val textNode = document.createTextNode(message)
     val paragraph = document.createElement("div")
     paragraph.appendChild(textNode)
@@ -65,4 +81,5 @@ object DomManipulation {
       .appendChild(textNode)
     document.body.appendChild(paragraph)
   }
+    .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
 }
