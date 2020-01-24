@@ -21,7 +21,7 @@ object MyApp extends App {
     for {
       _ <- DomManipulation.addWelcomeMessage()
       now <- currentDateTime
-      _ <- putStrLn("CurrentDateTime: " + now)
+      _ <- putStrLn("CurrentLocalTime: " + now.toLocalTime)
       nowTime <- currentTime(TimeUnit.MINUTES)
       _ <- putStrLn("CurrentTime in minutes: " + nowTime)
 
