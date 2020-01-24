@@ -61,6 +61,19 @@ object BusTimes {
   val endTime = LocalTime.parse("23:00:00")
   val totalBusRunTime = java.time.Duration.between(startTime, endTime)
   val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
+  val fullDayOfBusStarts =
+    List.range(0, numberOfBusesPerDay)
+    .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
+  val printFullBusSchedule =
+    fullDayOfBusStarts
+    .map( busStartTime => putStrLn("Bus Start Time: " + busStartTime))
+    .foldLeft(putStrLn("Full Bus Schedule")){
+      case (printSoFar: ZIO[Console, Nothing, Unit], printCurrent: ZIO[Console, Nothing, Unit]) =>
+        for {
+          _ <- printSoFar
+          _ <- printCurrent
+        } yield ()
+    }
 
   val printBusInfo =
     for {
@@ -68,6 +81,7 @@ object BusTimes {
       _ <- putStrLn("Last Bus: " +  BusTimes.endTime)
       _ <- putStrLn("Total Bus Run Time:" +  BusTimes.totalBusRunTime)
       _ <- putStrLn("Number of buses per day:" +  BusTimes.numberOfBusesPerDay)
+      _ <- printFullBusSchedule
     } yield ()
 }
 
