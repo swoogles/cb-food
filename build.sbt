@@ -5,7 +5,7 @@ enablePlugins(ScalaJSPlugin)
 
 libraryDependencies ++= Seq(
   "dev.zio" %%% "zio" % "1.0.0-RC17",
-  "com.lihaoyi" %% "scalatags" % "0.8.2",
+  "com.lihaoyi" %%% "scalatags" % "0.8.2",
 //  "dev.zio" %%% "zio" % "1.0.0-RC15",
   "org.scala-js" %%% "scalajs-dom" % "0.9.7",
   "io.github.cquiroz" %%% "scala-java-time" % "2.0.0-RC3",

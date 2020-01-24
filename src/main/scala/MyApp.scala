@@ -2,6 +2,8 @@ import java.io.IOException
 import java.time.LocalTime
 import java.util.concurrent.TimeUnit
 
+import org.scalajs.dom.html.Table
+import scalatags.{JsDom, Text}
 import zio.{App, Schedule, ZIO}
 import zio.console.{putStrLn, _}
 import zio.clock._
@@ -24,6 +26,7 @@ object MyApp extends App {
       _ <- putStrLn("CurrentLocalTime: " + now.toLocalTime)
       nowTime <- currentTime(TimeUnit.MINUTES)
       _ <- putStrLn("CurrentTime in minutes: " + nowTime)
+      _ <- DomManipulation.addElementToPage(DomManipulation.createBusScheduleDiv(BusTimes.fullDayOfBusStarts))
 
       _ <- BusTimes.printBusInfo
       _ <- ScheduleSandbox.liveBusses
@@ -64,16 +67,6 @@ object BusTimes {
   val fullDayOfBusStarts =
     List.range(0, numberOfBusesPerDay)
     .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
-  val printFullBusSchedule =
-    fullDayOfBusStarts
-    .map( busStartTime => putStrLn("Bus Start Time: " + busStartTime))
-    .foldLeft(putStrLn("Full Bus Schedule")){
-      case (printSoFar: ZIO[Console, Nothing, Unit], printCurrent: ZIO[Console, Nothing, Unit]) =>
-        for {
-          _ <- printSoFar
-          _ <- printCurrent
-        } yield ()
-    }
 
   val printBusInfo =
     for {
@@ -81,31 +74,42 @@ object BusTimes {
       _ <- putStrLn("Last Bus: " +  BusTimes.endTime)
       _ <- putStrLn("Total Bus Run Time:" +  BusTimes.totalBusRunTime)
       _ <- putStrLn("Number of buses per day:" +  BusTimes.numberOfBusesPerDay)
-      _ <- printFullBusSchedule
     } yield ()
 }
 
 object DomManipulation {
   import org.scalajs.dom
   import dom.document
+//  import scalatags.Text.all._
+  import scalatags.JsDom.all._
+
+  def createBusScheduleDiv(times: List[LocalTime]): JsDom.TypedTag[Table] = {
+    table(
+      times
+        .map(time => tr(td(time.toString)))
+    )
+  }
 
   def appendMessageToPage(message: String) =
     for {
       _ <- putStrLn(message)
-    } yield
-    ZIO {
-    val textNode = document.createTextNode(message)
-    val paragraph = document.createElement("div")
-    paragraph.appendChild(textNode)
-    document.body.appendChild(paragraph)
+      _ <-
+        ZIO {
+          println("Are we actually adding the new messages?")
+          val paragraph = div(message)
+          document.body.querySelector("#logs").appendChild(paragraph.render)
+        }
+          .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
+    } yield ()
+
+  def addWelcomeMessage() = ZIO {
+    val paragraph = p("Let's Make a Bus Schedule App!")
+    document.body.appendChild(paragraph.render)
   }
     .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
 
-  def addWelcomeMessage() = ZIO {
-    val textNode = document.createTextNode("Let's Make a Bus Schedule App!")
-    val paragraph = document.createElement("p")
-      .appendChild(textNode)
-    document.body.appendChild(paragraph)
+  def addElementToPage(element: JsDom.TypedTag[Table]) = ZIO {
+    document.body.appendChild(element.render)
   }
     .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
 }
