@@ -9,7 +9,6 @@ import zio.duration.Duration
 
 object MyApp extends App {
 
-  // TODO ScalaJS version of App
   override def run(args: List[String]): ZIO[zio.ZEnv, Nothing, Int] = {
     val logic: ZIO[Console with Clock, IOException, Int] = for {
       _ <- putStr("name: ")
