@@ -1,6 +1,6 @@
 To run this project:
 
-    sbt fastOptJS
-    cp target/scala-2.13/cb-bus-* src/main/resources/js/
+    sbt cbBuild
     firefox src/main/resources/html/index.html
     
+In your editor, you might want to exclude ./src/main/resources/compiledJavascript

@@ -17,3 +17,14 @@ libraryDependencies ++= Seq(
 
 // This is an application with a main method
 scalaJSUseMainModuleInitializer := true
+
+lazy val cbBuild = taskKey[Unit]("Execute the shell script")
+
+cbBuild := {
+  (Compile/fastOptJS).value
+  import scala.sys.process._
+//  "ls ./target/scala-2.13" !
+  (Process("mkdir ./src/main/resources/compiledJavascript") #||
+    Process("cp ./target/scala-2.13/cb-bus-fastopt.js src/main/resources/compiledJavascript/") #&&
+    Process("cp ./target/scala-2.13/cb-bus-jsdeps.js src/main/resources/compiledJavascript/"))!
+}

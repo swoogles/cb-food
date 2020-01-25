@@ -22,6 +22,7 @@ object MyApp extends App {
 
     currentDateTime
     for {
+      _ <- putStrLn("Copied as part of task!")
       _ <- DomManipulation.addWelcomeMessage()
       now <- currentDateTime
       _ <- putStrLn("CurrentLocalTime: " + now.toLocalTime)
