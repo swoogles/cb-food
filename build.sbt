@@ -6,14 +6,15 @@ enablePlugins(ScalaJSPlugin)
 libraryDependencies ++= Seq(
   "dev.zio" %%% "zio" % "1.0.0-RC17",
   "com.lihaoyi" %%% "scalatags" % "0.8.2",
-//  "dev.zio" %%% "zio" % "1.0.0-RC15",
   "org.scala-js" %%% "scalajs-dom" % "0.9.7",
   "io.github.cquiroz" %%% "scala-java-time" % "2.0.0-RC3",
   "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0-RC3_2019a",
-//  "org.scala-js" %%% "scalajs-java-time" % "0.2.5"
-//  "org.scala-js" %%% "scalajs-java-time" % "0.2.6"
 //    libraryDependencies += "io.github.cquiroz" % "scala-java-time_2.13" % "2.0.0-RC3"
+  "dev.zio" %%% "zio-test"     % "1.0.0-RC17" % "test",
+  "dev.zio" %%% "zio-test-sbt" % "1.0.0-RC17" % "test"
 )
+
+testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework"))
 
 // This is an application with a main method
 scalaJSUseMainModuleInitializer := true
