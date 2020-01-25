@@ -20,13 +20,12 @@ object MyApp extends App {
       _ <- putStrLn(s"hello, $name - $now")
     } yield (0)
 
+    currentDateTime
     for {
       _ <- DomManipulation.addWelcomeMessage()
       now <- currentDateTime
       _ <- putStrLn("CurrentLocalTime: " + now.toLocalTime)
-      nowTime <- currentTime(TimeUnit.MINUTES)
-      _ <- putStrLn("CurrentTime in minutes: " + nowTime)
-      _ <- DomManipulation.addElementToPage(DomManipulation.createBusScheduleDiv(BusTimes.fullDayOfBusStarts))
+      _ <- DomManipulation.addElementToPage(DomManipulation.createBusScheduleTable(BusTimes.fullDayOfBusStarts))
 
       _ <- BusTimes.printBusInfo
       _ <- ScheduleSandbox.liveBusses
@@ -40,8 +39,6 @@ object MyApp extends App {
 
 object ScheduleSandbox {
 
-  def numberOfBussesPerDay(spacing: Duration, start: LocalTime, end: LocalTime) = ???
-
   val driveFromMountaineerToTeocalli =
     Schedule.once && Schedule.spaced(duration.durationInt(2).seconds)
 
@@ -51,12 +48,18 @@ object ScheduleSandbox {
 
   val singleBusRoute =
     DomManipulation.appendMessageToPage("Bus is leaving Mountaineer Square!")
-      .flatMap(_ => ZIO.sleep(duration.durationInt(2).seconds))
+      .flatMap(_ => ZIO.sleep(duration.durationInt(5).seconds))
       .flatMap(_ => DomManipulation.appendMessageToPage("Bus arrived at teocalli!"))
+      .flatMap(_ => ZIO.sleep(duration.durationInt(5).seconds))
+      .flatMap(_ => DomManipulation.appendMessageToPage("Bus arrived at 4 way!"))
+
+  val secondBus =
+    ZIO.sleep(duration.durationInt(2).seconds).flatMap(_ => singleBusRoute)
 
   val liveBusses =
-    singleBusRoute
-      .repeat(realBusSchedule(5))
+    ZIO.reduceAllPar(singleBusRoute, List(secondBus)){ case (_, _) => ()}
+
+//      .repeat(realBusSchedule(5))
 }
 
 object BusTimes {
@@ -83,7 +86,7 @@ object DomManipulation {
 //  import scalatags.Text.all._
   import scalatags.JsDom.all._
 
-  def createBusScheduleDiv(times: List[LocalTime]): JsDom.TypedTag[Table] = {
+  def createBusScheduleTable(times: List[LocalTime]): JsDom.TypedTag[Table] = {
     table(
       times
         .map(time => tr(td(time.toString)))
