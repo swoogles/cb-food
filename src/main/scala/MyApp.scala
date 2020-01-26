@@ -88,7 +88,7 @@ object BusTimes {
   val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
   val fullDayOfBusStarts =
     List.range(0, numberOfBusesPerDay)
-    .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
+      .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
 
   val printBusInfo =
     for {
@@ -97,6 +97,16 @@ object BusTimes {
       _ <- putStrLn("Total Bus Run Time:" +  BusTimes.totalBusRunTime)
       _ <- putStrLn("Number of buses per day:" +  BusTimes.numberOfBusesPerDay)
     } yield ()
+
+  val findNextBus: ZIO[Clock with Console, Nothing, LocalTime] =
+    for {
+      clockProper <- ZIO.environment[Clock]
+      now <-  clockProper.clock.currentDateTime
+      _ <- ZIO.succeed { println("findNextBus Now: " + now.toLocalTime) }
+    } yield (
+      fullDayOfBusStarts
+        .dropWhile(now.toLocalTime.isAfter(_))
+      ).head
 }
 
 object DomManipulation {
