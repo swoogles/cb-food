@@ -22,16 +22,21 @@ object MyApp extends App {
 
     currentDateTime
     for {
-      _ <- putStrLn("Copied as part of task!")
+      _ <- DomManipulation.createPageStructure
       _ <- DomManipulation.addWelcomeMessage()
       now <- currentDateTime
       _ <- putStrLn("CurrentLocalTime: " + now.toLocalTime)
-      _ <- DomManipulation.addElementToPage(DomManipulation.createBusScheduleTable(BusTimes.fullDayOfBusStarts))
+      _ <- DomManipulation.addElementToPage(DomManipulation.createBusScheduleTable(BusTimes.mountaineerSquareBusStarts))
 
       _ <- BusTimes.printBusInfo
-      nextBus <- BusTimes.findNextBus
-      _ <- nextBus match {
-        case Some(nextBusTime) => DomManipulation.appendMessageToPage("Next Bus time: " + nextBusTime)
+      nextBusAtMountaineer <- BusTimes.findNextBus(BusTimes.mountaineerSquareBusStarts)
+      nextBusAtTeocalliDown <- BusTimes.findNextBus(BusTimes.teocalliDownMountainBusStarts)
+      _ <- nextBusAtMountaineer match {
+        case Some(nextBusTime) => DomManipulation.appendMessageToPage("Next Bus leaving mountaineer Square: " + nextBusTime)
+        case None => ZIO.succeed("No bus available. Time to call safe-ride!")
+      }
+      _ <- nextBusAtTeocalliDown match {
+        case Some(nextBusTime) => DomManipulation.appendMessageToPage("Next Bus leaving Teocalli down mountain: " + nextBusTime)
         case None => ZIO.succeed("No bus available. Time to call safe-ride!")
       }
       _ <- ScheduleSandbox.liveBusses
@@ -91,9 +96,13 @@ object BusTimes {
   val endTime = LocalTime.parse("23:00:00")
   val totalBusRunTime = java.time.Duration.between(startTime, endTime)
   val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
-  val fullDayOfBusStarts =
+  val mountaineerSquareBusStarts: Seq[LocalTime] =
     List.range(0, numberOfBusesPerDay)
       .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
+
+  val teocalliDownMountainBusStarts =
+    mountaineerSquareBusStarts
+    .map(_.plusMinutes(7))
 
   val printBusInfo =
     for {
@@ -103,13 +112,13 @@ object BusTimes {
       _ <- putStrLn("Number of buses per day:" +  BusTimes.numberOfBusesPerDay)
     } yield ()
 
-  val findNextBus: ZIO[Clock with Console, Nothing, Option[LocalTime]] =
+  def findNextBus(timesAtStop: Seq[LocalTime]): ZIO[Clock with Console, Nothing, Option[LocalTime]] =
     for {
       clockProper <- ZIO.environment[Clock]
       now <-  clockProper.clock.currentDateTime
       _ <- ZIO.succeed { println("findNextBus Now: " + now.toLocalTime) }
     } yield (
-      fullDayOfBusStarts
+      timesAtStop
         .dropWhile(now.toLocalTime.isAfter(_))
       ).headOption
 }
@@ -117,10 +126,19 @@ object BusTimes {
 object DomManipulation {
   import org.scalajs.dom
   import dom.document
-//  import scalatags.Text.all._
   import scalatags.JsDom.all._
 
-  def createBusScheduleTable(times: List[LocalTime]): JsDom.TypedTag[Table] = {
+  val createPageStructure = ZIO {
+    document.body.appendChild(
+      div(id:="container")(
+        div(id:="upcoming-buses", style:= "width:50%; float:left" )("Upcoming buses"),
+        div(id:="activity-log", style := "margin-left:50%")("activity log"),
+      ).render
+    )
+  }
+    .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
+
+  def createBusScheduleTable(times: Seq[LocalTime]): JsDom.TypedTag[Table] = {
     table(
       times
         .map(time => tr(td(time.toString)))
