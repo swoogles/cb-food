@@ -13,20 +13,12 @@ import zio.duration.Duration
 object MyApp extends App {
 
   override def run(args: List[String]): ZIO[zio.ZEnv, Nothing, Int] = {
-    val logic: ZIO[Console with Clock, IOException, Int] = for {
-      _ <- putStr("name: ")
-      name <- ZIO.succeed("Hardcoded Harry")
-      now <- currentDateTime
-      _ <- putStrLn(s"hello, $name - $now")
-    } yield (0)
-
-    currentDateTime
     for {
       _ <- DomManipulation.createPageStructure
-      _ <- DomManipulation.addWelcomeMessage()
+//      _ <- DomManipulation.addWelcomeMessage()
       now <- currentDateTime
       _ <- putStrLn("CurrentLocalTime: " + now.toLocalTime)
-      _ <- DomManipulation.addElementToPage(DomManipulation.createBusScheduleTable(BusTimes.mountaineerSquareBusStarts))
+//      _ <- DomManipulation.addElementToPage(DomManipulation.createBusScheduleTable(BusTimes.mountaineerSquareBusStarts))
 
       _ <- BusTimes.printBusInfo
       nextBusAtMountaineer <- BusTimes.findNextBus(BusTimes.mountaineerSquareBusStarts)
@@ -40,7 +32,6 @@ object MyApp extends App {
         case None => ZIO.succeed("No bus available. Time to call safe-ride!")
       }
       _ <- ScheduleSandbox.liveBusses
-//        (left, right) <- putStrLn("left: " + left + " right: " + right)
     } yield {
       0
 
@@ -48,7 +39,9 @@ object MyApp extends App {
   }
 }
 
-object ScheduleSandbox {
+
+
+object BusTimes {
   /*
   Regular Winter Schedule: November 27th through April 12th
 
@@ -61,37 +54,6 @@ object ScheduleSandbox {
     Mountaineer Square/Transit Center	  :00, :15, :30, :45	    7:30 AM 	  12:00 AM
    */
 
-  val driveFromMountaineerToTeocalli =
-    Schedule.once && Schedule.spaced(duration.durationInt(2).seconds)
-
-  def realBusSchedule(numberOfBussesPerDay: Int): Schedule[Clock, Any, (Int, Int)] =
-    Schedule.recurs(numberOfBussesPerDay) &&
-      Schedule.spaced(duration.durationInt(2).seconds)
-
-  def singleBusRoute(number: Int) =
-    DomManipulation.appendMessageToPage(s"Bus #$number is leaving old town hall!")
-      .flatMap(_ => ZIO.sleep(duration.durationInt(4).seconds))
-      .flatMap(_ => DomManipulation.appendMessageToPage(s"Bus #$number arrived at clarks!"))
-      .flatMap(_ => ZIO.sleep(duration.durationInt(1).seconds))
-      .flatMap(_ => DomManipulation.appendMessageToPage(s"Bus #$number arrived at 4 way!"))
-      .flatMap(_ => ZIO.sleep(duration.durationInt(1).seconds))
-      .flatMap(_ => DomManipulation.appendMessageToPage(s"Bus #$number arrived at Teocalli!"))
-      .flatMap(_ => ZIO.sleep(duration.durationInt(5).seconds)) // TODO Proper amount here
-      .flatMap(_ => DomManipulation.appendMessageToPage(s"Bus #$number arrived at Mountaineer Square!"))
-
-  val secondBus =
-    ZIO.sleep(duration.durationInt(4).seconds).flatMap(_ => singleBusRoute(2))
-
-  val thirdBus =
-    ZIO.sleep(duration.durationInt(8).seconds).flatMap(_ => singleBusRoute(3))
-
-  val liveBusses =
-    ZIO.reduceAllPar(singleBusRoute(1), List(secondBus, thirdBus)){ case (_, _) => ()}
-
-//      .repeat(realBusSchedule(5))
-}
-
-object BusTimes {
   val startTime = LocalTime.parse("07:00:00")
   val endTime = LocalTime.parse("23:00:00")
   val totalBusRunTime = java.time.Duration.between(startTime, endTime)
@@ -146,32 +108,26 @@ object DomManipulation {
   }
 
   def appendMessageToPage(message: String) =
-    for {
-      _ <- putStrLn(message)
-      _ <-
-        ZIO {
-          println("Are we actually adding the new messages?")
-          val paragraph = div(message)
-          document.body.querySelector("#activity-log").appendChild(paragraph.render)
-        }
-          .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
-    } yield ()
+    ZIO {
+      println("Are we actually adding the new messages?")
+      val paragraph = div(message)
+      document.body.querySelector("#activity-log").appendChild(paragraph.render)
+    }
+      .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
 
   def appendBusTime(message: String) =
-    for {
-      _ <-
-        ZIO {
-          val paragraph = div(message)
-          document.body.querySelector("#upcoming-buses").appendChild(paragraph.render)
-        }
-          .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
-    } yield ()
+    ZIO {
+      val paragraph = div(message)
+      document.body.querySelector("#upcoming-buses").appendChild(paragraph.render)
+    }
+      .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
 
-  def addWelcomeMessage() = ZIO {
-    val paragraph = p("Let's Make a Bus Schedule App!")
-    document.body.appendChild(paragraph.render)
-  }
-    .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
+  def addWelcomeMessage() =
+    ZIO {
+      val paragraph = p("Let's Make a Bus Schedule App!")
+      document.body.appendChild(paragraph.render)
+    }
+      .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
 
   def addElementToPage(element: JsDom.TypedTag[Table]) = ZIO {
     document.body.appendChild(element.render)
