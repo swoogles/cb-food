@@ -32,11 +32,11 @@ object MyApp extends App {
       nextBusAtMountaineer <- BusTimes.findNextBus(BusTimes.mountaineerSquareBusStarts)
       nextBusAtTeocalliDown <- BusTimes.findNextBus(BusTimes.teocalliDownMountainBusStarts)
       _ <- nextBusAtMountaineer match {
-        case Some(nextBusTime) => DomManipulation.appendMessageToPage("Next Bus leaving mountaineer Square: " + nextBusTime)
+        case Some(nextBusTime) => DomManipulation.appendBusTime("Mountaineer Square: " + nextBusTime)
         case None => ZIO.succeed("No bus available. Time to call safe-ride!")
       }
       _ <- nextBusAtTeocalliDown match {
-        case Some(nextBusTime) => DomManipulation.appendMessageToPage("Next Bus leaving Teocalli down mountain: " + nextBusTime)
+        case Some(nextBusTime) => DomManipulation.appendBusTime("Teocalli down mountain: " + nextBusTime)
         case None => ZIO.succeed("No bus available. Time to call safe-ride!")
       }
       _ <- ScheduleSandbox.liveBusses
@@ -152,7 +152,17 @@ object DomManipulation {
         ZIO {
           println("Are we actually adding the new messages?")
           val paragraph = div(message)
-          document.body.querySelector("#logs").appendChild(paragraph.render)
+          document.body.querySelector("#activity-log").appendChild(paragraph.render)
+        }
+          .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
+    } yield ()
+
+  def appendBusTime(message: String) =
+    for {
+      _ <-
+        ZIO {
+          val paragraph = div(message)
+          document.body.querySelector("#upcoming-buses").appendChild(paragraph.render)
         }
           .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
     } yield ()
