@@ -13,6 +13,14 @@ object HelloWorld {
     console.putStrLn("Hello, World!")
 }
 
+object TimeHelpers {
+  def simpleOffsetDateTime(localTime: String) =
+    OffsetDateTime.of(
+      LocalDate.parse("2010-05-03"),
+      LocalTime.parse(localTime),
+      ZoneOffset.ofHours(0))
+}
+
 object HelloWorldSpec
   extends DefaultRunnableSpec(
     suite("HelloWorldSpec")(
@@ -22,19 +30,25 @@ object HelloWorldSpec
           output <- TestConsole.output
         } yield assert(output, equalTo(Vector("Hello, World!\n")))
       },
-        testM("find the next bus time") {
+      testM("find the next bus time") {
         for {
-          _ <- TestClock.setDateTime(OffsetDateTime.of(
-            LocalDate.parse("2010-05-03"),
-            LocalTime.parse("09:01:00"),
-          ZoneOffset.ofHours(0)))
-//          _ <- TestClock.setTime(Duration.Zero)
-//          clock: TestClock.Test <- environment.TestClock.makeTest(TestClock.DefaultData)
+          _ <- TestClock.setDateTime(TimeHelpers.simpleOffsetDateTime("09:01:00"))
           result <- BusTimes.findNextBus
-//          _      <- clock.live.provide(BusTimes.findNextBus)
-
-//          output <- TestConsole.output
-        } yield assert(result, equalTo(Vector("Hello, World!\n")))
+        } yield assert(result.get, equalTo(LocalTime.parse("09:15:00")))
+      },
+      testM("really early morning check") {
+        for {
+          _ <- TestClock.setDateTime(TimeHelpers.simpleOffsetDateTime("05:00:00"))
+          result <- BusTimes.findNextBus
+        } yield assert(result.get, equalTo(LocalTime.parse("07:00:00")))
+      },
+      testM("after last bus has run") {
+        for {
+          _ <- TestClock.setDateTime(TimeHelpers.simpleOffsetDateTime("23:00:00"))
+          result <- BusTimes.findNextBus
+        } yield assert(result, equalTo(Option.empty))
       }
     )
-  )
+  ) {
+
+}

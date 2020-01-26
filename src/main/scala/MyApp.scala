@@ -29,6 +29,11 @@ object MyApp extends App {
       _ <- DomManipulation.addElementToPage(DomManipulation.createBusScheduleTable(BusTimes.fullDayOfBusStarts))
 
       _ <- BusTimes.printBusInfo
+      nextBus <- BusTimes.findNextBus
+      _ <- nextBus match {
+        case Some(nextBusTime) => DomManipulation.appendMessageToPage("Next Bus time: " + nextBusTime)
+        case None => ZIO.succeed("No bus available. Time to call safe-ride!")
+      }
       _ <- ScheduleSandbox.liveBusses
 //        (left, right) <- putStrLn("left: " + left + " right: " + right)
     } yield {
@@ -98,7 +103,7 @@ object BusTimes {
       _ <- putStrLn("Number of buses per day:" +  BusTimes.numberOfBusesPerDay)
     } yield ()
 
-  val findNextBus: ZIO[Clock with Console, Nothing, LocalTime] =
+  val findNextBus: ZIO[Clock with Console, Nothing, Option[LocalTime]] =
     for {
       clockProper <- ZIO.environment[Clock]
       now <-  clockProper.clock.currentDateTime
@@ -106,7 +111,7 @@ object BusTimes {
     } yield (
       fullDayOfBusStarts
         .dropWhile(now.toLocalTime.isAfter(_))
-      ).head
+      ).headOption
 }
 
 object DomManipulation {
