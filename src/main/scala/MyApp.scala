@@ -153,7 +153,7 @@ object DomManipulation {
 
   def appendBusTime(busStopName: String, time: LocalTime) =
     ZIO {
-      val dateFormat = DateTimeFormatter.ofPattern("hh:mm a")
+      val dateFormat = DateTimeFormatter.ofPattern("h:mm a")
       val paragraph = div(style:="float:right; padding-right: 30px;")(s"$busStopName: " + time.format(dateFormat))
       document.body.querySelector("#upcoming-buses").appendChild(paragraph.render)
     }
