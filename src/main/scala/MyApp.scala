@@ -15,22 +15,15 @@ object MyApp extends App {
   override def run(args: List[String]): ZIO[zio.ZEnv, Nothing, Int] = {
     for {
       _ <- DomManipulation.createPageStructure
-//      _ <- DomManipulation.addWelcomeMessage()
+      //      _ <- DomManipulation.addWelcomeMessage()
       now <- currentDateTime
       _ <- putStrLn("CurrentLocalTime: " + now.toLocalTime)
-//      _ <- DomManipulation.addElementToPage(DomManipulation.createBusScheduleTable(BusTimes.mountaineerSquareBusStarts))
+      //      _ <- DomManipulation.addElementToPage(DomManipulation.createBusScheduleTable(BusTimes.mountaineerSquareBusStarts))
 
       _ <- BusTimes.printBusInfo
-      nextBusAtMountaineer <- BusTimes.findNextBus(BusTimes.mountaineerSquareBusStarts)
-      nextBusAtTeocalliDown <- BusTimes.findNextBus(BusTimes.teocalliDownMountainBusStarts)
-      _ <- nextBusAtMountaineer match {
-        case Some(nextBusTime) => DomManipulation.appendBusTime("Mountaineer Square: " + nextBusTime)
-        case None => ZIO.succeed("No bus available. Time to call safe-ride!")
-      }
-      _ <- nextBusAtTeocalliDown match {
-        case Some(nextBusTime) => DomManipulation.appendBusTime("Teocalli down mountain: " + nextBusTime)
-        case None => ZIO.succeed("No bus available. Time to call safe-ride!")
-      }
+      _ <- BusTimes.addNextBusTimeToPage(BusTimes.oldTownHallBusStarts)
+      _ <- BusTimes.addNextBusTimeToPage(BusTimes.clarksBusStarts)
+      _ <- BusTimes.addNextBusTimeToPage(BusTimes.fourWayUphillBusStarts)
       _ <- ScheduleSandbox.liveBusses
     } yield {
       0
@@ -58,13 +51,24 @@ object BusTimes {
   val endTime = LocalTime.parse("23:00:00")
   val totalBusRunTime = java.time.Duration.between(startTime, endTime)
   val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
-  val mountaineerSquareBusStarts: Seq[LocalTime] =
+  val oldTownHallBusStarts: Stops =
+    Stops("Old Town Hall",
     List.range(0, numberOfBusesPerDay)
       .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
+    )
 
-  val teocalliDownMountainBusStarts =
-    mountaineerSquareBusStarts
-    .map(_.plusMinutes(7))
+  val clarksBusStarts =
+    Stops("6th/Belleview (Clarks)",
+      oldTownHallBusStarts.times
+        .map(_.plusMinutes(4))
+    )
+
+  val fourWayUphillBusStarts =
+    Stops("4-way (Uphill)",
+    clarksBusStarts.times
+      .map(_.plusMinutes(1))
+    )
+
 
   val printBusInfo =
     for {
@@ -83,7 +87,21 @@ object BusTimes {
       timesAtStop
         .dropWhile(now.toLocalTime.isAfter(_))
       ).headOption
+
+    def addNextBusTimeToPage(stops: Stops) =
+      for {
+        nextStop <- BusTimes.findNextBus(stops.times)
+        _ <-
+          nextStop match {
+            case Some(nextBusTime) => DomManipulation.appendBusTime(s"${stops.name}: " + nextBusTime)
+            case None => ZIO.succeed("No bus available. Time to call safe-ride!")
+          }
+      } yield {
+      }
+
 }
+
+case class Stops( name: String, times: Seq[LocalTime])
 
 object DomManipulation {
   import org.scalajs.dom
