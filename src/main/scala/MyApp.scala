@@ -1,5 +1,6 @@
 import java.io.IOException
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
 import org.scalajs.dom.html.Table
@@ -25,7 +26,7 @@ object MyApp extends App {
       _ <- BusTimes.addNextBusTimeToPage(BusTimes.oldTownHallBusStarts)
       _ <- BusTimes.addNextBusTimeToPage(BusTimes.clarksBusStarts)
       _ <- BusTimes.addNextBusTimeToPage(BusTimes.fourWayUphillBusStarts)
-      _ <- ScheduleSandbox.liveBusses
+//      _ <- ScheduleSandbox.liveBusses
     } yield {
       0
 
@@ -94,7 +95,7 @@ object BusTimes {
         nextStop <- BusTimes.findNextBus(stops.times)
         _ <-
           nextStop match {
-            case Some(nextBusTime) => DomManipulation.appendBusTime(s"${stops.name}: " + nextBusTime)
+            case Some(nextBusTime) => DomManipulation.appendBusTime(stops.name, nextBusTime)
             case None => ZIO.succeed("No bus available. Time to call safe-ride!")
           }
       } yield {
@@ -115,7 +116,7 @@ object DomManipulation {
     div(cls:="wrapper")(
       div(cls:="box a")("A"),
       div(cls:="box b")("B"),
-      div(cls:="box c")("C"),
+      div(cls:="box c", id:="upcoming-buses")("Upcoming Buses"),
       div(cls:="box d")(
         div(cls:="box e")("E"),
         div(cls:="box f")("F"),
@@ -129,8 +130,7 @@ object DomManipulation {
   val createPageStructure = ZIO {
     document.body.appendChild(
       div(id:="container")(
-        div(id:="upcoming-buses", style:= "width:50%; float:left" )("Upcoming buses"),
-        div(id:="activity-log", style := "margin-left:50%")("activity log"),
+//        div(id:="upcoming-buses", style:= "width:50%; float:left" )("Upcoming buses"),
       ).render
     )
   }
@@ -151,9 +151,10 @@ object DomManipulation {
     }
       .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
 
-  def appendBusTime(message: String) =
+  def appendBusTime(busStopName: String, time: LocalTime) =
     ZIO {
-      val paragraph = div(style:="float:right; padding-right: 30px;")(message)
+      val dateFormat = DateTimeFormatter.ofPattern("hh:mm a")
+      val paragraph = div(style:="float:right; padding-right: 30px;")(s"$busStopName: " + time.format(dateFormat))
       document.body.querySelector("#upcoming-buses").appendChild(paragraph.render)
     }
       .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
