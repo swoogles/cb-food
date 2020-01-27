@@ -103,6 +103,7 @@ object BusTimes {
 
 case class Stops( name: String, times: Seq[LocalTime])
 
+
 object DomManipulation {
   import org.scalajs.dom
   import dom.document
@@ -135,7 +136,7 @@ object DomManipulation {
 
   def appendBusTime(message: String) =
     ZIO {
-      val paragraph = div(message)
+      val paragraph = div(style:="float:right; padding-right: 30px;")(message)
       document.body.querySelector("#upcoming-buses").appendChild(paragraph.render)
     }
       .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
