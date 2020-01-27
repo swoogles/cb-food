@@ -15,6 +15,7 @@ object MyApp extends App {
   override def run(args: List[String]): ZIO[zio.ZEnv, Nothing, Int] = {
     for {
       _ <- DomManipulation.createPageStructure
+      _ <- DomManipulation.createGrid
       //      _ <- DomManipulation.addWelcomeMessage()
       now <- currentDateTime
       _ <- putStrLn("CurrentLocalTime: " + now.toLocalTime)
@@ -108,6 +109,22 @@ object DomManipulation {
   import org.scalajs.dom
   import dom.document
   import scalatags.JsDom.all._
+
+  val createGrid = ZIO {
+    document.body.querySelector("#container").appendChild(
+    div(cls:="wrapper")(
+      div(cls:="box a")("A"),
+      div(cls:="box b")("B"),
+      div(cls:="box c")("C"),
+      div(cls:="box d")(
+        div(cls:="box e")("E"),
+        div(cls:="box f")("F"),
+        div(cls:="box g")("G"),
+    )
+    ).render
+    )
+  }
+    .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
 
   val createPageStructure = ZIO {
     document.body.appendChild(
