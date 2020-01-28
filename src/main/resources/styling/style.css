@@ -29,7 +29,8 @@ body {
     display: grid;
     grid-gap: 10px;
     /*grid-template-columns: repeat(4, [col] 150px ) ;*/
-    grid-template-columns: 2fr 2fr;
+    /*grid-template-columns: 3fr 1fr;*/
+    grid-template-columns: 1fr;
     grid-template-rows: repeat(2, [row] auto  );
     background-color: #fff;
     color: #444;
@@ -40,7 +41,7 @@ body {
     color: #fff;
     border-radius: 5px;
     padding: 20px;
-    font-size: 150%;
+    font-size: 100%;
 
 }
 

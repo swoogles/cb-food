@@ -3,7 +3,9 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
-import org.scalajs.dom.html.Table
+import org.scalajs.dom.document
+import org.scalajs.dom.html.{Div, Table}
+import org.scalajs.dom.raw.HTMLElement
 import scalatags.{JsDom, Text}
 import zio.{App, Schedule, ZIO}
 import zio.console.{putStrLn, _}
@@ -14,23 +16,24 @@ import zio.duration.Duration
 object MyApp extends App {
 
   override def run(args: List[String]): ZIO[zio.ZEnv, Nothing, Int] = {
-    for {
+    val myEnvironment: zio.clock.Clock with zio.console.Console with Browser =
+      new Clock.Live with Console.Live with BrowserLive
+
+
+    (for {
       _ <- DomManipulation.createPageStructure
       _ <- DomManipulation.createGrid
-      //      _ <- DomManipulation.addWelcomeMessage()
       now <- currentDateTime
       _ <- putStrLn("CurrentLocalTime: " + now.toLocalTime)
       //      _ <- DomManipulation.addElementToPage(DomManipulation.createBusScheduleTable(BusTimes.mountaineerSquareBusStarts))
 
       _ <- BusTimes.printBusInfo
-      _ <- BusTimes.addNextBusTimeToPage(BusTimes.oldTownHallBusStarts)
-      _ <- BusTimes.addNextBusTimeToPage(BusTimes.clarksBusStarts)
-      _ <- BusTimes.addNextBusTimeToPage(BusTimes.fourWayUphillBusStarts)
+      _ <- BusTimes.addAllBusTimesToPage
 //      _ <- ScheduleSandbox.liveBusses
     } yield {
       0
 
-    }
+    }).provide(myEnvironment)
   }
 }
 
@@ -71,6 +74,13 @@ object BusTimes {
       .map(_.plusMinutes(1))
     )
 
+  val mountaineerSquareBusStarts =
+    Stops("Mountaineer Square",
+      fourWayUphillBusStarts.times
+        .map(_.plusMinutes(10))
+    )
+
+
 
   val printBusInfo =
     for {
@@ -90,20 +100,43 @@ object BusTimes {
         .dropWhile(now.toLocalTime.isAfter(_))
       ).headOption
 
-    def addNextBusTimeToPage(stops: Stops) =
+    def createNextBusTimeElement(stops: Stops) =
       for {
         nextStop <- BusTimes.findNextBus(stops.times)
-        _ <-
-          nextStop match {
-            case Some(nextBusTime) => DomManipulation.appendBusTime(stops.name, nextBusTime)
-            case None => ZIO.succeed("No bus available. Time to call safe-ride!")
-          }
       } yield {
+        nextStop match {
+          case Some(nextBusTime) => {
+            val typedNextStop = NextStop(stops.name, Some(nextBusTime))
+            DomManipulation.createBusTimeElement(typedNextStop)
+          }
+          case None => {
+            val typedNextStop = NextStop(stops.name, Option.empty)
+            DomManipulation.createBusTimeElement(typedNextStop)
+          }
+        }
       }
+
+  val addAllBusTimesToPage = {
+    val timedBusStopElements: ZIO[Clock with Console, Nothing, List[JsDom.TypedTag[Div]]] = ZIO.collectAll(
+      List(
+        createNextBusTimeElement(BusTimes.oldTownHallBusStarts),
+        createNextBusTimeElement(BusTimes.clarksBusStarts),
+        createNextBusTimeElement(BusTimes.fourWayUphillBusStarts),
+        createNextBusTimeElement(BusTimes.mountaineerSquareBusStarts)
+
+      )
+    )
+    for {
+      timedElements <- timedBusStopElements
+      _ <- DomManipulation.addDivToUpcomingBusesSection(timedElements)
+    } yield {
+    }
+  }
 
 }
 
 case class Stops( name: String, times: Seq[LocalTime])
+case class NextStop( name: String, time: Option[LocalTime])
 
 
 object DomManipulation {
@@ -151,23 +184,57 @@ object DomManipulation {
     }
       .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
 
-  def appendBusTime(busStopName: String, time: LocalTime) =
-    ZIO {
-      val dateFormat = DateTimeFormatter.ofPattern("h:mm a")
-      val paragraph = div(style:="float:right; padding-right: 30px;")(s"$busStopName: " + time.format(dateFormat))
-      document.body.querySelector("#upcoming-buses").appendChild(paragraph.render)
+  def createBusTimeElement(nextStop: NextStop) = {
+    val dateFormat = DateTimeFormatter.ofPattern("h:mm a")
+    val finalTimeOutput = nextStop.time match {
+      case Some(time) => time.format(dateFormat)
+      case None => "Time to call saferide!"
     }
-      .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
+    div(style:="float:right; padding-right: 30px;")(s"${nextStop.name}: " + finalTimeOutput)
 
-  def addWelcomeMessage() =
-    ZIO {
-      val paragraph = p("Let's Make a Bus Schedule App!")
-      document.body.appendChild(paragraph.render)
-    }
-      .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
-
-  def addElementToPage(element: JsDom.TypedTag[Table]) = ZIO {
-    document.body.appendChild(element.render)
   }
-    .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
+  def appendBusTime(nextStop: NextStop) =
+    ZIO {
+      val blah: HTMLElement = document.body
+      document.body.querySelector("#upcoming-buses").appendChild(createBusTimeElement(nextStop).render)
+    }
+      .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
+
+  def addElementToPage(element: JsDom.TypedTag[Table]) =
+    for {
+      browser <- ZIO.environment[Browser]
+  } yield {
+      browser.database.body().appendChild(element.render)
+      }
+//    .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
+
+  def addDivToUpcomingBusesSection(elements: Seq[JsDom.TypedTag[Div]]) =
+    for {
+      browser <- ZIO.environment[Browser]
+      _ <- putStrLn("doing stuff via browser environment")
+    } yield {
+      elements.foreach(element => browser.database.body().querySelector("#upcoming-buses").appendChild(element.render))
+    }
+//    ZIO {
+//
+//    "done"
+//  }
+//    .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
 }
+
+object Browser {
+  trait Service {
+    def body(): HTMLElement
+  }
+}
+trait Browser {
+  def database: Browser.Service
+}
+
+trait BrowserLive extends Browser {
+  def database: Browser.Service =
+    new Browser.Service {
+      def body(): HTMLElement = document.body
+    }
+}
+object BrowserLive extends BrowserLive
