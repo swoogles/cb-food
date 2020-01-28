@@ -74,10 +74,17 @@ object BusTimes {
       .map(_.plusMinutes(1))
     )
 
+  val teocalliUphillBusStarts =
+    Stops("Teocalli (Uphill)",
+      fourWayUphillBusStarts.times
+        .map(_.plusMinutes(1))
+    )
+
+
   val mountaineerSquareBusStarts =
     Stops("Mountaineer Square",
-      fourWayUphillBusStarts.times
-        .map(_.plusMinutes(10))
+      teocalliUphillBusStarts.times
+        .map(_.plusMinutes(9))
     )
 
   val teocalliDownhillBusStarts =
@@ -87,7 +94,7 @@ object BusTimes {
     )
 
   val fourwayDownhill =
-    Stops("Mountaineer Square",
+    Stops("4-way (Downhill)",
       teocalliDownhillBusStarts.times
         .map(_.plusMinutes(1)) // TODO Confirm time
     )
@@ -133,6 +140,7 @@ object BusTimes {
         createNextBusTimeElement(BusTimes.oldTownHallBusStarts),
         createNextBusTimeElement(BusTimes.clarksBusStarts),
         createNextBusTimeElement(BusTimes.fourWayUphillBusStarts),
+        createNextBusTimeElement(BusTimes.teocalliUphillBusStarts),
         createNextBusTimeElement(BusTimes.mountaineerSquareBusStarts),
         createNextBusTimeElement(BusTimes.teocalliDownhillBusStarts),
         createNextBusTimeElement(BusTimes.fourwayDownhill),
