@@ -80,6 +80,17 @@ object BusTimes {
         .map(_.plusMinutes(10))
     )
 
+  val teocalliDownhillBusStarts =
+    Stops("Teocalli (Downhill)",
+      mountaineerSquareBusStarts.times
+        .map(_.plusMinutes(6)) // TODO Confirm time
+    )
+
+  val fourwayDownhill =
+    Stops("Mountaineer Square",
+      teocalliDownhillBusStarts.times
+        .map(_.plusMinutes(1)) // TODO Confirm time
+    )
 
 
   val printBusInfo =
@@ -95,10 +106,10 @@ object BusTimes {
       clockProper <- ZIO.environment[Clock]
       now <-  clockProper.clock.currentDateTime
       _ <- ZIO.succeed { println("findNextBus Now: " + now.toLocalTime) }
-    } yield (
+    } yield
       timesAtStop
         .dropWhile(now.toLocalTime.isAfter(_))
-      ).headOption
+      .headOption
 
     def createNextBusTimeElement(stops: Stops) =
       for {
@@ -116,21 +127,21 @@ object BusTimes {
         }
       }
 
-  val addAllBusTimesToPage = {
+  val addAllBusTimesToPage: ZIO[Browser with Clock with Console, Nothing, Unit] = {
     val timedBusStopElements: ZIO[Clock with Console, Nothing, List[JsDom.TypedTag[Div]]] = ZIO.collectAll(
       List(
         createNextBusTimeElement(BusTimes.oldTownHallBusStarts),
         createNextBusTimeElement(BusTimes.clarksBusStarts),
         createNextBusTimeElement(BusTimes.fourWayUphillBusStarts),
-        createNextBusTimeElement(BusTimes.mountaineerSquareBusStarts)
-
+        createNextBusTimeElement(BusTimes.mountaineerSquareBusStarts),
+        createNextBusTimeElement(BusTimes.teocalliDownhillBusStarts),
+        createNextBusTimeElement(BusTimes.fourwayDownhill),
       )
     )
     for {
       timedElements <- timedBusStopElements
       _ <- DomManipulation.addDivToUpcomingBusesSection(timedElements)
-    } yield {
-    }
+    } yield ()
   }
 
 }
@@ -193,27 +204,26 @@ object DomManipulation {
     div(style:="float:right; padding-right: 30px;")(s"${nextStop.name}: " + finalTimeOutput)
 
   }
+
   def appendBusTime(nextStop: NextStop) =
-    ZIO {
-      val blah: HTMLElement = document.body
-      document.body.querySelector("#upcoming-buses").appendChild(createBusTimeElement(nextStop).render)
+    for {
+      browser <- ZIO.environment[Browser]
+    } yield {
+      browser.dom.body().querySelector("#upcoming-buses").appendChild(createBusTimeElement(nextStop).render)
     }
-      .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
 
   def addElementToPage(element: JsDom.TypedTag[Table]) =
     for {
       browser <- ZIO.environment[Browser]
   } yield {
-      browser.database.body().appendChild(element.render)
+      browser.dom.body().appendChild(element.render)
       }
-//    .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
 
   def addDivToUpcomingBusesSection(elements: Seq[JsDom.TypedTag[Div]]) =
     for {
       browser <- ZIO.environment[Browser]
-      _ <- putStrLn("doing stuff via browser environment")
     } yield {
-      elements.foreach(element => browser.database.body().querySelector("#upcoming-buses").appendChild(element.render))
+      elements.foreach(element => browser.dom.body().querySelector("#upcoming-buses").appendChild(element.render))
     }
 //    ZIO {
 //
@@ -228,11 +238,11 @@ object Browser {
   }
 }
 trait Browser {
-  def database: Browser.Service
+  def dom: Browser.Service
 }
 
 trait BrowserLive extends Browser {
-  def database: Browser.Service =
+  def dom: Browser.Service =
     new Browser.Service {
       def body(): HTMLElement = document.body
     }
