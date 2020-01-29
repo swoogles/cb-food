@@ -54,6 +54,22 @@ object StopLocation extends Enumeration {
       = Value
 }
 
+object StopLocationBetter extends Enumeration {
+  protected case class Val(name: String) extends super.Val(name)
+  import scala.language.implicitConversions
+  implicit def valueToStopLocationVal(x: Value) = x.asInstanceOf[Val]
+
+  type StopLocation = Value
+
+  val OldTownHall = Val("Old Town Hall")
+  val Clarks = Val("6th/Belleview (Clarks)")
+  val FourWayUphill = Val("4-way (Uphill)")
+  val TeocalliUphill = Val("Teocalli (Uphill)")
+  val MountaineerSquare = Val("Mountaineer Square")
+  val TeocalliDownhill = Val("Teocalli (Downhill)")
+  val FourwayDownhill = Val("4-way (Downhill)")
+}
+
 object BusTimes {
   /*
   Regular Winter Schedule: November 27th through April 12th
@@ -78,7 +94,8 @@ object BusTimes {
     )
 
   val clarksBusStarts =
-    Stops("6th/Belleview (Clarks)",
+    Stops( StopLocationBetter.Clarks.name,
+
       oldTownHallBusStarts.times
         .map(_.plusMinutes(4))
     )
