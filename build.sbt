@@ -27,5 +27,15 @@ cbBuild := {
 //  "ls ./target/scala-2.13" !
   (Process("mkdir ./src/main/resources/compiledJavascript") #||
     Process("cp ./target/scala-2.13/cb-bus-fastopt.js src/main/resources/compiledJavascript/") #&&
+    Process("cp ./target/scala-2.13/cb-bus-fastopt.js.map src/main/resources/compiledJavascript/") #&&
     Process("cp ./target/scala-2.13/cb-bus-jsdeps.js src/main/resources/compiledJavascript/"))!
+}
+
+lazy val publishCompiledJavascript = taskKey[Unit]("Build the files for a real deploment")
+publishCompiledJavascript := {
+  (Compile/fullOptJS).value
+  import scala.sys.process._
+  //  "ls ./target/scala-2.13" !
+  (Process("mkdir ./src/main/resources/compiledJavascript") #||
+    Process("cp ./target/scala-2.13/cb-bus-opt.js src/main/resources/compiledJavascript/"))!
 }
