@@ -67,7 +67,7 @@ object BusTimes {
    */
 
   val startTime = LocalTime.parse("07:00:00")
-  val endTime = LocalTime.parse("23:00:00")
+  val endTime = LocalTime.parse("23:40:00")
   val totalBusRunTime = java.time.Duration.between(startTime, endTime)
   val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
   val oldTownHallBusStarts: Stops =
@@ -187,11 +187,9 @@ object DomManipulation {
       browser.dom.body.querySelector("#container").appendChild(
         // TODO Create this HTML elsewhere
         div(cls:="wrapper")(
-          div(cls:="box c", id:="upcoming-buses")("Upcoming Buses"),
+          div(cls:="box c", id:="upcoming-buses")(h3(style:="text-align: center")("Upcoming Buses")),
           div(cls:="box d")(
-            div(cls:="box e")("E"),
-            div(cls:="box f")("F"),
-            div(cls:="box g")("G"),
+            div("Future Work: RTA buses"),
           )
         ).render
       )
