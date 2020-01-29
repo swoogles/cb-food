@@ -37,24 +37,7 @@ object MyApp extends App {
   }
 }
 
-
-/*
-
- */
 object StopLocation extends Enumeration {
-  type StopLocation = Value
-  val
-    OldTownHall,
-    Clarks,
-    FourWayUphill,
-    TeocalliUphill,
-    MountaineerSquare,
-    TeocalliDownhill,
-    FourwayDownhill
-      = Value
-}
-
-object StopLocationBetter extends Enumeration {
   protected case class Val(name: String) extends super.Val(name)
   import scala.language.implicitConversions
   implicit def valueToStopLocationVal(x: Value) = x.asInstanceOf[Val]
@@ -88,45 +71,45 @@ object BusTimes {
   val totalBusRunTime = java.time.Duration.between(startTime, endTime)
   val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
   val oldTownHallBusStarts: Stops =
-    Stops("Old Town Hall",
+    Stops(StopLocation.OldTownHall,
     List.range(0, numberOfBusesPerDay)
       .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
     )
 
   val clarksBusStarts =
-    Stops( StopLocationBetter.Clarks.name,
+    Stops( StopLocation.Clarks,
 
       oldTownHallBusStarts.times
         .map(_.plusMinutes(4))
     )
 
   val fourWayUphillBusStarts =
-    Stops("4-way (Uphill)",
+    Stops(StopLocation.FourWayUphill,
     clarksBusStarts.times
       .map(_.plusMinutes(1))
     )
 
   val teocalliUphillBusStarts =
-    Stops("Teocalli (Uphill)",
+    Stops(StopLocation.TeocalliUphill,
       fourWayUphillBusStarts.times
         .map(_.plusMinutes(1))
     )
 
 
   val mountaineerSquareBusStarts =
-    Stops("Mountaineer Square",
+    Stops(StopLocation.MountaineerSquare,
       teocalliUphillBusStarts.times
         .map(_.plusMinutes(9))
     )
 
   val teocalliDownhillBusStarts =
-    Stops("Teocalli (Downhill)",
+    Stops(StopLocation.TeocalliDownhill,
       mountaineerSquareBusStarts.times
         .map(_.plusMinutes(6)) // TODO Confirm time
     )
 
   val fourwayDownhill =
-    Stops("4-way (Downhill)",
+    Stops(StopLocation.FourwayDownhill,
       teocalliDownhillBusStarts.times
         .map(_.plusMinutes(1)) // TODO Confirm time
     )
@@ -156,11 +139,11 @@ object BusTimes {
       } yield {
         nextStop match {
           case Some(nextBusTime) => {
-            val typedNextStop = NextStop(stops.name, Some(nextBusTime))
+            val typedNextStop = NextStop(stops.location, Some(nextBusTime)) // Update here.
             DomManipulation.createBusTimeElement(typedNextStop)
           }
           case None => {
-            val typedNextStop = NextStop(stops.name, Option.empty)
+            val typedNextStop = NextStop(stops.location, Option.empty)
             DomManipulation.createBusTimeElement(typedNextStop)
           }
         }
@@ -186,8 +169,8 @@ object BusTimes {
 
 }
 
-case class Stops( name: String, times: Seq[LocalTime])
-case class NextStop( name: String, time: Option[LocalTime])
+case class Stops(location: StopLocation.Value, times: Seq[LocalTime])
+case class NextStop(location: StopLocation.Value, time: Option[LocalTime])
 
 
 object DomManipulation {
@@ -195,30 +178,33 @@ object DomManipulation {
   import dom.document
   import scalatags.JsDom.all._
 
-  val createGrid = ZIO {
-    document.body.querySelector("#container").appendChild(
-    div(cls:="wrapper")(
-      div(cls:="box a")("A"),
-      div(cls:="box b")("B"),
-      div(cls:="box c", id:="upcoming-buses")("Upcoming Buses"),
-      div(cls:="box d")(
-        div(cls:="box e")("E"),
-        div(cls:="box f")("F"),
-        div(cls:="box g")("G"),
-    )
-    ).render
-    )
-  }
-    .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
+  val createGrid =
 
-  val createPageStructure = ZIO {
-    document.body.appendChild(
-      div(id:="container")(
-//        div(id:="upcoming-buses", style:= "width:50%; float:left" )("Upcoming buses"),
-      ).render
-    )
-  }
-    .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
+    for {
+      browser <- ZIO.environment[Browser]
+    } yield
+      browser.dom.body.querySelector("#container").appendChild(
+        // TODO Create this HTML elsewhere
+        div(cls:="wrapper")(
+          div(cls:="box a")("A"),
+          div(cls:="box b")("B"),
+          div(cls:="box c", id:="upcoming-buses")("Upcoming Buses"),
+          div(cls:="box d")(
+            div(cls:="box e")("E"),
+            div(cls:="box f")("F"),
+            div(cls:="box g")("G"),
+          )
+        ).render
+      )
+
+  val createPageStructure =
+    for {
+      browser <- ZIO.environment[Browser]
+    } yield
+      browser.dom.body.appendChild(
+        div(id:="container")(
+        ).render
+      )
 
   def createBusScheduleTable(times: Seq[LocalTime]): JsDom.TypedTag[Table] = {
     table(
@@ -228,12 +214,10 @@ object DomManipulation {
   }
 
   def appendMessageToPage(message: String) =
-    ZIO {
-      println("Are we actually adding the new messages?")
-      val paragraph = div(message)
-      document.body.querySelector("#activity-log").appendChild(paragraph.render)
-    }
-      .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
+    for {
+      browser <- ZIO.environment[Browser]
+    } yield
+      document.body.querySelector("#activity-log").appendChild(div(message).render)
 
   def createBusTimeElement(nextStop: NextStop) = {
     val dateFormat = DateTimeFormatter.ofPattern("h:mm a")
@@ -241,35 +225,33 @@ object DomManipulation {
       case Some(time) => time.format(dateFormat)
       case None => "Time to call saferide!"
     }
-    div(style:="float:right; padding-right: 30px;")(s"${nextStop.name}: " + finalTimeOutput)
+    div(style:="float:right; padding-right: 30px;")(s"${nextStop.location.name}: " + finalTimeOutput)
 
   }
 
   def appendBusTime(nextStop: NextStop) =
     for {
       browser <- ZIO.environment[Browser]
-    } yield {
-      browser.dom.body().querySelector("#upcoming-buses").appendChild(createBusTimeElement(nextStop).render)
-    }
+    } yield
+        browser.dom.body()
+          .querySelector("#upcoming-buses")
+          .appendChild(createBusTimeElement(nextStop).render)
 
   def addElementToPage(element: JsDom.TypedTag[Table]) =
     for {
       browser <- ZIO.environment[Browser]
-  } yield {
-      browser.dom.body().appendChild(element.render)
-      }
+    } yield
+        browser.dom.body()
+          .appendChild(element.render)
 
   def addDivToUpcomingBusesSection(elements: Seq[JsDom.TypedTag[Div]]) =
     for {
       browser <- ZIO.environment[Browser]
-    } yield {
-      elements.foreach(element => browser.dom.body().querySelector("#upcoming-buses").appendChild(element.render))
-    }
-//    ZIO {
-//
-//    "done"
-//  }
-//    .catchAll( error => ZIO.succeed("Guess we don't care about failed dom manipulation") )
+    } yield // Not really yielding anything here. Just mutating.
+        elements.foreach(
+          element => browser.dom.body()
+                                  .querySelector("#upcoming-buses")
+                                  .appendChild(element.render))
 }
 
 object Browser {
