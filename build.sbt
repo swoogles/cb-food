@@ -3,12 +3,14 @@ scalaVersion := "2.13.1"
 
 enablePlugins(ScalaJSPlugin)
 
+enablePlugins(TzdbPlugin)
+
 libraryDependencies ++= Seq(
   "dev.zio" %%% "zio" % "1.0.0-RC17",
   "com.lihaoyi" %%% "scalatags" % "0.8.2",
   "org.scala-js" %%% "scalajs-dom" % "0.9.7",
   "io.github.cquiroz" %%% "scala-java-time" % "2.0.0-RC3",
-  "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0-RC3_2019a",
+//  "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0-RC3_2019a",
 //    libraryDependencies += "io.github.cquiroz" % "scala-java-time_2.13" % "2.0.0-RC3"
   "dev.zio" %%% "zio-test"     % "1.0.0-RC17" % "test",
   "dev.zio" %%% "zio-test-sbt" % "1.0.0-RC17" % "test"
@@ -39,3 +41,5 @@ publishCompiledJavascript := {
   (Process("mkdir ./src/main/resources/compiledJavascript") #||
     Process("cp ./target/scala-2.13/cb-bus-opt.js src/main/resources/compiledJavascript/"))!
 }
+
+zonesFilter := {(z: String) => z == "America/Denver" || z == "America/Mountain"}
