@@ -150,6 +150,7 @@ object BusTimes {
       }
 
   val addAllBusTimesToPage: ZIO[Browser with Clock with Console, Nothing, Unit] = {
+    import scalatags.JsDom.all._
     val timedBusStopElements: ZIO[Clock with Console, Nothing, List[JsDom.TypedTag[Div]]] = ZIO.collectAll(
       List(
         createNextBusTimeElement(BusTimes.oldTownHallBusStarts),
@@ -163,7 +164,7 @@ object BusTimes {
     )
     for {
       timedElements <- timedBusStopElements
-      _ <- DomManipulation.addDivToUpcomingBusesSection(timedElements)
+      _ <- DomManipulation.addDivToUpcomingBusesSection(div(timedElements))
     } yield ()
   }
 
@@ -216,8 +217,9 @@ object DomManipulation {
   def appendMessageToPage(message: String) =
     for {
       browser <- ZIO.environment[Browser]
-    } yield
-      document.body.querySelector("#activity-log").appendChild(div(message).render)
+      _ <- ZIO { document.body.querySelector("#activity-log").appendChild(div(message).render) }
+    } yield ()
+
 
   def createBusTimeElement(nextStop: NextStop) = {
     val dateFormat = DateTimeFormatter.ofPattern("h:mm a")
@@ -225,7 +227,8 @@ object DomManipulation {
       case Some(time) => time.format(dateFormat)
       case None => "Time to call saferide!"
     }
-    div(style:="float:right; padding-right: 30px;")(s"${nextStop.location.name}: " + finalTimeOutput)
+    div(style:="float:right; padding-right: 30px;")(
+      s"${nextStop.location.name}: " + finalTimeOutput)
 
   }
 
@@ -244,14 +247,14 @@ object DomManipulation {
         browser.dom.body()
           .appendChild(element.render)
 
-  def addDivToUpcomingBusesSection(elements: Seq[JsDom.TypedTag[Div]]) =
+  def addDivToUpcomingBusesSection(divToRender: JsDom.TypedTag[Div]) =
     for {
       browser <- ZIO.environment[Browser]
-    } yield // Not really yielding anything here. Just mutating.
-        elements.foreach(
-          element => browser.dom.body()
-                                  .querySelector("#upcoming-buses")
-                                  .appendChild(element.render))
+      _ <- ZIO { browser.dom.body()
+        .querySelector("#upcoming-buses")
+        .appendChild(divToRender.render)
+      }.catchAll(_ => ZIO.succeed("Ignoring failed dom operations"))
+    } yield ()
 }
 
 object Browser {
