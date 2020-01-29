@@ -187,8 +187,6 @@ object DomManipulation {
       browser.dom.body.querySelector("#container").appendChild(
         // TODO Create this HTML elsewhere
         div(cls:="wrapper")(
-          div(cls:="box a")("A"),
-          div(cls:="box b")("B"),
           div(cls:="box c", id:="upcoming-buses")("Upcoming Buses"),
           div(cls:="box d")(
             div(cls:="box e")("E"),
@@ -227,18 +225,10 @@ object DomManipulation {
       case Some(time) => time.format(dateFormat)
       case None => "Time to call saferide!"
     }
-    div(style:="float:right; padding-right: 30px;")(
+    div(style:="float:right;")(
       s"${nextStop.location.name}: " + finalTimeOutput)
 
   }
-
-  def appendBusTime(nextStop: NextStop) =
-    for {
-      browser <- ZIO.environment[Browser]
-    } yield
-        browser.dom.body()
-          .querySelector("#upcoming-buses")
-          .appendChild(createBusTimeElement(nextStop).render)
 
   def addElementToPage(element: JsDom.TypedTag[Table]) =
     for {
