@@ -38,6 +38,21 @@ object MyApp extends App {
 }
 
 
+/*
+
+ */
+object StopLocation extends Enumeration {
+  type StopLocation = Value
+  val
+    OldTownHall,
+    Clarks,
+    FourWayUphill,
+    TeocalliUphill,
+    MountaineerSquare,
+    TeocalliDownhill,
+    FourwayDownhill
+      = Value
+}
 
 object BusTimes {
   /*
