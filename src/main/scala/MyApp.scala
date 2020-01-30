@@ -46,11 +46,11 @@ object StopLocation extends Enumeration {
 
   val OldTownHall = Val("Old Town Hall")
   val Clarks = Val("6th/Belleview (Clarks)")
-  val FourWayUphill = Val("4-way (Uphill)")
-  val TeocalliUphill = Val("Teocalli (Uphill)")
+  val FourWayUphill = Val("4-way (To Mountain)")
+  val TeocalliUphill = Val("Teocalli (To Mountain)")
   val MountaineerSquare = Val("Mountaineer Square")
-  val TeocalliDownhill = Val("Teocalli (Downhill)")
-  val FourwayDownhill = Val("4-way (Downhill)")
+  val TeocalliDownhill = Val("Teocalli (To Downtown)")
+  val FourwayDownhill = Val("4-way (To Downtown)")
 }
 
 object BusTimes {
@@ -66,7 +66,7 @@ object BusTimes {
     Mountaineer Square/Transit Center	  :00, :15, :30, :45	    7:30 AM 	  12:00 AM
    */
 
-  val startTime = LocalTime.parse("07:00:00")
+  val startTime = LocalTime.parse("07:10:00")
   val endTime = LocalTime.parse("23:40:00")
   val totalBusRunTime = java.time.Duration.between(startTime, endTime)
   val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
@@ -99,7 +99,7 @@ object BusTimes {
   val mountaineerSquareBusStarts =
     Stops(StopLocation.MountaineerSquare,
       teocalliUphillBusStarts.times
-        .map(_.plusMinutes(9))
+        .map(_.plusMinutes(14))
     )
 
   val teocalliDownhillBusStarts =
