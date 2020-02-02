@@ -37,6 +37,7 @@ cbBuild := {
 lazy val publishCompiledJavascript = taskKey[Unit]("Build the files for a real deploment")
 publishCompiledJavascript := {
   (Compile/fullOptJS).value
+  (Compile/scalafmt).value
   import scala.sys.process._
   //  "ls ./target/scala-2.13" !
   (Process("mkdir ./src/main/resources/compiledJavascript") #||
