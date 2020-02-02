@@ -179,10 +179,18 @@ object BusTimes {
   def createNextBusTimeElement(
     stops: Stops,
     localTime: LocalTime
-  ): JsDom.TypedTag[Div] =
-    DomManipulation.createBusTimeElement(
-      nextBusTime(stops, localTime)
+  ): JsDom.TypedTag[Div] = {
+    val NextStop(location, content) = nextBusTime(stops, localTime)
+    val dateFormat = DateTimeFormatter.ofPattern("h:mm a")
+    TagsOnly.createBusTimeElement(
+      location,
+      content match {
+        case Left(time) => time.format(dateFormat)
+        case Right(safeRideRecommendation) =>
+          safeRideRecommendation.message
+      }
     )
+  }
 
 }
 
@@ -209,6 +217,16 @@ object TagsOnly {
           div("Future Work: RTA buses")
         )
       )
+    )
+
+  def createBusTimeElement(
+    //    nextStop: NextStop
+    location: StopLocation.Value,
+    content: String
+    /* TODO: waitDuration: Duration*/
+  ): JsDom.TypedTag[Div] =
+    div(style := "float:right;")(
+      s"${location.name}: " + content
     )
 
 }
@@ -240,21 +258,6 @@ object DomManipulation {
             .querySelector("#activity-log")
             .appendChild(div(message).render)
       )
-
-  def createBusTimeElement(
-    nextStop: NextStop
-  ): JsDom.TypedTag[Div] = {
-    val dateFormat = DateTimeFormatter.ofPattern("h:mm a")
-    val stopMessage = nextStop.content match {
-      case Left(time) => time.format(dateFormat)
-      case Right(safeRideRecommendation) =>
-        safeRideRecommendation.message
-    }
-    div(style := "float:right;")(
-      s"${nextStop.location.name}: " + stopMessage
-    )
-
-  }
 
   def addDivToUpcomingBusesSection(
     divToRender: JsDom.TypedTag[Div]
