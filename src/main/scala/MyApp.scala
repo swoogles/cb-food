@@ -157,8 +157,7 @@ object BusTimes {
                          localTime: LocalTime): Option[LocalTime] =
     localTime match {
       case localTime: LocalTime
-          if localTime.isAfter(LocalTime.parse("04:00:00"))
-          =>
+          if localTime.isAfter(LocalTime.parse("04:00:00")) =>
         timesAtStop
           .dropWhile(
             stopTime =>
@@ -256,12 +255,12 @@ object TagsOnly {
     content: Either[String, JsDom.TypedTag[Anchor]]
     /* TODO: waitDuration: Duration*/
   ): JsDom.TypedTag[Div] =
-    div(width := "100%",
-        style := "text-align:right; border-bottom: 1px solid white; padding-bottom: 5px;")(
+    div(
+      width := "100%",
+      style := "text-align:right; border-bottom: 1px solid white; padding-bottom: 5px;"
+    )(
       span(width := "50%")(location.name),
-      span(width := "50%",
-          display := "inline-block;",
-          style := "")(
+      span(width := "50%", display := "inline-block;", style := "")(
         content match {
           case Left(contentString) => contentString
           case Right(phoneAnchor)  => phoneAnchor
