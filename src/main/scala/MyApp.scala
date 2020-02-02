@@ -8,7 +8,7 @@ import org.scalajs.dom.html.{Anchor, Div}
 import org.scalajs.dom.raw.{HTMLElement, Node}
 import scalatags.JsDom
 import zio.{App, ZIO}
-import zio.console.{putStrLn, _}
+import zio.console.Console
 import zio.clock._
 
 object MyApp extends App {
@@ -143,16 +143,6 @@ object BusTimes {
           teocalliDownhillBusStarts.times
             .map(_.plusMinutes(1)))
 
-  val printBusInfo: ZIO[Console, Nothing, Unit] =
-    for {
-      _ <- putStrLn("First Bus: " + BusTimes.startTime)
-      _ <- putStrLn("Last Bus: " + BusTimes.endTime)
-      _ <- putStrLn("Total Bus Run Time:" + BusTimes.totalBusRunTime)
-      _ <- putStrLn(
-        "Number of buses per day:" + BusTimes.numberOfBusesPerDay
-      )
-    } yield ()
-
   def nextBusArrivalTime(timesAtStop: Seq[LocalTime],
                          localTime: LocalTime): Option[LocalTime] =
     localTime match {
@@ -192,11 +182,11 @@ object BusTimes {
     localTime: LocalTime
   ): JsDom.TypedTag[Div] = {
     val NextStop(location, content) = nextBusTime(stops, localTime)
-    val dateFormat = DateTimeFormatter.ofPattern("h:mm")
     TagsOnly.createBusTimeElement(
       location,
       content match {
         case Left(stopTimeInfo) =>
+          val dateFormat = DateTimeFormatter.ofPattern("h:mm")
           Left(
             stopTimeInfo.time
               .format(dateFormat) + " (" + stopTimeInfo.waitingDuration.toMinutes + " min)"
@@ -211,7 +201,7 @@ object BusTimes {
 
 case class Stops(location: StopLocation.Value, times: Seq[LocalTime])
 
-case class SafeRideRecommendation(
+case class SafeRideRecommendation( // TODO Rename "LateNight" or something
   message: String,
   phoneNumber: String = "970-209-0519"
 )
