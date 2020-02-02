@@ -257,10 +257,9 @@ object TagsOnly {
     /* TODO: waitDuration: Duration*/
   ): JsDom.TypedTag[Div] =
     div(width := "100%",
-        style := "text-align:right; border-bottom: 1px solid white;")(
-      div(width := "50%", float := "left")(location.name),
-      div(width := "50%",
-          float := "left",
+        style := "text-align:right; border-bottom: 1px solid white; padding-bottom: 5px;")(
+      span(width := "50%")(location.name),
+      span(width := "50%",
           display := "inline-block;",
           style := "")(
         content match {
