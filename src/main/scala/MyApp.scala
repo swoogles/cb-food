@@ -157,7 +157,8 @@ object BusTimes {
                          localTime: LocalTime): Option[LocalTime] =
     localTime match {
       case localTime: LocalTime
-          if localTime.isAfter(LocalTime.parse("04:00:00")) =>
+//          if localTime.isAfter(LocalTime.parse("04:00:00"))
+      =>
         timesAtStop
           .dropWhile(
             stopTime =>
@@ -173,7 +174,7 @@ object BusTimes {
       .nextBusArrivalTime(stops.times, localTime)
       .map(
         nextArrivalTime =>
-          NextStop(stops.location, Left(nextArrivalTime))
+          NextStop(stops.location, Left(StopTimeInfo(nextArrivalTime, Duration.between(localTime, nextArrivalTime) )))
       )
       .getOrElse(
         NextStop(
@@ -187,11 +188,11 @@ object BusTimes {
     localTime: LocalTime
   ): JsDom.TypedTag[Div] = {
     val NextStop(location, content) = nextBusTime(stops, localTime)
-    val dateFormat = DateTimeFormatter.ofPattern("h:mm a")
+    val dateFormat = DateTimeFormatter.ofPattern("h:mm")
     TagsOnly.createBusTimeElement(
       location,
       content match {
-        case Left(time) => Left(time.format(dateFormat))
+        case Left(stopTimeInfo) => Left(stopTimeInfo.time.format(dateFormat) + " (" + stopTimeInfo.waitingDuration.toMinutes + " min)")
         case Right(safeRideRecommendation) =>
           Right(TagsOnly.safeRideLink(safeRideRecommendation))
       }
@@ -207,8 +208,11 @@ case class SafeRideRecommendation(
   phoneNumber: String = "970-209-0519"
 )
 
+case class StopTimeInfo (time: LocalTime, waitingDuration: Duration)
+
+// This class should be usable *without* needing access to the Clock.
 case class NextStop(location: StopLocation.Value,
-                    content: Either[LocalTime, SafeRideRecommendation]
+                    content: Either[StopTimeInfo, SafeRideRecommendation]
                     /* TODO: waitDuration: Duration*/ )
 
 object TagsOnly {
@@ -241,9 +245,9 @@ object TagsOnly {
     content: Either[String, JsDom.TypedTag[Anchor]]
     /* TODO: waitDuration: Duration*/
   ): JsDom.TypedTag[Div] =
-    div(width:="100%", style := "text-align:right;" )(
-      span(location.name),
-      span(
+    div(width:="100%", style := "text-align:right; border-bottom: 1px solid white;" )(
+      div(width:="50%", float:="left")(location.name),
+      div(width:="50%", float:="left",display:= "inline-block;", style:="")(
         content match {
           case Left(contentString) => contentString
           case Right(phoneAnchor)  => phoneAnchor
