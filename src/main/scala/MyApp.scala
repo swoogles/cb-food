@@ -241,9 +241,9 @@ object TagsOnly {
     content: Either[String, JsDom.TypedTag[Anchor]]
     /* TODO: waitDuration: Duration*/
   ): JsDom.TypedTag[Div] =
-    div(
-      div(location.name),
-      div(style := "text-align:right;")(
+    div(width:="100%", style := "text-align:right;" )(
+      span(location.name),
+      span(
         content match {
           case Left(contentString) => contentString
           case Right(phoneAnchor)  => phoneAnchor
