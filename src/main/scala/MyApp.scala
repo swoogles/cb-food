@@ -156,11 +156,13 @@ object BusTimes {
   def nextBusArrivalTime(timesAtStop: Seq[LocalTime],
                          localTime: LocalTime): Option[LocalTime] =
     localTime match {
-      case localTime: LocalTime if localTime.isAfter(LocalTime.parse("04:00:00")) =>
+      case localTime: LocalTime
+          if localTime.isAfter(LocalTime.parse("04:00:00")) =>
         timesAtStop
           .dropWhile(
             stopTime =>
-              stopTime.isBefore(localTime.truncatedTo(ChronoUnit.MINUTES))
+              stopTime
+                .isBefore(localTime.truncatedTo(ChronoUnit.MINUTES))
           )
           .headOption
       case _ => Option.empty
@@ -200,7 +202,10 @@ object BusTimes {
 
 case class Stops(location: StopLocation.Value, times: Seq[LocalTime])
 
-case class SafeRideRecommendation(message: String, phoneNumber: String = "970-209-0519")
+case class SafeRideRecommendation(
+  message: String,
+  phoneNumber: String = "970-209-0519"
+)
 
 case class NextStop(location: StopLocation.Value,
                     content: Either[LocalTime, SafeRideRecommendation]
@@ -224,9 +229,12 @@ object TagsOnly {
     )
 
 //  <a href="tel:123-456-7890">123-456-7890</a>
-  def safeRideLink(safeRideRecommendation: SafeRideRecommendation): JsDom.TypedTag[Anchor] =
-    a(href:=s"tel:${safeRideRecommendation.phoneNumber}")(safeRideRecommendation.message)
-
+  def safeRideLink(
+    safeRideRecommendation: SafeRideRecommendation
+  ): JsDom.TypedTag[Anchor] =
+    a(href := s"tel:${safeRideRecommendation.phoneNumber}")(
+      safeRideRecommendation.message
+    )
 
   def createBusTimeElement(
     location: StopLocation.Value,
@@ -235,12 +243,12 @@ object TagsOnly {
   ): JsDom.TypedTag[Div] =
     div(
       div(location.name),
-    div(style := "text-align:right;")(
-      content match {
-        case Left(contentString) => contentString
-        case Right(phoneAnchor) => phoneAnchor
-      }
-    )
+      div(style := "text-align:right;")(
+        content match {
+          case Left(contentString) => contentString
+          case Right(phoneAnchor)  => phoneAnchor
+        }
+      )
     )
 
 }

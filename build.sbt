@@ -34,8 +34,8 @@ cbBuild := {
     Process("cp ./target/scala-2.13/cb-bus-jsdeps.js src/main/resources/compiledJavascript/"))!
 }
 
-lazy val publishCompiledJavascript = taskKey[Unit]("Build the files for a real deploment")
-publishCompiledJavascript := {
+lazy val cbPublish = taskKey[Unit]("Build the files for a real deploment")
+cbPublish := {
   (Compile/fullOptJS).value
   (Compile/scalafmt).value
   import scala.sys.process._
