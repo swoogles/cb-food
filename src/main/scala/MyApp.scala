@@ -157,7 +157,7 @@ object BusTimes {
                          localTime: LocalTime): Option[LocalTime] =
     localTime match {
       case localTime: LocalTime
-//          if localTime.isAfter(LocalTime.parse("04:00:00"))
+          if localTime.isAfter(LocalTime.parse("04:00:00"))
           =>
         timesAtStop
           .dropWhile(
