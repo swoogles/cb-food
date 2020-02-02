@@ -13,7 +13,8 @@ libraryDependencies ++= Seq(
 //  "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0-RC3_2019a",
 //    libraryDependencies += "io.github.cquiroz" % "scala-java-time_2.13" % "2.0.0-RC3"
   "dev.zio" %%% "zio-test"     % "1.0.0-RC17" % "test",
-  "dev.zio" %%% "zio-test-sbt" % "1.0.0-RC17" % "test"
+  "dev.zio" %%% "zio-test-sbt" % "1.0.0-RC17" % "test",
+  "com.lihaoyi" %%% "pprint" % "0.5.6",
 )
 
 testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework"))

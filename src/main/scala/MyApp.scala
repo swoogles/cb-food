@@ -3,6 +3,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeUnit
 
+import BusTimes.createNextBusTimeElement
 import org.scalajs.dom.document
 import org.scalajs.dom.html.{Div, Table}
 import org.scalajs.dom.raw.HTMLElement
@@ -25,16 +26,33 @@ object MyApp extends App {
       _ <- DomManipulation.createGrid
       now <- currentDateTime
       _ <- putStrLn("CurrentLocalTime: " + now.toLocalTime)
-      //      _ <- DomManipulation.addElementToPage(DomManipulation.createBusScheduleTable(BusTimes.mountaineerSquareBusStarts))
-
       _ <- BusTimes.printBusInfo
-      _ <- BusTimes.addAllBusTimesToPage
+      _ <- addAllBusTimesToPage
 //      _ <- ScheduleSandbox.liveBusses
     } yield {
       0
 
     }).provide(myEnvironment)
   }
+  val addAllBusTimesToPage: ZIO[Browser with Clock with Console, Nothing, Unit] = {
+    import scalatags.JsDom.all._
+    for {
+      clockProper <- ZIO.environment[Clock]
+      now <- clockProper.clock.currentDateTime
+      localTime = now.toLocalTime
+      _ <-
+        DomManipulation.addDivToUpcomingBusesSection(div(
+          createNextBusTimeElement(BusTimes.oldTownHallBusStarts, localTime),
+          createNextBusTimeElement(BusTimes.clarksBusStarts, localTime),
+          createNextBusTimeElement(BusTimes.fourWayUphillBusStarts, localTime),
+          createNextBusTimeElement(BusTimes.teocalliUphillBusStarts, localTime),
+          createNextBusTimeElement(BusTimes.mountaineerSquareBusStarts, localTime),
+          createNextBusTimeElement(BusTimes.teocalliDownhillBusStarts, localTime),
+          createNextBusTimeElement(BusTimes.fourwayDownhill, localTime),
+        ))
+    } yield ()
+  }
+
 }
 
 object StopLocation extends Enumeration {
@@ -123,50 +141,26 @@ object BusTimes {
       _ <- putStrLn("Number of buses per day:" +  BusTimes.numberOfBusesPerDay)
     } yield ()
 
-  def findNextBus(timesAtStop: Seq[LocalTime]): ZIO[Clock with Console, Nothing, Option[LocalTime]] =
-    for {
-      clockProper <- ZIO.environment[Clock]
-      now <-  clockProper.clock.currentDateTime
-      _ <- ZIO.succeed { println("findNextBus Now: " + now.toLocalTime) }
-    } yield
+  def findNextBus(timesAtStop: Seq[LocalTime], localTime: LocalTime): Option[LocalTime] =
       timesAtStop
-        .dropWhile(now.toLocalTime.isAfter(_))
+        .dropWhile(localTime.isAfter(_))
       .headOption
 
-    def createNextBusTimeElement(stops: Stops) =
-      for {
-        nextStop <- BusTimes.findNextBus(stops.times)
-      } yield {
-        nextStop match {
-          case Some(nextBusTime) => {
-            val typedNextStop = NextStop(stops.location, Some(nextBusTime)) // Update here.
-            DomManipulation.createBusTimeElement(typedNextStop)
-          }
-          case None => {
-            val typedNextStop = NextStop(stops.location, Option.empty)
-            DomManipulation.createBusTimeElement(typedNextStop)
-          }
+  def nextBusTime(stops: Stops, localTime: LocalTime) =
+      BusTimes.findNextBus(stops.times, localTime)
+      match {
+        case Some(nextBusTime) => {
+          println("NextBusTime: " + nextBusTime)
+          NextStop(stops.location, Some(nextBusTime)) // Update here.
+        }
+        case None => {
+          NextStop(stops.location, Option.empty)
         }
       }
 
-  val addAllBusTimesToPage: ZIO[Browser with Clock with Console, Nothing, Unit] = {
-    import scalatags.JsDom.all._
-    val timedBusStopElements: ZIO[Clock with Console, Nothing, List[JsDom.TypedTag[Div]]] = ZIO.collectAll(
-      List(
-        createNextBusTimeElement(BusTimes.oldTownHallBusStarts),
-        createNextBusTimeElement(BusTimes.clarksBusStarts),
-        createNextBusTimeElement(BusTimes.fourWayUphillBusStarts),
-        createNextBusTimeElement(BusTimes.teocalliUphillBusStarts),
-        createNextBusTimeElement(BusTimes.mountaineerSquareBusStarts),
-        createNextBusTimeElement(BusTimes.teocalliDownhillBusStarts),
-        createNextBusTimeElement(BusTimes.fourwayDownhill),
-      )
-    )
-    for {
-      timedElements <- timedBusStopElements
-      _ <- DomManipulation.addDivToUpcomingBusesSection(div(timedElements))
-    } yield ()
-  }
+
+      def createNextBusTimeElement(stops: Stops, localTime: LocalTime) =
+        DomManipulation.createBusTimeElement(nextBusTime(stops, localTime))
 
 }
 
@@ -238,10 +232,14 @@ object DomManipulation {
   def addDivToUpcomingBusesSection(divToRender: JsDom.TypedTag[Div]) =
     for {
       browser <- ZIO.environment[Browser]
-      _ <- ZIO { browser.dom.body()
+      _ <- ZIO {
+        browser.dom.body()
         .querySelector("#upcoming-buses")
         .appendChild(divToRender.render)
-      }.catchAll(_ => ZIO.succeed("Ignoring failed dom operations"))
+      }.catchAll(error => {
+        println("Error: " + error)
+        ZIO.succeed("Ignoring failed dom operations")
+      })
     } yield ()
 }
 
