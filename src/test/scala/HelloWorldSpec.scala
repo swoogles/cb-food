@@ -39,7 +39,7 @@ object HelloWorldSpec
               .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
         for {
           _ <- TestClock.setDateTime(TimeHelpers.simpleOffsetDateTime("09:01:00"))
-          result <- BusTimes.findNextBus(stops)
+          result <- BusTimes.nextBusArrivalTime(stops)
         } yield assert(result.get, equalTo(LocalTime.parse("09:15:00")))
       },
       testM("really early morning check") {
@@ -52,7 +52,7 @@ object HelloWorldSpec
             .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
         for {
           _ <- TestClock.setDateTime(TimeHelpers.simpleOffsetDateTime("05:00:00"))
-          result <- BusTimes.findNextBus(stops)
+          result <- BusTimes.nextBusArrivalTime(stops)
         } yield assert(result.get, equalTo(LocalTime.parse("07:00:00")))
       },
       testM("after last bus has run") {
@@ -65,7 +65,7 @@ object HelloWorldSpec
             .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
         for {
           _ <- TestClock.setDateTime(TimeHelpers.simpleOffsetDateTime("23:00:00"))
-          result <- BusTimes.findNextBus(stops)
+          result <- BusTimes.nextBusArrivalTime(stops)
         } yield assert(result, equalTo(Option.empty))
       }
     )

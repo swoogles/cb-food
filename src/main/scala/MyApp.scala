@@ -1,4 +1,4 @@
-import java.time.LocalTime
+import java.time.{Duration, LocalTime}
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
@@ -21,7 +21,7 @@ object MyApp extends App {
       new Clock.Live with Console.Live with BrowserLive
 
     (for {
-      _ <- DomManipulation.createPageStructure
+      _ <- DomManipulation.createAndApplyPageStructure
       _ <- addAllBusTimesToPage // This only executes once.
       /* Looping behavior for page:
       _   <- ZIO {  eventLoop } */
@@ -153,8 +153,8 @@ object BusTimes {
       )
     } yield ()
 
-  def findNextBus(timesAtStop: Seq[LocalTime],
-                  localTime: LocalTime): Option[LocalTime] =
+  def nextBusArrivalTime(timesAtStop: Seq[LocalTime],
+                         localTime: LocalTime): Option[LocalTime] =
     timesAtStop
       .dropWhile(
         stopTime =>
@@ -162,9 +162,19 @@ object BusTimes {
       )
       .headOption
 
-  def nextBusTime(stops: Stops, localTime: LocalTime): NextStop =
-    NextStop(stops.location,
-             BusTimes.findNextBus(stops.times, localTime))
+  def nextBusTime(stops: Stops, localTime: LocalTime): NextStop = // TODO use ZIO.option
+    BusTimes
+      .nextBusArrivalTime(stops.times, localTime)
+      .map(
+        nextArrivalTime =>
+          NextStop(stops.location, Left(nextArrivalTime))
+      )
+      .getOrElse(
+        NextStop(
+          stops.location,
+          Right(SafeRideRecommendation("Call safe-ride *LINK*"))
+        )
+      )
 
   def createNextBusTimeElement(
     stops: Stops,
@@ -178,13 +188,35 @@ object BusTimes {
 
 case class Stops(location: StopLocation.Value, times: Seq[LocalTime])
 
+case class SafeRideRecommendation(message: String)
+
 case class NextStop(location: StopLocation.Value,
-                    time: Option[LocalTime])
+                    content: Either[LocalTime, SafeRideRecommendation]
+                    /* TODO: waitDuration: Duration*/ )
+
+object TagsOnly {
+  import scalatags.JsDom.all._
+
+  val overallPageLayout =
+    div(id := "container")(
+      div(cls := "wrapper")(
+        div(cls := "box c", id := "upcoming-buses")(
+          h3(style := "text-align: center")(
+            "Upcoming Buses"
+          )
+        ),
+        div(cls := "box d")(
+          div("Future Work: RTA buses")
+        )
+      )
+    )
+
+}
 
 object DomManipulation {
   import scalatags.JsDom.all._
 
-  val createPageStructure: ZIO[Browser, Nothing, Node] =
+  val createAndApplyPageStructure: ZIO[Browser, Nothing, Node] =
     ZIO
       .environment[Browser]
       .map(
@@ -192,18 +224,7 @@ object DomManipulation {
           browser.dom
             .body()
             .appendChild(
-              div(id := "container")(
-                div(cls := "wrapper")(
-                  div(cls := "box c", id := "upcoming-buses")(
-                    h3(style := "text-align: center")(
-                      "Upcoming Buses"
-                    )
-                  ),
-                  div(cls := "box d")(
-                    div("Future Work: RTA buses")
-                  )
-                )
-              ).render
+              TagsOnly.overallPageLayout.render
             )
       )
 
@@ -224,12 +245,13 @@ object DomManipulation {
     nextStop: NextStop
   ): JsDom.TypedTag[Div] = {
     val dateFormat = DateTimeFormatter.ofPattern("h:mm a")
-    val finalTimeOutput = nextStop.time match {
-      case Some(time) => time.format(dateFormat)
-      case None       => "Time to call saferide!"
+    val stopMessage = nextStop.content match {
+      case Left(time) => time.format(dateFormat)
+      case Right(safeRideRecommendation) =>
+        safeRideRecommendation.message
     }
     div(style := "float:right;")(
-      s"${nextStop.location.name}: " + finalTimeOutput
+      s"${nextStop.location.name}: " + stopMessage
     )
 
   }
