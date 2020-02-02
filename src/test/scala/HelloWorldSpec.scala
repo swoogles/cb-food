@@ -1,13 +1,11 @@
 import java.time.{LocalDate, LocalTime, OffsetDateTime, ZoneOffset}
 
-import BusTimes.{endTime, startTime}
 import zio._
 import zio.console._
 import zio.test.{DefaultRunnableSpec, test, testM, _}
 import zio.test.Assertion._
 import zio.test.environment._
 import HelloWorld._
-import zio.duration.Duration
 
 object HelloWorld {
   def sayHello: ZIO[Console, Nothing, Unit] =

@@ -1,18 +1,15 @@
-import java.io.IOException
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.util.concurrent.TimeUnit
+import java.time.temporal.ChronoUnit
 
 import BusTimes.createNextBusTimeElement
 import org.scalajs.dom.document
-import org.scalajs.dom.html.{Div, Table}
-import org.scalajs.dom.raw.HTMLElement
-import scalatags.{JsDom, Text}
-import zio.{App, Schedule, ZIO}
+import org.scalajs.dom.html.Div
+import org.scalajs.dom.raw.{HTMLElement, Node}
+import scalatags.JsDom
+import zio.{App, ZIO}
 import zio.console.{putStrLn, _}
 import zio.clock._
-import zio._
-import zio.duration.Duration
 
 object MyApp extends App {
 
@@ -23,16 +20,11 @@ object MyApp extends App {
 
     (for {
       _ <- DomManipulation.createPageStructure
-      _ <- DomManipulation.createGrid
       now <- currentDateTime
       _ <- putStrLn("CurrentLocalTime: " + now.toLocalTime)
       _ <- BusTimes.printBusInfo
       _ <- addAllBusTimesToPage
-//      _ <- ScheduleSandbox.liveBusses
-    } yield {
-      0
-
-    }).provide(myEnvironment)
+    } yield {0}).provide(myEnvironment)
   }
   val addAllBusTimesToPage: ZIO[Browser with Clock with Console, Nothing, Unit] = {
     import scalatags.JsDom.all._
@@ -58,17 +50,17 @@ object MyApp extends App {
 object StopLocation extends Enumeration {
   protected case class Val(name: String) extends super.Val(name)
   import scala.language.implicitConversions
-  implicit def valueToStopLocationVal(x: Value) = x.asInstanceOf[Val]
+  implicit def valueToStopLocationVal(x: Value): Val = x.asInstanceOf[Val]
 
   type StopLocation = Value
 
-  val OldTownHall = Val("Old Town Hall")
-  val Clarks = Val("6th/Belleview (Clarks)")
-  val FourWayUphill = Val("4-way (To Mountain)")
-  val TeocalliUphill = Val("Teocalli (To Mountain)")
-  val MountaineerSquare = Val("Mountaineer Square")
-  val TeocalliDownhill = Val("Teocalli (To Downtown)")
-  val FourwayDownhill = Val("4-way (To Downtown)")
+  val OldTownHall: Val = Val("Old Town Hall")
+  val Clarks: Val = Val("6th/Belleview (Clarks)")
+  val FourWayUphill: Val = Val("4-way (To Mountain)")
+  val TeocalliUphill: Val = Val("Teocalli (To Mountain)")
+  val MountaineerSquare: Val = Val("Mountaineer Square")
+  val TeocalliDownhill: Val = Val("Teocalli (To Downtown)")
+  val FourwayDownhill: Val = Val("4-way (To Downtown)")
 }
 
 object BusTimes {
@@ -84,56 +76,55 @@ object BusTimes {
     Mountaineer Square/Transit Center	  :00, :15, :30, :45	    7:30 AM 	  12:00 AM
    */
 
-  val startTime = LocalTime.parse("07:10:00")
-  val endTime = LocalTime.parse("23:40:00")
-  val totalBusRunTime = java.time.Duration.between(startTime, endTime)
-  val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
+  private val startTime = LocalTime.parse("07:10:00")
+  private val endTime = LocalTime.parse("23:40:00")
+  private val totalBusRunTime = java.time.Duration.between(startTime, endTime)
+  private val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
+
   val oldTownHallBusStarts: Stops =
     Stops(StopLocation.OldTownHall,
-    List.range(0, numberOfBusesPerDay)
-      .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
+      List.range(0, numberOfBusesPerDay)
+        .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
     )
 
-  val clarksBusStarts =
+  val clarksBusStarts: Stops =
     Stops( StopLocation.Clarks,
-
       oldTownHallBusStarts.times
         .map(_.plusMinutes(4))
     )
 
-  val fourWayUphillBusStarts =
+  val fourWayUphillBusStarts: Stops =
     Stops(StopLocation.FourWayUphill,
-    clarksBusStarts.times
-      .map(_.plusMinutes(1))
+      clarksBusStarts.times
+        .map(_.plusMinutes(1))
     )
 
-  val teocalliUphillBusStarts =
+  val teocalliUphillBusStarts: Stops =
     Stops(StopLocation.TeocalliUphill,
       fourWayUphillBusStarts.times
         .map(_.plusMinutes(1))
     )
 
 
-  val mountaineerSquareBusStarts =
+  val mountaineerSquareBusStarts: Stops =
     Stops(StopLocation.MountaineerSquare,
       teocalliUphillBusStarts.times
         .map(_.plusMinutes(14))
     )
 
-  val teocalliDownhillBusStarts =
+  val teocalliDownhillBusStarts: Stops =
     Stops(StopLocation.TeocalliDownhill,
       mountaineerSquareBusStarts.times
-        .map(_.plusMinutes(6)) // TODO Confirm time
+        .map(_.plusMinutes(6))
     )
 
-  val fourwayDownhill =
+  val fourwayDownhill: Stops =
     Stops(StopLocation.FourwayDownhill,
       teocalliDownhillBusStarts.times
-        .map(_.plusMinutes(1)) // TODO Confirm time
+        .map(_.plusMinutes(1))
     )
 
-
-  val printBusInfo =
+  val printBusInfo: ZIO[Console, Nothing, Unit] =
     for {
       _ <- putStrLn("First Bus: " +  BusTimes.startTime)
       _ <- putStrLn("Last Bus: " +  BusTimes.endTime)
@@ -142,76 +133,47 @@ object BusTimes {
     } yield ()
 
   def findNextBus(timesAtStop: Seq[LocalTime], localTime: LocalTime): Option[LocalTime] =
-      timesAtStop
-        .dropWhile(localTime.isAfter(_))
+    timesAtStop
+      .dropWhile(stopTime => stopTime.isBefore(localTime.truncatedTo(ChronoUnit.MINUTES)))
       .headOption
 
-  def nextBusTime(stops: Stops, localTime: LocalTime) =
-      BusTimes.findNextBus(stops.times, localTime)
-      match {
-        case Some(nextBusTime) => {
-          println("NextBusTime: " + nextBusTime)
-          NextStop(stops.location, Some(nextBusTime)) // Update here.
-        }
-        case None => {
-          NextStop(stops.location, Option.empty)
-        }
-      }
+  def nextBusTime(stops: Stops, localTime: LocalTime): NextStop =
+    NextStop(stops.location, BusTimes.findNextBus(stops.times, localTime))
 
-
-      def createNextBusTimeElement(stops: Stops, localTime: LocalTime) =
-        DomManipulation.createBusTimeElement(nextBusTime(stops, localTime))
+  def createNextBusTimeElement(stops: Stops, localTime: LocalTime): JsDom.TypedTag[Div] =
+    DomManipulation.createBusTimeElement(nextBusTime(stops, localTime))
 
 }
 
 case class Stops(location: StopLocation.Value, times: Seq[LocalTime])
 case class NextStop(location: StopLocation.Value, time: Option[LocalTime])
 
-
 object DomManipulation {
-  import org.scalajs.dom
-  import dom.document
   import scalatags.JsDom.all._
 
-  val createGrid =
-
+  val createPageStructure: ZIO[Browser, Nothing, Node] =
     for {
       browser <- ZIO.environment[Browser]
     } yield
-      browser.dom.body.querySelector("#container").appendChild(
-        // TODO Create this HTML elsewhere
-        div(cls:="wrapper")(
-          div(cls:="box c", id:="upcoming-buses")(h3(style:="text-align: center")("Upcoming Buses")),
-          div(cls:="box d")(
-            div("Future Work: RTA buses"),
+      browser.dom.body().appendChild(
+        div(id:="container")(
+          div(cls:="wrapper")(
+            div(cls:="box c", id:="upcoming-buses")(h3(style:="text-align: center")("Upcoming Buses")),
+            div(cls:="box d")(
+              div("Future Work: RTA buses"),
+            )
           )
         ).render
       )
 
-  val createPageStructure =
+  def appendMessageToPage(message: String): ZIO[Browser, Throwable, Unit] =
     for {
       browser <- ZIO.environment[Browser]
-    } yield
-      browser.dom.body.appendChild(
-        div(id:="container")(
-        ).render
-      )
-
-  def createBusScheduleTable(times: Seq[LocalTime]): JsDom.TypedTag[Table] = {
-    table(
-      times
-        .map(time => tr(td(time.toString)))
-    )
-  }
-
-  def appendMessageToPage(message: String) =
-    for {
-      browser <- ZIO.environment[Browser]
-      _ <- ZIO { document.body.querySelector("#activity-log").appendChild(div(message).render) }
+      _ <- ZIO { browser.dom.body().querySelector("#activity-log").appendChild(div(message).render) }
     } yield ()
 
 
-  def createBusTimeElement(nextStop: NextStop) = {
+  def createBusTimeElement(nextStop: NextStop): JsDom.TypedTag[Div] = {
     val dateFormat = DateTimeFormatter.ofPattern("h:mm a")
     val finalTimeOutput = nextStop.time match {
       case Some(time) => time.format(dateFormat)
@@ -222,24 +184,14 @@ object DomManipulation {
 
   }
 
-  def addElementToPage(element: JsDom.TypedTag[Table]) =
-    for {
-      browser <- ZIO.environment[Browser]
-    } yield
-        browser.dom.body()
-          .appendChild(element.render)
-
-  def addDivToUpcomingBusesSection(divToRender: JsDom.TypedTag[Div]) =
+  def addDivToUpcomingBusesSection(divToRender: JsDom.TypedTag[Div]): ZIO[Browser, Nothing, Unit] =
     for {
       browser <- ZIO.environment[Browser]
       _ <- ZIO {
         browser.dom.body()
-        .querySelector("#upcoming-buses")
-        .appendChild(divToRender.render)
-      }.catchAll(error => {
-        println("Error: " + error)
-        ZIO.succeed("Ignoring failed dom operations")
-      })
+          .querySelector("#upcoming-buses")
+          .appendChild(divToRender.render)
+      }.catchAll(error => ZIO.succeed("Ignoring failed dom operations: " + error) )
     } yield ()
 }
 
@@ -254,8 +206,6 @@ trait Browser {
 
 trait BrowserLive extends Browser {
   def dom: Browser.Service =
-    new Browser.Service {
-      def body(): HTMLElement = document.body
-    }
+    () => document.body
 }
 object BrowserLive extends BrowserLive
