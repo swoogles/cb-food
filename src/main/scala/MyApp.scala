@@ -167,10 +167,11 @@ object DomManipulation {
       )
 
   def appendMessageToPage(message: String): ZIO[Browser, Throwable, Unit] =
-    for {
-      browser <- ZIO.environment[Browser]
-      _ <- ZIO { browser.dom.body().querySelector("#activity-log").appendChild(div(message).render) }
-    } yield ()
+    ZIO.environment[Browser].map[Unit](browser =>
+      browser.dom.body()
+        .querySelector("#activity-log")
+        .appendChild(div(message).render)
+    )
 
 
   def createBusTimeElement(nextStop: NextStop): JsDom.TypedTag[Div] = {
