@@ -6,6 +6,7 @@ import zio.test.{DefaultRunnableSpec, test, testM, _}
 import zio.test.Assertion._
 import zio.test.environment._
 import HelloWorld._
+import crestedbutte.BusTimes
 
 object HelloWorld {
   def sayHello: ZIO[Console, Nothing, Unit] =
