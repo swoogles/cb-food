@@ -6,6 +6,8 @@ import java.time.{Duration, LocalTime}
 
 import org.scalajs.dom.html.Div
 import scalatags.JsDom
+import zio.ZIO
+import zio.clock.Clock
 
 object BusTimes {
   /*
@@ -99,7 +101,10 @@ object BusTimes {
             Left(
               StopTimeInfo(
                 nextArrivalTime,
-                Duration.between(nextArrivalTime, localTime).abs().plusMinutes(1) // Hacky fix to off-by-1 issue
+                Duration
+                  .between(nextArrivalTime, localTime)
+                  .abs()
+                  .plusMinutes(1) // Hacky fix to off-by-1 issue
               )
             )
           )
@@ -126,4 +131,11 @@ object BusTimes {
     teocalliDownhillBusStarts,
     fourwayDownhill
   )
+
+  val getUpComingArrivals =
+    for {
+      clockProper <- ZIO.environment[Clock]
+      now         <- clockProper.clock.currentDateTime
+      localTime = now.toLocalTime
+    } yield { BusTimes.calculateUpcomingArrivalAtAllStops(localTime) }
 }

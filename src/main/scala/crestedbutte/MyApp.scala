@@ -19,30 +19,19 @@ object MyApp extends App {
 
     (for {
       _ <- DomManipulation.createAndApplyPageStructure
-      _ <- addAllBusTimesToPage
-        .flatMap(_ => putStrLn("meaningful repetition"))
-        .repeat(Schedule.spaced(Duration.apply(20, TimeUnit.SECONDS))) // This only executes once.
-      /* Looping behavior for page:
-      _   <- ZIO {  eventLoop } */
+      _ <- updateUpcomingArrivalsOnPage
+        .repeat(Schedule.spaced(Duration.apply(20, TimeUnit.SECONDS)))
     } yield { 0 }).provide(myEnvironment)
   }
 
-  val getUpComingArrivals =
-    for {
-      clockProper <- ZIO.environment[Clock]
-      now         <- clockProper.clock.currentDateTime
-      localTime = now.toLocalTime
-    } yield { BusTimes.calculateUpcomingArrivalAtAllStops(localTime) }
-
-  val addAllBusTimesToPage
+  val updateUpcomingArrivalsOnPage
     : ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
-      upcomingArrivalAtAllStops <- getUpComingArrivals
+      upcomingArrivalAtAllStops <- BusTimes.getUpComingArrivals
       _ <- DomManipulation.updateUpcomingBusesSection(
         TagsOnly.structuredSetOfUpcomingArrivals(
           upcomingArrivalAtAllStops
         )
-        // Currently, this only repeats "updating" the dom with the same value for upcomingArrivalAtAllStops
       )
     } yield ()
 
