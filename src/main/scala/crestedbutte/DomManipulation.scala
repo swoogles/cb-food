@@ -33,16 +33,19 @@ object DomManipulation {
             .appendChild(div(message).render)
       )
 
-  def addDivToUpcomingBusesSection(
-    divToRender: JsDom.TypedTag[Div]
+  def updateUpcomingBusesSection(
+    newContent: JsDom.TypedTag[Div]
   ): ZIO[Browser, Nothing, Unit] =
     ZIO
       .environment[Browser]
-      .map(
-        browser =>
-          browser.dom
-            .body()
-            .querySelector("#upcoming-buses")
-            .appendChild(divToRender.render)
-      )
+      .map { browser =>
+        browser.dom
+          .body()
+          .querySelector("#upcoming-buses")
+          .innerHTML = ""
+        browser.dom
+          .body()
+          .querySelector("#upcoming-buses")
+          .appendChild(newContent.render)
+      }
 }

@@ -1,7 +1,11 @@
 package crestedbutte
 
+import java.util.concurrent.TimeUnit
+
 import zio.clock._
 import zio.console.Console
+import zio.console.putStrLn
+import zio.duration.Duration
 import zio.{App, Schedule, ZIO}
 
 object MyApp extends App {
@@ -15,21 +19,29 @@ object MyApp extends App {
 
     (for {
       _ <- DomManipulation.createAndApplyPageStructure
-      _ <- addAllBusTimesToPage // This only executes once.
+      _ <- addAllBusTimesToPage.flatMap(_=> putStrLn("meaningful repetition")) .repeat(Schedule.spaced(Duration.apply(20, TimeUnit.SECONDS))) // This only executes once.
       /* Looping behavior for page:
       _   <- ZIO {  eventLoop } */
     } yield { 0 }).provide(myEnvironment)
   }
 
+  val getUpComingArrivals =
+    for {
+      clockProper <- ZIO.environment[Clock]
+      now <- clockProper.clock.currentDateTime
+      localTime = now.toLocalTime
+    } yield { BusTimes.calculateUpcomingArrivalAtAllStops(localTime)}
+
+
   val addAllBusTimesToPage
     : ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
-      clockProper <- ZIO.environment[Clock]
-      now         <- clockProper.clock.currentDateTime
-      localTime = now.toLocalTime
-      upcomingArrivalAtAllStops = BusTimes.calculateUpcomingArrivalAtAllStops(localTime)
-      _ <- DomManipulation.addDivToUpcomingBusesSection(
-        TagsOnly.structuredSetOfUpcomingArrivals(upcomingArrivalAtAllStops)
+      upcomingArrivalAtAllStops <- getUpComingArrivals
+      _ <- DomManipulation.updateUpcomingBusesSection(
+        TagsOnly.structuredSetOfUpcomingArrivals(
+          upcomingArrivalAtAllStops
+        )
+        // Currently, this only repeats "updating" the dom with the same value for upcomingArrivalAtAllStops
       )
     } yield ()
 

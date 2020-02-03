@@ -78,25 +78,33 @@ object BusTimes {
       case localTime: LocalTime
           if localTime.isAfter(LocalTime.parse("04:00:00")) =>
         timesAtStop
-            .find(
-              stopTime =>
-                stopTime
-                  .isBefore(localTime.truncatedTo(ChronoUnit.MINUTES))
-            )
+          .find(
+            stopTime =>
+              stopTime
+                .isBefore(localTime.truncatedTo(ChronoUnit.MINUTES))
+          )
       case _ => Option.empty
     }
 
-  def nextBusTime(stops: Stops, localTime: LocalTime): UpcomingArrivalInfo = // TODO use ZIO.option
+  def nextBusTime(
+    stops: Stops,
+    localTime: LocalTime
+  ): UpcomingArrivalInfo = // TODO use ZIO.option
     BusTimes
       .nextBusArrivalTime(stops.times, localTime)
       .map(
         nextArrivalTime =>
-          UpcomingArrivalInfo(stops.location,
-                   Left(
-                     StopTimeInfo(nextArrivalTime,
-                                  Duration.between(nextArrivalTime, localTime).abs())
-                   ))
-      ).map{ case x=> { println(localTime); x;}}
+          UpcomingArrivalInfo(
+            stops.location,
+            Left(
+              StopTimeInfo(
+                nextArrivalTime,
+                Duration.between(nextArrivalTime, localTime).abs()
+              )
+            )
+          )
+      )
+      .map { case x => { println(localTime); x; } }
       .getOrElse(
         UpcomingArrivalInfo(
           stops.location,
@@ -104,7 +112,9 @@ object BusTimes {
         )
       )
 
-  def calculateUpcomingArrivalAtAllStops(localTime: LocalTime): List[UpcomingArrivalInfo] =
+  def calculateUpcomingArrivalAtAllStops(
+    localTime: LocalTime
+  ): List[UpcomingArrivalInfo] =
     townShuttleStops.map(nextBusTime(_, localTime))
 
   val townShuttleStops = List(
@@ -114,6 +124,6 @@ object BusTimes {
     teocalliUphillBusStarts,
     mountaineerSquareBusStarts,
     teocalliDownhillBusStarts,
-    fourwayDownhill,
+    fourwayDownhill
   )
 }

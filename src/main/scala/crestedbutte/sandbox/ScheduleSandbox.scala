@@ -2,7 +2,7 @@ package crestedbutte.sandbox
 
 import crestedbutte.DomManipulation
 import zio.clock.Clock
-import zio.{Schedule, ZIO, duration}
+import zio.{duration, Schedule, ZIO}
 
 object ScheduleSandbox {
 
