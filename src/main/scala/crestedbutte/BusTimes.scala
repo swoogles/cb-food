@@ -99,7 +99,7 @@ object BusTimes {
             Left(
               StopTimeInfo(
                 nextArrivalTime,
-                Duration.between(nextArrivalTime, localTime).abs()
+                Duration.between(nextArrivalTime, localTime).abs().plusMinutes(1) // Hacky fix to off-by-1 issue
               )
             )
           )
