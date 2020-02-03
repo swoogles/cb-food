@@ -52,6 +52,7 @@ object TagsOnly {
     upcomingArrivalInfo: List[UpcomingArrivalInfo]
   ) =
     div(
+      h4(textAlign := "center")("Upcoming Buses"),
       upcomingArrivalInfo.map {
         case UpcomingArrivalInfo(location, content) =>
           TagsOnly.createBusTimeElement(
