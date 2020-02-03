@@ -1,5 +1,7 @@
 package crestedbutte
 
+import java.time.format.DateTimeFormatter
+
 import org.scalajs.dom.html.{Anchor, Div}
 import scalatags.JsDom
 
@@ -45,5 +47,24 @@ object TagsOnly {
         }
       )
     )
+
+  def structuredSetOfUpcomingArrivals(upcomingArrivalInfo: List[UpcomingArrivalInfo]) =
+    div(
+      upcomingArrivalInfo.map{case UpcomingArrivalInfo(location, content) =>
+        TagsOnly.createBusTimeElement(
+          location,
+          content match {
+            case Left(stopTimeInfo) =>
+              val dateFormat = DateTimeFormatter.ofPattern("h:mm")
+              Left(
+                stopTimeInfo.time
+                  .format(dateFormat) + " (" + stopTimeInfo.waitingDuration.toMinutes + " min)"
+              )
+            case Right(safeRideRecommendation) =>
+              Right(TagsOnly.safeRideLink(safeRideRecommendation))
+          }
+        ) }
+    )
+
 
 }

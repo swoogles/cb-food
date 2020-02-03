@@ -104,25 +104,8 @@ object BusTimes {
         )
       )
 
-  def createNextBusTimeElement(
-    stops: Stops,
-    localTime: LocalTime
-  ): JsDom.TypedTag[Div] = {
-    val UpcomingArrivalInfo(location, content) = nextBusTime(stops, localTime)
-    TagsOnly.createBusTimeElement(
-      location,
-      content match {
-        case Left(stopTimeInfo) =>
-          val dateFormat = DateTimeFormatter.ofPattern("h:mm")
-          Left(
-            stopTimeInfo.time
-              .format(dateFormat) + " (" + stopTimeInfo.waitingDuration.toMinutes + " min)"
-          )
-        case Right(safeRideRecommendation) =>
-          Right(TagsOnly.safeRideLink(safeRideRecommendation))
-      }
-    )
-  }
+  def calculateUpcomingArrivalAtAllStops(localTime: LocalTime): List[UpcomingArrivalInfo] =
+    townShuttleStops.map(nextBusTime(_, localTime))
 
   val townShuttleStops = List(
     oldTownHallBusStarts,

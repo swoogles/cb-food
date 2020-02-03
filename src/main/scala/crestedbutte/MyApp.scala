@@ -2,7 +2,7 @@ package crestedbutte
 
 import zio.clock._
 import zio.console.Console
-import zio.{App, ZIO}
+import zio.{App, Schedule, ZIO}
 
 object MyApp extends App {
 
@@ -22,21 +22,15 @@ object MyApp extends App {
   }
 
   val addAllBusTimesToPage
-    : ZIO[Browser with Clock with Console, Nothing, Unit] = {
-    import scalatags.JsDom.all._ // TODO WHAT AN OBVIOUS WART!!!
+    : ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
       clockProper <- ZIO.environment[Clock]
       now         <- clockProper.clock.currentDateTime
       localTime = now.toLocalTime
-
-      busTimes = BusTimes.townShuttleStops
-      busTimeElemnts = busTimes.map(BusTimes.createNextBusTimeElement(_, localTime))
+      upcomingArrivalAtAllStops = BusTimes.calculateUpcomingArrivalAtAllStops(localTime)
       _ <- DomManipulation.addDivToUpcomingBusesSection(
-        div(
-          busTimeElemnts
-        )
+        TagsOnly.structuredSetOfUpcomingArrivals(upcomingArrivalAtAllStops)
       )
     } yield ()
-  }
 
 }
