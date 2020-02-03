@@ -30,7 +30,7 @@ object HelloWorldSpec
           output <- TestConsole.output
         } yield assert(output, equalTo(Vector("Hello, World!\n")))
       },
-      testM("find the next bus time") {
+      test("find the next bus time") {
         val startTime = LocalTime.parse("07:10:00")
         val endTime = LocalTime.parse("23:40:00")
         val totalBusRunTime = java.time.Duration.between(startTime, endTime)
@@ -38,12 +38,10 @@ object HelloWorldSpec
         val stops =
             List.range(0, numberOfBusesPerDay)
               .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
-        for {
-          _ <- TestClock.setDateTime(TimeHelpers.simpleOffsetDateTime("09:01:00"))
-          result <- BusTimes.nextBusArrivalTime(stops)
-        } yield assert(result.get, equalTo(LocalTime.parse("09:15:00")))
+          val result = BusTimes.nextBusArrivalTime(stops, LocalTime.parse("09:01:00"))
+        assert(result.get, equalTo(LocalTime.parse("09:15:00")))
       },
-      testM("really early morning check") {
+      test("really early morning check") {
         val startTime = LocalTime.parse("07:10:00")
         val endTime = LocalTime.parse("23:40:00")
         val totalBusRunTime = java.time.Duration.between(startTime, endTime)
@@ -51,12 +49,10 @@ object HelloWorldSpec
         val stops =
           List.range(0, numberOfBusesPerDay)
             .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
-        for {
-          _ <- TestClock.setDateTime(TimeHelpers.simpleOffsetDateTime("05:00:00"))
-          result <- BusTimes.nextBusArrivalTime(stops)
-        } yield assert(result.get, equalTo(LocalTime.parse("07:00:00")))
+          val result = BusTimes.nextBusArrivalTime(stops, LocalTime.parse("05:00:00"))
+        assert(result.get, equalTo(LocalTime.parse("07:00:00")))
       },
-      testM("after last bus has run") {
+      test("after last bus has run") {
         val startTime = LocalTime.parse("07:10:00")
         val endTime = LocalTime.parse("23:40:00")
         val totalBusRunTime = java.time.Duration.between(startTime, endTime)
@@ -64,10 +60,8 @@ object HelloWorldSpec
         val stops =
           List.range(0, numberOfBusesPerDay)
             .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
-        for {
-          _ <- TestClock.setDateTime(TimeHelpers.simpleOffsetDateTime("23:00:00"))
-          result <- BusTimes.nextBusArrivalTime(stops)
-        } yield assert(result, equalTo(Option.empty))
+          val result = BusTimes.nextBusArrivalTime(stops, LocalTime.parse("23:00:00"))
+        assert(result, equalTo(Option.empty))
       }
     )
   ) {

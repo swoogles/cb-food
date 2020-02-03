@@ -81,7 +81,7 @@ object BusTimes {
           .find(
             stopTime =>
               stopTime
-                .isBefore(localTime.truncatedTo(ChronoUnit.MINUTES))
+                .isAfter(localTime.truncatedTo(ChronoUnit.MINUTES))
           )
       case _ => Option.empty
     }
