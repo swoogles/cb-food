@@ -35,24 +35,12 @@ object MyApp extends App {
       clockProper <- ZIO.environment[Clock]
       now         <- clockProper.clock.currentDateTime
       localTime = now.toLocalTime
+
+      busTimes = BusTimes.townShuttleStops
+      busTimeElemnts = busTimes.map(createNextBusTimeElement(_, localTime))
       _ <- DomManipulation.addDivToUpcomingBusesSection(
         div(
-          createNextBusTimeElement(BusTimes.oldTownHallBusStarts,
-                                   localTime),
-          createNextBusTimeElement(BusTimes.clarksBusStarts,
-                                   localTime),
-          createNextBusTimeElement(BusTimes.fourWayUphillBusStarts,
-                                   localTime),
-          createNextBusTimeElement(BusTimes.teocalliUphillBusStarts,
-                                   localTime),
-          createNextBusTimeElement(
-            BusTimes.mountaineerSquareBusStarts,
-            localTime
-          ),
-          createNextBusTimeElement(BusTimes.teocalliDownhillBusStarts,
-                                   localTime),
-          createNextBusTimeElement(BusTimes.fourwayDownhill,
-                                   localTime)
+          busTimeElemnts
         )
       )
     } yield ()
@@ -165,10 +153,9 @@ object BusTimes {
           NextStop(stops.location,
                    Left(
                      StopTimeInfo(nextArrivalTime,
-                                  Duration.between(localTime,
-                                                   nextArrivalTime).abs())
+                                  Duration.between(nextArrivalTime, localTime).abs())
                    ))
-      )
+      ).map{ case x=> { println(localTime); x;}}
       .getOrElse(
         NextStop(
           stops.location,
@@ -196,6 +183,15 @@ object BusTimes {
     )
   }
 
+  val townShuttleStops = List(
+    oldTownHallBusStarts,
+    clarksBusStarts,
+    fourWayUphillBusStarts,
+    teocalliUphillBusStarts,
+    mountaineerSquareBusStarts,
+    teocalliDownhillBusStarts,
+    fourwayDownhill,
+  )
 }
 
 case class Stops(location: StopLocation.Value, times: Seq[LocalTime])
