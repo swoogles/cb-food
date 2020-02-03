@@ -40,3 +40,24 @@ body {
     grid-template-columns: 1fr 1fr;
 }
 
+/* Billding Software Grid Example*/
+
+
+@media screen and (orientation: portrait){
+
+    .stop-information {
+        display: grid;
+        grid-template-rows: auto 1fr ;
+        grid-template-areas: "stop-name upcoming-information"
+    }
+
+    .stop-name {
+        grid-area: stop-name;
+    }
+    .upcoming-information {
+        grid-area: upcoming-information
+    }
+
+}
+
+
