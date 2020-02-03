@@ -149,12 +149,11 @@ object BusTimes {
       case localTime: LocalTime
           if localTime.isAfter(LocalTime.parse("04:00:00")) =>
         timesAtStop
-          .dropWhile(
-            stopTime =>
-              stopTime
-                .isBefore(localTime.truncatedTo(ChronoUnit.MINUTES))
-          )
-          .headOption
+            .find(
+              stopTime =>
+                stopTime
+                  .isBefore(localTime.truncatedTo(ChronoUnit.MINUTES))
+            )
       case _ => Option.empty
     }
 
@@ -167,7 +166,7 @@ object BusTimes {
                    Left(
                      StopTimeInfo(nextArrivalTime,
                                   Duration.between(localTime,
-                                                   nextArrivalTime))
+                                                   nextArrivalTime).abs())
                    ))
       )
       .getOrElse(
