@@ -15,11 +15,9 @@ object ServiceWorker {
   val todoCache = "cb-bus"
   val todoAssets: js.Array[RequestInfo] = List[RequestInfo](
     "/",
-    "./",
-    ".",
-    "index.html",
-    "/resources/compiledJavascript/sw-opt.js",
-    "/resources/compiledJavascript/cb-bus-fastopt.js",
+    "/index.html",
+    "/compiledJavascript/sw-opt.js",
+    "/compiledJavascript/cb-bus-fastopt.js",
   ).toJSArray
 
   def main(args: Array[String]): Unit = {
