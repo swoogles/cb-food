@@ -16,8 +16,8 @@ object ServiceWorker {
   val todoAssets: js.Array[RequestInfo] = List[RequestInfo](
     "/",
     "index.html",
-    "/compiledJavascript/sw-opt.js",
-    "/compiledJavascript/cb-bus-fastopt.js",
+    "/resources/compiledJavascript/sw-opt.js",
+    "/resources/compiledJavascript/cb-bus-fastopt.js",
   ).toJSArray
 
   def main(args: Array[String]): Unit = {
