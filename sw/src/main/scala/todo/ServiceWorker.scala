@@ -12,24 +12,12 @@ import scala.scalajs.js.JSConverters._
 import scala.util.{Failure, Success}
 
 object ServiceWorker {
-  val todoCache = "todo-cache"
+  val todoCache = "cb-bus"
   val todoAssets: js.Array[RequestInfo] = List[RequestInfo](
     "/",
     "index.html",
-    "style.css",
-    "w3c.4.10.css",
-    "favicon.ico",
-    "logo.png",
-    "logo-96.png",
-    "logo-128.png",
-    "logo-170.png",
-    "logo-192.png",
-    "logo-256.png",
-    "logo-341.png",
-    "logo-384.png",
-    "logo-512.png",
-    "js-opt.js",
-    "sharedjs-opt.js"
+    "/compiledJavascript/sw-opt.js",
+    "/compiledJavascript/cb-bus-fastopt.js",
   ).toJSArray
 
   def main(args: Array[String]): Unit = {
