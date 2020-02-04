@@ -4,12 +4,12 @@
   "description": "Give live bus schedule updates",
   "icons": [
     {
-      "src": "images/hello-icon-144.png",
+      "src": "images/BILLDING_LogoMark-256.png",
       "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "images/hello-icon-512.png",
+      "src": "images/BILLDING_LogoMark-500.png",
       "sizes": "192x192",
       "type": "image/png"
     }
