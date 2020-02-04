@@ -44,7 +44,7 @@ object MyApp extends App {
 
   def registerServiceWorker(): Unit =
     toServiceWorkerNavigator(window.navigator).serviceWorker
-      .register("/sw-opt.js")
+      .register("./compiledJavascript/sw-opt.js")
       .toFuture
       .onComplete {
         case Success(registration) =>
