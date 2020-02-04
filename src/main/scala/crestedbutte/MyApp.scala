@@ -7,6 +7,12 @@ import zio.console.Console
 import zio.console.putStrLn
 import zio.duration.Duration
 import zio.{App, Schedule, ZIO}
+import org.scalajs.dom._
+import org.scalajs.dom.experimental.serviceworkers._
+
+import scala.util.{Failure, Success}
+// TODO Ew. Try to get this removed after first version of PWA is working
+import scala.concurrent.ExecutionContext.Implicits.global
 
 object MyApp extends App {
 
@@ -16,6 +22,7 @@ object MyApp extends App {
     val myEnvironment
       : zio.clock.Clock with zio.console.Console with Browser =
       new Clock.Live with Console.Live with BrowserLive
+    registerServiceWorker()
 
     (for {
       _ <- DomManipulation.createAndApplyPageStructure
@@ -35,4 +42,17 @@ object MyApp extends App {
       )
     } yield ()
 
+  def registerServiceWorker(): Unit =
+    toServiceWorkerNavigator(window.navigator).serviceWorker
+      .register("/sw-opt.js")
+      .toFuture
+      .onComplete {
+        case Success(registration) =>
+          println("registerServiceWorker: registered service worker")
+          registration.update()
+        case Failure(error) =>
+          println(
+            s"registerServiceWorker: service worker registration failed > ${error.printStackTrace()}"
+          )
+      }
 }
