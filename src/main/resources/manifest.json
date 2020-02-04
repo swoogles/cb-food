@@ -1,0 +1,22 @@
+{
+  "short_name": "CB Buses",
+  "name": "CB Buses",
+  "description": "Give live bus schedule updates",
+  "icons": [
+    {
+      "src": "images/hello-icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "images/hello-icon-512.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./?utm_source=web_app_manifest",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#29BDBB",
+  "background_color": "#29BDBB"
+}
