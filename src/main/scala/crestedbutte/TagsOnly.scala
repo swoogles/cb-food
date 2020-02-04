@@ -37,10 +37,12 @@ object TagsOnly {
   ): JsDom.TypedTag[Div] =
     div(
       width := "100%",
-      style := "text-align:right; border-bottom: 1px solid white; padding-bottom: 5px;"
+      cls := "stop-information",
+      style := "border-bottom: 1px solid white; padding-bottom: 5px;"
     )(
-      span(width := "50%")(location.name),
-      span(width := "50%", display := "inline-block;", style := "")(
+      div(cls := "stop-name")(location.name),
+      div(cls := "upcoming-information",
+          style := "text-align:left; ")(
         content match {
           case Left(contentString) => contentString
           case Right(phoneAnchor)  => phoneAnchor
