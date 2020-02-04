@@ -49,7 +49,9 @@ body {
         display: grid;
         grid-template-columns: 2fr 1fr;
         grid-template-rows: auto 1fr ;
-        grid-template-areas: "stop-name upcoming-information"
+        grid-template-areas: "stop-name upcoming-information";
+        padding-top: 15px;
+        padding-bottom: 15px;
     }
 
     .stop-name {
