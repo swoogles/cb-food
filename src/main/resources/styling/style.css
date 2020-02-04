@@ -1,10 +1,10 @@
 body {
-    margin: 10px;
+    margin: 5px;
 }
 
 .wrapper {
     display: grid;
-    grid-gap: 10px;
+    grid-gap: 5px;
     /*grid-template-columns: repeat(4, [col] 150px ) ;*/
     /*grid-template-columns: 3fr 1fr;*/
     grid-template-columns: 1fr;
@@ -17,8 +17,8 @@ body {
     background-color: #444;
     color: #fff;
     border-radius: 5px;
-    padding: 20px;
-    font-size: 200%;
+    padding: 5px;
+    font-size: 170%;
 }
 
 .box .box {
