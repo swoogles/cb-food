@@ -30,6 +30,15 @@ object TagsOnly {
       safeRideRecommendation.message
     )
 
+  def renderContent(
+    content: Either[String, JsDom.TypedTag[Anchor]]
+  ) =
+    content match {
+      case Left(contentString) =>
+        div(div(contentString), div("*TIME*"))
+      case Right(phoneAnchor) => div(phoneAnchor)
+    }
+
   def createBusTimeElement(
     location: StopLocation.Value,
     content: Either[String, JsDom.TypedTag[Anchor]]
@@ -43,10 +52,7 @@ object TagsOnly {
       div(cls := "stop-name")(location.name),
       div(cls := "upcoming-information",
           style := "text-align:left; ")(
-        content match {
-          case Left(contentString) => contentString
-          case Right(phoneAnchor)  => phoneAnchor
-        }
+        renderContent(content)
       )
     )
 
