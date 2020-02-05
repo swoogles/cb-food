@@ -40,7 +40,7 @@ object TagsOnly {
       case Left((arrivalTime, waitTime)) =>
         div(
           div(cls := "arrival-time")(arrivalTime.format(dateFormat)),
-          div(cls := "wait-time")(waitTime.toMinutes + " minutes")
+          div(cls := "wait-time")(waitTime.toMinutes + " min.")
         )
       case Right(phoneAnchor) => div(phoneAnchor)
     }
