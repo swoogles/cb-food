@@ -36,14 +36,12 @@ object TagsOnly {
   def renderContent(
     content: Either[(LocalTime, Duration), JsDom.TypedTag[Anchor]]
   ) =
-//  Left(
-//    stopTimeInfo.time
-//      .format(dateFormat) + " (" + stopTimeInfo.waitingDuration.toMinutes + " min)"
-//  )
     content match {
       case Left((arrivalTime, waitTime)) =>
-        div(div(arrivalTime.format(dateFormat)),
-            div(waitTime.toMinutes + " minutes"))
+        div(
+          div(cls := "arrival-time")(arrivalTime.format(dateFormat)),
+          div(cls := "wait-time")(waitTime.toMinutes + " minutes")
+        )
       case Right(phoneAnchor) => div(phoneAnchor)
     }
 

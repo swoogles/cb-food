@@ -41,6 +41,12 @@ body {
 
 /* Billding Software Grid Example*/
 
+.arrival-time {
+    text-align: left;
+}
+.wait-time {
+    text-align: left;
+}
 
 /*@media screen and (orientation: portrait){*/
 
@@ -56,6 +62,7 @@ body {
     .stop-name {
         grid-area: stop-name;
         text-align: center;
+        /*vertical-align: central;*/
     }
     .upcoming-information {
         grid-area: upcoming-information
