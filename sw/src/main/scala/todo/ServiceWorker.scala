@@ -19,9 +19,11 @@ object ServiceWorker {
 
   val todoAssets: js.Array[RequestInfo] = List[RequestInfo](
 
+    "/",
     "/index.html",
-//    "/compiledJavascript/sw-opt.js",
-//    "/compiledJavascript/cb-bus-fastopt.js"
+    "/compiledJavascript/sw-opt.js",
+    "/styling/style.css",
+    "/compiledJavascript/cb-bus-opt.js",
   ).toJSArray
 
   def main(args: Array[String]): Unit = {
@@ -37,13 +39,14 @@ object ServiceWorker {
         s"activate: service worker activated > ${event.toString}"
       )
       invalidateCache()
-      event.waitUntil(toCache().toJSPromise)
+//      event.waitUntil(toCache().toJSPromise)
       self.clients.claim()
     })
 
     self.addEventListener(
       "fetch",
       (event: FetchEvent) => {
+        println("That's rather fetching.")
         if (event.request.cache == RequestCache.`only-if-cached`
             && event.request.mode != RequestMode.`same-origin`) {
           println(
