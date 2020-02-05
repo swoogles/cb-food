@@ -1,5 +1,6 @@
 package crestedbutte
 
+import java.time.{Duration, LocalTime}
 import java.time.format.DateTimeFormatter
 
 import org.scalajs.dom.html.{Anchor, Div}
@@ -30,18 +31,25 @@ object TagsOnly {
       safeRideRecommendation.message
     )
 
+  val dateFormat = DateTimeFormatter.ofPattern("h:mm")
+
   def renderContent(
-    content: Either[String, JsDom.TypedTag[Anchor]]
+    content: Either[(LocalTime, Duration), JsDom.TypedTag[Anchor]]
   ) =
+//  Left(
+//    stopTimeInfo.time
+//      .format(dateFormat) + " (" + stopTimeInfo.waitingDuration.toMinutes + " min)"
+//  )
     content match {
-      case Left(contentString) =>
-        div(div(contentString), div("*TIME*"))
+      case Left((arrivalTime, waitTime)) =>
+        div(div(arrivalTime.format(dateFormat)),
+            div(waitTime.toMinutes + " minutes"))
       case Right(phoneAnchor) => div(phoneAnchor)
     }
 
   def createBusTimeElement(
     location: StopLocation.Value,
-    content: Either[String, JsDom.TypedTag[Anchor]]
+    content: Either[(LocalTime, Duration), JsDom.TypedTag[Anchor]]
     /* TODO: waitDuration: Duration*/
   ): JsDom.TypedTag[Div] =
     div(
@@ -69,8 +77,7 @@ object TagsOnly {
               case Left(stopTimeInfo) =>
                 val dateFormat = DateTimeFormatter.ofPattern("h:mm")
                 Left(
-                  stopTimeInfo.time
-                    .format(dateFormat) + " (" + stopTimeInfo.waitingDuration.toMinutes + " min)"
+                  (stopTimeInfo.time, stopTimeInfo.waitingDuration)
                 )
               case Right(safeRideRecommendation) =>
                 Right(TagsOnly.safeRideLink(safeRideRecommendation))
