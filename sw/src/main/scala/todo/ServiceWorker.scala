@@ -37,6 +37,7 @@ object ServiceWorker {
         s"activate: service worker activated > ${event.toString}"
       )
       invalidateCache()
+      event.waitUntil(toCache().toJSPromise)
       self.clients.claim()
     })
 
