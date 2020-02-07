@@ -17,6 +17,7 @@ object StopLocation extends Enumeration {
 
   type StopLocation = Value
 
+  // TODO Check ordering of all coordinates
   val OldTownHall: Val =
     Val("Old Town Hall", GpsCoordinates(38.869538, -106.987547))
 

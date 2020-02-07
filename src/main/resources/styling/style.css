@@ -40,6 +40,9 @@ body {
 }
 
 /* Billding Software Grid Example*/
+.light-background {
+    background-color: bisque;
+}
 
 .arrival-time {
     text-align: left;

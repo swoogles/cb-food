@@ -56,15 +56,19 @@ object TagsOnly {
       cls := "stop-information",
       style := "border-bottom: 1px solid white; padding-bottom: 5px;"
     )(
-      div(cls := "stop-name")(location.name),
+      div(cls := "stop-name")(geoLinkForStop(location)),
       div(cls := "upcoming-information",
           style := "text-align:left; ")(
         renderContent(content)
       )
     )
 
-//  def geoLinkForStop(stopLocation: StopLocation) =
-//    a(href := )
+  def geoLinkForStop(stopLocation: StopLocation) =
+    div(cls := "light-background")(
+      a(
+        href := s"geo:${stopLocation.gpsCoordinates.latitude}, ${stopLocation.gpsCoordinates.longitude}"
+      )(stopLocation.name)
+    )
 //    <a href="geo:37.786971,-122.399677;u=35">open map</a>
 
   def structuredSetOfUpcomingArrivals(
