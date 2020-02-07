@@ -39,7 +39,7 @@ object HelloWorldSpec
             List.range(0, numberOfBusesPerDay)
               .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
           val result = BusTimes.nextBusArrivalTime(stops, LocalTime.parse("09:01:00"))
-        assert(result.get, equalTo(LocalTime.parse("09:15:00")))
+        assert(result.get, equalTo(LocalTime.parse("09:10:00")))
       },
       test("really early morning check") {
         val startTime = LocalTime.parse("07:10:00")
@@ -50,7 +50,7 @@ object HelloWorldSpec
           List.range(0, numberOfBusesPerDay)
             .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
           val result = BusTimes.nextBusArrivalTime(stops, LocalTime.parse("05:00:00"))
-        assert(result.get, equalTo(LocalTime.parse("07:00:00")))
+        assert(result.get, equalTo(LocalTime.parse("07:10:00")))
       },
       test("after last bus has run") {
         val startTime = LocalTime.parse("07:10:00")
@@ -60,7 +60,7 @@ object HelloWorldSpec
         val stops =
           List.range(0, numberOfBusesPerDay)
             .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
-          val result = BusTimes.nextBusArrivalTime(stops, LocalTime.parse("23:00:00"))
+          val result = BusTimes.nextBusArrivalTime(stops, LocalTime.parse("23:50:00"))
         assert(result, equalTo(Option.empty))
       }
     )
