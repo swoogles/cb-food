@@ -3,6 +3,7 @@ package crestedbutte
 import java.time.{Duration, LocalTime}
 import java.time.format.DateTimeFormatter
 
+import crestedbutte.StopLocation.StopLocation
 import org.scalajs.dom.html.{Anchor, Div}
 import scalatags.JsDom
 
@@ -61,6 +62,10 @@ object TagsOnly {
         renderContent(content)
       )
     )
+
+//  def geoLinkForStop(stopLocation: StopLocation) =
+//    a(href := )
+//    <a href="geo:37.786971,-122.399677;u=35">open map</a>
 
   def structuredSetOfUpcomingArrivals(
     upcomingArrivalInfo: List[UpcomingArrivalInfo]
