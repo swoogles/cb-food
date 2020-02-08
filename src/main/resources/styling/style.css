@@ -41,7 +41,11 @@ body {
 
 /* Billding Software Grid Example*/
 .light-background {
-    background-color: bisque;
+    background-color: white;
+}
+
+.upcoming-buses-title {
+    text-align: center;
 }
 
 .arrival-time {
@@ -51,26 +55,24 @@ body {
     text-align: left;
 }
 
-/*@media screen and (orientation: portrait){*/
+.stop-information {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto 1fr ;
+    grid-template-areas: "stop-name upcoming-information";
+    padding-top: 15px;
+    padding-bottom: 15px;
+    /*border-bottom: 2px solid white; !* Restore this. *!*/
+    border-bottom: 1px solid white;
+}
 
-    .stop-information {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        grid-template-rows: auto 1fr ;
-        grid-template-areas: "stop-name upcoming-information";
-        padding-top: 15px;
-        padding-bottom: 15px;
-    }
-
-    .stop-name {
-        grid-area: stop-name;
-        text-align: center;
-        /*vertical-align: central;*/
-    }
-    .upcoming-information {
-        grid-area: upcoming-information
-    }
-
-/*}*/
-
+.stop-name {
+    grid-area: stop-name;
+    text-align: center;
+    /*vertical-align: central;*/
+}
+.upcoming-information {
+    grid-area: upcoming-information;
+    text-align:left;
+}
 

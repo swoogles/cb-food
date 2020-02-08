@@ -14,7 +14,7 @@ object TagsOnly {
     div(id := "container")(
       div(cls := "wrapper")(
         div(cls := "box c", id := "upcoming-buses")(
-          h3(style := "text-align: center")(
+          h3(cls := "upcoming-buses-title")(
             "Upcoming Buses"
           )
         ),
@@ -59,12 +59,10 @@ object TagsOnly {
   ): JsDom.TypedTag[Div] =
     div(
       width := "100%",
-      cls := "stop-information",
-      style := "border-bottom: 1px solid white; padding-bottom: 5px;"
+      cls := "stop-information"
     )(
       div(cls := "stop-name")(geoLinkForStop(location)),
-      div(cls := "upcoming-information",
-          style := "text-align:left; ")(
+      div(cls := "upcoming-information")(
         renderContent(content)
       )
     )
@@ -88,7 +86,6 @@ object TagsOnly {
             location,
             content match {
               case Left(stopTimeInfo) =>
-                val dateFormat = DateTimeFormatter.ofPattern("h:mm")
                 Left(
                   (stopTimeInfo.time, stopTimeInfo.waitingDuration)
                 )
