@@ -34,6 +34,8 @@ object TagsOnly {
 
   val dateFormat = DateTimeFormatter.ofPattern("h:mm")
 
+//  def renderWaitTime(duration: Duration) =
+
   def renderContent(
     content: Either[(LocalTime, Duration), JsDom.TypedTag[Anchor]]
   ) =

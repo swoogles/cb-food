@@ -1,3 +1,5 @@
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.time.{LocalDate, LocalTime, OffsetDateTime, ZoneOffset}
 
 import zio._
@@ -62,6 +64,24 @@ object HelloWorldSpec
             .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
           val result = BusTimes.nextBusArrivalTime(stops, LocalTime.parse("23:50:00"))
         assert(result, equalTo(Option.empty))
+      },
+        test("bus is arriving this minute") {
+        val startTime = LocalTime.parse("07:10:00")
+        val endTime = LocalTime.parse("23:40:00")
+        val totalBusRunTime = java.time.Duration.between(startTime, endTime)
+        val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
+        val stops =
+          List.range(0, numberOfBusesPerDay)
+            .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
+          val localTime = LocalTime.parse("23:40:02")
+        val result = BusTimes.nextBusArrivalTime(stops, LocalTime.parse("23:40:02"))
+          val dateFormat = DateTimeFormatter.ofPattern("h:mm")
+          println("Truncated bus time: " + endTime.truncatedTo(ChronoUnit.MINUTES).format(dateFormat))
+          println("Truncated current time: " + localTime.truncatedTo(ChronoUnit.MINUTES).format(dateFormat))
+          assert(endTime, equalTo(localTime.truncatedTo(ChronoUnit.MINUTES)))
+          println("Got through first assert")
+
+        assert(result, equalTo(LocalTime.parse("23:40:00")))
       }
     )
   ) {

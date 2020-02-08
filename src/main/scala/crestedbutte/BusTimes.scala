@@ -84,6 +84,8 @@ object BusTimes {
             stopTime =>
               stopTime
                 .isAfter(localTime.truncatedTo(ChronoUnit.MINUTES))
+              || stopTime.truncatedTo(ChronoUnit.MINUTES)
+                .equals(localTime.truncatedTo(ChronoUnit.MINUTES))
           )
       case _ => Option.empty
     }
