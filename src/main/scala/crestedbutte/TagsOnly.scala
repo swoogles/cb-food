@@ -71,7 +71,8 @@ object TagsOnly {
     div(
       a(
         cls := "link",
-        href := s"geo:${stopLocation.gpsCoordinates.latitude}, ${stopLocation.gpsCoordinates.longitude}"
+//          href := s"geo:${stopLocation.gpsCoordinates.latitude}, ${stopLocation.gpsCoordinates.longitude}"
+        href := s"https://www.google.com/maps/search/?api=1&query=${stopLocation.gpsCoordinates.latitude},${stopLocation.gpsCoordinates.longitude}"
       )(stopLocation.name)
     )
 //    <a href="geo:37.786971,-122.399677;u=35">open map</a>
