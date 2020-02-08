@@ -54,6 +54,9 @@ body {
 .wait-time {
     text-align: left;
 }
+.link {
+    color: white;
+}
 
 .stop-information {
     display: grid;

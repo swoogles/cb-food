@@ -68,8 +68,9 @@ object TagsOnly {
     )
 
   def geoLinkForStop(stopLocation: StopLocation) =
-    div(cls := "light-background")(
+    div(
       a(
+        cls := "link",
         href := s"geo:${stopLocation.gpsCoordinates.latitude}, ${stopLocation.gpsCoordinates.longitude}"
       )(stopLocation.name)
     )
