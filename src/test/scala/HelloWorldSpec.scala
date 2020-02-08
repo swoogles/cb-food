@@ -73,15 +73,15 @@ object HelloWorldSpec
         val stops =
           List.range(0, numberOfBusesPerDay)
             .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
-          val localTime = LocalTime.parse("23:40:02")
-        val result = BusTimes.nextBusArrivalTime(stops, LocalTime.parse("23:40:02"))
+          val localTime = LocalTime.parse("23:10:02")
+        val result = BusTimes.nextBusArrivalTime(stops, localTime)
           val dateFormat = DateTimeFormatter.ofPattern("h:mm")
           println("Truncated bus time: " + endTime.truncatedTo(ChronoUnit.MINUTES).format(dateFormat))
           println("Truncated current time: " + localTime.truncatedTo(ChronoUnit.MINUTES).format(dateFormat))
           assert(endTime, equalTo(localTime.truncatedTo(ChronoUnit.MINUTES)))
           println("Got through first assert")
 
-        assert(result, equalTo(LocalTime.parse("23:40:00")))
+        assert(result.get, equalTo(LocalTime.parse("23:10:00")))
       }
     )
   ) {

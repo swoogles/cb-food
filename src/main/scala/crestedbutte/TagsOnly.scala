@@ -34,7 +34,11 @@ object TagsOnly {
 
   val dateFormat = DateTimeFormatter.ofPattern("h:mm")
 
-//  def renderWaitTime(duration: Duration) =
+  def renderWaitTime(duration: Duration) =
+    if (duration.toMinutes == 0)
+      "Arriving!"
+    else
+      duration.toMinutes + " min."
 
   def renderContent(
     content: Either[(LocalTime, Duration), JsDom.TypedTag[Anchor]]
@@ -43,7 +47,7 @@ object TagsOnly {
       case Left((arrivalTime, waitTime)) =>
         div(
           div(cls := "arrival-time")(arrivalTime.format(dateFormat)),
-          div(cls := "wait-time")(waitTime.toMinutes + " min.")
+          div(cls := "wait-time")(renderWaitTime(waitTime))
         )
       case Right(phoneAnchor) => div(phoneAnchor)
     }
