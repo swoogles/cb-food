@@ -1,7 +1,5 @@
 package crestedbutte
 
-import java.time.LocalTime
-
 import zio.ZIO
 import zio.clock.Clock
 
@@ -74,7 +72,7 @@ object BusTimes {
       .find(stopTime => BusTime.catchableBus(now, stopTime))
       .filter(_.tooLateToBeConsideredLateNight)
 
-  def nextBusTime(
+  def getUpcomingArrivalInfo(
     stops: Stops,
     now: BusTime
   ): UpcomingArrivalInfo = // TODO use ZIO.option
@@ -84,26 +82,24 @@ object BusTimes {
         nextArrivalTime =>
           UpcomingArrivalInfo(
             stops.location,
-            Left(
-              StopTimeInfo(
-                nextArrivalTime,
-                nextArrivalTime
-                  .between(now)
-              )
+            StopTimeInfo(
+              nextArrivalTime,
+              nextArrivalTime
+                .between(now)
             )
           )
       )
       .getOrElse(
         UpcomingArrivalInfo(
           stops.location,
-          Right(SafeRideRecommendation("safe-ride"))
+          SafeRideRecommendation("safe-ride")
         )
       )
 
   def calculateUpcomingArrivalAtAllStops(
     now: BusTime
   ): List[UpcomingArrivalInfo] =
-    townShuttleStops.map(nextBusTime(_, now))
+    townShuttleStops.map(getUpcomingArrivalInfo(_, now))
 
   val townShuttleStops = List(
     oldTownHallBusStarts,
