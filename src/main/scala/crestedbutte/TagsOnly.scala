@@ -9,18 +9,16 @@ object TagsOnly {
 
   val overallPageLayout =
     div(id := "container")(
-      div(cls := "wrapper")(
-        div(cls := "box c", id := "upcoming-buses")(
-          h3(cls := "upcoming-buses-title")(
-            "Upcoming Buses"
-          )
-        ),
-        div(cls := "box d")(
-          div("Future Work: Condo Loops")
-        ),
-        div(cls := "box d")(
-          div("Future Work: RTA buses")
+      div(cls := "box c", id := "upcoming-buses")(
+        h3(cls := "upcoming-buses-title")(
+          "Upcoming Buses"
         )
+      ),
+      div(cls := "box c")(
+        div("Future Work: Condo Loops")
+      ),
+      div(cls := "box c")(
+        div("Future Work: RTA buses!")
       )
     )
 
