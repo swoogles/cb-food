@@ -1,6 +1,5 @@
 package crestedbutte
 
-import java.time.temporal.ChronoUnit
 import java.time.LocalTime
 
 import zio.ZIO
@@ -31,15 +30,18 @@ object BusTimes {
       .getSeconds
 
   val oldTownHallBusStarts: Stops =
-    Stops(StopLocation.OldTownHall,
-          List
-            .range(0, numberOfBusesPerDay)
-            .map(
-              index =>
-                startTime.plus(
-                  java.time.Duration.ofMinutes(15).multipliedBy(index)
-                )
-            ))
+    Stops(
+      StopLocation.OldTownHall,
+      List
+        .range(0, numberOfBusesPerDay)
+        .map(
+          index =>
+            startTime.plus(
+              java.time.Duration.ofMinutes(15).multipliedBy(index)
+            )
+        )
+        .map(new BusTime(_))
+    )
 
   val clarksBusStarts: Stops =
     Stops(StopLocation.Clarks,
@@ -71,44 +73,39 @@ object BusTimes {
           teocalliDownhillBusStarts.times
             .map(_.plusMinutes(1)))
 
-  def nextBusArrivalTime(timesAtStop: Seq[LocalTime],
-                         localTime: LocalTime): Option[LocalTime] =
-    localTime match {
-      case localTime: LocalTime
-          if localTime.isAfter(LocalTime.parse("04:00:00")) =>
+  def nextBusArrivalTime(timesAtStop: Seq[BusTime],
+                         now: BusTime): Option[BusTime] =
+    now match {
+      case localTime: BusTime
+          if localTime.tooLateToBeConsideredLateNight() =>
         timesAtStop
           .find(
-            stopTime =>
-              stopTime
-                .isAfter(localTime.truncatedTo(ChronoUnit.MINUTES))
-              || stopTime
-                .truncatedTo(ChronoUnit.MINUTES)
-                .equals(localTime.truncatedTo(ChronoUnit.MINUTES))
+            stopTime => BusTime.catchableBus(localTime, stopTime)
           )
       case _ => Option.empty
     }
 
   def nextBusTime(
     stops: Stops,
-    localTime: LocalTime
+    now: BusTime
   ): UpcomingArrivalInfo = // TODO use ZIO.option
     BusTimes
-      .nextBusArrivalTime(stops.times, localTime)
+      .nextBusArrivalTime(stops.times, now)
       .map(
         nextArrivalTime =>
           UpcomingArrivalInfo(
             stops.location,
             Left(
               StopTimeInfo(
-                new BusTime(nextArrivalTime),
-                new BusTime(nextArrivalTime)
-                  .between(new BusTime(localTime))
+                nextArrivalTime,
+                nextArrivalTime
+                  .between(now)
               )
             )
           )
       )
       .map(x => {
-        println(localTime); x;
+        println(now); x;
       })
       .getOrElse(
         UpcomingArrivalInfo(
@@ -118,9 +115,9 @@ object BusTimes {
       )
 
   def calculateUpcomingArrivalAtAllStops(
-    localTime: LocalTime
+    now: BusTime
   ): List[UpcomingArrivalInfo] =
-    townShuttleStops.map(nextBusTime(_, localTime))
+    townShuttleStops.map(nextBusTime(_, now))
 
   val townShuttleStops = List(
     oldTownHallBusStarts,
@@ -137,6 +134,6 @@ object BusTimes {
     for {
       clockProper <- ZIO.environment[Clock]
       now         <- clockProper.clock.currentDateTime
-      localTime = now.toLocalTime
+      localTime = new BusTime(now.toLocalTime)
     } yield { BusTimes.calculateUpcomingArrivalAtAllStops(localTime) }
 }
