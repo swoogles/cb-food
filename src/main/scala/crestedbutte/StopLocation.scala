@@ -1,10 +1,5 @@
 package crestedbutte
 
-case class GpsCoordinates(
-  latitude: Double,
-  longitude: Double
-)
-
 object StopLocation extends Enumeration {
 
   protected case class Val(name: String,

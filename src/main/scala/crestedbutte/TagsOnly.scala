@@ -1,8 +1,5 @@
 package crestedbutte
 
-import java.time.{Duration}
-import java.time.format.DateTimeFormatter
-
 import crestedbutte.StopLocation.StopLocation
 import org.scalajs.dom.html.{Anchor, Div}
 import scalatags.JsDom

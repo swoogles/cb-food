@@ -1,11 +1,8 @@
 package crestedbutte
 
-import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
-import java.time.{Duration, LocalTime}
+import java.time.LocalTime
 
-import org.scalajs.dom.html.Div
-import scalatags.JsDom
 import zio.ZIO
 import zio.clock.Clock
 
@@ -110,7 +107,9 @@ object BusTimes {
             )
           )
       )
-      .map { case x => { println(localTime); x; } }
+      .map(x => {
+        println(localTime); x;
+      })
       .getOrElse(
         UpcomingArrivalInfo(
           stops.location,
@@ -133,7 +132,8 @@ object BusTimes {
     fourwayDownhill
   )
 
-  val getUpComingArrivals =
+  val getUpComingArrivals
+    : ZIO[Clock, Nothing, List[UpcomingArrivalInfo]] =
     for {
       clockProper <- ZIO.environment[Clock]
       now         <- clockProper.clock.currentDateTime
