@@ -34,7 +34,7 @@ object MyApp extends App {
   val updateUpcomingArrivalsOnPage
     : ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
-      upcomingArrivalAtAllStops <- BusTimes.getUpComingArrivals
+      upcomingArrivalAtAllStops <- TownShuttleTimes.getUpComingArrivals
       _ <- DomManipulation.updateUpcomingBusesSection(
         TagsOnly.structuredSetOfUpcomingArrivals(
           upcomingArrivalAtAllStops

@@ -3,7 +3,7 @@ package crestedbutte
 import zio.ZIO
 import zio.clock.Clock
 
-object BusTimes {
+object TownShuttleTimes {
   /*
     Regular Winter Schedule: November 27th through April 12th
 
@@ -76,7 +76,7 @@ object BusTimes {
     stops: Stops,
     now: BusTime
   ): UpcomingArrivalInfo = // TODO use ZIO.option
-    BusTimes
+    TownShuttleTimes
       .nextBusArrivalTime(stops.times, now)
       .map(
         nextArrivalTime =>
@@ -117,5 +117,7 @@ object BusTimes {
       clockProper <- ZIO.environment[Clock]
       now         <- clockProper.clock.currentDateTime
       localTime = new BusTime(now.toLocalTime)
-    } yield { BusTimes.calculateUpcomingArrivalAtAllStops(localTime) }
+    } yield {
+      TownShuttleTimes.calculateUpcomingArrivalAtAllStops(localTime)
+    }
 }

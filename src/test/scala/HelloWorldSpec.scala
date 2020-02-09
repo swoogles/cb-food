@@ -8,7 +8,7 @@ import zio.test.{DefaultRunnableSpec, test, testM, _}
 import zio.test.Assertion._
 import zio.test.environment._
 import HelloWorld._
-import crestedbutte.BusTimes
+import crestedbutte.TownShuttleTimes
 
 object HelloWorld {
   def sayHello: ZIO[Console, Nothing, Unit] =
@@ -40,7 +40,7 @@ object HelloWorldSpec
         val stops =
             List.range(0, numberOfBusesPerDay)
               .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
-          val result = BusTimes.nextBusArrivalTime(stops, LocalTime.parse("09:01:00"))
+          val result = TownShuttleTimes.nextBusArrivalTime(stops, LocalTime.parse("09:01:00"))
         assert(result.get, equalTo(LocalTime.parse("09:10:00")))
       },
       test("really early morning check") {
@@ -51,7 +51,7 @@ object HelloWorldSpec
         val stops =
           List.range(0, numberOfBusesPerDay)
             .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
-          val result = BusTimes.nextBusArrivalTime(stops, LocalTime.parse("05:00:00"))
+          val result = TownShuttleTimes.nextBusArrivalTime(stops, LocalTime.parse("05:00:00"))
         assert(result.get, equalTo(LocalTime.parse("07:10:00")))
       },
       test("after last bus has run") {
@@ -62,7 +62,7 @@ object HelloWorldSpec
         val stops =
           List.range(0, numberOfBusesPerDay)
             .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
-          val result = BusTimes.nextBusArrivalTime(stops, LocalTime.parse("23:50:00"))
+          val result = TownShuttleTimes.nextBusArrivalTime(stops, LocalTime.parse("23:50:00"))
         assert(result, equalTo(Option.empty))
       },
         test("bus is arriving this minute") {
@@ -74,7 +74,7 @@ object HelloWorldSpec
           List.range(0, numberOfBusesPerDay)
             .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
           val localTime = LocalTime.parse("23:10:02")
-        val result = BusTimes.nextBusArrivalTime(stops, localTime)
+        val result = TownShuttleTimes.nextBusArrivalTime(stops, localTime)
           val dateFormat = DateTimeFormatter.ofPattern("h:mm")
           println("Truncated bus time: " + endTime.truncatedTo(ChronoUnit.MINUTES).format(dateFormat))
           println("Truncated current time: " + localTime.truncatedTo(ChronoUnit.MINUTES).format(dateFormat))
