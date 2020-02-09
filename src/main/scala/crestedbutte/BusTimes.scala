@@ -103,15 +103,9 @@ object BusTimes {
             stops.location,
             Left(
               StopTimeInfo(
-                nextArrivalTime,
-                Duration
-                  .between(
-                    // If I parsed to a type that was *guaranteed* to be truncated to the minute
-                    // Logic in several places would be simpler.
-                    nextArrivalTime.truncatedTo(ChronoUnit.MINUTES),
-                    localTime.truncatedTo(ChronoUnit.MINUTES)
-                  )
-                  .abs()
+                new BusTime(nextArrivalTime),
+                new BusTime(nextArrivalTime)
+                  .between(new BusTime(localTime))
               )
             )
           )

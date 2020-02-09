@@ -1,6 +1,6 @@
 package crestedbutte
 
-import java.time.{Duration, LocalTime}
+import java.time.{Duration}
 import java.time.format.DateTimeFormatter
 
 import crestedbutte.StopLocation.StopLocation
@@ -32,21 +32,19 @@ object TagsOnly {
       safeRideRecommendation.message
     )
 
-  val dateFormat = DateTimeFormatter.ofPattern("h:mm")
-
-  def renderWaitTime(duration: Duration) =
+  def renderWaitTime(duration: BusDuration) =
     if (duration.toMinutes == 0)
       "Arriving!"
     else
       duration.toMinutes + " min."
 
   def renderContent(
-    content: Either[(LocalTime, Duration), JsDom.TypedTag[Anchor]]
+    content: Either[(BusTime, BusDuration), JsDom.TypedTag[Anchor]]
   ) =
     content match {
       case Left((arrivalTime, waitTime)) =>
         div(
-          div(cls := "arrival-time")(arrivalTime.format(dateFormat)),
+          div(cls := "arrival-time")(arrivalTime.toString),
           div(cls := "wait-time")(renderWaitTime(waitTime))
         )
       case Right(phoneAnchor) => div(phoneAnchor)
@@ -54,7 +52,7 @@ object TagsOnly {
 
   def createBusTimeElement(
     location: StopLocation.Value,
-    content: Either[(LocalTime, Duration), JsDom.TypedTag[Anchor]]
+    content: Either[(BusTime, BusDuration), JsDom.TypedTag[Anchor]]
     /* TODO: waitDuration: Duration*/
   ): JsDom.TypedTag[Div] =
     div(

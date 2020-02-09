@@ -1,5 +1,3 @@
 package crestedbutte
 
-import java.time.{Duration, LocalTime}
-
-case class StopTimeInfo(time: LocalTime, waitingDuration: Duration)
+case class StopTimeInfo(time: BusTime, waitingDuration: BusDuration)
