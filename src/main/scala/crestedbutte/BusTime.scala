@@ -33,6 +33,9 @@ class BusTime(localTime: LocalTime) {
 
 object BusTime {
 
+  def parse(raw: String) =
+    new BusTime(LocalTime.parse(raw))
+
   def catchableBus(now: BusTime, goal: BusTime) =
     goal.truncatedToMinutes
       .isAfter(now.truncatedToMinutes) ||

@@ -19,15 +19,14 @@ object BusTimes {
     Mountaineer Square	  :00, :15, :30, :45	    7:30 AM 	  12:00 AM
    */
 
-  private val startTime = LocalTime.parse("07:10:00")
-  private val endTime = LocalTime.parse("23:40:00")
+  private val startTime = BusTime.parse("07:10:00")
+  private val endTime = BusTime.parse("23:40:00")
 
   private val totalBusRunTime =
-    java.time.Duration.between(startTime, endTime)
+    startTime.between(endTime)
 
-  private val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration
-      .ofMinutes(15)
-      .getSeconds
+  private val numberOfBusesPerDay =
+    totalBusRunTime.dividedByMinutes(15)
 
   val oldTownHallBusStarts: Stops =
     Stops(
@@ -35,12 +34,8 @@ object BusTimes {
       List
         .range(0, numberOfBusesPerDay)
         .map(
-          index =>
-            startTime.plus(
-              java.time.Duration.ofMinutes(15).multipliedBy(index)
-            )
+          index => startTime.plusMinutes(15 * index.toInt)
         )
-        .map(new BusTime(_))
     )
 
   val clarksBusStarts: Stops =
@@ -77,7 +72,7 @@ object BusTimes {
                          now: BusTime): Option[BusTime] =
     now match {
       case localTime: BusTime
-          if localTime.tooLateToBeConsideredLateNight() =>
+          if localTime.tooLateToBeConsideredLateNight =>
         timesAtStop
           .find(
             stopTime => BusTime.catchableBus(localTime, stopTime)
