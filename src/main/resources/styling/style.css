@@ -2,17 +2,6 @@ body {
     margin: 5px;
 }
 
-.wrapper {
-    display: grid;
-    grid-gap: 5px;
-    /*grid-template-columns: repeat(4, [col] 150px ) ;*/
-    /*grid-template-columns: 3fr 1fr;*/
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(2, [row] auto  );
-    background-color: #fff;
-    color: #444;
-}
-
 .box {
     background-color: #444;
     color: #fff;
@@ -26,20 +15,6 @@ body {
     color: #444;
 }
 
-.c {
-    grid-column: col 1;
-    grid-row: row 1;
-}
-
-.d{
-    grid-column: col 1;
-    grid-row: row 2;
-    display: grid;
-    grid-gap: 10px;
-    grid-template-columns: 1fr 1fr;
-}
-
-/* Billding Software Grid Example*/
 .light-background {
     background-color: white;
 }
@@ -65,14 +40,12 @@ body {
     grid-template-areas: "stop-name upcoming-information";
     padding-top: 15px;
     padding-bottom: 15px;
-    /*border-bottom: 2px solid white; !* Restore this. *!*/
     border-bottom: 1px solid white;
 }
 
 .stop-name {
     grid-area: stop-name;
     text-align: center;
-    /*vertical-align: central;*/
 }
 .upcoming-information {
     grid-area: upcoming-information;
