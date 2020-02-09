@@ -16,6 +16,9 @@ object TagsOnly {
           )
         ),
         div(cls := "box d")(
+          div("Future Work: Condo Loops")
+        ),
+        div(cls := "box d")(
           div("Future Work: RTA buses")
         )
       )
@@ -25,13 +28,14 @@ object TagsOnly {
   def safeRideLink(
     safeRideRecommendation: SafeRideRecommendation
   ): JsDom.TypedTag[Anchor] =
-    a(href := s"tel:${safeRideRecommendation.phoneNumber}")(
+    a(href := s"tel:${safeRideRecommendation.phoneNumber}",
+      cls := "link")(
       safeRideRecommendation.message
     )
 
   def renderWaitTime(duration: BusDuration) =
     if (duration.toMinutes == 0)
-      "Arriving!"
+      "Leaving!"
     else
       duration.toMinutes + " min."
 
