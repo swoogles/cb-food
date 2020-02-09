@@ -70,15 +70,9 @@ object BusTimes {
 
   def nextBusArrivalTime(timesAtStop: Seq[BusTime],
                          now: BusTime): Option[BusTime] =
-    now match {
-      case localTime: BusTime
-          if localTime.tooLateToBeConsideredLateNight =>
-        timesAtStop
-          .find(
-            stopTime => BusTime.catchableBus(localTime, stopTime)
-          )
-      case _ => Option.empty
-    }
+    timesAtStop
+      .find(stopTime => BusTime.catchableBus(now, stopTime))
+      .filter(_.tooLateToBeConsideredLateNight)
 
   def nextBusTime(
     stops: Stops,
@@ -99,9 +93,6 @@ object BusTimes {
             )
           )
       )
-      .map(x => {
-        println(now); x;
-      })
       .getOrElse(
         UpcomingArrivalInfo(
           stops.location,
