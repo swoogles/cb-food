@@ -31,53 +31,49 @@ object HelloWorldSpec
         } yield assert(output, equalTo(Vector("Hello, World!\n")))
       },
       test("find the next bus time") {
-        val startTime = LocalTime.parse("07:10:00")
-        val endTime = LocalTime.parse("23:40:00")
-        val totalBusRunTime = java.time.Duration.between(startTime, endTime)
-        val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
+        val startTime = BusTime.parse("07:10")
+        val endTime = BusTime.parse("23:40")
+        val totalBusRunTime = startTime.between(endTime)
+        val numberOfBusesPerDay = totalBusRunTime.dividedByMinutes(15)
         val stops =
             List.range(0, numberOfBusesPerDay)
-              .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
-          .map(new BusTime(_))
+              .map(index => startTime.plusMinutes(15 * index.toInt))
           val result = BusTimeCalculations.nextBusArrivalTime(stops, BusTime.parse("09:01:00"))
         assert(result.get, equalTo(BusTime.parse("09:10:00")))
       },
       test("really early morning check") {
-        val startTime = LocalTime.parse("07:10:00")
-        val endTime = LocalTime.parse("23:40:00")
-        val totalBusRunTime = java.time.Duration.between(startTime, endTime)
-        val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
-        val stops =
-          List.range(0, numberOfBusesPerDay)
-            .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
-            .map(new BusTime(_))
-          val result = BusTimeCalculations.nextBusArrivalTime(stops, BusTime.parse("05:00:00"))
-        assert(result.get, equalTo(BusTime.parse("07:10:00")))
-      },
-      test("after last bus has run") {
-        val startTime = LocalTime.parse("07:10:00")
-        val endTime = LocalTime.parse("23:40:00")
-        val totalBusRunTime = java.time.Duration.between(startTime, endTime)
-        val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
-        val stops =
-          List.range(0, numberOfBusesPerDay)
-            .map(index => startTime.plus(java.time.Duration.ofMinutes(15).multipliedBy(index)))
-            .map(new BusTime(_))
-          val result = BusTimeCalculations.nextBusArrivalTime(stops, BusTime.parse("23:50:00"))
-        assert(result, equalTo(Option.empty))
-      },
-        test("bus is arriving this minute") {
-        val startTime = LocalTime.parse("07:10:00")
-        val endTime = LocalTime.parse("23:40:00")
-        val totalBusRunTime = java.time.Duration.between(startTime, endTime)
-        val numberOfBusesPerDay = totalBusRunTime.getSeconds / java.time.Duration.ofMinutes(15).getSeconds
+        val startTime = BusTime.parse("07:10")
+        val endTime = BusTime.parse("23:40")
+        val totalBusRunTime = startTime.between( endTime)
+        val numberOfBusesPerDay = totalBusRunTime.dividedByMinutes(15)
         val stops =
           List.range(0, numberOfBusesPerDay)
             .map(index => startTime.plusMinutes(15 * index.toInt))
-            .map(new BusTime(_))
+          val result = BusTimeCalculations.nextBusArrivalTime(stops, BusTime.parse("05:00"))
+        assert(result.get, equalTo(BusTime.parse("07:10")))
+      },
+      test("after last bus has run") {
+        val startTime = BusTime.parse("07:10")
+        val endTime = BusTime.parse("23:40")
+        val totalBusRunTime = startTime.between( endTime)
+        val numberOfBusesPerDay = totalBusRunTime.dividedByMinutes(15)
+        val stops =
+          List.range(0, numberOfBusesPerDay)
+            .map(index => startTime.plusMinutes(15 * index.toInt))
+          val result = BusTimeCalculations.nextBusArrivalTime(stops, BusTime.parse("23:50"))
+        assert(result, equalTo(Option.empty))
+      },
+        test("bus is arriving this minute") {
+        val startTime = BusTime.parse("07:10:00")
+        val endTime = BusTime.parse("23:40:00")
+        val totalBusRunTime = startTime.between(endTime)
+        val numberOfBusesPerDay = totalBusRunTime.dividedByMinutes(15)
+        val stops =
+          List.range(0, numberOfBusesPerDay)
+            .map(index => startTime.plusMinutes(15 * index.toInt))
           val localTime = BusTime.parse("23:10:02")
         val result = BusTimeCalculations.nextBusArrivalTime(stops, localTime)
-        assert(result.get, equalTo(BusTime.parse("23:10:00")))
+        assert(result.get, equalTo(BusTime.parse("23:10")))
       }
     )
   ) {

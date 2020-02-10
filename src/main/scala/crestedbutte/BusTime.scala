@@ -1,6 +1,6 @@
 package crestedbutte
 
-import java.time.format.DateTimeFormatter
+import java.time.format.{DateTimeFormatter, DateTimeParseException}
 import java.time.{Duration, LocalTime}
 import java.time.temporal.ChronoUnit
 
@@ -45,9 +45,15 @@ class BusTime(localTime: LocalTime) {
 }
 
 object BusTime {
+  private val dateFormat = DateTimeFormatter.ofPattern("h:mm")
 
   def parse(raw: String) =
-    new BusTime(LocalTime.parse(raw))
+    try {
+      new BusTime(LocalTime.parse(raw, dateFormat))
+    } catch {
+      case _: DateTimeParseException =>
+        new BusTime(LocalTime.parse(raw))
+    }
 
   def catchableBus(now: BusTime, goal: BusTime) =
     goal.truncatedToMinutes
