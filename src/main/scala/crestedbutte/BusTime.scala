@@ -29,6 +29,19 @@ class BusTime(localTime: LocalTime) {
   val tooLateToBeConsideredLateNight: Boolean =
     localTime.isAfter(LocalTime.parse("04:00:00"))
 
+  def canEqual(other: Any): Boolean = other.isInstanceOf[BusTime]
+
+  override def equals(other: Any): Boolean = other match {
+    case that: BusTime =>
+      (that.canEqual(this)) &&
+      truncatedToMinutes == that.truncatedToMinutes
+    case _ => false
+  }
+
+  override def hashCode(): Int = {
+    val state = Seq(truncatedToMinutes)
+    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+  }
 }
 
 object BusTime {

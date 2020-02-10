@@ -66,40 +66,12 @@ object TownShuttleTimes {
           teocalliDownhillBusStarts.times
             .map(_.plusMinutes(1)))
 
-  def nextBusArrivalTime(timesAtStop: Seq[BusTime],
-                         now: BusTime): Option[BusTime] =
-    timesAtStop
-      .find(stopTime => BusTime.catchableBus(now, stopTime))
-      .filter(_.tooLateToBeConsideredLateNight)
-
-  def getUpcomingArrivalInfo(
-    stops: Stops,
-    now: BusTime
-  ): UpcomingArrivalInfo = // TODO use ZIO.option
-    TownShuttleTimes
-      .nextBusArrivalTime(stops.times, now)
-      .map(
-        nextArrivalTime =>
-          UpcomingArrivalInfo(
-            stops.location,
-            StopTimeInfo(
-              nextArrivalTime,
-              nextArrivalTime
-                .between(now)
-            )
-          )
-      )
-      .getOrElse(
-        UpcomingArrivalInfo(
-          stops.location,
-          SafeRideRecommendation("safe-ride")
-        )
-      )
-
   def calculateUpcomingArrivalAtAllStops(
     now: BusTime
   ): List[UpcomingArrivalInfo] =
-    townShuttleStops.map(getUpcomingArrivalInfo(_, now))
+    townShuttleStops.map(
+      BusTimeCalculations.getUpcomingArrivalInfo(_, now)
+    )
 
   val townShuttleStops = List(
     oldTownHallBusStarts,
