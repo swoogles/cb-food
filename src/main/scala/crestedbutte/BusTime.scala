@@ -47,6 +47,9 @@ class BusTime(localTime: LocalTime) {
 object BusTime {
   private val dateFormat = DateTimeFormatter.ofPattern("h:mm")
 
+  def apply(raw: String) =
+    parse(raw)
+
   def parse(raw: String) =
     try {
       new BusTime(LocalTime.parse(raw, dateFormat))
