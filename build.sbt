@@ -17,6 +17,7 @@ libraryDependencies ++= Seq(
   "dev.zio" %%% "zio-test-sbt" % "1.0.0-RC17" % "test",
   "com.lihaoyi" %%% "pprint" % "0.5.6",
   "com.github.japgolly.scalacss" %%% "core" % "0.6.0",
+  "com.github.japgolly.scalacss" %%% "ext-scalatags" % "0.6.0",
 )
 
 testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework"))
