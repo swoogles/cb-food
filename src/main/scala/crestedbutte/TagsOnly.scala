@@ -37,21 +37,9 @@ object TagsOnly {
     else
       duration.toMinutes + " min."
 
-  def renderContent(
-    content: Either[(BusTime, BusDuration), JsDom.TypedTag[Anchor]]
-  ) =
-    content match {
-      case Left((arrivalTime, waitTime)) =>
-        div(
-          div(cls := "arrival-time")(arrivalTime.toString),
-          div(cls := "wait-time")(renderWaitTime(waitTime))
-        )
-      case Right(phoneAnchor) => div(phoneAnchor)
-    }
-
   def createBusTimeElement(
     location: StopLocation.Value,
-    content: Either[(BusTime, BusDuration), JsDom.TypedTag[Anchor]]
+    content: JsDom.TypedTag[Div]
     /* TODO: waitDuration: Duration*/
   ): JsDom.TypedTag[Div] =
     div(
@@ -60,7 +48,7 @@ object TagsOnly {
     )(
       div(cls := "stop-name")(geoLinkForStop(location)),
       div(cls := "upcoming-information")(
-        renderContent(content)
+        content
       )
     )
 
@@ -85,11 +73,12 @@ object TagsOnly {
             location,
             content match {
               case Left(stopTimeInfo) =>
-                Left(
-                  (stopTimeInfo.time, stopTimeInfo.waitingDuration)
-                )
+                    div(
+                    div(cls := "arrival-time")(stopTimeInfo.time.toString),
+                    div(cls := "wait-time")(renderWaitTime(stopTimeInfo.waitingDuration))
+                  )
               case Right(safeRideRecommendation) =>
-                Right(TagsOnly.safeRideLink(safeRideRecommendation))
+                div(TagsOnly.safeRideLink(safeRideRecommendation))
             }
           )
       }
