@@ -25,10 +25,19 @@ object TagsOnly {
 //  <a href="tel:123-456-7890">123-456-7890</a>
   def safeRideLink(
     safeRideRecommendation: SafeRideRecommendation
+  ): JsDom.TypedTag[Div] =
+    div(
+      phoneLink(
+        PhoneNumber(safeRideRecommendation.phoneNumber,
+                    safeRideRecommendation.message)
+      )
+    )
+
+  def phoneLink(
+    phoneNumber: PhoneNumber
   ): JsDom.TypedTag[Anchor] =
-    a(href := s"tel:${safeRideRecommendation.phoneNumber}",
-      cls := "link")(
-      safeRideRecommendation.message
+    a(href := s"tel:${phoneNumber.number}", cls := "link")(
+      phoneNumber.name
     )
 
   def renderWaitTime(duration: BusDuration) =
@@ -56,11 +65,19 @@ object TagsOnly {
     div(
       a(
         cls := "link",
+        //    <a href="geo:37.786971,-122.399677;u=35">open map</a>
 //          href := s"geo:${stopLocation.gpsCoordinates.latitude}, ${stopLocation.gpsCoordinates.longitude}"
         href := s"https://www.google.com/maps/search/?api=1&query=${stopLocation.gpsCoordinates.latitude},${stopLocation.gpsCoordinates.longitude}"
       )(stopLocation.name)
     )
-//    <a href="geo:37.786971,-122.399677;u=35">open map</a>
+
+  def renderStopTimeInfo(stopTimeInfo: StopTimeInfo) =
+    div(
+      div(cls := "arrival-time")(stopTimeInfo.time.toString),
+      div(cls := "wait-time")(
+        renderWaitTime(stopTimeInfo.waitingDuration)
+      )
+    )
 
   def structuredSetOfUpcomingArrivals(
     upcomingArrivalInfo: List[UpcomingArrivalInfo]
@@ -73,12 +90,9 @@ object TagsOnly {
             location,
             content match {
               case Left(stopTimeInfo) =>
-                    div(
-                    div(cls := "arrival-time")(stopTimeInfo.time.toString),
-                    div(cls := "wait-time")(renderWaitTime(stopTimeInfo.waitingDuration))
-                  )
+                renderStopTimeInfo(stopTimeInfo)
               case Right(safeRideRecommendation) =>
-                div(TagsOnly.safeRideLink(safeRideRecommendation))
+                safeRideLink(safeRideRecommendation)
             }
           )
       }
