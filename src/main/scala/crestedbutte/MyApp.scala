@@ -26,9 +26,12 @@ object MyApp extends App {
 
     (for {
       _ <- DomManipulation.createAndApplyPageStructure
+      _ <- registerServiceWorker()
       _ <- updateUpcomingArrivalsOnPage
         .repeat(Schedule.spaced(Duration.apply(20, TimeUnit.SECONDS)))
-    } yield { 0 }).provide(myEnvironment)
+    } yield {
+      0
+    }).provide(myEnvironment)
   }
 
   val updateUpcomingArrivalsOnPage
@@ -42,17 +45,23 @@ object MyApp extends App {
       )
     } yield ()
 
-  def registerServiceWorker(): Unit =
-    toServiceWorkerNavigator(window.navigator).serviceWorker
-      .register("./sw-opt.js")
-      .toFuture
-      .onComplete {
-        case Success(registration) =>
-          println("registerServiceWorker: registered service worker")
-          registration.update()
-        case Failure(error) =>
-          println(
-            s"registerServiceWorker: service worker registration failed > ${error.printStackTrace()}"
-          )
+  def registerServiceWorker() =
+    ZIO
+      .environment[Browser]
+      .map { browser =>
+        toServiceWorkerNavigator(browser.dom.window().navigator).serviceWorker
+          .register("./sw-opt.js")
+          .toFuture
+          .onComplete {
+            case Success(registration) =>
+              println(
+                "registerServiceWorker: registered service worker in a monad properly accesing the env"
+              )
+              registration.update()
+            case Failure(error) =>
+              println(
+                s"registerServiceWorker: service worker registration failed > ${error.printStackTrace()}"
+              )
+          }
       }
 }
