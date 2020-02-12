@@ -14,6 +14,12 @@ object TagsOnly {
           "Upcoming Buses"
         )
       ),
+      button(id := "request-notifications-permission")(
+        "Request Notifications Permission"
+      ),
+      button(id := "notification-action")(
+        "Display Notifications Permission"
+      ),
       div(cls := "box")(
         div("Future Work: Condo Loops")
       ),
