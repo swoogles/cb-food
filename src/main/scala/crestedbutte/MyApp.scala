@@ -83,7 +83,9 @@ object MyApp extends App {
       browser =>
         browser.dom
           .body()
-          .querySelector("#notification-action")
+          .querySelector(
+            s"#${ElementNames.Notifications.notificationAction}"
+          )
           .addEventListener(
             "click",
             (event: Any) =>

@@ -9,7 +9,8 @@ object TagsOnly {
 
   val overallPageLayout =
     div(id := "container")(
-      div(cls := "box", id := "upcoming-buses")(
+      div(cls := ElementNames.BoxClass,
+          id := ElementNames.TownShuttles.containerName)(
         h3(cls := "upcoming-buses-title")(
           "Upcoming Buses"
         )
@@ -20,10 +21,10 @@ object TagsOnly {
       button(id := ElementNames.Notifications.notificationAction)(
         "Display Notifications Permission"
       ),
-      div(cls := "box")(
+      div(cls := ElementNames.BoxClass)(
         div("Future Work: Condo Loops")
       ),
-      div(cls := "box")(
+      div(cls := ElementNames.BoxClass)(
         div("Future Work: RTA buses!")
       )
     )
