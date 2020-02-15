@@ -14,10 +14,10 @@ object TagsOnly {
           "Upcoming Buses"
         )
       ),
-      button(id := "request-notifications-permission")(
+      button(id := ElementNames.Notifications.requestPermission)(
         "Request Notifications Permission"
       ),
-      button(id := "notification-action")(
+      button(id := ElementNames.Notifications.notificationAction)(
         "Display Notifications Permission"
       ),
       div(cls := "box")(

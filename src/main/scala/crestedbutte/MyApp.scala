@@ -6,6 +6,7 @@ import org.scalajs.dom
 import zio.clock._
 import zio.console.Console
 import zio.console.putStrLn
+import zio.stream.Stream
 import zio.duration.Duration
 import zio.{App, Schedule, ZIO}
 import org.scalajs.dom._
@@ -35,7 +36,7 @@ object MyApp extends App {
     (for {
       _ <- DomManipulation.createAndApplyPageStructure
       _ <- registerServiceWorker()
-      _ <- NotificationsStuff.requestNotificationPermission
+      _ <- NotificationsStuff.addNotificationPermissionRequestToButton
       _ <- NotificationsStuff.displayNotificationPermission
       _ <- updateUpcomingArrivalsOnPage
         .repeat(Schedule.spaced(Duration.apply(20, TimeUnit.SECONDS)))
@@ -59,11 +60,13 @@ object MyApp extends App {
 
 //    var $status = document.getElementById("status")
 
-    val requestNotificationPermission = ZIO.environment[Browser].map {
-      browser =>
+    val addNotificationPermissionRequestToButton =
+      ZIO.environment[Browser].map { browser =>
         browser.dom
           .body()
-          .querySelector("#request-notifications-permission")
+          .querySelector(
+            s"#${ElementNames.Notifications.requestPermission}"
+          )
           .addEventListener(
             "click",
             (event: Any) =>
@@ -74,7 +77,7 @@ object MyApp extends App {
                   )
               )
           )
-    }
+      }
 
     val displayNotificationPermission = ZIO.environment[Browser].map {
       browser =>
