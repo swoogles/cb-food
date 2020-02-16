@@ -34,8 +34,9 @@ object MyApp extends App {
     registerServiceWorker()
 
     (for {
+      pageMode <- getCurrentPageMode
       _ <- DomManipulation.createAndApplyPageStructure(
-        PageMode.Production
+        pageMoe
       ) // TODO Base on queryParam
       _ <- registerServiceWorker()
       _ <- NotificationsStuff.addNotificationPermissionRequestToButton
@@ -57,6 +58,17 @@ object MyApp extends App {
         )
       )
     } yield ()
+
+  val getCurrentPageMode =
+    ZIO.environment[Browser].map { browser =>
+      UrlParsing
+        .getUrlParameter(
+          browser.dom.window().location.toString,
+          "mode" // TODO Ugly string value
+        )
+        .flatMap(rawString => PageMode.fromString(rawString))
+        .getOrElse(PageMode.Production)
+    }
 
   object NotificationsStuff {
 

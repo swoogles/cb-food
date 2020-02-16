@@ -13,4 +13,7 @@ object PageMode extends Enumeration {
 
   val Production: Val = Val("Production")
   val Development: Val = Val("Development")
+
+  def fromString(input: String) =
+    values.find(_.name == input)
 }
