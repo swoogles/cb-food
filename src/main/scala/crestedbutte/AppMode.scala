@@ -1,6 +1,6 @@
 package crestedbutte
 
-object PageMode extends Enumeration {
+object AppMode extends Enumeration {
 
   protected case class Val(name: String) extends super.Val(name)
 

@@ -66,8 +66,8 @@ object MyApp extends App {
           browser.dom.window().location.toString,
           "mode" // TODO Ugly string value
         )
-        .flatMap(rawString => PageMode.fromString(rawString))
-        .getOrElse(PageMode.Production)
+        .flatMap(rawString => AppMode.fromString(rawString))
+        .getOrElse(AppMode.Production)
     }
 
   object NotificationsStuff {

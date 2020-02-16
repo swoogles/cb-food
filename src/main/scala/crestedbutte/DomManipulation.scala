@@ -9,7 +9,7 @@ object DomManipulation {
   import scalatags.JsDom.all._
 
   def createAndApplyPageStructure(
-    pageMode: PageMode.Value
+    pageMode: AppMode.Value
   ): ZIO[Browser, Nothing, Node] =
     ZIO
       .environment[Browser]
