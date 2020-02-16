@@ -36,7 +36,7 @@ object MyApp extends App {
     (for {
       pageMode <- getCurrentPageMode
       _ <- DomManipulation.createAndApplyPageStructure(
-        pageMoe
+        pageMode
       ) // TODO Base on queryParam
       _ <- registerServiceWorker()
       _ <- NotificationsStuff.addNotificationPermissionRequestToButton

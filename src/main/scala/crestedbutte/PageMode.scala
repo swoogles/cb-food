@@ -11,8 +11,8 @@ object PageMode extends Enumeration {
 
   type StopLocation = Value
 
-  val Production: Val = Val("Production")
-  val Development: Val = Val("Development")
+  val Production: Val = Val("production")
+  val Development: Val = Val("dev")
 
   def fromString(input: String) =
     values.find(_.name == input)
