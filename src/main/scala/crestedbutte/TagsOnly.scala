@@ -7,7 +7,7 @@ import scalatags.JsDom
 object TagsOnly {
   import scalatags.JsDom.all._
 
-  val overallPageLayout =
+  def overallPageLayout(pageMode: PageMode.Value) =
     div(id := "container")(
       div(cls := ElementNames.BoxClass,
           id := ElementNames.TownShuttles.containerName)(
@@ -15,12 +15,18 @@ object TagsOnly {
           "Upcoming Buses"
         )
       ),
-      button(id := ElementNames.Notifications.requestPermission)(
-        "Request Notifications Permission"
-      ),
-      button(id := ElementNames.Notifications.notificationAction)(
-        "Display Notifications Permission"
-      ),
+      if (pageMode == PageMode.Development) {
+        div(
+          button(id := ElementNames.Notifications.requestPermission)(
+            "Request Notifications Permission"
+          ),
+          button(id := ElementNames.Notifications.notificationAction)(
+            "Display Notifications Permission"
+          )
+        )
+      } else {
+        div()
+      },
       div(cls := ElementNames.BoxClass)(
         div("Future Work: Condo Loops")
       ),

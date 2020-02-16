@@ -35,7 +35,7 @@ object MyApp extends App {
 
     (for {
       _ <- DomManipulation.createAndApplyPageStructure(
-        PageMode.Development
+        PageMode.Production
       ) // TODO Base on queryParam
       _ <- registerServiceWorker()
       _ <- NotificationsStuff.addNotificationPermissionRequestToButton
@@ -64,12 +64,14 @@ object MyApp extends App {
 
     val addNotificationPermissionRequestToButton =
       ZIO.environment[Browser].map { browser =>
-        browser.dom
-          .body()
-          .querySelector(
-            s"#${ElementNames.Notifications.requestPermission}"
-          )
-          .addEventListener(
+        val requestPermissionButton =
+          browser.dom
+            .body()
+            .querySelector(
+              s"#${ElementNames.Notifications.requestPermission}"
+            )
+        if (requestPermissionButton != null)
+          requestPermissionButton.addEventListener(
             "click",
             (event: Any) =>
               Notification.requestPermission(
@@ -83,23 +85,26 @@ object MyApp extends App {
 
     val displayNotificationPermission = ZIO.environment[Browser].map {
       browser =>
-        browser.dom
-          .body()
-          .querySelector(
-            s"#${ElementNames.Notifications.notificationAction}"
-          )
-          .addEventListener(
-            "click",
-            (event: Any) =>
-              dom.window.setTimeout(
-                () =>
-                  new Notification("The bus is coming!",
-                                   NotificationOptions(
-                                     vibrate = js.Array(100d)
-                                   )),
-                10000
-              )
-          )
+        val actionButton =
+          browser.dom
+            .body()
+            .querySelector(
+              s"#${ElementNames.Notifications.notificationAction}"
+            )
+        if (actionButton != null)
+          actionButton
+            .addEventListener(
+              "click",
+              (event: Any) =>
+                dom.window.setTimeout(
+                  () =>
+                    new Notification("The bus is coming!",
+                                     NotificationOptions(
+                                       vibrate = js.Array(100d)
+                                     )),
+                  10000
+                )
+            )
     }
     /*
     if ("Notification" in window) {

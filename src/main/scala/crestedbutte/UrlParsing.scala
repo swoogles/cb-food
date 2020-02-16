@@ -3,10 +3,11 @@ package crestedbutte
 import scala.scalajs.js
 
 object UrlParsing {
+
   def getPath(url: String) =
     java.net.URI
       .create(url)
-    .getPath
+      .getPath
 
   def getUrlParameters(url: String): Map[String, Array[String]] =
     java.net.URI
