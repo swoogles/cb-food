@@ -8,7 +8,9 @@ import zio.ZIO
 object DomManipulation {
   import scalatags.JsDom.all._
 
-  val createAndApplyPageStructure: ZIO[Browser, Nothing, Node] =
+  def createAndApplyPageStructure(
+    pageMode: PageMode.Value
+  ): ZIO[Browser, Nothing, Node] =
     ZIO
       .environment[Browser]
       .map(

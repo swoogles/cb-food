@@ -34,7 +34,9 @@ object MyApp extends App {
     registerServiceWorker()
 
     (for {
-      _ <- DomManipulation.createAndApplyPageStructure
+      _ <- DomManipulation.createAndApplyPageStructure(
+        PageMode.Development
+      ) // TODO Base on queryParam
       _ <- registerServiceWorker()
       _ <- NotificationsStuff.addNotificationPermissionRequestToButton
       _ <- NotificationsStuff.displayNotificationPermission
