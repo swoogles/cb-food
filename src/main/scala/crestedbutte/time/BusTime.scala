@@ -57,8 +57,16 @@ object BusTime {
     try {
       new BusTime(LocalTime.parse(raw, dateFormat))
     } catch {
-      case _: DateTimeParseException =>
-        new BusTime(LocalTime.parse(raw))
+      case ex: DateTimeParseException =>
+        try {
+          println("Failed default parse: " + ex.getParsedString)
+          println("trying again with a leading 0")
+          new BusTime(LocalTime.parse("0" + raw))
+        } catch {
+          case ex: DateTimeParseException =>
+            println("Failed default parse: " + ex.getParsedString)
+            new BusTime(LocalTime.parse(raw))
+        }
     }
 
   def catchableBus(now: BusTime, goal: BusTime) =

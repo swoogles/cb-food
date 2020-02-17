@@ -22,7 +22,7 @@ object TagsOnly {
             "Request Notifications Permission"
           ),
           button(id := ElementNames.Notifications.notificationAction)(
-            "Display Notifications Permission"
+            "10:20"
           )
         )
       } else {

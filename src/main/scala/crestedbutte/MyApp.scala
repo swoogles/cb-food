@@ -44,14 +44,36 @@ object MyApp extends App {
         pageMode
       ) // TODO Base on queryParam
       _ <- registerServiceWorker()
-      _ <- NotificationsStuff.addNotificationPermissionRequestToButton
+//      _ <- NotificationsStuff.addNotificationPermissionRequestToButton
+//      _ <- NotificationsStuff.addAlarmBehaviorToTimes
       _ <- NotificationsStuff.displayNotificationPermission
       _ <- updateUpcomingArrivalsOnPage
-        .repeat(Schedule.spaced(Duration.apply(20, TimeUnit.SECONDS)))
+        .flatMap { _ =>
+          NotificationsStuff.addAlarmBehaviorToTimes
+        }
+        .flatMap { _ =>
+          checkSubmittedAlarms
+        }
+        .repeat(Schedule.spaced(Duration.apply(5, TimeUnit.SECONDS)))
     } yield {
       0
     }).provide(myEnvironment)
   }
+
+  val checkSubmittedAlarms: ZIO[Browser, Nothing, Unit] =
+    ZIO.environment[Browser].map { browser =>
+      println("Checking for submitted alarms")
+      val busTimes = desiredAlarms.dequeueAll { _ =>
+        true
+      }
+      busTimes.map { busTime =>
+        new Notification(s"The bus is coming at ${busTime.toString}!",
+                         NotificationOptions(
+                           vibrate = js.Array(100d)
+                         ))
+      }
+      ()
+    }
 
   val updateUpcomingArrivalsOnPage
     : ZIO[Browser with Clock with Console, Nothing, Unit] =
@@ -79,7 +101,8 @@ object MyApp extends App {
 
 //    var $status = document.getElementById("status")
 
-    val addNotificationPermissionRequestToButton =
+    val addNotificationPermissionRequestToButton
+      : ZIO[Browser, Nothing, Unit] =
       ZIO.environment[Browser].map { browser =>
         val requestPermissionButton =
           browser.dom
@@ -100,6 +123,62 @@ object MyApp extends App {
           )
       }
 
+    val addAlarmBehaviorToTimes = ZIO.environment[Browser].map {
+      browser =>
+        val actionButton =
+          browser.dom
+            .body()
+            .querySelectorAll(
+              s".arrival-time"
+            )
+        println("Selected arrival-time elements")
+        if (actionButton != null)
+          for (i <- 0 to actionButton.length) {
+            val item = actionButton.item(i)
+            if (item != null)
+              item
+                .addEventListener(
+                  "click",
+                  (event: MouseEvent) => {
+                    println(
+                      "event.relatedTarget: " + event.target
+                    )
+                    println(
+                      "InnerHtml: " + event.target
+                        .asInstanceOf[org.scalajs.dom.raw.Element]
+                        .innerHTML
+                    )
+                    desiredAlarms
+                      .appendAll(
+                        Seq(
+                          BusTime(
+                            event.target
+                              .asInstanceOf[
+                                org.scalajs.dom.raw.Element
+                              ]
+                              .innerHTML // TODO ewwwww
+                              .replace("'", "")
+                              .trim
+                          )
+                        )
+                      )
+
+                    /*
+                dom.window.setTimeout(
+                  () =>
+                    new Notification("The bus is coming!",
+                                     NotificationOptions(
+                                       vibrate = js.Array(100d)
+                                     )),
+                  10000
+                )
+
+                   */
+                  }
+                )
+          }
+    }
+
     val displayNotificationPermission = ZIO.environment[Browser].map {
       browser =>
         val actionButton =
@@ -112,7 +191,22 @@ object MyApp extends App {
           actionButton
             .addEventListener(
               "click",
-              (event: Any) =>
+              (event: MouseEvent) => {
+                println(
+                  "event.relatedTarget: " + event.target
+                )
+                desiredAlarms
+                  .appendAll(
+                    Seq(
+                      BusTime(
+                        event.target
+                          .asInstanceOf[org.scalajs.dom.raw.Element]
+                          .innerHTML // TODO ewwwww
+                      )
+                    )
+                  )
+
+                /*
                 dom.window.setTimeout(
                   () =>
                     new Notification("The bus is coming!",
@@ -121,6 +215,9 @@ object MyApp extends App {
                                      )),
                   10000
                 )
+
+               */
+              }
             )
     }
     /*

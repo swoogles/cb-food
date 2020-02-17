@@ -36,6 +36,8 @@ cbBuild := {
   (Process("mkdir ./src/main/resources/compiledJavascript") #||
     Process("cp ./target/scala-2.13/cb-bus-fastopt.js src/main/resources/compiledJavascript/") #&&
     Process("cp ./target/scala-2.13/cb-bus-fastopt.js.map src/main/resources/compiledJavascript/") #&&
+    Process("cp sw/target/scala-2.12/sw-opt.js src/main/resources/") #&&
+    Process("cp sw/target/scala-2.12/sw-opt.js.map src/main/resources/") #&&
     Process("cp ./target/scala-2.13/cb-bus-jsdeps.js src/main/resources/compiledJavascript/"))!
 }
 
