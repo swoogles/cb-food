@@ -38,9 +38,8 @@ object TownShuttleTimes {
     )
 
   val clarksBusStarts: Stops =
-    Stops(StopLocation.Clarks,
-          oldTownHallBusStarts.times
-            .map(_.plusMinutes(4)))
+    oldTownHallBusStarts.timesDelayedBy(BusDuration.ofMinutes(4),
+                                        StopLocation.Clarks)
 
   val fourWayUphillBusStarts: Stops =
     Stops(StopLocation.FourWayUphill,

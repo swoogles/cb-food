@@ -22,6 +22,9 @@ class BusTime(localTime: LocalTime) {
   def plusMinutes(minutes: Int) =
     new BusTime(localTime.plusMinutes(minutes))
 
+  def plus(busDuration: BusDuration) =
+    new BusTime(localTime.plusMinutes(busDuration.toMinutes))
+
   private val dateFormat = DateTimeFormatter.ofPattern("h:mm")
 
   override val toString: String = localTime.format(dateFormat)
