@@ -1,4 +1,4 @@
-package crestedbutte
+package crestedbutte.time
 
 import java.time.Duration
 

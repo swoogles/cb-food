@@ -1,6 +1,7 @@
 package crestedbutte
 
 import crestedbutte.StopLocation.StopLocation
+import crestedbutte.time.BusDuration
 import org.scalajs.dom.html.{Anchor, Div}
 import scalatags.JsDom
 

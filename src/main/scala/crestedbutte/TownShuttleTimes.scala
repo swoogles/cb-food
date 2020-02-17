@@ -1,5 +1,6 @@
 package crestedbutte
 
+import crestedbutte.time.{BusDuration, BusTime}
 import zio.ZIO
 import zio.clock.Clock
 

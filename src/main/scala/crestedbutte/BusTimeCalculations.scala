@@ -1,5 +1,7 @@
 package crestedbutte
 
+import crestedbutte.time.BusTime
+
 object BusTimeCalculations {
 
   def nextBusArrivalTime(timesAtStop: Seq[BusTime],

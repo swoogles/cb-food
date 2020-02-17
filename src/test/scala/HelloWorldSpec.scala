@@ -4,7 +4,7 @@ import zio.test.{DefaultRunnableSpec, test, testM, _}
 import zio.test.Assertion._
 import zio.test.environment._
 import HelloWorld._
-import crestedbutte.{BusDuration, BusTime, BusTimeCalculations}
+import crestedbutte.BusTimeCalculations
 
 object HelloWorld {
   def sayHello: ZIO[Console, Nothing, Unit] =

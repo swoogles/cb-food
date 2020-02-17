@@ -1,8 +1,8 @@
-package crestedbutte
+package crestedbutte.time
 
 import java.time.format.{DateTimeFormatter, DateTimeParseException}
-import java.time.{Duration, LocalTime}
 import java.time.temporal.ChronoUnit
+import java.time.{Duration, LocalTime}
 
 class BusTime(localTime: LocalTime) {
 
