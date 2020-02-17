@@ -1,7 +1,7 @@
 package crestedbutte
 
 import crestedbutte.time.{BusDuration, BusTime}
-import crestedbutte.time.BusDuration.toBusDuration
+import crestedbutte.time.BusDuration.toBusDuration // Enables Int.minutes syntax
 import zio.ZIO
 import zio.clock.Clock
 
@@ -19,14 +19,14 @@ object TownShuttleTimes {
     Mountaineer Square	  :00, :15, :30, :45	    7:30 AM 	  12:00 AM
    */
 
-  private val startTime = BusTime.parse("07:10:00")
-  private val endTime = BusTime.parse("23:40:00")
+  private val startTime = BusTime("07:10:00")
+  private val endTime = BusTime("23:40:00")
 
   private val totalBusRunTime =
     startTime.between(endTime)
 
   private val numberOfBusesPerDay =
-    totalBusRunTime.dividedBy(BusDuration.ofMinutes(15))
+    totalBusRunTime.dividedBy(15.minutes)
 
   val oldTownHallBusStarts: Stops =
     Stops(
@@ -34,7 +34,7 @@ object TownShuttleTimes {
       List
         .range(0, numberOfBusesPerDay)
         .map(
-          index => startTime.plusMinutes(15 * index.toInt)
+          index => startTime.plus((15 * index.toInt).minutes)
         )
     )
 

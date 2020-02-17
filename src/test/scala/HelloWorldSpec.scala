@@ -5,6 +5,8 @@ import zio.test.Assertion._
 import zio.test.environment._
 import HelloWorld._
 import crestedbutte.BusTimeCalculations
+import crestedbutte.time.{BusDuration, BusTime}
+import crestedbutte.time.BusDuration.toBusDuration // Enables Int.minutes syntax
 
 object HelloWorld {
   def sayHello: ZIO[Console, Nothing, Unit] =
@@ -24,7 +26,7 @@ object HelloWorldSpec
         val startTime = BusTime("07:10")
         val endTime = BusTime("23:40")
         val totalBusRunTime = startTime.between(endTime)
-        val numberOfBusesPerDay = totalBusRunTime.dividedBy(BusDuration.ofMinutes(15))
+        val numberOfBusesPerDay = totalBusRunTime.dividedBy(15.minutes)
         val stops =
             List.range(0, numberOfBusesPerDay)
               .map(index => startTime.plusMinutes(15 * index.toInt))
@@ -35,7 +37,7 @@ object HelloWorldSpec
         val startTime = BusTime("07:10")
         val endTime = BusTime("23:40")
         val totalBusRunTime = startTime.between( endTime)
-        val numberOfBusesPerDay = totalBusRunTime.dividedBy(BusDuration.ofMinutes(15))
+        val numberOfBusesPerDay = totalBusRunTime.dividedBy(15.minutes)
         val stops =
           List.range(0, numberOfBusesPerDay)
             .map(index => startTime.plusMinutes(15 * index.toInt))
@@ -46,7 +48,7 @@ object HelloWorldSpec
         val startTime = BusTime("07:10")
         val endTime = BusTime("23:40")
         val totalBusRunTime = startTime.between( endTime)
-        val numberOfBusesPerDay = totalBusRunTime.dividedBy(BusDuration.ofMinutes(15))
+        val numberOfBusesPerDay = totalBusRunTime.dividedBy(15.minutes)
         val stops =
           List.range(0, numberOfBusesPerDay)
             .map(index => startTime.plusMinutes(15 * index.toInt))
@@ -57,7 +59,7 @@ object HelloWorldSpec
         val startTime = BusTime("07:10:00")
         val endTime = BusTime("23:40:00")
         val totalBusRunTime = startTime.between(endTime)
-          val numberOfBusesPerDay = totalBusRunTime.dividedBy(BusDuration.ofMinutes(15))
+          val numberOfBusesPerDay = totalBusRunTime.dividedBy(15.minutes)
         val stops =
           List.range(0, numberOfBusesPerDay)
             .map(index => startTime.plusMinutes(15 * index.toInt))
