@@ -13,4 +13,11 @@ object BusDuration {
 
   def ofMinutes(minutes: Int) =
     new BusDuration(java.time.Duration.ofMinutes(minutes))
+
+  class DurationFriendlyInt(int: Int) {
+    def minutes: BusDuration = BusDuration.ofMinutes(int)
+  }
+
+  implicit def toBusDuration(int: Int) =
+    new DurationFriendlyInt(int)
 }

@@ -1,6 +1,7 @@
 package crestedbutte
 
 import crestedbutte.time.{BusDuration, BusTime}
+import crestedbutte.time.BusDuration.toBusDuration
 import zio.ZIO
 import zio.clock.Clock
 
@@ -37,14 +38,6 @@ object TownShuttleTimes {
         )
     )
 
-  // TODO Decide where these belong
-  class DurationFriendlyInt(int: Int) {
-    def minutes: BusDuration = BusDuration.ofMinutes(int)
-  }
-
-  implicit def toBusDuration(int: Int) =
-    new DurationFriendlyInt(int)
-
   val clarksBusStarts: Stops =
     oldTownHallBusStarts
       .delayedBy(4.minutes)
@@ -56,24 +49,24 @@ object TownShuttleTimes {
       .at(StopLocation.FourWayUphill)
 
   val teocalliUphillBusStarts: Stops =
-    Stops(StopLocation.TeocalliUphill,
-          fourWayUphillBusStarts.times
-            .map(_.plusMinutes(1)))
+    fourWayUphillBusStarts
+      .delayedBy(1.minutes)
+      .at(StopLocation.TeocalliUphill)
 
   val mountaineerSquareBusStarts: Stops =
-    Stops(StopLocation.MountaineerSquare,
-          teocalliUphillBusStarts.times
-            .map(_.plusMinutes(14)))
+    teocalliUphillBusStarts
+      .delayedBy(14.minutes)
+      .at(StopLocation.MountaineerSquare)
 
   val teocalliDownhillBusStarts: Stops =
-    Stops(StopLocation.TeocalliDownhill,
-          mountaineerSquareBusStarts.times
-            .map(_.plusMinutes(6)))
+    mountaineerSquareBusStarts
+      .delayedBy(6.minutes)
+      .at(StopLocation.TeocalliDownhill)
 
   val fourwayDownhill: Stops =
-    Stops(StopLocation.FourwayDownhill,
-          teocalliDownhillBusStarts.times
-            .map(_.plusMinutes(1)))
+    teocalliDownhillBusStarts
+      .delayedBy(1.minutes)
+      .at(StopLocation.FourwayDownhill)
 
   def calculateUpcomingArrivalAtAllStops(
     now: BusTime
