@@ -37,15 +37,23 @@ object TownShuttleTimes {
         )
     )
 
+  // TODO Decide where these belong
+  class DurationFriendlyInt(int: Int) {
+    def minutes: BusDuration = BusDuration.ofMinutes(int)
+  }
+
+  implicit def toBusDuration(int: Int) =
+    new DurationFriendlyInt(int)
+
   val clarksBusStarts: Stops =
     oldTownHallBusStarts
-      .delayedBy(BusDuration.ofMinutes(4))
+      .delayedBy(4.minutes)
       .at(StopLocation.Clarks)
 
   val fourWayUphillBusStarts: Stops =
-    Stops(StopLocation.FourWayUphill,
-          clarksBusStarts.times
-            .map(_.plusMinutes(1)))
+    clarksBusStarts
+      .delayedBy(1.minutes)
+      .at(StopLocation.FourWayUphill)
 
   val teocalliUphillBusStarts: Stops =
     Stops(StopLocation.TeocalliUphill,
