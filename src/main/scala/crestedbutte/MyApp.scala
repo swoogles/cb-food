@@ -2,6 +2,7 @@ package crestedbutte
 
 import java.util.concurrent.TimeUnit
 
+import crestedbutte.time.BusTime
 import org.scalajs.dom
 import zio.clock._
 import zio.console.Console
@@ -10,12 +11,10 @@ import zio.stream.Stream
 import zio.duration.Duration
 import zio.{App, Schedule, ZIO}
 import org.scalajs.dom._
-import org.scalajs.dom.experimental.{
-  Notification,
-  NotificationOptions
-}
+import org.scalajs.dom.experimental.{Notification, NotificationOptions}
 import org.scalajs.dom.experimental.serviceworkers._
 
+import scala.collection.mutable
 import scala.concurrent.Future
 import scala.scalajs.js
 import scala.scalajs.js.Promise
@@ -24,6 +23,8 @@ import scala.util.{Failure, Success}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object MyApp extends App {
+  val desiredAlarms = mutable.Queue.empty[BusTime]
+  desiredAlarms.empty
 
   override def run(
     args: List[String]
