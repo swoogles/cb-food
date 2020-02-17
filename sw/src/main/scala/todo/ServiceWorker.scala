@@ -2,11 +2,9 @@ package todo
 
 import org.scalajs.dom.experimental.Fetch._
 import org.scalajs.dom.experimental.serviceworkers.ServiceWorkerGlobalScope._
-import org.scalajs.dom.experimental.serviceworkers.{
-  ExtendableEvent,
-  FetchEvent
-}
+import org.scalajs.dom.experimental.serviceworkers.{ExtendableEvent, FetchEvent}
 import org.scalajs.dom.experimental._
+import org.scalajs.dom.raw.MessageEvent
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -28,7 +26,7 @@ object ServiceWorker {
   def main(args: Array[String]): Unit = {
     self.addEventListener("install", (event: ExtendableEvent) => {
       println(
-        s"install: service worker installed > ${event.toString}"
+        s"install: service worker with message handler installed > ${event.toString}"
       )
       event.waitUntil(toCache().toJSPromise)
     })
@@ -42,6 +40,15 @@ object ServiceWorker {
         invalidateCache()
 //      event.waitUntil(toCache().toJSPromise)
         self.clients.claim()
+      }
+    )
+
+    self.addEventListener(
+      "message",
+      (event: MessageEvent) => {
+        println(
+          s"message received:  ${event.data}"
+        )
       }
     )
 

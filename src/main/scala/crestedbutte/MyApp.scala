@@ -11,7 +11,10 @@ import zio.stream.Stream
 import zio.duration.Duration
 import zio.{App, Schedule, ZIO}
 import org.scalajs.dom._
-import org.scalajs.dom.experimental.{Notification, NotificationOptions}
+import org.scalajs.dom.experimental.{
+  Notification,
+  NotificationOptions
+}
 import org.scalajs.dom.experimental.serviceworkers._
 
 import scala.collection.mutable
@@ -21,6 +24,7 @@ import scala.scalajs.js.Promise
 import scala.util.{Failure, Success}
 // TODO Ew. Try to get this removed after first version of PWA is working
 import scala.concurrent.ExecutionContext.Implicits.global
+import org.scalajs.dom.{Event, EventTarget, MessageEvent, MessagePort}
 
 object MyApp extends App {
   val desiredAlarms = mutable.Queue.empty[BusTime]
@@ -138,6 +142,9 @@ object MyApp extends App {
    */
   }
 
+//  def messageStuff(): Unit =
+//    toServiceWorkerNavigator(browser.dom.window().navigator).serviceWorker
+
   def registerServiceWorker() =
     ZIO
       .environment[Browser]
@@ -147,6 +154,9 @@ object MyApp extends App {
           .toFuture
           .onComplete {
             case Success(registration) =>
+              registration.active.postMessage(
+                "Submitting a message to the serviceWorker!"
+              )
               println(
                 "registerServiceWorker: registered service worker in a monad properly accesing the env"
               )
