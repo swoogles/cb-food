@@ -24,7 +24,7 @@ object TownShuttleTimes {
     startTime.between(endTime)
 
   private val numberOfBusesPerDay =
-    totalBusRunTime.dividedByMinutes(15)
+    totalBusRunTime.dividedBy(BusDuration.ofMinutes(15))
 
   val oldTownHallBusStarts: Stops =
     Stops(
