@@ -151,42 +151,43 @@ object MyApp extends App {
 
     val addAlarmBehaviorToTimes = ZIO.environment[Browser].map {
       browser =>
-        val actionButton =
-          browser.dom
-            .body()
-            .querySelectorAll(
-              s".arrival-time"
-            )
-        println("Selected arrival-time elements")
-        if (actionButton != null)
-          for (i <- 0 to actionButton.length) {
-            val item = actionButton.item(i)
-            if (item != null)
-              item
-                .addEventListener(
-                  "click",
-                  (event: MouseEvent) => {
-                    println(
-                      "lossless value: " + event.target
-                        .asInstanceOf[org.scalajs.dom.raw.Element]
-                        .getAttribute("data-lossless-value")
-                    )
-                    desiredAlarms
-                      .appendAll(
-                        Seq(
-                          BusTime(
-                            event.target
-                              .asInstanceOf[
-                                org.scalajs.dom.raw.Element
-                              ]
-                              .getAttribute("data-lossless-value")
-                              .replace("'", "")
-                              .trim
+        if (Notification.permission == "granted") {
+          val actionButton =
+            browser.dom
+              .body()
+              .querySelectorAll(
+                s".arrival-time"
+              )
+          println("Selected arrival-time elements")
+          if (actionButton != null)
+            for (i <- 0 to actionButton.length) {
+              val item = actionButton.item(i)
+              if (item != null)
+                item
+                  .addEventListener(
+                    "click",
+                    (event: MouseEvent) => {
+                      println(
+                        "lossless value: " + event.target
+                          .asInstanceOf[org.scalajs.dom.raw.Element]
+                          .getAttribute("data-lossless-value")
+                      )
+                      desiredAlarms
+                        .appendAll(
+                          Seq(
+                            BusTime(
+                              event.target
+                                .asInstanceOf[
+                                  org.scalajs.dom.raw.Element
+                                ]
+                                .getAttribute("data-lossless-value")
+                                .replace("'", "")
+                                .trim
+                            )
                           )
                         )
-                      )
 
-                    /*
+                      /*
                 dom.window.setTimeout(
                   () =>
                     new Notification("The bus is coming!",
@@ -196,10 +197,11 @@ object MyApp extends App {
                   10000
                 )
 
-                   */
-                  }
-                )
-          }
+                     */
+                    }
+                  )
+            }
+        }
     }
 
     val displayNotificationPermission = ZIO.environment[Browser].map {

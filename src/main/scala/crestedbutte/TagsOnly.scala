@@ -16,14 +16,12 @@ object TagsOnly {
           "Upcoming Town Shuttles"
         )
       ),
+      button(id := ElementNames.Notifications.requestPermission)(
+        "Request Notifications Permission"
+      ),
       if (pageMode == AppMode.Development) {
-        div(
-          button(id := ElementNames.Notifications.requestPermission)(
-            "Request Notifications Permission"
-          ),
-          button(id := ElementNames.Notifications.notificationAction)(
-            "10:20"
-          )
+        button(id := ElementNames.Notifications.notificationAction)(
+          "10:20"
         )
       } else {
         div()
