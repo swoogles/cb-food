@@ -140,12 +140,23 @@ object MyApp extends App {
           requestPermissionButton.addEventListener(
             "click",
             (event: Any) =>
-              Notification.requestPermission(
-                response =>
-                  println(
-                    "Notification requestPermission response: " + response
-                  )
-              )
+              if (Notification.permission == "default")
+                Notification.requestPermission(
+                  response =>
+                    println(
+                      "Notification requestPermission response: " + response
+                    )
+                )
+              else if (Notification.permission == "denied")
+                println(
+                  "They denied permission to notifications. Give it up."
+                )
+              else if (Notification.permission == "granted")
+                println("we already have permission.")
+              else
+                println(
+                  "Uknown permission state: " + Notification.permission
+                )
           )
       }
 
