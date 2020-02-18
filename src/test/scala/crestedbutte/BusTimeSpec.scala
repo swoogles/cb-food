@@ -17,10 +17,17 @@ object BusTimeSpec
         val busTime = BusTime("07:15")
         assert(BusTime.catchableBus(now, busTime), equalTo(true))
       },
-      test("bus is even if it's PM") {
+      test("bus is catchable even if it's PM") {
         val now = BusTime("11:55")
         val busTime = BusTime("12:05")
         assert(BusTime.catchableBus(now, busTime), equalTo(true))
+      },
+
+      test("duration between times is accurate") {
+        val now = BusTime("11:55")
+        val busTime = BusTime("12:05")
+        println("Minutes between: " + now.between(busTime).toMinutes)
+        assert(now.between(busTime), equalTo(10.minutes))
       },
       suite("parsing")(
         test("parses morning time") {

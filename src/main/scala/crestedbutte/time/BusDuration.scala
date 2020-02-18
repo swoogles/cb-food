@@ -3,10 +3,24 @@ package crestedbutte.time
 import java.time.Duration
 
 class BusDuration(duration: Duration) {
-  def toMinutes: Long = duration.toMinutes
+  val toMinutes: Long = duration.toMinutes
 
   def dividedBy(duration: BusDuration) =
     toMinutes / duration.toMinutes
+
+  def canEqual(other: Any): Boolean = other.isInstanceOf[BusDuration]
+
+  override def equals(other: Any): Boolean = other match {
+    case that: BusDuration =>
+      (that canEqual this) &&
+        toMinutes == that.toMinutes
+    case _ => false
+  }
+
+  override def hashCode(): Int = {
+    val state = Seq(toMinutes)
+    state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+  }
 }
 
 object BusDuration {
