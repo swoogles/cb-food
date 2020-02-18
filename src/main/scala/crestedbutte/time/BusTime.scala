@@ -29,6 +29,12 @@ class BusTime(localTime: LocalTime) {
 
   override val toString: String = localTime.format(dateFormat)
 
+  private val dumbAmericanDateFormat =
+    DateTimeFormatter.ofPattern("hh:mm")
+
+  val toDumbAmericanString: String =
+    localTime.format(dumbAmericanDateFormat)
+
   val tooLateToBeConsideredLateNight: Boolean =
     localTime.isAfter(LocalTime.parse("04:00:00"))
 

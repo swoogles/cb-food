@@ -12,8 +12,8 @@ class BusDuration(duration: Duration) {
 
   override def equals(other: Any): Boolean = other match {
     case that: BusDuration =>
-      (that canEqual this) &&
-        toMinutes == that.toMinutes
+      (that.canEqual(this)) &&
+      toMinutes == that.toMinutes
     case _ => false
   }
 

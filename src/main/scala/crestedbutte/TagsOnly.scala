@@ -87,7 +87,10 @@ object TagsOnly {
 
   def renderStopTimeInfo(stopTimeInfo: StopTimeInfo) =
     div(
-      div(cls := "arrival-time")(stopTimeInfo.time.toString),
+      div(
+        cls := "arrival-time",
+        data("lossless-value") := stopTimeInfo.time.toString
+      )(stopTimeInfo.time.toDumbAmericanString),
       div(cls := "wait-time")(
         renderWaitTime(stopTimeInfo.waitingDuration)
       )
