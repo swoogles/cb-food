@@ -13,7 +13,7 @@ object TagsOnly {
       div(cls := ElementNames.BoxClass,
           id := ElementNames.TownShuttles.containerName)(
         h3(cls := "upcoming-buses-title")(
-          "Upcoming Buses"
+          "Upcoming Town Shuttles"
         )
       ),
       if (pageMode == AppMode.Development) {
@@ -100,7 +100,7 @@ object TagsOnly {
     upcomingArrivalInfo: List[UpcomingArrivalInfo]
   ) =
     div(
-      h4(textAlign := "center")("Upcoming Buses"),
+      h4(textAlign := "center")("Upcoming Town Shuttles"),
       upcomingArrivalInfo.map {
         case UpcomingArrivalInfo(location, content) =>
           TagsOnly.createBusTimeElement(
