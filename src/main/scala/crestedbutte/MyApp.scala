@@ -44,7 +44,7 @@ object MyApp extends App {
         pageMode
       ) // TODO Base on queryParam
       _ <- registerServiceWorker()
-//      _ <- NotificationsStuff.addNotificationPermissionRequestToButton
+      _ <- NotificationsStuff.addNotificationPermissionRequestToButton
 //      _ <- NotificationsStuff.addAlarmBehaviorToTimes
       _ <- NotificationsStuff.displayNotificationPermission
       _ <- updateUpcomingArrivalsOnPage
