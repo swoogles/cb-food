@@ -67,6 +67,7 @@ object MyApp extends App {
       localTime = new BusTime(now.toLocalTime)
     } yield {
       println("Checking for submitted alarms")
+      // TODO Make sure it's at least 2 minutes in the future (or whatever offset is appropriate)
       val busTimes = desiredAlarms.dequeueAll { _ =>
         true
       }
@@ -78,13 +79,24 @@ object MyApp extends App {
             .between(busTime)
             .toMinutes
         )
-//      dom.window.setInterval()
-        // Read submitted time, find difference between it and the current time, then submit a setInterval function
-        // with the appropriate delay
-        new Notification(s"The bus is coming at ${busTime.toString}!",
-                         NotificationOptions(
-                           vibrate = js.Array(100d)
-                         ))
+        val headsUpAmount = 3 // minutes
+        if (localTime
+              .between(busTime)
+              .toMinutes >= headsUpAmount)
+          dom.window.setTimeout(
+            () =>
+              // Read submitted time, find difference between it and the current time, then submit a setInterval function
+              // with the appropriate delay
+              new Notification(
+                s"The ${busTime.toString} bus is arriving in ${headsUpAmount} minutes!",
+                NotificationOptions(
+                  vibrate = js.Array(100d)
+                )
+              ),
+            (localTime
+              .between(busTime)
+              .toMinutes - headsUpAmount) * 60 * 1000
+          )
       }
       ()
     }
@@ -155,12 +167,9 @@ object MyApp extends App {
                   "click",
                   (event: MouseEvent) => {
                     println(
-                      "event.relatedTarget: " + event.target
-                    )
-                    println(
-                      "InnerHtml: " + event.target
+                      "lossless value: " + event.target
                         .asInstanceOf[org.scalajs.dom.raw.Element]
-                        .innerHTML
+                        .getAttribute("data-lossless-value")
                     )
                     desiredAlarms
                       .appendAll(
@@ -170,7 +179,7 @@ object MyApp extends App {
                               .asInstanceOf[
                                 org.scalajs.dom.raw.Element
                               ]
-                              .innerHTML // TODO ewwwww
+                              .getAttribute("data-lossless-value")
                               .replace("'", "")
                               .trim
                           )
