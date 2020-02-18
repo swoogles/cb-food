@@ -60,13 +60,27 @@ object MyApp extends App {
     }).provide(myEnvironment)
   }
 
-  val checkSubmittedAlarms: ZIO[Browser, Nothing, Unit] =
-    ZIO.environment[Browser].map { browser =>
+  val checkSubmittedAlarms: ZIO[Clock, Nothing, Unit] =
+    for {
+      clock <- ZIO.environment[Clock]
+      now   <- clock.clock.currentDateTime
+      localTime = new BusTime(now.toLocalTime)
+    } yield {
       println("Checking for submitted alarms")
       val busTimes = desiredAlarms.dequeueAll { _ =>
         true
       }
+      println("Now: " + localTime)
       busTimes.map { busTime =>
+        println("bustime: " + busTime)
+        println(
+          "Minutes until arrival: " + localTime
+            .between(busTime)
+            .toMinutes
+        )
+//      dom.window.setInterval()
+        // Read submitted time, find difference between it and the current time, then submit a setInterval function
+        // with the appropriate delay
         new Notification(s"The bus is coming at ${busTime.toString}!",
                          NotificationOptions(
                            vibrate = js.Array(100d)

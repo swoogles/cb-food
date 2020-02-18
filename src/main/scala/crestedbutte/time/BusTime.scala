@@ -25,7 +25,7 @@ class BusTime(localTime: LocalTime) {
   def plus(busDuration: BusDuration) =
     new BusTime(localTime.plusMinutes(busDuration.toMinutes))
 
-  private val dateFormat = DateTimeFormatter.ofPattern("h:mm")
+  private val dateFormat = DateTimeFormatter.ofPattern("hh:mm")
 
   override val toString: String = localTime.format(dateFormat)
 
@@ -48,7 +48,10 @@ class BusTime(localTime: LocalTime) {
 }
 
 object BusTime {
-  private val dateFormat = DateTimeFormatter.ofPattern("h:mm")
+  private val dateFormat = DateTimeFormatter.ofPattern("HH:mm")
+
+  def parseIdeal(raw: String) =
+    new BusTime(LocalTime.parse(raw, dateFormat))
 
   def apply(raw: String) =
     parse(raw)
