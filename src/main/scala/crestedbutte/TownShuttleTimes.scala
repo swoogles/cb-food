@@ -1,9 +1,6 @@
 package crestedbutte
 
-import crestedbutte.time.{BusDuration, BusTime}
 import crestedbutte.time.BusDuration.toBusDuration // Enables Int.minutes syntax
-import zio.ZIO
-import zio.clock.Clock
 
 object TownShuttleTimes {
   /*
@@ -55,14 +52,6 @@ object TownShuttleTimes {
       .delayedBy(1.minutes)
       .at(StopLocation.FourwayDownhill)
 
-  def calculateUpcomingArrivalAtAllStops(
-    now: BusTime,
-    busRoute: BusRoute
-  ): Seq[UpcomingArrivalInfo] =
-    busRoute.schedules.map(
-      BusTimeCalculations.getUpcomingArrivalInfo(_, now)
-    )
-
   val townShuttleStops: Seq[BusScheduleAtStop] = Seq(
     oldTownHallBusStarts,
     clarksBusStarts,
@@ -73,13 +62,4 @@ object TownShuttleTimes {
     fourwayDownhill
   )
 
-  def getUpComingArrivals(busRoute: BusRoute)
-    : ZIO[Clock, Nothing, Seq[UpcomingArrivalInfo]] =
-    for {
-      clockProper <- ZIO.environment[Clock]
-      now         <- clockProper.clock.currentDateTime
-      localTime = new BusTime(now.toLocalTime)
-    } yield {
-      TownShuttleTimes.calculateUpcomingArrivalAtAllStops(localTime, busRoute)
-    }
 }
