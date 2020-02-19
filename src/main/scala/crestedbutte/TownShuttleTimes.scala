@@ -19,51 +19,38 @@ object TownShuttleTimes {
     Mountaineer Square	  :00, :15, :30, :45	    7:30 AM 	  12:00 AM
    */
 
-  private val startTime = BusTime("07:10:00")
-  private val endTime = BusTime("23:40:00")
-
-  private val totalBusRunTime =
-    startTime.between(endTime)
-
-  private val numberOfBusesPerDay =
-    totalBusRunTime.dividedBy(15.minutes)
-
-  val oldTownHallBusStarts: Stops =
-    Stops(
+  val oldTownHallBusStarts: BusScheduleAtStop =
+    BusScheduleAtStop(
       StopLocation.OldTownHall,
-      List
-        .range(0, numberOfBusesPerDay)
-        .map(
-          index => startTime.plus((15 * index.toInt).minutes)
-        )
+      BusSchedule("07:10:00", "23:40:00", 15.minutes)
     )
 
-  val clarksBusStarts: Stops =
+  val clarksBusStarts: BusScheduleAtStop =
     oldTownHallBusStarts
       .delayedBy(4.minutes)
       .at(StopLocation.Clarks)
 
-  val fourWayUphillBusStarts: Stops =
+  val fourWayUphillBusStarts: BusScheduleAtStop =
     clarksBusStarts
       .delayedBy(1.minutes)
       .at(StopLocation.FourWayUphill)
 
-  val teocalliUphillBusStarts: Stops =
+  val teocalliUphillBusStarts: BusScheduleAtStop =
     fourWayUphillBusStarts
       .delayedBy(1.minutes)
       .at(StopLocation.TeocalliUphill)
 
-  val mountaineerSquareBusStarts: Stops =
+  val mountaineerSquareBusStarts: BusScheduleAtStop =
     teocalliUphillBusStarts
       .delayedBy(14.minutes)
       .at(StopLocation.MountaineerSquare)
 
-  val teocalliDownhillBusStarts: Stops =
+  val teocalliDownhillBusStarts: BusScheduleAtStop =
     mountaineerSquareBusStarts
       .delayedBy(6.minutes)
       .at(StopLocation.TeocalliDownhill)
 
-  val fourwayDownhill: Stops =
+  val fourwayDownhill: BusScheduleAtStop =
     teocalliDownhillBusStarts
       .delayedBy(1.minutes)
       .at(StopLocation.FourwayDownhill)

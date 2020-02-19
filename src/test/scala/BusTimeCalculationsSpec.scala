@@ -3,7 +3,7 @@ import zio.console._
 import zio.test.{DefaultRunnableSpec, test, testM, _}
 import zio.test.Assertion._
 import zio.test.environment._
-import crestedbutte.{BusTimeCalculations, ScheduleAtStop}
+import crestedbutte.{BusTimeCalculations, BusSchedule}
 import crestedbutte.time.{BusDuration, BusTime}
 import crestedbutte.time.BusDuration.toBusDuration // Enables Int.minutes syntax
 
@@ -19,7 +19,7 @@ object BusTimeCalculationsSpec
         test(
           "stronger type"
         ) {
-          assert(ScheduleAtStop(
+          assert(BusSchedule(
                    "09:00",
                    "09:15"
                  ).nextBusArrivalTime(BusTime("09:02")),
@@ -30,7 +30,7 @@ object BusTimeCalculationsSpec
           "find the next bus time while in the middle of the scehdule"
         ) {
           assert(
-            ScheduleAtStop(
+            BusSchedule(
               "09:00",
               "09:15"
             ).nextBusArrivalTime(BusTime("09:10")),
@@ -39,21 +39,21 @@ object BusTimeCalculationsSpec
         },
         test("really early morning check") {
           assert(
-            ScheduleAtStop(
+            BusSchedule(
               "07:10"
             ).nextBusArrivalTime(BusTime("05:00")),
             isSome(equalTo(BusTime("07:10")))
           )
         },
         test("after last bus has run") {
-          assert(ScheduleAtStop(
+          assert(BusSchedule(
                    "23:40"
                  ).nextBusArrivalTime(BusTime("23:50")),
                  equalTo(Option.empty))
         },
         test("bus is arriving this minute") {
           assert(
-            ScheduleAtStop(
+            BusSchedule(
               "23:40"
             ).nextBusArrivalTime(BusTime("23:40")),
             isSome(equalTo(BusTime("23:40")))

@@ -11,8 +11,8 @@ object BusTimeCalculations {
       .filter(_ => now.tooLateToBeConsideredLateNight)
 
   def getUpcomingArrivalInfo(
-    stops: Stops,
-    now: BusTime
+                              stops: BusScheduleAtStop,
+                              now: BusTime
   ): UpcomingArrivalInfo =
     nextBusArrivalTime(stops.times, now)
       .map(

@@ -5,6 +5,9 @@ import java.time.Duration
 class BusDuration(duration: Duration) {
   val toMinutes: Long = duration.toMinutes
 
+  def times(int: Int) =
+    BusDuration.ofMinutes(toMinutes.toInt * int)
+
   def dividedBy(duration: BusDuration) =
     toMinutes / duration.toMinutes
 
