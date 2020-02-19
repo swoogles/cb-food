@@ -57,12 +57,12 @@ object TownShuttleTimes {
 
   def calculateUpcomingArrivalAtAllStops(
     now: BusTime
-  ): List[UpcomingArrivalInfo] =
+  ): Seq[UpcomingArrivalInfo] =
     townShuttleStops.map(
       BusTimeCalculations.getUpcomingArrivalInfo(_, now)
     )
 
-  val townShuttleStops = List(
+  val townShuttleStops: Seq[BusScheduleAtStop] = Seq(
     oldTownHallBusStarts,
     clarksBusStarts,
     fourWayUphillBusStarts,
@@ -73,7 +73,7 @@ object TownShuttleTimes {
   )
 
   val getUpComingArrivals
-    : ZIO[Clock, Nothing, List[UpcomingArrivalInfo]] =
+    : ZIO[Clock, Nothing, Seq[UpcomingArrivalInfo]] =
     for {
       clockProper <- ZIO.environment[Clock]
       now         <- clockProper.clock.currentDateTime

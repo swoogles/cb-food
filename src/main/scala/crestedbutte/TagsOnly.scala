@@ -95,7 +95,7 @@ object TagsOnly {
     )
 
   def structuredSetOfUpcomingArrivals(
-    upcomingArrivalInfo: List[UpcomingArrivalInfo]
+    upcomingArrivalInfo: Seq[UpcomingArrivalInfo]
   ) =
     div(
       h4(textAlign := "center")("Upcoming Town Shuttles"),
