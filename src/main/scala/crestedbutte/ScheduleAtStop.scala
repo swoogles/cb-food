@@ -3,6 +3,7 @@ package crestedbutte
 import crestedbutte.time.BusTime
 
 case class ScheduleAtStop(stopTimes: List[BusTime]) {
+
   def nextBusArrivalTime(now: BusTime): Option[BusTime] =
     stopTimes
       .find(stopTime => BusTime.catchableBus(now, stopTime))
