@@ -2,7 +2,8 @@ package crestedbutte
 
 import crestedbutte.time.{BusDuration, BusTime}
 
-case class BusScheduleAtStop(location: StopLocation.Value, times: Seq[BusTime]) {
+case class BusScheduleAtStop(location: StopLocation.Value,
+                             times: Seq[BusTime]) {
 
   def timesDelayedBy(busDuration: BusDuration,
                      locationIn: StopLocation.Value) =
@@ -17,6 +18,8 @@ case class BusScheduleAtStop(location: StopLocation.Value, times: Seq[BusTime]) 
 }
 
 object BusScheduleAtStop {
-  def apply(location: StopLocation.Value, scheduleAtStop: BusSchedule): BusScheduleAtStop =
+
+  def apply(location: StopLocation.Value,
+            scheduleAtStop: BusSchedule): BusScheduleAtStop =
     BusScheduleAtStop(location, scheduleAtStop.stopTimes)
 }

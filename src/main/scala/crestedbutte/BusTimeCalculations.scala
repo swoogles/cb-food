@@ -13,8 +13,8 @@ object BusTimeCalculations {
       .filter(_ => now.tooLateToBeConsideredLateNight)
 
   def getUpcomingArrivalInfo(
-                              stops: BusScheduleAtStop,
-                              now: BusTime
+    stops: BusScheduleAtStop,
+    now: BusTime
   ): UpcomingArrivalInfo =
     nextBusArrivalTime(stops.times, now)
       .map(
@@ -36,20 +36,24 @@ object BusTimeCalculations {
       )
 
   def calculateUpcomingArrivalAtAllStops(
-                                          now: BusTime,
-                                          busRoute: BusRoute
-                                        ): Seq[UpcomingArrivalInfo] =
+    now: BusTime,
+    busRoute: BusRoute
+  ): Seq[UpcomingArrivalInfo] =
     busRoute.schedules.map(
       getUpcomingArrivalInfo(_, now)
     )
 
-  def getUpComingArrivals(busRoute: BusRoute)
-  : ZIO[Clock, Nothing, Seq[UpcomingArrivalInfo]] =
+  def getUpComingArrivals(
+    busRoute: BusRoute
+  ): ZIO[Clock, Nothing, Seq[UpcomingArrivalInfo]] =
     for {
       clockProper <- ZIO.environment[Clock]
       now         <- clockProper.clock.currentDateTime
       localTime = new BusTime(now.toLocalTime)
     } yield {
-      BusTimeCalculations.calculateUpcomingArrivalAtAllStops(localTime, busRoute)
+      BusTimeCalculations.calculateUpcomingArrivalAtAllStops(
+        localTime,
+        busRoute
+      )
     }
 }

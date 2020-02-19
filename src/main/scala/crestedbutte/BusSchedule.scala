@@ -12,16 +12,21 @@ case class BusSchedule(stopTimes: List[BusTime]) {
 
 object BusSchedule {
 
-  def apply(firstBus: String, lastBus: String, timeBetweenBuses: BusDuration) =
+  def apply(firstBus: String,
+            lastBus: String,
+            timeBetweenBuses: BusDuration) =
     new BusSchedule(
-    List
-      .range(0, BusTime(firstBus).between(BusTime(lastBus)).dividedBy(timeBetweenBuses))
-      .map(
-        index => BusTime(firstBus).plus(timeBetweenBuses.times(index.toInt))
-      )
+      List
+        .range(0,
+               BusTime(firstBus)
+                 .between(BusTime(lastBus))
+                 .dividedBy(timeBetweenBuses))
+        .map(
+          index =>
+            BusTime(firstBus)
+              .plus(timeBetweenBuses.times(index.toInt))
+        )
     )
-
-
 
   def apply(stopTimeStrings: String*) =
     new BusSchedule(

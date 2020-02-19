@@ -1,5 +1,3 @@
 package crestedbutte
 
-case class BusRoute(schedules: Seq[BusScheduleAtStop]) {
-
-}
+case class BusRoute(schedules: Seq[BusScheduleAtStop]) {}
