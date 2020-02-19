@@ -2,7 +2,10 @@ package todo
 
 import org.scalajs.dom.experimental.Fetch._
 import org.scalajs.dom.experimental.serviceworkers.ServiceWorkerGlobalScope._
-import org.scalajs.dom.experimental.serviceworkers.{ExtendableEvent, FetchEvent}
+import org.scalajs.dom.experimental.serviceworkers.{
+  ExtendableEvent,
+  FetchEvent
+}
 import org.scalajs.dom.experimental._
 import org.scalajs.dom.raw.MessageEvent
 
@@ -24,12 +27,15 @@ object ServiceWorker {
   ).toJSArray
 
   def main(args: Array[String]): Unit = {
-    self.addEventListener("install", (event: ExtendableEvent) => {
-      println(
-        s"install: service worker with message handler installed > ${event.toString}"
-      )
-      event.waitUntil(toCache().toJSPromise)
-    })
+    self.addEventListener(
+      "install",
+      (event: ExtendableEvent) => {
+        println(
+          s"install: service worker with message handler installed > ${event.toString}"
+        )
+        event.waitUntil(toCache().toJSPromise)
+      }
+    )
 
     self.addEventListener(
       "activate",

@@ -64,6 +64,12 @@ object BusTime {
   def apply(raw: String) =
     parse(raw)
 
+  def newParse(raw: String): Try[BusTime] =
+    parseIdeal(raw).orElse(
+      Try(new BusTime(LocalTime.parse("0" + raw)))
+        .orElse(Try(new BusTime(LocalTime.parse(raw))))
+    )
+
   def parse(raw: String) =
     try {
       new BusTime(LocalTime.parse(raw, dateFormat))
@@ -72,7 +78,7 @@ object BusTime {
         try {
           println("Failed default parse: " + ex.getParsedString)
           println("trying again with a leading 0")
-          new BusTime(LocalTime.parse("0" + raw))
+          new BusTime(LocalTime.parse("0" + raw, dateFormat))
         } catch {
           case ex: DateTimeParseException =>
             println("Failed default parse: " + ex.getParsedString)
