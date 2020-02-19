@@ -7,7 +7,9 @@ import zio.test.Assertion._
 import zio.test.environment._
 import crestedbutte.BusTimeCalculations
 import crestedbutte.time.{BusDuration, BusTime}
-import crestedbutte.time.BusDuration.toBusDuration // Enables Int.minutes syntax
+import crestedbutte.time.BusDuration.toBusDuration
+
+import scala.util.Success // Enables Int.minutes syntax
 
 object BusTimeSpec
   extends DefaultRunnableSpec(
@@ -32,7 +34,11 @@ object BusTimeSpec
       suite("parsing")(
         test("parses morning time") {
           assert(
-          BusTime.parseIdeal("02:05").toString, equalTo("02:05"))
+          BusTime.parseIdeal("02:05").get.toString, equalTo("02:05"))
+        },
+        test("parses evening time") {
+          assert(
+            BusTime.parseIdeal("06:22").get.toString, equalTo("06:22"))
         }
       )
 

@@ -4,6 +4,8 @@ import java.time.format.{DateTimeFormatter, DateTimeParseException}
 import java.time.temporal.ChronoUnit
 import java.time.{Duration, LocalTime}
 
+import scala.util.Try
+
 class BusTime(localTime: LocalTime) {
 
   private val truncatedToMinutes =
@@ -56,8 +58,8 @@ class BusTime(localTime: LocalTime) {
 object BusTime {
   private val dateFormat = DateTimeFormatter.ofPattern("HH:mm")
 
-  def parseIdeal(raw: String) =
-    new BusTime(LocalTime.parse(raw, dateFormat))
+  def parseIdeal(raw: String): Try[BusTime] =
+    Try(new BusTime(LocalTime.parse(raw, dateFormat)))
 
   def apply(raw: String) =
     parse(raw)
