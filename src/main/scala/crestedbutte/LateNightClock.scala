@@ -10,6 +10,7 @@ import zio.console.Console
 import zio.duration.Duration
 import zio.scheduler.SchedulerLive
 
+// TODO Add ability to create new Fixed clocks with a time parameter.
 object LateNightClock {
 
   trait Fixed extends SchedulerLive with Clock {
