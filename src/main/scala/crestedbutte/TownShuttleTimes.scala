@@ -18,39 +18,39 @@ object TownShuttleTimes {
 
   val oldTownHallBusStarts: BusScheduleAtStop =
     BusScheduleAtStop(
-      StopLocation.OldTownHall,
+      Location.OldTownHall,
       BusSchedule("07:10:00", "23:40:00", 15.minutes)
     )
 
   val clarksBusStarts: BusScheduleAtStop =
     oldTownHallBusStarts
       .delayedBy(4.minutes)
-      .at(StopLocation.Clarks)
+      .at(Location.Clarks)
 
   val fourWayUphillBusStarts: BusScheduleAtStop =
     clarksBusStarts
       .delayedBy(1.minutes)
-      .at(StopLocation.FourWayUphill)
+      .at(Location.FourWayUphill)
 
   val teocalliUphillBusStarts: BusScheduleAtStop =
     fourWayUphillBusStarts
       .delayedBy(1.minutes)
-      .at(StopLocation.TeocalliUphill)
+      .at(Location.TeocalliUphill)
 
   val mountaineerSquareBusStarts: BusScheduleAtStop =
     teocalliUphillBusStarts
       .delayedBy(14.minutes)
-      .at(StopLocation.MountaineerSquare)
+      .at(Location.MountaineerSquare)
 
   val teocalliDownhillBusStarts: BusScheduleAtStop =
     mountaineerSquareBusStarts
       .delayedBy(6.minutes)
-      .at(StopLocation.TeocalliDownhill)
+      .at(Location.TeocalliDownhill)
 
   val fourwayDownhill: BusScheduleAtStop =
     teocalliDownhillBusStarts
       .delayedBy(1.minutes)
-      .at(StopLocation.FourwayDownhill)
+      .at(Location.FourwayDownhill)
 
   val townShuttleStops: Seq[BusScheduleAtStop] = Seq(
     oldTownHallBusStarts,

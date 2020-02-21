@@ -1,6 +1,6 @@
 package crestedbutte
 
-object StopLocation extends Enumeration {
+object Location extends Enumeration {
 
   protected case class Val(name: String,
                            gpsCoordinates: GpsCoordinates)

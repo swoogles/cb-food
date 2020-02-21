@@ -1,6 +1,6 @@
 package crestedbutte
 
-import crestedbutte.StopLocation.StopLocation
+import crestedbutte.Location.StopLocation
 import crestedbutte.time.BusDuration
 import org.scalajs.dom.html.{Anchor, Div}
 import scalatags.JsDom
@@ -59,9 +59,9 @@ object TagsOnly {
       duration.toMinutes + " min."
 
   def createBusTimeElement(
-    location: StopLocation.Value,
-    content: JsDom.TypedTag[Div]
-    /* TODO: waitDuration: Duration*/
+                            location: Location.Value,
+                            content: JsDom.TypedTag[Div]
+                            /* TODO: waitDuration: Duration*/
   ): JsDom.TypedTag[Div] =
     div(
       width := "100%",
