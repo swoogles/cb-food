@@ -35,7 +35,9 @@ object MyApp extends App {
   ): ZIO[zio.ZEnv, Nothing, Int] = {
     val myEnvironment
       : zio.clock.Clock with zio.console.Console with Browser =
-      new Clock.Live with Console.Live with BrowserLive
+//      new Clock.Live with Console.Live with BrowserLive
+      new LateNightClock.Fixed with Console.Live with BrowserLive
+
     registerServiceWorker()
 
     (for {
