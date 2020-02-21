@@ -37,7 +37,7 @@ class BusTime(localTime: LocalTime) {
   val toDumbAmericanString: String =
     localTime.format(dumbAmericanDateFormat)
 
-  val tooLateToBeConsideredLateNight: Boolean =
+  val isLikelyEarlyMorningRatherThanLateNight: Boolean =
     localTime.isAfter(LocalTime.parse("04:00:00"))
 
   def canEqual(other: Any): Boolean = other.isInstanceOf[BusTime]

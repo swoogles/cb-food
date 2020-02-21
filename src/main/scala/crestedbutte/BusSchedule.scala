@@ -5,9 +5,10 @@ import crestedbutte.time.{BusDuration, BusTime}
 case class BusSchedule(stopTimes: List[BusTime]) {
 
   def nextBusArrivalTime(now: BusTime): Option[BusTime] =
-    stopTimes
-      .find(stopTime => BusTime.catchableBus(now, stopTime))
-      .filter(_ => now.tooLateToBeConsideredLateNight)
+    if (now.isLikelyEarlyMorningRatherThanLateNight)
+      stopTimes
+        .find(stopTime => BusTime.catchableBus(now, stopTime))
+    else None
 }
 
 object BusSchedule {

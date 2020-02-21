@@ -10,7 +10,7 @@ object TimeCalculations {
                          now: BusTime): Option[BusTime] =
     timesAtStop
       .find(stopTime => BusTime.catchableBus(now, stopTime))
-      .filter(_ => now.tooLateToBeConsideredLateNight)
+      .filter(_ => now.isLikelyEarlyMorningRatherThanLateNight)
 
   def getUpcomingArrivalInfo(
     stops: BusScheduleAtStop,

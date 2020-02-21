@@ -3,7 +3,7 @@ import zio.console._
 import zio.test.{DefaultRunnableSpec, test, testM, _}
 import zio.test.Assertion._
 import zio.test.environment._
-import crestedbutte.{TimeCalculations, BusSchedule}
+import crestedbutte.{BusSchedule, TimeCalculations}
 import crestedbutte.time.{BusDuration, BusTime}
 import crestedbutte.time.BusDuration.toBusDuration // Enables Int.minutes syntax
 

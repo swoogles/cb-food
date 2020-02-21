@@ -59,9 +59,9 @@ object TagsOnly {
       duration.toMinutes + " min."
 
   def createBusTimeElement(
-                            location: Location.Value,
-                            content: JsDom.TypedTag[Div]
-                            /* TODO: waitDuration: Duration*/
+    location: Location.Value,
+    content: JsDom.TypedTag[Div]
+    /* TODO: waitDuration: Duration*/
   ): JsDom.TypedTag[Div] =
     div(
       width := "100%",
