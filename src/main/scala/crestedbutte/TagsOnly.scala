@@ -38,10 +38,19 @@ object TagsOnly {
   def safeRideLink(
     safeRideRecommendation: LateNightRecommendation
   ): JsDom.TypedTag[Div] =
-    div(
-      phoneLink(
-        PhoneNumber(safeRideRecommendation.phoneNumber,
-                    safeRideRecommendation.message)
+    div(cls := "late-night-call-button")(
+      button(
+        onclick :=
+          s"window.location.href = 'tel:${safeRideRecommendation.phoneNumber}';"
+      )(
+        img(
+          cls := "glyphicon",
+          src := "/glyphicons/svg/individual-svg/glyphicons-basic-465-call.svg",
+          alt := "Call Late Night Shuttle!",
+          height := "32",
+          width := "32"
+        ),
+        safeRideRecommendation.message
       )
     )
 

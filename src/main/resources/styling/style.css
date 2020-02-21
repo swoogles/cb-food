@@ -16,6 +16,15 @@ body {
     color: #444;
 }
 
+.glyphicon {
+    height: 32px;
+    width: 32px;
+    vertical-align: center;
+}
+button {
+    font-size: 140%;
+}
+
 .light-background {
     background-color: white;
 }
