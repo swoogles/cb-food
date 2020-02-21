@@ -104,9 +104,9 @@ object MyApp extends App {
   val updateUpcomingArrivalsOnPage
     : ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
-      upcomingArrivalAtAllStops <- BusTimeCalculations
+      upcomingArrivalAtAllStops <- TimeCalculations
         .getUpComingArrivals(
-          BusRoute(TownShuttleTimes.townShuttleStops)
+          Route(TownShuttleTimes.townShuttleStops)
         )
       _ <- DomManipulation.updateUpcomingBusesSection(
         TagsOnly.structuredSetOfUpcomingArrivals(
@@ -119,7 +119,7 @@ object MyApp extends App {
     ZIO.environment[Browser].map { browser =>
       UrlParsing
         .getUrlParameter(
-          browser.dom.window().location.toString,
+          browser.browser.window().location.toString,
           "mode" // TODO Ugly string value
         )
         .flatMap(rawString => AppMode.fromString(rawString))
@@ -134,7 +134,7 @@ object MyApp extends App {
       : ZIO[Browser, Nothing, Unit] =
       ZIO.environment[Browser].map { browser =>
         val requestPermissionButton =
-          browser.dom
+          browser.browser
             .body()
             .querySelector(
               s"#${ElementNames.Notifications.requestPermission}"
@@ -167,7 +167,7 @@ object MyApp extends App {
       browser =>
         if (Notification.permission == "granted") {
           val actionButton =
-            browser.dom
+            browser.browser
               .body()
               .querySelectorAll(
                 s".arrival-time"
@@ -221,7 +221,7 @@ object MyApp extends App {
     val displayNotificationPermission = ZIO.environment[Browser].map {
       browser =>
         val actionButton =
-          browser.dom
+          browser.browser
             .body()
             .querySelector(
               s"#${ElementNames.Notifications.notificationAction}"
@@ -285,7 +285,7 @@ object MyApp extends App {
     ZIO
       .environment[Browser]
       .map { browser =>
-        toServiceWorkerNavigator(browser.dom.window().navigator).serviceWorker
+        toServiceWorkerNavigator(browser.browser.window().navigator).serviceWorker
           .register("./sw-opt.js")
           .toFuture
           .onComplete {

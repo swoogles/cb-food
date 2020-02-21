@@ -4,7 +4,7 @@ import crestedbutte.time.BusTime
 import zio.ZIO
 import zio.clock.Clock
 
-object BusTimeCalculations {
+object TimeCalculations {
 
   def nextBusArrivalTime(timesAtStop: Seq[BusTime],
                          now: BusTime): Option[BusTime] =
@@ -31,27 +31,27 @@ object BusTimeCalculations {
       .getOrElse(
         UpcomingArrivalInfo(
           stops.location,
-          SafeRideRecommendation("safe-ride")
+          LateNightRecommendation("safe-ride")
         )
       )
 
   def calculateUpcomingArrivalAtAllStops(
     now: BusTime,
-    busRoute: BusRoute
+    busRoute: Route
   ): Seq[UpcomingArrivalInfo] =
     busRoute.schedules.map(
       getUpcomingArrivalInfo(_, now)
     )
 
   def getUpComingArrivals(
-    busRoute: BusRoute
+    busRoute: Route
   ): ZIO[Clock, Nothing, Seq[UpcomingArrivalInfo]] =
     for {
       clockProper <- ZIO.environment[Clock]
       now         <- clockProper.clock.currentDateTime
       localTime = new BusTime(now.toLocalTime)
     } yield {
-      BusTimeCalculations.calculateUpcomingArrivalAtAllStops(
+      TimeCalculations.calculateUpcomingArrivalAtAllStops(
         localTime,
         busRoute
       )

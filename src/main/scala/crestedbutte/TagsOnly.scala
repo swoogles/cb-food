@@ -36,7 +36,7 @@ object TagsOnly {
 
 //  <a href="tel:123-456-7890">123-456-7890</a>
   def safeRideLink(
-    safeRideRecommendation: SafeRideRecommendation
+    safeRideRecommendation: LateNightRecommendation
   ): JsDom.TypedTag[Div] =
     div(
       phoneLink(

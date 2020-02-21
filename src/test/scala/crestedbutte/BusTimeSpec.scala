@@ -5,7 +5,7 @@ import zio.console._
 import zio.test.{DefaultRunnableSpec, test, testM, _}
 import zio.test.Assertion._
 import zio.test.environment._
-import crestedbutte.BusTimeCalculations
+import crestedbutte.TimeCalculations
 import crestedbutte.time.{BusDuration, BusTime}
 import crestedbutte.time.BusDuration.toBusDuration
 

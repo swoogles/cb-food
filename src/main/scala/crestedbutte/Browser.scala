@@ -12,5 +12,5 @@ object Browser {
 }
 
 trait Browser {
-  def dom: Browser.Service
+  def browser: Browser.Service
 }

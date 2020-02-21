@@ -15,7 +15,7 @@ object DomManipulation {
       .environment[Browser]
       .map(
         browser =>
-          browser.dom
+          browser.browser
             .body()
             .appendChild(
               TagsOnly.overallPageLayout(pageMode).render
@@ -29,7 +29,7 @@ object DomManipulation {
       .environment[Browser]
       .map[Unit](
         browser =>
-          browser.dom
+          browser.browser
             .body()
             .querySelector("#activity-log")
             .appendChild(div(message).render)
@@ -41,11 +41,11 @@ object DomManipulation {
     ZIO
       .environment[Browser]
       .map { browser =>
-        browser.dom
+        browser.browser
           .body()
           .querySelector("#upcoming-buses")
           .innerHTML = ""
-        browser.dom
+        browser.browser
           .body()
           .querySelector("#upcoming-buses")
           .appendChild(newContent.render)
