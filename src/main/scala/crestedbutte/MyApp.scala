@@ -35,8 +35,7 @@ object MyApp extends App {
   ): ZIO[zio.ZEnv, Nothing, Int] = {
     val myEnvironment
       : zio.clock.Clock with zio.console.Console with Browser =
-//      new Clock.Live with Console.Live with BrowserLive
-      new LateNightClock.Fixed with Console.Live with BrowserLive
+      new Clock.Live with Console.Live with BrowserLive
 
     registerServiceWorker()
 
@@ -50,6 +49,14 @@ object MyApp extends App {
 //      _ <- NotificationsStuff.addAlarmBehaviorToTimes
       _ <- NotificationsStuff.displayNotificationPermission
       _ <- updateUpcomingArrivalsOnPage
+        .provide(
+          // TODO Try to provide *only* a clock here.
+          if (pageMode == AppMode.Development)
+            new LateNightClock.Fixed
+            with Console.Live with BrowserLive
+          else
+            new Clock.Live with Console.Live with BrowserLive
+        )
         .flatMap { _ =>
           NotificationsStuff.addAlarmBehaviorToTimes
         }
