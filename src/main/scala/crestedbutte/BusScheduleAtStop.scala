@@ -15,6 +15,11 @@ case class BusScheduleAtStop(location: Location.Value,
   def at(locationIn: Location.Value) =
     BusScheduleAtStop(locationIn, times)
 
+  def scheduleAfter(busTime: BusTime) =
+    BusScheduleAtStop(
+      location,
+      times.dropWhile(!BusTime.catchableBus(busTime, _))
+    )
 }
 
 object BusScheduleAtStop {

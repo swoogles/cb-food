@@ -51,7 +51,7 @@ object TimeCalculations {
       scheduleAtStop =>
         UpcomingArrivalInfoWithFullSchedule(
           getUpcomingArrivalInfo(scheduleAtStop, now),
-          scheduleAtStop
+          scheduleAtStop.scheduleAfter(now)
         )
     )
 

@@ -6,8 +6,6 @@ import crestedbutte.time.BusTime
 import org.scalajs.dom
 import zio.clock._
 import zio.console.Console
-import zio.console.putStrLn
-import zio.stream.Stream
 import zio.duration.Duration
 import zio.{App, Schedule, ZIO}
 import org.scalajs.dom._
@@ -18,26 +16,13 @@ import org.scalajs.dom.experimental.{
 import org.scalajs.dom.experimental.serviceworkers._
 
 import scala.collection.mutable
-import scala.concurrent.Future
 import scala.scalajs.js
-import scala.scalajs.js.Promise
 import scala.util.{Failure, Success}
 // TODO Ew. Try to get this removed after first version of PWA is working
 import scala.concurrent.ExecutionContext.Implicits.global
-import org.scalajs.dom.{Event, EventTarget, MessageEvent, MessagePort}
-import org.scalajs.jquery._
-
-@js.native
-trait BootstrapJQuery extends JQuery {
-  def modal(action: String): BootstrapJQuery = js.native
-  def modal(options: js.Any): BootstrapJQuery = js.native
-  def foundation(): Unit = js.native
-}
 
 object MyApp extends App {
 
-  implicit def jq2bootstrap(jq: JQuery): BootstrapJQuery =
-    jq.asInstanceOf[BootstrapJQuery]
   val desiredAlarms = mutable.Queue.empty[BusTime]
   desiredAlarms.empty
 
@@ -55,12 +40,10 @@ object MyApp extends App {
       _ <- DomManipulation.createAndApplyPageStructure(
         pageMode
       ) // TODO Base on queryParam
-//      _ <- ZIO.succeed { jQuery("").foundation()  js.Dynamic.global.d }
-//      _ <- ZIO.succeed { jQuery(dom.document).foundation() }
       _ <- registerServiceWorker()
-      _ <- NotificationsStuff.addNotificationPermissionRequestToButton
+      _ <- NotificationStuff.addNotificationPermissionRequestToButton
 //      _ <- NotificationsStuff.addAlarmBehaviorToTimes
-      _ <- NotificationsStuff.displayNotificationPermission
+      _ <- NotificationStuff.displayNotificationPermission
       _ <- updateUpcomingArrivalsOnPage
         .provide(
           // TODO Try to provide *only* a clock here.
@@ -71,7 +54,7 @@ object MyApp extends App {
             new Clock.Live with Console.Live with BrowserLive
         )
         .flatMap { _ =>
-          NotificationsStuff.addAlarmBehaviorToTimes
+          NotificationStuff.addAlarmBehaviorToTimes
         }
         .flatMap { _ =>
           checkSubmittedAlarms
@@ -148,161 +131,6 @@ object MyApp extends App {
         .flatMap(rawString => AppMode.fromString(rawString))
         .getOrElse(AppMode.Production)
     }
-
-  object NotificationsStuff {
-
-//    var $status = document.getElementById("status")
-
-    val addNotificationPermissionRequestToButton
-      : ZIO[Browser, Nothing, Unit] =
-      ZIO.environment[Browser].map { browser =>
-        val requestPermissionButton =
-          browser.browser
-            .body()
-            .querySelector(
-              s"#${ElementNames.Notifications.requestPermission}"
-            )
-        if (requestPermissionButton != null)
-          requestPermissionButton.addEventListener(
-            "click",
-            (event: Any) =>
-              if (Notification.permission == "default")
-                Notification.requestPermission(
-                  response =>
-                    println(
-                      "Notification requestPermission response: " + response
-                    )
-                )
-              else if (Notification.permission == "denied")
-                println(
-                  "They denied permission to notifications. Give it up."
-                )
-              else if (Notification.permission == "granted")
-                println("we already have permission.")
-              else
-                println(
-                  "Uknown permission state: " + Notification.permission
-                )
-          )
-      }
-
-    val addAlarmBehaviorToTimes = ZIO.environment[Browser].map {
-      browser =>
-        if (Notification.permission == "granted") {
-          val actionButton =
-            browser.browser
-              .body()
-              .querySelectorAll(
-                s".arrival-time"
-              )
-          println("Selected arrival-time elements")
-          if (actionButton != null)
-            for (i <- 0 to actionButton.length) {
-              val item = actionButton.item(i)
-              if (item != null)
-                item
-                  .addEventListener(
-                    "click",
-                    (event: MouseEvent) => {
-                      println(
-                        "lossless value: " + event.target
-                          .asInstanceOf[org.scalajs.dom.raw.Element]
-                          .getAttribute("data-lossless-value")
-                      )
-                      desiredAlarms
-                        .appendAll(
-                          Seq(
-                            BusTime(
-                              event.target
-                                .asInstanceOf[
-                                  org.scalajs.dom.raw.Element
-                                ]
-                                .getAttribute("data-lossless-value")
-                                .replace("'", "")
-                                .trim
-                            )
-                          )
-                        )
-
-                      /*
-                dom.window.setTimeout(
-                  () =>
-                    new Notification("The bus is coming!",
-                                     NotificationOptions(
-                                       vibrate = js.Array(100d)
-                                     )),
-                  10000
-                )
-
-                     */
-                    }
-                  )
-            }
-        }
-    }
-
-    val displayNotificationPermission = ZIO.environment[Browser].map {
-      browser =>
-        val actionButton =
-          browser.browser
-            .body()
-            .querySelector(
-              s"#${ElementNames.Notifications.notificationAction}"
-            )
-        if (actionButton != null)
-          actionButton
-            .addEventListener(
-              "click",
-              (event: MouseEvent) => {
-                println(
-                  "event.relatedTarget: " + event.target
-                )
-                desiredAlarms
-                  .appendAll(
-                    Seq(
-                      BusTime(
-                        event.target
-                          .asInstanceOf[org.scalajs.dom.raw.Element]
-                          .innerHTML // TODO ewwwww
-                      )
-                    )
-                  )
-
-                /*
-                dom.window.setTimeout(
-                  () =>
-                    new Notification("The bus is coming!",
-                                     NotificationOptions(
-                                       vibrate = js.Array(100d)
-                                     )),
-                  10000
-                )
-
-               */
-              }
-            )
-    }
-    /*
-    if ("Notification" in window) {
-      $status.innerText = Notification.permission;
-    }
-
-    function requestPermission() {
-      if (!('Notification' in window)) {
-        alert('Notification API not supported!');
-        return;
-      }
-
-      Notification.requestPermission(function (result) {
-        $status.innerText = result;
-      });
-    }
-
-   */
-  }
-
-//  def messageStuff(): Unit =
-//    toServiceWorkerNavigator(browser.dom.window().navigator).serviceWorker
 
   def registerServiceWorker() =
     ZIO
