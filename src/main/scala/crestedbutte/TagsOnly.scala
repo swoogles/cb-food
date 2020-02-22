@@ -8,8 +8,25 @@ import scalatags.JsDom
 object TagsOnly {
   import scalatags.JsDom.all._
 
+  def createPopup() =
+    div(id := "popup1", cls := "overlay")(
+      div(cls := "popup")(
+        h2("Info box"),
+        a(cls := "close", href := "#")("x" /*&times*/ ),
+        div(cls := "content")(
+          p(
+            "This is done totally without JavaScript. Just HTML and CSS."
+          )
+        )
+      )
+    )
+
   def overallPageLayout(pageMode: AppMode.Value) =
     div(id := "container")(
+      div(id := "wrapper")(
+        p(a(cls := "button", href := "#popup1")("Click Me!")),
+        createPopup()
+      ),
       div(cls := ElementNames.BoxClass,
           id := ElementNames.TownShuttles.containerName)(
         h3(cls := "upcoming-buses-title")(
