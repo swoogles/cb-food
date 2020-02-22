@@ -1,12 +1,22 @@
 package crestedbutte
 
-import crestedbutte.MyApp.desiredAlarms // TODO Uh oh. Super bad here.
 import crestedbutte.time.BusTime
+import org.scalajs.dom
 import org.scalajs.dom.MouseEvent
-import org.scalajs.dom.experimental.Notification
+import org.scalajs.dom.experimental.{
+  Notification,
+  NotificationOptions
+}
 import zio.ZIO
+import zio.clock.Clock
+
+import scala.collection.mutable
+import scala.scalajs.js
 
 object NotificationStuff {
+
+  val desiredAlarms = mutable.Queue.empty[BusTime]
+  desiredAlarms.empty
 
   val addNotificationPermissionRequestToButton
     : ZIO[Browser, Nothing, Unit] =
@@ -83,6 +93,47 @@ object NotificationStuff {
           }
       }
   }
+
+  val checkSubmittedAlarms: ZIO[Clock, Nothing, Unit] =
+    for {
+      clock <- ZIO.environment[Clock]
+      now   <- clock.clock.currentDateTime
+      localTime = new BusTime(now.toLocalTime)
+    } yield {
+      println("Checking for submitted alarms")
+      // TODO Make sure it's at least 2 minutes in the future (or whatever offset is appropriate)
+      val busTimes = desiredAlarms.dequeueAll { _ =>
+        true
+      }
+      println("Now: " + localTime)
+      busTimes.map { busTime =>
+        println("bustime: " + busTime)
+        println(
+          "Minutes until arrival: " + localTime
+            .between(busTime)
+            .toMinutes
+        )
+        val headsUpAmount = 3 // minutes
+        if (localTime
+              .between(busTime)
+              .toMinutes >= headsUpAmount)
+          dom.window.setTimeout(
+            () =>
+              // Read submitted time, find difference between it and the current time, then submit a setInterval function
+              // with the appropriate delay
+              new Notification(
+                s"The ${busTime.toString} bus is arriving in ${headsUpAmount} minutes!",
+                NotificationOptions(
+                  vibrate = js.Array(100d)
+                )
+              ),
+            (localTime
+              .between(busTime)
+              .toMinutes - headsUpAmount) * 60 * 1000
+          )
+      }
+      ()
+    }
 
   val displayNotificationPermission = ZIO.environment[Browser].map {
     browser =>
