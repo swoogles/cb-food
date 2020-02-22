@@ -12,9 +12,9 @@ object TagsOnly {
     div(
       div(id := s"popup_${scheduleAtStop.location}",
           cls := "overlay light")(
+        a(cls := "cancel", href := "#")("x" /*&times*/ ),
         div(cls := "popup")(
-          h2("Info box"),
-          a(cls := "cancel close", href := "#")("x" /*&times*/ ),
+          h2("Later Arrivals"),
           div(cls := "content")(
             scheduleAtStop.times.map(
               time =>
