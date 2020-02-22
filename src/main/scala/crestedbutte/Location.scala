@@ -39,4 +39,33 @@ object Location extends Enumeration {
     "4-way (To Downtown)",
     GpsCoordinates(38.869944, -106.981503)
   ) //
+
+  // Condo loop entries
+  val ThreeSeasons: Val = Val(
+    "Three Seasons",
+    GpsCoordinates(0, 0)
+  )
+
+  val MountainSunrise: Val = Val(
+    "Mountain Sunrise",
+    GpsCoordinates(0, 0)
+  )
+
+  val UpperChateaux: Val = Val(
+    "Upper Chateaux",
+    GpsCoordinates(0, 0)
+  )
+
+  val LowerChateaux: Val = Val(
+    "Lower Chateaux / Marcellina",
+    GpsCoordinates(0, 0)
+  )
+  /*
+  Mountain Sunrise	  :02, :17, :32, :47	8:02 AM	  10:47 PM
+    Upper Chateaux
+    Right after Mtn Sunrise
+    Lower Chateaux,
+  Marcellina	      :03, :18, :33, :48	8:03 AM	  10:48 PM
+
+ */
 }

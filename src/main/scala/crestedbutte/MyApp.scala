@@ -109,19 +109,32 @@ object MyApp extends App {
       ()
     }
 
-  val updateUpcomingArrivalsOnPage
-    : ZIO[Browser with Clock with Console, Nothing, Unit] =
+  def updateUpcomingArrivalsForRoute(
+    componentName: String,
+    readableRouteName: String,
+    schedules: Seq[BusScheduleAtStop]
+  ) =
     for {
       upcomingArrivalAtAllTownShuttleStops <- TimeCalculations
         .getUpComingArrivalsWithFullSchedule(
-          Route(TownShuttleTimes.townShuttleStops)
+          Route(schedules)
         )
       _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
-        ElementNames.TownShuttles.containerName,
+        componentName,
         TagsOnly.structuredSetOfUpcomingArrivals(
           upcomingArrivalAtAllTownShuttleStops,
-          ElementNames.TownShuttles.readableRouteName
+          readableRouteName
         )
+      )
+    } yield ()
+
+  val updateUpcomingArrivalsOnPage
+    : ZIO[Browser with Clock with Console, Nothing, Unit] =
+    for {
+      _ <- updateUpcomingArrivalsForRoute(
+        ElementNames.TownShuttles.containerName,
+        ElementNames.TownShuttles.readableRouteName,
+        TownShuttleTimes.townShuttleStops
       )
       upcomingArrivalAtCondoloopStops <- TimeCalculations
         .getUpComingArrivalsWithFullSchedule(

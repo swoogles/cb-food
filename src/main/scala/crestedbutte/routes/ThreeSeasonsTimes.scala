@@ -22,8 +22,34 @@ Lower Chateaux,
       BusSchedule("08:00", "22:45", 15.minutes)
     )
 
-  val allStops: Seq[BusScheduleAtStop] = Seq(
+  val threeSeasons: BusScheduleAtStop =
     mountaineerSquare
+      .delayedBy(1.minutes)
+      .at(Location.ThreeSeasons)
+
+  val mountainSunrise: BusScheduleAtStop =
+    threeSeasons
+      .delayedBy(1.minutes)
+      .at(Location.MountainSunrise)
+
+  val upperChateaux: BusScheduleAtStop =
+    mountainSunrise
+      .delayedBy(0.minutes)
+      .at(Location.UpperChateaux)
+
+  val lowerChateaux: BusScheduleAtStop =
+    upperChateaux
+      .delayedBy(1.minutes)
+      .at(Location.LowerChateaux)
+  // TODO How should I indicate when it arrives back at Mountaineer Square?
+  //    Currently, it's hard to determine what buses you could catch from the Square.
+
+  val allStops: Seq[BusScheduleAtStop] = Seq(
+    mountaineerSquare,
+    threeSeasons,
+    mountainSunrise,
+    upperChateaux,
+    lowerChateaux
   )
 
 }
