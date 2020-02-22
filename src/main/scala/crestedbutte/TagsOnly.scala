@@ -16,7 +16,8 @@ object TagsOnly {
           "Upcoming Town Shuttles"
         )
       ),
-      button(id := ElementNames.Notifications.requestPermission)(
+      button(id := ElementNames.Notifications.requestPermission,
+             cls := "button")(
         "Request Notifications Permission"
       ),
       if (pageMode == AppMode.Development) {
@@ -41,7 +42,8 @@ object TagsOnly {
     div(cls := "late-night-call-button")(
       button(
         onclick :=
-          s"window.location.href = 'tel:${safeRideRecommendation.phoneNumber}';"
+          s"window.location.href = 'tel:${safeRideRecommendation.phoneNumber}';",
+        cls := "button is-dark"
       )(
         img(
           cls := "glyphicon",

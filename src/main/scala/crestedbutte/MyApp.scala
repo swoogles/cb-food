@@ -25,8 +25,19 @@ import scala.util.{Failure, Success}
 // TODO Ew. Try to get this removed after first version of PWA is working
 import scala.concurrent.ExecutionContext.Implicits.global
 import org.scalajs.dom.{Event, EventTarget, MessageEvent, MessagePort}
+import org.scalajs.jquery._
+
+@js.native
+trait BootstrapJQuery extends JQuery {
+  def modal(action: String): BootstrapJQuery = js.native
+  def modal(options: js.Any): BootstrapJQuery = js.native
+  def foundation(): Unit = js.native
+}
 
 object MyApp extends App {
+
+  implicit def jq2bootstrap(jq: JQuery): BootstrapJQuery =
+    jq.asInstanceOf[BootstrapJQuery]
   val desiredAlarms = mutable.Queue.empty[BusTime]
   desiredAlarms.empty
 
@@ -44,6 +55,8 @@ object MyApp extends App {
       _ <- DomManipulation.createAndApplyPageStructure(
         pageMode
       ) // TODO Base on queryParam
+//      _ <- ZIO.succeed { jQuery("").foundation()  js.Dynamic.global.d }
+//      _ <- ZIO.succeed { jQuery(dom.document).foundation() }
       _ <- registerServiceWorker()
       _ <- NotificationsStuff.addNotificationPermissionRequestToButton
 //      _ <- NotificationsStuff.addAlarmBehaviorToTimes
