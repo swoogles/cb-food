@@ -76,7 +76,8 @@ object MyApp extends App {
         .flatMap { _ =>
           checkSubmittedAlarms
         }
-        .repeat(Schedule.spaced(Duration.apply(5, TimeUnit.SECONDS)))
+        // Currently, everytime I refresh, kills the modal
+        .repeat(Schedule.spaced(Duration.apply(30, TimeUnit.SECONDS)))
     } yield {
       0
     }).provide(myEnvironment)
@@ -132,7 +133,8 @@ object MyApp extends App {
         )
       _ <- DomManipulation.updateUpcomingBusesSection(
         TagsOnly.structuredSetOfUpcomingArrivals(
-          upcomingArrivalAtAllStops
+          upcomingArrivalAtAllStops,
+          TownShuttleTimes.townShuttleStops
         )
       )
     } yield ()

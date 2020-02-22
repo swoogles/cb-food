@@ -8,14 +8,17 @@ import scalatags.JsDom
 object TagsOnly {
   import scalatags.JsDom.all._
 
-  def createPopup() =
-    div(id := "popup1", cls := "overlay")(
-      div(cls := "popup")(
-        h2("Info box"),
-        a(cls := "close", href := "#")("x" /*&times*/ ),
-        div(cls := "content")(
-          p(
-            "This is done totally without JavaScript. Just HTML and CSS."
+  def createPopupContent(scheduleAtStop: BusScheduleAtStop) =
+    div(
+      div(id := s"popup_${scheduleAtStop.location}",
+          cls := "overlay light")(
+        div(cls := "popup")(
+          h2("Info box"),
+          a(cls := "cancel close", href := "#")("x" /*&times*/ ),
+          div(cls := "content")(
+            scheduleAtStop.times.map(
+              time => p(time.toDumbAmericanString)
+            )
           )
         )
       )
@@ -23,10 +26,6 @@ object TagsOnly {
 
   def overallPageLayout(pageMode: AppMode.Value) =
     div(id := "container")(
-      div(id := "wrapper")(
-        p(a(cls := "button", href := "#popup1")("Click Me!")),
-        createPopup()
-      ),
       div(cls := ElementNames.BoxClass,
           id := ElementNames.TownShuttles.containerName)(
         h3(cls := "upcoming-buses-title")(
@@ -109,19 +108,24 @@ object TagsOnly {
       )(stopLocation.name)
     )
 
-  def renderStopTimeInfo(stopTimeInfo: StopTimeInfo) =
+  def renderStopTimeInfo(stopTimeInfo: StopTimeInfo,
+                         busScheduleAtStop: BusScheduleAtStop) =
     div(
-      div(
-        cls := "arrival-time",
+      button(
+        cls := "arrival-time button",
+        onclick :=
+          s"window.location.href = '#popup_${busScheduleAtStop.location}';",
         data("lossless-value") := stopTimeInfo.time.toString
       )(stopTimeInfo.time.toDumbAmericanString),
       div(cls := "wait-time")(
-        renderWaitTime(stopTimeInfo.waitingDuration)
+        renderWaitTime(stopTimeInfo.waitingDuration),
+        createPopupContent(busScheduleAtStop)
       )
     )
 
   def structuredSetOfUpcomingArrivals(
-    upcomingArrivalInfo: Seq[UpcomingArrivalInfo]
+    upcomingArrivalInfo: Seq[UpcomingArrivalInfo], // This should take one of these
+    busScheduleAtStops: Seq[BusScheduleAtStop]
   ) =
     div(
       div(cls := "route-header")(
@@ -135,16 +139,19 @@ object TagsOnly {
         )
       ),
       upcomingArrivalInfo.map {
-        case UpcomingArrivalInfo(location, content) =>
+        case UpcomingArrivalInfo(location, content) => {
+          val fullScheduleAtStop =
+            busScheduleAtStops.find(_.location == location).get
           TagsOnly.createBusTimeElement(
             location,
             content match {
               case Left(stopTimeInfo) =>
-                renderStopTimeInfo(stopTimeInfo)
+                renderStopTimeInfo(stopTimeInfo, fullScheduleAtStop)
               case Right(safeRideRecommendation) =>
                 safeRideLink(safeRideRecommendation)
             }
           )
+        }
       }
     )
 
