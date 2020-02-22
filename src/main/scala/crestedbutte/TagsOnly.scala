@@ -1,7 +1,7 @@
 package crestedbutte
 
 import crestedbutte.Location.StopLocation
-import crestedbutte.time.BusDuration
+import crestedbutte.time.{BusDuration, BusTime}
 import org.scalajs.dom.html.{Anchor, Div}
 import scalatags.JsDom
 
@@ -20,8 +20,11 @@ object TagsOnly {
               time =>
                 div(
                   span(time.toDumbAmericanString),
-                  button(cls := "arrival-time", // Turn into glyphicon
-                         data("lossless-value") := time.toString)("A")
+                  svgIconForAlarm(
+                    "glyphicons-basic-443-bell-ringing.svg",
+                    "arrival-time",
+                    time
+                  )
                 )
             )
           )
@@ -167,6 +170,16 @@ object TagsOnly {
           )
         }
       }
+    )
+
+  def svgIconForAlarm(name: String,
+                      classes: String,
+                      busTime: BusTime) =
+    img(
+      cls := "glyphicon " + classes,
+      src := s"/glyphicons/svg/individual-svg/$name",
+      alt := "Thanks for riding the bus!",
+      data("lossless-value") := busTime.toString
     )
 
   def svgIcon(name: String) =
