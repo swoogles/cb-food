@@ -92,7 +92,9 @@ object TagsOnly {
       width := "100%",
       cls := "stop-information"
     )(
-      div(cls := "stop-name")(geoLinkForStop(location)),
+      div(cls := "stop-name")(
+        div(location.name, geoLinkForStop(location))
+      ),
       div(cls := "upcoming-information")(
         content
       )
@@ -105,7 +107,7 @@ object TagsOnly {
         //    <a href="geo:37.786971,-122.399677;u=35">open map</a>
 //          href := s"geo:${stopLocation.gpsCoordinates.latitude}, ${stopLocation.gpsCoordinates.longitude}"
         href := s"https://www.google.com/maps/search/?api=1&query=${stopLocation.gpsCoordinates.latitude},${stopLocation.gpsCoordinates.longitude}"
-      )(stopLocation.name)
+      )(svgIcon("glyphicons-basic-591-map-marker.svg"))
     )
 
   def renderStopTimeInfo(stopTimeInfo: StopTimeInfo,
@@ -155,7 +157,12 @@ object TagsOnly {
       }
     )
 
-  def mapIcon() = ???
+  def svgIcon(name: String) =
+    img(
+      cls := "glyphicon route-header_icon",
+      src := s"/glyphicons/svg/individual-svg/$name",
+      alt := "Thanks for riding the bus!"
+    )
   /*
   glyphicons-basic-591-map-marker.svg
   glyphicons-basic-417-globe.svg
