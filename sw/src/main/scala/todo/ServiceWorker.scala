@@ -30,9 +30,9 @@ object ServiceWorker {
     self.addEventListener(
       "install",
       (event: ExtendableEvent) => {
-        println(
-          s"install: service worker with message handler installed > ${event.toString}"
-        )
+//        println(
+//          s"install: service worker with message handler installed > ${event.toString}"
+//        )
         event.waitUntil(toCache().toJSPromise)
       }
     )
@@ -40,9 +40,9 @@ object ServiceWorker {
     self.addEventListener(
       "activate",
       (event: ExtendableEvent) => {
-        println(
-          s"activate: service worker activated > ${event.toString}"
-        )
+//        println(
+//          s"activate: service worker activated > ${event.toString}"
+//        )
         invalidateCache()
 //      event.waitUntil(toCache().toJSPromise)
         self.clients.claim()
@@ -52,16 +52,15 @@ object ServiceWorker {
     self.addEventListener(
       "message",
       (event: MessageEvent) => {
-        println(
-          s"message received:  ${event.data}"
-        )
+//        println(
+//          s"message received:  ${event.data}"
+//        )
       }
     )
 
     self.addEventListener(
       "fetch",
       (event: FetchEvent) => {
-        println("That's rather fetching.")
         if (event.request.cache == RequestCache.`only-if-cached`
             && event.request.mode != RequestMode.`same-origin`) {
           println(
@@ -70,7 +69,7 @@ object ServiceWorker {
         } else {
           fromCache(event.request).onComplete {
             case Success(response) =>
-              println(s"fetch: in cache > ${event.request.url}")
+//              println(s"fetch: in cache > ${event.request.url}")
               response
             case Failure(error) =>
               println(
@@ -122,9 +121,9 @@ object ServiceWorker {
       .toFuture
       .map { invalidatedCache =>
         if (invalidatedCache) {
-          println(
-            s"invalidateCache: cache invalidated!', $invalidatedCache"
-          )
+//          println(
+//            s"invalidateCache: cache invalidated!', $invalidatedCache"
+//          )
           toCache()
         }
       }
