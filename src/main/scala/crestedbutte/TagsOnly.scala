@@ -28,6 +28,7 @@ object TagsOnly {
     div(id := "container")(
       div(cls := ElementNames.BoxClass,
           id := ElementNames.TownShuttles.containerName)(
+        div(id := ElementNames.TownShuttles.contentName),
         h3(cls := "upcoming-buses-title")(
           "Upcoming Town Shuttles"
         )
@@ -43,8 +44,13 @@ object TagsOnly {
       } else {
         div()
       },
-      div(cls := ElementNames.BoxClass)(
-        div("Future Work: Condo Loops")
+      div(cls := ElementNames.BoxClass,
+          id := ElementNames.ThreeSeasonsLoop.containerName)(
+        div(id := ElementNames.ThreeSeasonsLoop.contentName)(
+          h3(cls := "upcoming-buses-title")(
+            "Upcoming Town Shuttles"
+          )
+        )
       ),
       div(cls := ElementNames.BoxClass)(
         div("Future Work: RTA buses!")
@@ -126,12 +132,13 @@ object TagsOnly {
     )
 
   def structuredSetOfUpcomingArrivals(
-    upcomingArrivalInfo: Seq[UpcomingArrivalInfoWithFullSchedule] // This should take one of these
+    upcomingArrivalInfo: Seq[UpcomingArrivalInfoWithFullSchedule], // This should take one item
+    routeName: String
   ) =
     div(
       div(cls := "route-header")(
         span(cls := "route-header_name")(
-          "Upcoming Town Shuttles"
+          "Upcoming " + routeName + " Buses"
         ),
         img(
           cls := "glyphicon route-header_icon",

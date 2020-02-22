@@ -35,19 +35,24 @@ object DomManipulation {
             .appendChild(div(message).render)
       )
 
-  def updateUpcomingBusesSection(
+  def updateUpcomingBusSectionInsideElement(
+    elementName: String,
     newContent: JsDom.TypedTag[Div]
-  ): ZIO[Browser, Nothing, Unit] =
+  ) =
     ZIO
       .environment[Browser]
       .map { browser =>
-        browser.browser
+        println("Trying to get element: " + s"#${elementName}")
+        val townShuttleElementResult = browser.browser
           .body()
+          .querySelector(s"#${elementName}")
+        townShuttleElementResult
           .querySelector("#upcoming-buses")
           .innerHTML = ""
-        browser.browser
-          .body()
+        townShuttleElementResult
           .querySelector("#upcoming-buses")
           .appendChild(newContent.render)
+        println("added content successfully")
       }
+
 }

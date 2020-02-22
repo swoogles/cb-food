@@ -2,7 +2,8 @@ package crestedbutte
 
 import java.util.concurrent.TimeUnit
 
-import crestedbutte.routes.TownShuttleTimes
+import crestedbutte.ElementNames.ThreeSeasonsLoop
+import crestedbutte.routes.{ThreeSeasonsTimes, TownShuttleTimes}
 import crestedbutte.time.BusTime
 import org.scalajs.dom
 import zio.clock._
@@ -111,13 +112,26 @@ object MyApp extends App {
   val updateUpcomingArrivalsOnPage
     : ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
-      upcomingArrivalAtAllStops <- TimeCalculations
+      upcomingArrivalAtAllTownShuttleStops <- TimeCalculations
         .getUpComingArrivalsWithFullSchedule(
           Route(TownShuttleTimes.townShuttleStops)
         )
-      _ <- DomManipulation.updateUpcomingBusesSection(
+      _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
+        ElementNames.TownShuttles.containerName,
         TagsOnly.structuredSetOfUpcomingArrivals(
-          upcomingArrivalAtAllStops
+          upcomingArrivalAtAllTownShuttleStops,
+          ElementNames.TownShuttles.readableRouteName
+        )
+      )
+      upcomingArrivalAtCondoloopStops <- TimeCalculations
+        .getUpComingArrivalsWithFullSchedule(
+          Route(ThreeSeasonsTimes.allStops)
+        )
+      _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
+        ElementNames.ThreeSeasonsLoop.containerName,
+        TagsOnly.structuredSetOfUpcomingArrivals(
+          upcomingArrivalAtCondoloopStops,
+          ElementNames.ThreeSeasonsLoop.readableRouteName
         )
       )
     } yield ()
