@@ -43,7 +43,7 @@ object TagsOnly {
       button(
         onclick :=
           s"window.location.href = 'tel:${safeRideRecommendation.phoneNumber}';",
-        cls := "button is-dark"
+        cls := "button"
       )(
         img(
           cls := "glyphicon",

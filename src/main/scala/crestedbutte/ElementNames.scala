@@ -1,7 +1,7 @@
 package crestedbutte
 
 object ElementNames {
-  val BoxClass = "box"
+  val BoxClass = "bill-box"
 
   object TownShuttles {
     val containerName = "upcoming-buses"
