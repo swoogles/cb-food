@@ -19,7 +19,7 @@ Lower Chateaux,
   val mountaineerSquare: BusScheduleAtStop =
     BusScheduleAtStop(
       Location.MountaineerSquare,
-      BusSchedule("08:00:00", "22:45:00", 15.minutes)
+      BusSchedule("08:00", "22:45", 15.minutes)
     )
 
   val allStops: Seq[BusScheduleAtStop] = Seq(

@@ -20,7 +20,7 @@ object TownShuttleTimes {
   val oldTownHallBusStarts: BusScheduleAtStop =
     BusScheduleAtStop(
       Location.OldTownHall,
-      BusSchedule("07:10:00", "23:40:00", 15.minutes)
+      BusSchedule("07:10", "23:40", 15.minutes)
     )
 
   val clarksBusStarts: BusScheduleAtStop =
