@@ -2,6 +2,7 @@ package crestedbutte
 
 import java.util.concurrent.TimeUnit
 
+import crestedbutte.routes.TownShuttleTimes
 import crestedbutte.time.BusTime
 import org.scalajs.dom
 import zio.clock._

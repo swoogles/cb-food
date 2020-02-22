@@ -1,6 +1,7 @@
-package crestedbutte
+package crestedbutte.routes
 
-import crestedbutte.time.BusDuration.toBusDuration // Enables Int.minutes syntax
+import crestedbutte.{BusSchedule, BusScheduleAtStop, Location}
+import crestedbutte.time.BusDuration.toBusDuration
 
 object TownShuttleTimes {
   /*
