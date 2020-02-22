@@ -53,12 +53,13 @@ object NotificationStuff {
 
   val addAlarmBehaviorToTimes = ZIO.environment[Browser].map {
     browser =>
+      println("Notification.permission: " + Notification.permission)
       if (Notification.permission == "granted") {
         val actionButton =
           browser.browser
             .body()
             .querySelectorAll(
-              s".arrival-time"
+              ".arrival-time"
             )
         println("Selected arrival-time elements")
         if (actionButton != null)

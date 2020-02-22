@@ -2,23 +2,13 @@ package crestedbutte
 
 import java.util.concurrent.TimeUnit
 
-import crestedbutte.ElementNames.ThreeSeasonsLoop
 import crestedbutte.routes.{ThreeSeasonsTimes, TownShuttleTimes}
-import crestedbutte.time.BusTime
-import org.scalajs.dom
 import zio.clock._
 import zio.console.Console
 import zio.duration.Duration
 import zio.{App, Schedule, ZIO}
-import org.scalajs.dom._
-import org.scalajs.dom.experimental.{
-  Notification,
-  NotificationOptions
-}
 import org.scalajs.dom.experimental.serviceworkers._
 
-import scala.collection.mutable
-import scala.scalajs.js
 import scala.util.{Failure, Success}
 // TODO Ew. Try to get this removed after first version of PWA is working
 import scala.concurrent.ExecutionContext.Implicits.global

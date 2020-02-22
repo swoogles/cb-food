@@ -17,7 +17,12 @@ object TagsOnly {
           a(cls := "cancel close", href := "#")("x" /*&times*/ ),
           div(cls := "content")(
             scheduleAtStop.times.map(
-              time => p(time.toDumbAmericanString)
+              time =>
+                div(
+                  span(time.toDumbAmericanString),
+                  button(cls := "arrival-time", // Turn into glyphicon
+                         data("lossless-value") := time.toString)("A")
+                )
             )
           )
         )
