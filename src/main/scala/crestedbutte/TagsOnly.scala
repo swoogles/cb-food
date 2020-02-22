@@ -155,4 +155,14 @@ object TagsOnly {
       }
     )
 
+  def mapIcon() = ???
+  /*
+  glyphicons-basic-591-map-marker.svg
+  glyphicons-basic-417-globe.svg
+  glyphicons-basic-262-direction-empty.svg
+  glyphicons-basic-581-directions.svg
+  glyphicons-basic-697-directions-sign.svg
+
+ */
+
 }
