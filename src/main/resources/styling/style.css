@@ -19,8 +19,10 @@ body {
 .glyphicon {
     height: 32px;
     width: 32px;
-    vertical-align: center;
+    /*vertical-align: middle;*/
+    /*display: table-cell;*/
 }
+
 button {
     font-size: 140%;
 }
@@ -60,5 +62,18 @@ button {
 .upcoming-information {
     grid-area: upcoming-information;
     text-align:left;
+}
+
+.route-header {
+    text-align: center;
+    font-weight: bold;
+    font-size: 150%;
+}
+
+.route-header_name {
+}
+.route-header_icon {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 

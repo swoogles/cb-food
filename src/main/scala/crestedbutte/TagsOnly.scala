@@ -46,9 +46,7 @@ object TagsOnly {
         img(
           cls := "glyphicon",
           src := "/glyphicons/svg/individual-svg/glyphicons-basic-465-call.svg",
-          alt := "Call Late Night Shuttle!",
-          height := "32",
-          width := "32"
+          alt := "Call Late Night Shuttle!"
         ),
         safeRideRecommendation.message
       )
@@ -107,7 +105,16 @@ object TagsOnly {
     upcomingArrivalInfo: Seq[UpcomingArrivalInfo]
   ) =
     div(
-      h4(textAlign := "center")("Upcoming Town Shuttles"),
+      div(cls := "route-header")(
+        span(cls := "route-header_name")(
+          "Upcoming Town Shuttles"
+        ),
+        img(
+          cls := "glyphicon route-header_icon",
+          src := "/glyphicons/svg/individual-svg/glyphicons-basic-32-bus.svg",
+          alt := "Thanks for riding the bus!"
+        )
+      ),
       upcomingArrivalInfo.map {
         case UpcomingArrivalInfo(location, content) =>
           TagsOnly.createBusTimeElement(
