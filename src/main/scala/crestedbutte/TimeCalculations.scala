@@ -31,7 +31,7 @@ object TimeCalculations {
       .getOrElse(
         UpcomingArrivalInfo(
           stops.location,
-          LateNightRecommendation("safe-ride")
+          LateNightRecommendation("Late Shuttle")
         )
       )
 
