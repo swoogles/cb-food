@@ -22,7 +22,7 @@ object TagsOnly {
                   span(time.toDumbAmericanString),
                   svgIconForAlarm(
                     "glyphicons-basic-443-bell-ringing.svg",
-                    "arrival-time",
+                    "arrival-time-alarm",
                     time
                   )
                 )

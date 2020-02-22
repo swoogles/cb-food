@@ -59,7 +59,7 @@ object NotificationStuff {
           browser.browser
             .body()
             .querySelectorAll(
-              ".arrival-time"
+              ".arrival-time-alarm"
             )
         println("Selected arrival-time elements")
         if (actionButton != null)
@@ -75,6 +75,16 @@ object NotificationStuff {
                         .asInstanceOf[org.scalajs.dom.raw.Element]
                         .getAttribute("data-lossless-value")
                     )
+
+                    // This will give the user an idea of what the eventual notification will look/sound like
+                    // While also letting them know that they successfully scheduled it.
+                    new Notification(
+                      s"You will be alerted when the bus is about to arrive with a Notification like this.",
+                      NotificationOptions(
+                        vibrate = js.Array(100d)
+                      )
+                    )
+
                     desiredAlarms
                       .appendAll(
                         Seq(
