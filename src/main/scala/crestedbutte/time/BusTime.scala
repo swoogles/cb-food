@@ -76,12 +76,9 @@ object BusTime {
     } catch {
       case ex: DateTimeParseException =>
         try {
-          println("Failed default parse: " + ex.getParsedString)
-          println("trying again with a leading 0")
           new BusTime(LocalTime.parse("0" + raw, dateFormat))
         } catch {
           case ex: DateTimeParseException =>
-            println("Failed default parse: " + ex.getParsedString)
             new BusTime(LocalTime.parse(raw))
         }
     }

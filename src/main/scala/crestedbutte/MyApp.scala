@@ -128,13 +128,12 @@ object MyApp extends App {
     : ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
       upcomingArrivalAtAllStops <- TimeCalculations
-        .getUpComingArrivals(
+        .getUpComingArrivalsWithFullSchedule(
           Route(TownShuttleTimes.townShuttleStops)
         )
       _ <- DomManipulation.updateUpcomingBusesSection(
         TagsOnly.structuredSetOfUpcomingArrivals(
-          upcomingArrivalAtAllStops,
-          TownShuttleTimes.townShuttleStops
+          upcomingArrivalAtAllStops
         )
       )
     } yield ()

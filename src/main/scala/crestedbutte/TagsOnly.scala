@@ -124,8 +124,7 @@ object TagsOnly {
     )
 
   def structuredSetOfUpcomingArrivals(
-    upcomingArrivalInfo: Seq[UpcomingArrivalInfo], // This should take one of these
-    busScheduleAtStops: Seq[BusScheduleAtStop]
+    upcomingArrivalInfo: Seq[UpcomingArrivalInfoWithFullSchedule] // This should take one of these
   ) =
     div(
       div(cls := "route-header")(
@@ -139,9 +138,10 @@ object TagsOnly {
         )
       ),
       upcomingArrivalInfo.map {
-        case UpcomingArrivalInfo(location, content) => {
-          val fullScheduleAtStop =
-            busScheduleAtStops.find(_.location == location).get
+        case UpcomingArrivalInfoWithFullSchedule(
+            UpcomingArrivalInfo(location, content),
+            fullScheduleAtStop
+            ) => {
           TagsOnly.createBusTimeElement(
             location,
             content match {
