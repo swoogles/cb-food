@@ -13,8 +13,13 @@ object TagsOnly {
     div(id := s"popup_${scheduleAtStop.location.elementName}",
         cls := "modal")(
       div(cls := "modal-background")(),
-      div(cls := "modal-content")(
-        h4(textAlign := "center")("Upcoming Arrivals"),
+      div(cls := "modal-content",
+          backgroundColor := "rgba(68, 68, 68, 1.0)",
+          marginLeft := "45px",
+          marginRight := "45px")(
+        h4(textAlign := "center")(
+          "Upcoming Arrivals"
+        ),
         scheduleAtStop.times.map(
           time =>
             div(textAlign := "center")(
