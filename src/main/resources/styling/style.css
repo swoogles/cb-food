@@ -43,7 +43,7 @@ body {
 
 .stop-information {
     display: grid;
-    grid-template-columns:1fr 6fr 2fr;
+    grid-template-columns:1fr 6fr 3fr;
     grid-template-rows: auto 1fr ;
     grid-template-areas:
             "map-link stop-name upcoming-information"
