@@ -140,9 +140,20 @@ object MyApp extends App {
           .toFuture
           .onComplete {
             case Success(registration) =>
-              registration.active.postMessage(
-                "Submitting a message to the serviceWorker!"
-              )
+              browser.browser
+                .body()
+                .querySelector(
+                  "#" + ElementNames.Notifications.submitMessageToServiceWorker
+                )
+                .addEventListener(
+                  "click",
+                  (mouseEvent: MouseEvent) => {
+                    println("submitting message to service worker")
+                    registration.active.postMessage(
+                      "Submitting a message to the serviceWorker!"
+                    )
+                  }
+                )
               println(
                 "registerServiceWorker: registered service worker in a monad properly accesing the env"
               )

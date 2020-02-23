@@ -52,8 +52,14 @@ object ServiceWorker {
     self.addEventListener(
       "message",
       (event: MessageEvent) => {
-//        println(
-//          s"message received:  ${event.data}"
+        new Notification(
+          s"This is a notification from the service worker!",
+          NotificationOptions(
+            vibrate = js.Array(100d)
+          )
+        )
+        //        println(
+        //          s"message received:  ${event.data}"
 //        )
       }
     )

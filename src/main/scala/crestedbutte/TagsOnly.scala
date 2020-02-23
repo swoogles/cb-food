@@ -77,6 +77,12 @@ object TagsOnly {
              cls := "button")(
         "Request Notifications Permission"
       ),
+      button(
+        id := ElementNames.Notifications.submitMessageToServiceWorker,
+        cls := "button"
+      )(
+        "SubmitMessage to SW"
+      ),
       if (pageMode == AppMode.Development) {
         button(id := ElementNames.Notifications.notificationAction)(
           "10:20"
