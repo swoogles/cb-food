@@ -1,5 +1,6 @@
 package crestedbutte
 
+import java.util.NoSuchElementException
 import java.util.concurrent.TimeUnit
 
 import crestedbutte.routes.{ThreeSeasonsTimes, TownShuttleTimes}
@@ -74,7 +75,7 @@ object MyApp extends App {
           NotificationStuff.checkSubmittedAlarms
         }
         // Currently, everytime I refresh, kills the modal
-        .repeat(Schedule.spaced(Duration.apply(30, TimeUnit.SECONDS)))
+        .repeat(Schedule.spaced(Duration.apply(10, TimeUnit.SECONDS)))
     } yield {
       0
     }).provide(myEnvironment)
@@ -99,25 +100,41 @@ object MyApp extends App {
       )
     } yield ()
 
+  val modalIsOpen: ZIO[Browser, Nothing, Boolean] =
+    ZIO
+      .environment[Browser]
+      .map { browser =>
+        browser.browser
+          .body()
+          .querySelectorAll(".modal.is-active")
+          .length > 0
+      }
+
   val updateUpcomingArrivalsOnPage
     : ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
-      _ <- updateUpcomingArrivalsForRoute(
-        ElementNames.TownShuttles.containerName,
-        ElementNames.TownShuttles.readableRouteName,
-        TownShuttleTimes.townShuttleStops
-      )
-      upcomingArrivalAtCondoloopStops <- TimeCalculations
-        .getUpComingArrivalsWithFullSchedule(
-          Route(ThreeSeasonsTimes.allStops)
-        )
-      _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
-        ElementNames.ThreeSeasonsLoop.containerName,
-        TagsOnly.structuredSetOfUpcomingArrivals(
-          upcomingArrivalAtCondoloopStops,
-          ElementNames.ThreeSeasonsLoop.readableRouteName
-        )
-      )
+      modalIsOpen <- modalIsOpen
+      _ <- if (modalIsOpen) ZIO.succeed()
+      else
+        for {
+
+          _ <- updateUpcomingArrivalsForRoute(
+            ElementNames.TownShuttles.containerName,
+            ElementNames.TownShuttles.readableRouteName,
+            TownShuttleTimes.townShuttleStops
+          )
+          upcomingArrivalAtCondoloopStops <- TimeCalculations
+            .getUpComingArrivalsWithFullSchedule(
+              Route(ThreeSeasonsTimes.allStops)
+            )
+          _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
+            ElementNames.ThreeSeasonsLoop.containerName,
+            TagsOnly.structuredSetOfUpcomingArrivals(
+              upcomingArrivalAtCondoloopStops,
+              ElementNames.ThreeSeasonsLoop.readableRouteName
+            )
+          )
+        } yield ()
     } yield ()
 
   val getCurrentPageMode =
