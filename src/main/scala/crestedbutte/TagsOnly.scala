@@ -193,6 +193,20 @@ object TagsOnly {
           html.classList.add("is-clipped");
 
           modal
+            .querySelector(".modal-close")
+            .addEventListener(
+              "click",
+              (e: MouseEvent) => {
+                e.preventDefault();
+
+                org.scalajs.dom.document
+                  .querySelector("html")
+                  .classList
+                  .remove("is-clipped");
+              }
+            )
+
+          modal
             .querySelector(".modal-background")
             .addEventListener(
               "click",
