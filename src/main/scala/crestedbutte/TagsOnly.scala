@@ -3,10 +3,32 @@ package crestedbutte
 import crestedbutte.Location.StopLocation
 import crestedbutte.time.{BusDuration, BusTime}
 import org.scalajs.dom.html.{Anchor, Div}
+import org.scalajs.dom.raw.MouseEvent
 import scalatags.JsDom
 
 object TagsOnly {
   import scalatags.JsDom.all._
+
+  def bulmaModal(scheduleAtStop: BusScheduleAtStop) =
+    div(id := s"popup_${scheduleAtStop.location.elementName}",
+        cls := "modal")(
+      div(cls := "modal-background")(),
+      div(cls := "modal-content")(
+        h4(textAlign := "center")("Upcoming Arrivals"),
+        scheduleAtStop.times.map(
+          time =>
+            div(textAlign := "center")(
+              span(time.toDumbAmericanString),
+              svgIconForAlarm(
+                "glyphicons-basic-443-bell-ringing.svg",
+                "arrival-time-alarm",
+                time
+              )
+            )
+        )
+      ),
+      button(cls := "modal-close is-large", aria.label := "close")()
+    )
 
   def createPopupContent(scheduleAtStop: BusScheduleAtStop) =
     div(
@@ -124,18 +146,55 @@ object TagsOnly {
       )(svgIcon("glyphicons-basic-591-map-marker.svg"))
     )
 
+  def activateModal(targetName: String): Unit =
+    org.scalajs.dom.document.body
+      .querySelector(targetName)
+      .classList
+      .add("is-active")
+
   def renderStopTimeInfo(stopTimeInfo: StopTimeInfo,
                          busScheduleAtStop: BusScheduleAtStop) =
     div(
       button(
         cls := "arrival-time button",
-        onclick :=
-          s"window.location.href = '#popup_${busScheduleAtStop.location}';",
+        onclick := { (clickEvent: MouseEvent) =>
+//          document.querySelector("a#open-modal").addEventListener("click", function(event) {
+          clickEvent.preventDefault();
+
+          val modal = org.scalajs.dom.document.body
+            .querySelector(
+              "#popup_" + busScheduleAtStop.location.elementName
+            )
+          val html =
+            org.scalajs.dom.document
+              .querySelector("html")
+//          modal.classList.add("is-active");
+          println("about to work with html element")
+          html.classList.add("is-clipped");
+
+          modal
+            .querySelector(".modal-background")
+            .addEventListener(
+              "click",
+              (e: MouseEvent) => {
+                e.preventDefault();
+                println("about to die")
+                modal.classList.remove("is-active");
+                html.classList.remove("is-clipped");
+                println("didn't die")
+              }
+            );
+
+          activateModal(
+            "#popup_" + busScheduleAtStop.location.elementName
+          )
+        },
+//          s"activateModal('#popup_${busScheduleAtStop.location}');",
         data("lossless-value") := stopTimeInfo.time.toString
       )(stopTimeInfo.time.toDumbAmericanString),
       div(cls := "wait-time")(
         renderWaitTime(stopTimeInfo.waitingDuration),
-        createPopupContent(busScheduleAtStop)
+        bulmaModal(busScheduleAtStop)
       )
     )
 

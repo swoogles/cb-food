@@ -8,6 +8,7 @@ import zio.console.Console
 import zio.duration.Duration
 import zio.{App, Schedule, ZIO}
 import org.scalajs.dom.experimental.serviceworkers._
+import org.scalajs.dom.raw.MouseEvent
 
 import scala.util.{Failure, Success}
 // TODO Ew. Try to get this removed after first version of PWA is working
@@ -44,6 +45,30 @@ object MyApp extends App {
         )
         .flatMap { _ =>
           NotificationStuff.addAlarmBehaviorToTimes
+        }
+        .flatMap { _ =>
+          ZIO
+            .environment[Browser]
+            .map { browser =>
+              val modalCloseButtons = browser.browser
+                .window()
+                .document
+                .querySelectorAll(".modal-close")
+              for { i <- Range(0, modalCloseButtons.length) } {
+                modalCloseButtons
+                  .item(i)
+                  .addEventListener("click",
+                                    (mouseEvent: MouseEvent) =>
+                                      browser.browser
+                                        .window()
+                                        .document
+                                        .querySelector(".is-active")
+                                        .classList
+                                        .remove("is-active"))
+
+              }
+            }
+
         }
         .flatMap { _ =>
           NotificationStuff.checkSubmittedAlarms
