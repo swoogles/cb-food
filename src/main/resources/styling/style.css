@@ -42,12 +42,19 @@ button {
 
 .stop-information {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns:1fr 3fr 1fr;
     grid-template-rows: auto 1fr ;
-    grid-template-areas: "stop-name upcoming-information";
-    padding-top: 15px;
-    padding-bottom: 15px;
+    grid-template-areas:
+            "map-link stop-name upcoming-information"
+            "map-link stop-name upcoming-information";
+    padding-top: 5px;
+    padding-bottom: 5px;
     border-bottom: 1px solid white;
+}
+
+.map-link {
+    grid-area: map-link;
+    text-align: center;
 }
 
 .stop-name {

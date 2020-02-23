@@ -133,8 +133,11 @@ object TagsOnly {
       width := "100%",
       cls := "stop-information"
     )(
+      div(cls := "map-link")(
+        geoLinkForStop(location)
+      ),
       div(cls := "stop-name")(
-        div(location.name, geoLinkForStop(location))
+        div(location.name)
       ),
       div(cls := "upcoming-information")(
         content
@@ -142,14 +145,12 @@ object TagsOnly {
     )
 
   def geoLinkForStop(stopLocation: StopLocation) =
-    div(
-      a(
-        cls := "link",
-        //    <a href="geo:37.786971,-122.399677;u=35">open map</a>
+    a(
+      cls := "link",
+      //    <a href="geo:37.786971,-122.399677;u=35">open map</a>
 //          href := s"geo:${stopLocation.gpsCoordinates.latitude}, ${stopLocation.gpsCoordinates.longitude}"
-        href := s"https://www.google.com/maps/search/?api=1&query=${stopLocation.gpsCoordinates.latitude},${stopLocation.gpsCoordinates.longitude}"
-      )(svgIcon("glyphicons-basic-591-map-marker.svg"))
-    )
+      href := s"https://www.google.com/maps/search/?api=1&query=${stopLocation.gpsCoordinates.latitude},${stopLocation.gpsCoordinates.longitude}"
+    )(svgIcon("glyphicons-basic-591-map-marker.svg"))
 
   def activateModal(targetName: String): Unit =
     org.scalajs.dom.document.body
