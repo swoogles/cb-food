@@ -139,6 +139,9 @@ object TagsOnly {
       div(cls := "stop-name")(
         div(location.name)
       ),
+      div(cls := "stop-alt-name")(
+        div(location.altName)
+      ),
       div(cls := "upcoming-information")(
         content
       )

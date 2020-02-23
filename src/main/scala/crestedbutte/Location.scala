@@ -4,7 +4,8 @@ object Location extends Enumeration {
 
   protected case class Val(name: String,
                            gpsCoordinates: GpsCoordinates,
-                           elementName: String)
+                           elementName: String,
+                           altName: String)
       extends super.Val(name)
   import scala.language.implicitConversions
 
@@ -17,49 +18,60 @@ object Location extends Enumeration {
   val OldTownHall: Val =
     Val("Old Town Hall",
         GpsCoordinates(38.869538, -106.987547),
-        "old_town_hall")
+        "old_town_hall",
+        "(Malardi Theater)")
 
-  val Clarks: Val = Val("6th/Belleview (Clarks)",
+  val Clarks: Val = Val("6th/Belleview",
                         GpsCoordinates(38.866970, -106.981499),
-                        "clarks") //
+                        "clarks",
+                        "(Clarks Grocery)") //
 
-  val FourWayUphill: Val = Val("4-way (To Mountain)",
+  val FourWayUphill: Val = Val("4-way",
                                GpsCoordinates(38.870355, -106.980905),
-                               "fourway_uphill") // gps
+                               "fourway_uphill",
+                               "(To Mountain)") // gps
   val TeocalliUphill: Val = Val(
-    "Teocalli (To Mountain)",
+    "Teocalli",
     GpsCoordinates(38.872718, -106.980830),
-    "teocalli_uphill"
+    "teocalli_uphill",
+    "(To Mountain)"
   ) //
   val MountaineerSquare: Val = Val(
     "Mountaineer Square",
     GpsCoordinates(38.900902, -106.966650),
-    "mountaineer_square"
+    "mountaineer_square",
+    "(CBMR)"
   ) //  // This is rough. Maps seems to be off...
   val TeocalliDownhill: Val = Val(
-    "Teocalli (To Downtown)",
+    "Teocalli",
     GpsCoordinates(38.872726, -106.981037),
-    "teocalli_downhill"
+    "teocalli_downhill",
+    "(To Downtown)"
   ) //
   val FourwayDownhill: Val = Val(
-    "4-way (To Downtown)",
+    "4-way",
     GpsCoordinates(38.869944, -106.981503),
-    "fourway_downhill"
+    "fourway_downhill",
+    "(To Downtown)"
   ) //
 
   // Condo loop entries
   val ThreeSeasons: Val =
-    Val("Three Seasons", GpsCoordinates(0, 0), "three_seasons")
+    Val("Three Seasons", GpsCoordinates(0, 0), "three_seasons", "")
 
   val MountainSunrise: Val =
-    Val("Mountain Sunrise", GpsCoordinates(0, 0), "mountain_sunrise")
+    Val("Mountain Sunrise",
+        GpsCoordinates(0, 0),
+        "mountain_sunrise",
+        "")
 
   val UpperChateaux: Val =
-    Val("Upper Chateaux", GpsCoordinates(0, 0), "upper_chateaux")
+    Val("Upper Chateaux", GpsCoordinates(0, 0), "upper_chateaux", "")
 
   val LowerChateaux: Val = Val("Lower Chateaux / Marcellina",
                                GpsCoordinates(0, 0),
-                               "lower_chateaux")
+                               "lower_chateaux",
+                               "")
   /*
   Mountain Sunrise	  :02, :17, :32, :47	8:02 AM	  10:47 PM
     Upper Chateaux
