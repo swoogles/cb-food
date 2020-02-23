@@ -18,8 +18,9 @@ body {
     /*display: table-cell;*/
 }
 
-button {
-    font-size: 140%;
+.button {
+    font-size: 80%;
+    font-weight: bold;
 }
 
 .light-background {
@@ -65,6 +66,7 @@ button {
 .stop-alt-name {
     grid-area: stop-alt-name;
     text-align: center;
+    font-size: 70%;
 }
 .upcoming-information {
     grid-area: upcoming-information;
