@@ -7,7 +7,7 @@ object ElementNames {
     val containerName = "town-shuttles"
     val contentName = "upcoming-buses"
     val title = "upcoming-buses-title"
-    val readableRouteName = "Town Shuttles"
+    val readableRouteName = "Town Loop"
   }
 
   object ThreeSeasonsLoop {
