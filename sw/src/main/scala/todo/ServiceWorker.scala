@@ -52,7 +52,7 @@ object ServiceWorker {
     self.addEventListener(
       "message",
       (event: MessageEvent) => {
-        new Notification(
+        self.registration.showNotification(
           s"This is a notification from the service worker!",
           NotificationOptions(
             vibrate = js.Array(100d)
