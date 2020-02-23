@@ -117,7 +117,6 @@ object MyApp extends App {
       _ <- if (modalIsOpen) ZIO.succeed()
       else
         for {
-
           _ <- updateUpcomingArrivalsForRoute(
             ElementNames.TownShuttles.containerName,
             ElementNames.TownShuttles.readableRouteName,

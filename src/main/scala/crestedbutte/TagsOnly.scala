@@ -198,10 +198,13 @@ object TagsOnly {
               "click",
               (e: MouseEvent) => {
                 e.preventDefault();
-                println("about to die")
+
+                org.scalajs.dom.document
+                  .querySelector("html")
+                  .classList
+                  .remove("is-clipped");
+
                 modal.classList.remove("is-active");
-                html.classList.remove("is-clipped");
-                println("didn't die")
               }
             );
 
