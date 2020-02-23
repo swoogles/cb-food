@@ -18,6 +18,9 @@ object TagsOnly {
           marginLeft := "45px",
           marginRight := "45px")(
         h4(textAlign := "center")(
+          scheduleAtStop.location.name
+        ),
+        h5(textAlign := "center")(
           "Upcoming Arrivals"
         ),
         scheduleAtStop.times.map(
