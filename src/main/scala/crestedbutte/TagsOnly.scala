@@ -25,7 +25,9 @@ object TagsOnly {
         ),
         scheduleAtStop.times.map(
           time =>
-            div(textAlign := "center")(
+            div(textAlign := "center",
+                verticalAlign := "middle",
+                paddingBottom := "3px")(
               span(time.toDumbAmericanString),
               svgIconForAlarm(
                 "glyphicons-basic-443-bell-ringing.svg",
@@ -250,7 +252,8 @@ object TagsOnly {
       cls := "glyphicon " + classes,
       src := s"/glyphicons/svg/individual-svg/$name",
       alt := "Thanks for riding the bus!",
-      data("lossless-value") := busTime.toString
+      data("lossless-value") := busTime.toString,
+      verticalAlign := "middle"
     )
 
   def svgIcon(name: String) =
