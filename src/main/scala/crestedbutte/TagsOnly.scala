@@ -68,35 +68,31 @@ object TagsOnly {
     div(id := "container")(
       div(cls := ElementNames.BoxClass,
           id := ElementNames.TownShuttles.containerName)(
-        div(id := ElementNames.TownShuttles.contentName),
-        h3(cls := "upcoming-buses-title")(
-          "Upcoming Town Shuttles"
+        div(id := ElementNames.TownShuttles.contentName)
+      ),
+      if (pageMode == AppMode.Development) {
+        button(id := ElementNames.Notifications.requestPermission,
+               cls := "button")(
+          "Request Notifications Permission"
         )
-      ),
-      button(id := ElementNames.Notifications.requestPermission,
-             cls := "button")(
-        "Request Notifications Permission"
-      ),
-      button(
-        id := ElementNames.Notifications.submitMessageToServiceWorker,
-        cls := "button"
-      )(
-        "SubmitMessage to SW"
-      ),
+      } else div(),
+      if (pageMode == AppMode.Development) {
+        button(
+          id := ElementNames.Notifications.submitMessageToServiceWorker,
+          cls := "button"
+        )(
+          "SubmitMessage to SW"
+        )
+      } else div(),
       if (pageMode == AppMode.Development) {
         button(id := ElementNames.Notifications.notificationAction)(
           "10:20"
         )
-      } else {
-        div()
-      },
+      } else div(),
       div(cls := ElementNames.BoxClass,
           id := ElementNames.ThreeSeasonsLoop.containerName)(
         div(id := ElementNames.ThreeSeasonsLoop.contentName)(
-          h3(cls := "upcoming-buses-title")(
-            "Upcoming Town Shuttles"
           )
-        )
       ),
       div(cls := ElementNames.BoxClass)(
         div("Future Work: RTA buses!")
@@ -178,7 +174,6 @@ object TagsOnly {
       button(
         cls := "arrival-time button",
         onclick := { (clickEvent: MouseEvent) =>
-//          document.querySelector("a#open-modal").addEventListener("click", function(event) {
           clickEvent.preventDefault();
 
           val modal = org.scalajs.dom.document.body
