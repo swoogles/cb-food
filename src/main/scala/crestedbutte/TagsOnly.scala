@@ -9,9 +9,8 @@ import scalatags.JsDom
 object TagsOnly {
   import scalatags.JsDom.all._
 
-  def bulmaModal(scheduleAtStop: BusScheduleAtStop) =
-    div(id := s"popup_${scheduleAtStop.location.elementName}",
-        cls := "modal")(
+  def bulmaModal(scheduleAtStop: BusScheduleAtStop, idValue: String) =
+    div(id := idValue, cls := "modal")(
       div(cls := "modal-background")(),
       div(cls := "modal-content",
           backgroundColor := "rgba(68, 68, 68, 1.0)",
@@ -168,76 +167,48 @@ object TagsOnly {
       .classList
       .add("is-active")
 
+  def modalContentElementNameTyped(location: Location.Value,
+                                   routeName: RouteName.Value) =
+    data("schedule-modal") := modalContentElementName(location,
+                                                      routeName)
+
+  def modalContentElementName(location: Location.Value,
+                              routeName: RouteName.Value) =
+    "modal_content_" + routeName.name + "_" + location.elementName
+
   def renderStopTimeInfo(stopTimeInfo: StopTimeInfo,
-                         busScheduleAtStop: BusScheduleAtStop) =
+                         busScheduleAtStop: BusScheduleAtStop,
+                         routeName: RouteName.Value) =
     div(
       button(
-        cls := "arrival-time button",
-        onclick := { (clickEvent: MouseEvent) =>
-          clickEvent.preventDefault();
-
-          val modal = org.scalajs.dom.document.body
-            .querySelector(
-              "#popup_" + busScheduleAtStop.location.elementName
-            )
-          val html =
-            org.scalajs.dom.document
-              .querySelector("html")
-//          modal.classList.add("is-active");
-          println("about to work with html element")
-          html.classList.add("is-clipped");
-
-          modal
-            .querySelector(".modal-close")
-            .addEventListener(
-              "click",
-              (e: MouseEvent) => {
-                e.preventDefault();
-
-                org.scalajs.dom.document
-                  .querySelector("html")
-                  .classList
-                  .remove("is-clipped");
-              }
-            )
-
-          modal
-            .querySelector(".modal-background")
-            .addEventListener(
-              "click",
-              (e: MouseEvent) => {
-                e.preventDefault();
-
-                org.scalajs.dom.document
-                  .querySelector("html")
-                  .classList
-                  .remove("is-clipped");
-
-                modal.classList.remove("is-active");
-              }
-            );
-
-          activateModal(
-            "#popup_" + busScheduleAtStop.location.elementName
-          )
-        },
+        cls := "arrival-time button open-arrival-time-modal",
+        modalContentElementNameTyped(
+          busScheduleAtStop.location,
+          routeName
+        ),
+//          data("schedule-modal") := modalContentElementName(
+//            busScheduleAtStop.location,
+//            routeName
+//          ),
+        onclick := {},
 //          s"activateModal('#popup_${busScheduleAtStop.location}');",
         data("lossless-value") := stopTimeInfo.time.toString
       )(stopTimeInfo.time.toDumbAmericanString),
       div(cls := "wait-time")(
         renderWaitTime(stopTimeInfo.waitingDuration),
-        bulmaModal(busScheduleAtStop)
+        bulmaModal(busScheduleAtStop,
+                   modalContentElementName(busScheduleAtStop.location,
+                                           routeName))
       )
     )
 
   def structuredSetOfUpcomingArrivals(
-    upcomingArrivalInfo: Seq[UpcomingArrivalInfoWithFullSchedule], // This should take one item
-    routeName: String
+    upcomingArrivalComponentData: UpcomingArrivalComponentData
   ) =
     div(
       div(cls := "route-header")(
         span(cls := "route-header_name")(
-          "Upcoming " + routeName + " Buses"
+          "Upcoming " + upcomingArrivalComponentData.routeName + " Buses"
         ),
         img(
           cls := "glyphicon route-header_icon",
@@ -245,7 +216,7 @@ object TagsOnly {
           alt := "Thanks for riding the bus!"
         )
       ),
-      upcomingArrivalInfo.map {
+      upcomingArrivalComponentData.upcomingArrivalInfo.map {
         case UpcomingArrivalInfoWithFullSchedule(
             UpcomingArrivalInfo(location, content),
             fullScheduleAtStop
@@ -254,7 +225,11 @@ object TagsOnly {
             location,
             content match {
               case Left(stopTimeInfo) =>
-                renderStopTimeInfo(stopTimeInfo, fullScheduleAtStop)
+                renderStopTimeInfo(
+                  stopTimeInfo,
+                  fullScheduleAtStop,
+                  upcomingArrivalComponentData.routeName
+                )
               case Right(safeRideRecommendation) =>
                 safeRideLink(safeRideRecommendation)
             }

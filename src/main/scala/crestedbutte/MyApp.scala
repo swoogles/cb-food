@@ -9,7 +9,7 @@ import zio.console.Console
 import zio.duration.Duration
 import zio.{App, Schedule, ZIO}
 import org.scalajs.dom.experimental.serviceworkers._
-import org.scalajs.dom.raw.MouseEvent
+import org.scalajs.dom.raw.{MouseEvent, NamedNodeMap}
 
 import scala.util.{Failure, Success}
 // TODO Ew. Try to get this removed after first version of PWA is working
@@ -46,6 +46,105 @@ object MyApp extends App {
         )
         .flatMap { _ =>
           NotificationStuff.addAlarmBehaviorToTimes
+        }
+        .flatMap { _ =>
+          def activateModal(targetName: String): Unit =
+            org.scalajs.dom.document.body
+              .querySelector(targetName)
+              .classList
+              .add("is-active")
+
+          ZIO
+            .environment[Browser]
+            .map { browser =>
+              val modalOpenButtons = browser.browser
+                .window()
+                .document
+                .querySelectorAll(".open-arrival-time-modal")
+
+              for { i <- Range(0, modalOpenButtons.length) } {
+                modalOpenButtons
+                  .item(i)
+                  .addEventListener(
+                    "click",
+                    (clickEvent: MouseEvent) => {
+                      //                clickEvent.target.
+                      val attributesOfClickedItem: NamedNodeMap =
+                        modalOpenButtons
+                          .item(i)
+                          .attributes
+                      for {
+                        i <- Range(0, attributesOfClickedItem.length)
+                      } yield {
+                        println(
+                          "attribute: " + attributesOfClickedItem
+                            .apply(i)
+                            .name
+                        )
+                      }
+                      val modalContentId =
+                        modalOpenButtons
+                          .item(i)
+                          .attributes
+                          .getNamedItem("data-schedule-modal")
+                          .value
+
+                      println("modalContentId: " + modalContentId)
+
+                      clickEvent.preventDefault();
+
+                      val modal = org.scalajs.dom.document.body
+                        .querySelector(
+                          "#" + modalContentId
+                        )
+                      println("Selected modal: " + modal.id)
+                      val html =
+                        org.scalajs.dom.document
+                          .querySelector("html")
+                      //          modal.classList.add("is-active");
+                      println("about to work with html element")
+                      html.classList.add("is-clipped");
+
+                      modal
+                        .querySelector(".modal-close")
+                        .addEventListener(
+                          "click",
+                          (e: MouseEvent) => {
+                            e.preventDefault();
+
+                            org.scalajs.dom.document
+                              .querySelector("html")
+                              .classList
+                              .remove("is-clipped");
+                          }
+                        )
+
+                      modal
+                        .querySelector(".modal-background")
+                        .addEventListener(
+                          "click",
+                          (e: MouseEvent) => {
+                            e.preventDefault();
+
+                            org.scalajs.dom.document
+                              .querySelector("html")
+                              .classList
+                              .remove("is-clipped");
+
+                            modal.classList.remove("is-active");
+                          }
+                        );
+                      println(
+                        "Finished adding behaviors to modal close buttons"
+                      )
+
+                      activateModal(
+                        "#" + modalContentId
+                      )
+                    }
+                  )
+              }
+            }
         }
         .flatMap { _ =>
           ZIO
@@ -89,13 +188,12 @@ object MyApp extends App {
     for {
       upcomingArrivalAtAllTownShuttleStops <- TimeCalculations
         .getUpComingArrivalsWithFullSchedule(
-          Route(schedules)
+          Route(schedules, RouteName.TownLoop)
         )
       _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
         componentName,
         TagsOnly.structuredSetOfUpcomingArrivals(
-          upcomingArrivalAtAllTownShuttleStops,
-          readableRouteName
+          upcomingArrivalAtAllTownShuttleStops
         )
       )
     } yield ()
@@ -124,13 +222,13 @@ object MyApp extends App {
           )
           upcomingArrivalAtCondoloopStops <- TimeCalculations
             .getUpComingArrivalsWithFullSchedule(
-              Route(ThreeSeasonsTimes.allStops)
+              Route(ThreeSeasonsTimes.allStops,
+                    RouteName.ThreeSeasonsLoop)
             )
           _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
             ElementNames.ThreeSeasonsLoop.containerName,
             TagsOnly.structuredSetOfUpcomingArrivals(
-              upcomingArrivalAtCondoloopStops,
-              ElementNames.ThreeSeasonsLoop.readableRouteName
+              upcomingArrivalAtCondoloopStops
             )
           )
         } yield ()

@@ -71,16 +71,19 @@ object TimeCalculations {
 
   def getUpComingArrivalsWithFullSchedule(
     busRoute: Route
-  ): ZIO[Clock, Nothing, Seq[UpcomingArrivalInfoWithFullSchedule]] =
+  ): ZIO[Clock, Nothing, UpcomingArrivalComponentData] =
     for {
       clockProper <- ZIO.environment[Clock]
       now         <- clockProper.clock.currentDateTime
       localTime = new BusTime(now.toLocalTime)
     } yield {
-      TimeCalculations
-        .calculateUpcomingArrivalWithFullScheduleAtAllStops(
-          localTime,
-          busRoute
-        )
+      UpcomingArrivalComponentData(
+        TimeCalculations
+          .calculateUpcomingArrivalWithFullScheduleAtAllStops(
+            localTime,
+            busRoute
+          ),
+        busRoute.routeName
+      )
     }
 }
