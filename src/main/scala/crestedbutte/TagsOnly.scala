@@ -276,7 +276,7 @@ object TagsOnly {
 
   def svgIcon(name: String) =
     img(
-      cls := "glyphicon route-header_icon",
+      cls := "glyphicon",
       src := s"/glyphicons/svg/individual-svg/$name",
       alt := "Thanks for riding the bus!"
     )
