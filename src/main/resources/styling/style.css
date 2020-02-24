@@ -56,6 +56,9 @@ body {
 .map-link {
     grid-area: map-link;
     text-align: center;
+    vertical-align: middle;
+    position:relative;
+    top: calc(40% - 10px);
 }
 
 .stop-name {
