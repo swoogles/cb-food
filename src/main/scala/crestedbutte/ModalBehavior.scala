@@ -10,10 +10,8 @@ import zio.{DefaultRuntime, ZIO}
 
 object ModalBehavior {
 
-  val clipRootHtml =
-    ZIO
-      .environment[Element]
-      .map(rootElement => rootElement.classList.add("is-clipped"))
+  def clipRootHtml(element: Element) =
+    element.classList.add("is-clipped")
 
   def id(value: String) =
     "#" + value
@@ -55,13 +53,9 @@ object ModalBehavior {
                     id(modalContentId)
                   )
 
-                new DefaultRuntime {}.unsafeRun(
-                  clipRootHtml
-                    .provide(
-                      org.scalajs.dom.document
-                        .querySelector("html")
-                    )
-                    .run
+                clipRootHtml(
+                  org.scalajs.dom.document
+                    .querySelector("html")
                 )
 
                 println(
@@ -74,10 +68,7 @@ object ModalBehavior {
                     (e: MouseEvent) => {
                       e.preventDefault();
 
-                      org.scalajs.dom.document
-                        .querySelector("html")
-                        .classList
-                        .remove("is-clipped");
+                      removeClippedHtml(browser)
 
                       modal.classList.remove("is-active");
                     }
@@ -90,6 +81,13 @@ object ModalBehavior {
             )
         }
       }
+
+  def removeClippedHtml(browser: Browser) =
+    browser.browser
+      .body()
+      .querySelector("html")
+      .classList
+      .remove("is-clipped")
 
   val addModalCloseBehavior =
     ZIO
