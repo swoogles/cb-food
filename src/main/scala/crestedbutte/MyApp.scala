@@ -9,7 +9,7 @@ import zio.console.Console
 import zio.duration.Duration
 import zio.{App, Schedule, ZIO}
 import org.scalajs.dom.experimental.serviceworkers._
-import org.scalajs.dom.raw.{MouseEvent, NamedNodeMap}
+import org.scalajs.dom.raw.{MouseEvent, NamedNodeMap, NodeList}
 
 import scala.util.{Failure, Success}
 // TODO Ew. Try to get this removed after first version of PWA is working
@@ -35,150 +35,30 @@ object MyApp extends App {
       _ <- NotificationStuff.addNotificationPermissionRequestToButton
 //      _ <- NotificationsStuff.addAlarmBehaviorToTimes
       _ <- NotificationStuff.displayNotificationPermission
-      _ <- updateUpcomingArrivalsOnPage
+      _ <- loopLogic(pageMode)
         .provide(
           // TODO Try to provide *only* a clock here.
           if (pageMode == AppMode.Development)
-            new LateNightClock.Fixed
-            with Console.Live with BrowserLive
+            new LateNightClock.Fixed with Console.Live
+            with BrowserLive
           else
             new Clock.Live with Console.Live with BrowserLive
         )
-        .flatMap { _ =>
-          NotificationStuff.addAlarmBehaviorToTimes
-        }
-        .flatMap { _ =>
-          def activateModal(targetName: String): Unit =
-            org.scalajs.dom.document.body
-              .querySelector(targetName)
-              .classList
-              .add("is-active")
-
-          ZIO
-            .environment[Browser]
-            .map { browser =>
-              val modalOpenButtons = browser.browser
-                .window()
-                .document
-                .querySelectorAll(".open-arrival-time-modal")
-
-              for { i <- Range(0, modalOpenButtons.length) } {
-                modalOpenButtons
-                  .item(i)
-                  .addEventListener(
-                    "click",
-                    (clickEvent: MouseEvent) => {
-                      //                clickEvent.target.
-                      val attributesOfClickedItem: NamedNodeMap =
-                        modalOpenButtons
-                          .item(i)
-                          .attributes
-                      for {
-                        i <- Range(0, attributesOfClickedItem.length)
-                      } yield {
-                        println(
-                          "attribute: " + attributesOfClickedItem
-                            .apply(i)
-                            .name
-                        )
-                      }
-                      val modalContentId =
-                        modalOpenButtons
-                          .item(i)
-                          .attributes
-                          .getNamedItem("data-schedule-modal")
-                          .value
-
-                      println("modalContentId: " + modalContentId)
-
-                      clickEvent.preventDefault();
-
-                      val modal = org.scalajs.dom.document.body
-                        .querySelector(
-                          "#" + modalContentId
-                        )
-                      println("Selected modal: " + modal.id)
-                      val html =
-                        org.scalajs.dom.document
-                          .querySelector("html")
-                      //          modal.classList.add("is-active");
-                      println("about to work with html element")
-                      html.classList.add("is-clipped");
-
-                      modal
-                        .querySelector(".modal-close")
-                        .addEventListener(
-                          "click",
-                          (e: MouseEvent) => {
-                            e.preventDefault();
-
-                            org.scalajs.dom.document
-                              .querySelector("html")
-                              .classList
-                              .remove("is-clipped");
-                          }
-                        )
-
-                      modal
-                        .querySelector(".modal-background")
-                        .addEventListener(
-                          "click",
-                          (e: MouseEvent) => {
-                            e.preventDefault();
-
-                            org.scalajs.dom.document
-                              .querySelector("html")
-                              .classList
-                              .remove("is-clipped");
-
-                            modal.classList.remove("is-active");
-                          }
-                        );
-                      println(
-                        "Finished adding behaviors to modal close buttons"
-                      )
-
-                      activateModal(
-                        "#" + modalContentId
-                      )
-                    }
-                  )
-              }
-            }
-        }
-        .flatMap { _ =>
-          ZIO
-            .environment[Browser]
-            .map { browser =>
-              val modalCloseButtons = browser.browser
-                .window()
-                .document
-                .querySelectorAll(".modal-close")
-              for { i <- Range(0, modalCloseButtons.length) } {
-                modalCloseButtons
-                  .item(i)
-                  .addEventListener("click",
-                                    (mouseEvent: MouseEvent) =>
-                                      browser.browser
-                                        .window()
-                                        .document
-                                        .querySelector(".is-active")
-                                        .classList
-                                        .remove("is-active"))
-
-              }
-            }
-
-        }
-        .flatMap { _ =>
-          NotificationStuff.checkSubmittedAlarms
-        }
         // Currently, everytime I refresh, kills the modal
         .repeat(Schedule.spaced(Duration.apply(10, TimeUnit.SECONDS)))
     } yield {
       0
     }).provide(myEnvironment)
   }
+
+  def loopLogic(pageMode: AppMode.Value) =
+    for {
+      _ <- updateUpcomingArrivalsOnPage
+      _ <- NotificationStuff.addAlarmBehaviorToTimes
+      _ <- ModalBehavior.addModalOpenBehavior
+      _ <- ModalBehavior.addModalCloseBehavior
+      _ <- NotificationStuff.checkSubmittedAlarms
+    } yield ()
 
   def updateUpcomingArrivalsForRoute(
     componentName: String,
