@@ -15,6 +15,9 @@ object ModalBehavior {
       .environment[Element]
       .map(rootElement => rootElement.classList.add("is-clipped"))
 
+  def id(value: String) =
+    "#" + value
+
   val addModalOpenBehavior =
     ZIO
       .environment[Browser]
@@ -32,6 +35,7 @@ object ModalBehavior {
           .querySelectorAll(".open-arrival-time-modal")
 
         for { i <- Range(0, modalOpenButtons.length) } {
+          println("about to add modal open Button behavior")
           modalOpenButtons
             .item(i)
             .addEventListener(
@@ -48,7 +52,7 @@ object ModalBehavior {
 
                 val modal: Element = org.scalajs.dom.document.body
                   .querySelector(
-                    "#" + modalContentId
+                    id(modalContentId)
                   )
 
                 new DefaultRuntime {}.unsafeRun(
@@ -60,20 +64,9 @@ object ModalBehavior {
                     .run
                 )
 
-                modal
-                  .querySelector(".modal-close")
-                  .addEventListener(
-                    "click",
-                    (e: MouseEvent) => {
-                      e.preventDefault();
-
-                      org.scalajs.dom.document
-                        .querySelector("html")
-                        .classList
-                        .remove("is-clipped");
-                    }
-                  )
-
+                println(
+                  "about to add modal background click behavior"
+                )
                 modal
                   .querySelector(".modal-background")
                   .addEventListener(
@@ -91,7 +84,7 @@ object ModalBehavior {
                   );
 
                 activateModal(
-                  "#" + modalContentId
+                  id(modalContentId)
                 )
               }
             )
@@ -107,16 +100,30 @@ object ModalBehavior {
           .document
           .querySelectorAll(".modal-close")
         for { i <- Range(0, modalCloseButtons.length) } {
+          println("about to add modalCloseButton")
           modalCloseButtons
             .item(i)
-            .addEventListener("click",
-                              (mouseEvent: MouseEvent) =>
-                                browser.browser
-                                  .window()
-                                  .document
-                                  .querySelector(".is-active")
-                                  .classList
-                                  .remove("is-active"))
+            .addEventListener(
+              "click",
+              (mouseEvent: MouseEvent) => {
+
+                org.scalajs.dom.document
+                  .querySelector("html")
+                  .classList
+                  .remove("is-clipped");
+                if (browser.browser
+                      .window()
+                      .document
+                      .querySelector(".is-active") != null) {
+                  browser.browser
+                    .window()
+                    .document
+                    .querySelector(".is-active")
+                    .classList
+                    .remove("is-active")
+                }
+              }
+            )
 
         }
       }
