@@ -1,9 +1,19 @@
 package crestedbutte
 
-import org.scalajs.dom.raw.{MouseEvent, NamedNodeMap, NodeList}
-import zio.ZIO
+import org.scalajs.dom.raw.{
+  Element,
+  MouseEvent,
+  NamedNodeMap,
+  NodeList
+}
+import zio.{DefaultRuntime, ZIO}
 
 object ModalBehavior {
+
+  val clipRootHtml =
+    ZIO
+      .environment[Element]
+      .map(rootElement => rootElement.classList.add("is-clipped"))
 
   val addModalOpenBehavior =
     ZIO
@@ -27,12 +37,6 @@ object ModalBehavior {
             .addEventListener(
               "click",
               (clickEvent: MouseEvent) => {
-                //                clickEvent.target.
-                val attributesOfClickedItem: NamedNodeMap =
-                  modalOpenButtons
-                    .item(i)
-                    .attributes
-
                 val modalContentId =
                   modalOpenButtons
                     .item(i)
@@ -42,15 +46,19 @@ object ModalBehavior {
 
                 clickEvent.preventDefault();
 
-                val modal = org.scalajs.dom.document.body
+                val modal: Element = org.scalajs.dom.document.body
                   .querySelector(
                     "#" + modalContentId
                   )
-                val html =
-                  org.scalajs.dom.document
-                    .querySelector("html")
-                //          modal.classList.add("is-active");
-                html.classList.add("is-clipped");
+
+                new DefaultRuntime {}.unsafeRun(
+                  clipRootHtml
+                    .provide(
+                      org.scalajs.dom.document
+                        .querySelector("html")
+                    )
+                    .run
+                )
 
                 modal
                   .querySelector(".modal-close")
