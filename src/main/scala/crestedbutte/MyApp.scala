@@ -31,7 +31,9 @@ object MyApp extends App {
       _ <- DomManipulation.createAndApplyPageStructure(
         pageMode
       ) // TODO Base on queryParam
+      _ <- attachMenuBehavior
       _ <- registerServiceWorker()
+
       _ <- NotificationStuff.addNotificationPermissionRequestToButton
 //      _ <- NotificationsStuff.addAlarmBehaviorToTimes
       _ <- NotificationStuff.displayNotificationPermission
@@ -124,6 +126,55 @@ object MyApp extends App {
         .flatMap(rawString => AppMode.fromString(rawString))
         .getOrElse(AppMode.Production)
     }
+
+  val attachMenuBehavior =
+    ZIO
+      .environment[Browser]
+      .map { browser =>
+        browser.browser
+          .window()
+          .document
+          .addEventListener(
+            "DOMContentLoaded",
+            (_: Any) => {
+
+              // Get all "navbar-burger" elements
+              val navbarBurgers = browser.browser
+                .body()
+                .querySelectorAll(".navbar-burger")
+
+              // Check if there are any navbar burgers
+              for { i <- Range(0, navbarBurgers.length) } yield {
+
+                // Add a click event on each of them
+
+                navbarBurgers
+                  .item(i)
+                  .addEventListener(
+                    "click",
+                    (mouseEvent: MouseEvent) => {
+
+                      // Get the target from the "data-target" attribute
+                      val target = navbarBurgers
+                        .item(i)
+                        .attributes
+                        .getNamedItem("data-target")
+                        .value
+                      val Xtarget = browser.browser
+                        .body()
+                        .querySelector("#" + target)
+
+                      // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+//          navbarBurgers.item(i).classList.toggle("is-active");
+                      Xtarget.classList.toggle("is-active");
+
+                    }
+                  );
+              }
+
+            }
+          )
+      }
 
   def registerServiceWorker() =
     ZIO

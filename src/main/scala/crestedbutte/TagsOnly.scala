@@ -46,7 +46,7 @@ object TagsOnly {
 
   def overallPageLayout(pageMode: AppMode.Value) =
     div(id := "container")(
-      hamburgerMenu(),
+      Bulma.menu(),
       div(cls := ElementNames.BoxClass,
           id := ElementNames.TownShuttles.containerName)(
         div(id := ElementNames.TownShuttles.contentName)
