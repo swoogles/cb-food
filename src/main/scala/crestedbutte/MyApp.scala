@@ -67,13 +67,13 @@ object MyApp extends App {
 
   def updateUpcomingArrivalsForRoute(
     componentName: String,
-    readableRouteName: String,
+    routeName: RouteName.Value,
     schedules: Seq[BusScheduleAtStop]
   ) =
     for {
       upcomingArrivalAtAllTownShuttleStops <- TimeCalculations
         .getUpComingArrivalsWithFullSchedule(
-          Route(schedules, RouteName.TownLoop)
+          Route(schedules, routeName)
         )
       _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
         componentName,
@@ -102,19 +102,13 @@ object MyApp extends App {
         for {
           _ <- updateUpcomingArrivalsForRoute(
             ElementNames.TownShuttles.containerName,
-            ElementNames.TownShuttles.readableRouteName,
+            RouteName.TownLoop,
             TownShuttleTimes.townShuttleStops
           )
-          upcomingArrivalAtCondoloopStops <- TimeCalculations
-            .getUpComingArrivalsWithFullSchedule(
-              Route(ThreeSeasonsTimes.allStops,
-                    RouteName.ThreeSeasonsLoop)
-            )
-          _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
+          _ <- updateUpcomingArrivalsForRoute(
             ElementNames.ThreeSeasonsLoop.containerName,
-            TagsOnly.structuredSetOfUpcomingArrivals(
-              upcomingArrivalAtCondoloopStops
-            )
+            RouteName.ThreeSeasonsLoop,
+            ThreeSeasonsTimes.allStops
           )
         } yield ()
     } yield ()
