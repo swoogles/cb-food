@@ -37,21 +37,31 @@ object DomManipulation {
 
   def updateUpcomingBusSectionInsideElement(
     elementName: String,
-    newContent: JsDom.TypedTag[Div]
-  ) =
+    newContent: JsDom.TypedTag[Div],
+    routeMode: RouteMode.Value
+  ): ZIO[Browser, Nothing, Unit] =
     ZIO
       .environment[Browser]
       .map { browser =>
         println("Trying to get element: " + s"#${elementName}")
         val townShuttleElementResult = browser.browser
           .body()
-          .querySelector(s"#${elementName}")
+          .querySelector(s"#${elementName}") // TODO Handle case where this is missing
+
         townShuttleElementResult
           .querySelector("#upcoming-buses")
           .innerHTML = ""
-        townShuttleElementResult
-          .querySelector("#upcoming-buses")
-          .appendChild(newContent.render)
+        if (routeMode == RouteMode.Active) {
+          townShuttleElementResult
+            .querySelector("#upcoming-buses")
+            .appendChild(newContent.render)
+        } else {
+          townShuttleElementResult.parentNode.removeChild(
+            townShuttleElementResult
+          )
+          println("leaving unwanted route empty")
+
+        }
         println("added content successfully")
       }
 

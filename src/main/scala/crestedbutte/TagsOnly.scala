@@ -74,10 +74,10 @@ object TagsOnly {
           id := ElementNames.ThreeSeasonsLoop.containerName)(
         div(id := ElementNames.ThreeSeasonsLoop.contentName)(
           )
-      ),
-      div(cls := ElementNames.BoxClass)(
-        div("Future Work: RTA buses!")
       )
+//      div(cls := ElementNames.BoxClass)(
+//        div("Future Work: RTA buses!")
+//      )
     )
 
 //  <a href="tel:123-456-7890">123-456-7890</a>

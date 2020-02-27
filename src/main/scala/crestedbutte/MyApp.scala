@@ -40,7 +40,7 @@ object MyApp extends App {
       _ <- NotificationStuff.addNotificationPermissionRequestToButton
 //      _ <- NotificationsStuff.addAlarmBehaviorToTimes
       _ <- NotificationStuff.displayNotificationPermission
-      _ <- loopLogic(pageMode)
+      _ <- loopLogic(pageMode, selectedRoute)
         .provide(
           // TODO Try to provide *only* a clock here.
           if (pageMode == AppMode.Development)
@@ -56,9 +56,9 @@ object MyApp extends App {
     }).provide(myEnvironment)
   }
 
-  def loopLogic(pageMode: AppMode.Value) =
+  def loopLogic(pageMode: AppMode.Value, routeName: RouteName.Value) =
     for {
-      _ <- updateUpcomingArrivalsOnPage
+      _ <- updateUpcomingArrivalsOnPage(routeName)
       _ <- NotificationStuff.addAlarmBehaviorToTimes
       _ <- ModalBehavior.addModalOpenBehavior
       _ <- ModalBehavior.addModalCloseBehavior
@@ -68,7 +68,8 @@ object MyApp extends App {
   def updateUpcomingArrivalsForRoute(
     componentName: String,
     routeName: RouteName.Value,
-    schedules: Seq[BusScheduleAtStop]
+    schedules: Seq[BusScheduleAtStop],
+    routeMode: RouteMode.Value
   ) =
     for {
       upcomingArrivalAtAllTownShuttleStops <- TimeCalculations
@@ -79,7 +80,8 @@ object MyApp extends App {
         componentName,
         TagsOnly.structuredSetOfUpcomingArrivals(
           upcomingArrivalAtAllTownShuttleStops
-        )
+        ),
+        routeMode
       )
     } yield ()
 
@@ -93,8 +95,9 @@ object MyApp extends App {
           .length > 0
       }
 
-  val updateUpcomingArrivalsOnPage
-    : ZIO[Browser with Clock with Console, Nothing, Unit] =
+  def updateUpcomingArrivalsOnPage(
+    routeName: RouteName.Value
+  ): ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
       modalIsOpen <- modalIsOpen
       _ <- if (modalIsOpen) ZIO.succeed()
@@ -103,12 +106,17 @@ object MyApp extends App {
           _ <- updateUpcomingArrivalsForRoute(
             ElementNames.TownShuttles.containerName,
             RouteName.TownLoop,
-            TownShuttleTimes.townShuttleStops
+            TownShuttleTimes.townShuttleStops,
+            if (routeName == RouteName.TownLoop) RouteMode.Active
+            else RouteMode.Hidden
           )
           _ <- updateUpcomingArrivalsForRoute(
             ElementNames.ThreeSeasonsLoop.containerName,
             RouteName.ThreeSeasonsLoop,
-            ThreeSeasonsTimes.allStops
+            ThreeSeasonsTimes.allStops,
+            if (routeName == RouteName.ThreeSeasonsLoop)
+              RouteMode.Active
+            else RouteMode.Hidden
           )
         } yield ()
     } yield ()
