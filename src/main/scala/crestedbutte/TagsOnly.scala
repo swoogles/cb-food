@@ -156,7 +156,7 @@ object TagsOnly {
 
   def modalContentElementName(location: Location.Value,
                               routeName: RouteName.Value) =
-    "modal_content_" + routeName.name + "_" + location.elementName
+    "modal_content_" + routeName.humanReadibleName + "_" + location.elementName
 
   def renderStopTimeInfo(stopTimeInfo: StopTimeInfo,
                          busScheduleAtStop: BusScheduleAtStop,
@@ -192,7 +192,7 @@ object TagsOnly {
     div(
       div(cls := "route-header")(
         span(cls := "route-header_name")(
-          "Upcoming " + upcomingArrivalComponentData.routeName + " Buses"
+          "Upcoming " + upcomingArrivalComponentData.routeName.humanReadibleName + " Buses"
         ),
         img(
           cls := "glyphicon route-header_icon",
