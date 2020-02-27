@@ -167,6 +167,8 @@ object MyApp extends App {
 
                 // Add a click event on each of them
 
+                if (navbarBurgers.item(i) == null)
+                  println("About to fail in burger behavior adding")
                 navbarBurgers
                   .item(i)
                   .addEventListener(
@@ -179,9 +181,11 @@ object MyApp extends App {
                         .attributes
                         .getNamedItem("data-target")
                         .value
+                      println("I'm about to blow.")
                       val Xtarget = browser.browser
                         .body()
                         .querySelector("#" + target)
+                      println("didn't blow")
 
                       // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
 //          navbarBurgers.item(i).classList.toggle("is-active");
@@ -204,20 +208,28 @@ object MyApp extends App {
           .toFuture
           .onComplete {
             case Success(registration) =>
-              browser.browser
-                .body()
-                .querySelector(
-                  "#" + ElementNames.Notifications.submitMessageToServiceWorker
-                )
-                .addEventListener(
-                  "click",
-                  (mouseEvent: MouseEvent) => {
-                    println("submitting message to service worker")
-                    registration.active.postMessage(
-                      "Submitting a message to the serviceWorker!"
+              if (browser.browser
+                    .body()
+                    .querySelector(
+                      "#" + ElementNames.Notifications.submitMessageToServiceWorker
                     )
-                  }
-                )
+                    != null) {
+
+                browser.browser
+                  .body()
+                  .querySelector(
+                    "#" + ElementNames.Notifications.submitMessageToServiceWorker
+                  )
+                  .addEventListener(
+                    "click",
+                    (mouseEvent: MouseEvent) => {
+                      println("submitting message to service worker")
+                      registration.active.postMessage(
+                        "Submitting a message to the serviceWorker!"
+                      )
+                    }
+                  )
+              }
               println(
                 "registerServiceWorker: registered service worker in a monad properly accesing the env"
               )
