@@ -58,9 +58,9 @@ object Bulma {
       ),
       div(id := "navbarBasicExample", cls := "navbar-menu")(
         div(cls := "navbar-start")(
-          a(cls := "navbar-item")("Home"),
+//          a(cls := "navbar-item")("Home"),
           div(cls := "navbar-item has-dropdown is-hoverable")(
-            a(cls := "navbar-link")("More"),
+            a(cls := "navbar-link")("Routes"),
             div(cls := "navbar-dropdown")(
               a(
                 cls := "navbar-item",

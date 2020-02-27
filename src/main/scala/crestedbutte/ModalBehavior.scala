@@ -10,9 +10,6 @@ import zio.{DefaultRuntime, ZIO}
 
 object ModalBehavior {
 
-  def clipRootHtml(element: Element) =
-    element.classList.add("is-clipped")
-
   def id(value: String) =
     "#" + value
 
@@ -21,7 +18,8 @@ object ModalBehavior {
       .environment[Browser]
       .map { browser =>
         def activateModal(targetName: String): Unit =
-          org.scalajs.dom.document.body // TODO from environment.
+          browser.browser
+            .body()
             .querySelector(targetName)
             .classList
             .add("is-active")
@@ -34,29 +32,32 @@ object ModalBehavior {
 
         for { i <- Range(0, modalOpenButtons.length) } {
           println("about to add modal open Button behavior")
-          modalOpenButtons
-            .item(i)
+          val modalOpenButton =
+            modalOpenButtons
+              .item(i)
+          modalOpenButton
             .addEventListener(
               "click",
               (clickEvent: MouseEvent) => {
                 val modalContentId =
-                  modalOpenButtons
-                    .item(i)
-                    .attributes
+                  modalOpenButton.attributes
                     .getNamedItem("data-schedule-modal")
                     .value
 
                 clickEvent.preventDefault();
 
-                val modal: Element = org.scalajs.dom.document.body
-                  .querySelector(
-                    id(modalContentId)
-                  )
-
-                clipRootHtml(
+                val modal: Element =
+//                  browser.browser .body()
                   org.scalajs.dom.document
-                    .querySelector("html")
-                )
+                    .querySelector(
+                      id(modalContentId)
+                    )
+
+                org.scalajs.dom.document
+                //                browser.browser.body()
+                  .querySelector("html")
+                  .classList
+                  .add("is-clipped")
 
                 println(
                   "about to add modal background click behavior"
@@ -70,6 +71,7 @@ object ModalBehavior {
 
                       removeClippedHtml(browser)
 
+                      println("about to get modal classList")
                       modal.classList.remove("is-active");
                     }
                   );
@@ -83,8 +85,9 @@ object ModalBehavior {
       }
 
   def removeClippedHtml(browser: Browser) =
-    browser.browser
-      .body()
+//    browser.browser
+//      .body()
+    org.scalajs.dom.document
       .querySelector("html")
       .classList
       .remove("is-clipped")
@@ -93,10 +96,10 @@ object ModalBehavior {
     ZIO
       .environment[Browser]
       .map { browser =>
-        val modalCloseButtons = browser.browser
-          .window()
-          .document
-          .querySelectorAll(".modal-close")
+        val modalCloseButtons =
+          org.scalajs.dom.document
+          //        browser.browser .window() .document
+            .querySelectorAll(".modal-close")
         for { i <- Range(0, modalCloseButtons.length) } {
           println("about to add modalCloseButton")
           modalCloseButtons
@@ -106,16 +109,15 @@ object ModalBehavior {
               (mouseEvent: MouseEvent) => {
 
                 org.scalajs.dom.document
+                //                browser.browser.body()
                   .querySelector("html")
                   .classList
                   .remove("is-clipped");
-                if (browser.browser
-                      .window()
-                      .document
+                if (org.scalajs.dom.document
+                    //                  browser.browser.window().document
                       .querySelector(".is-active") != null) {
-                  browser.browser
-                    .window()
-                    .document
+                  org.scalajs.dom.document
+                  //                  browser.browser .window() .document
                     .querySelector(".is-active")
                     .classList
                     .remove("is-active")

@@ -44,23 +44,26 @@ object DomManipulation {
       .environment[Browser]
       .map { browser =>
         println("Trying to get element: " + s"#${elementName}")
-        val townShuttleElementResult = browser.browser
-          .body()
-          .querySelector(s"#${elementName}") // TODO Handle case where this is missing
+        val routeElementResult =
+          browser.browser
+            .body()
+            .querySelector(s"#${elementName}") // TODO Handle case where this is missing
 
-        townShuttleElementResult
-          .querySelector("#upcoming-buses")
-          .innerHTML = ""
-        if (routeMode == RouteMode.Active) {
-          townShuttleElementResult
+        if (routeElementResult != null) {
+          routeElementResult
             .querySelector("#upcoming-buses")
-            .appendChild(newContent.render)
-        } else {
-          townShuttleElementResult.parentNode.removeChild(
-            townShuttleElementResult
-          )
-          println("leaving unwanted route empty")
+            .innerHTML = ""
+          if (routeMode == RouteMode.Active) {
+            routeElementResult
+              .querySelector("#upcoming-buses")
+              .appendChild(newContent.render)
+          } else {
+            routeElementResult.parentNode.removeChild(
+              routeElementResult
+            )
+            println("leaving unwanted route empty")
 
+          }
         }
         println("added content successfully")
       }

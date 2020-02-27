@@ -182,9 +182,10 @@ object MyApp extends App {
                         .getNamedItem("data-target")
                         .value
                       println("I'm about to blow.")
-                      val Xtarget = browser.browser
-                        .body()
-                        .querySelector("#" + target)
+                      val Xtarget =
+                        org.scalajs.dom.document
+                        //                        browser.browser .body()
+                          .querySelector("#" + target)
                       println("didn't blow")
 
                       // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
@@ -208,15 +209,15 @@ object MyApp extends App {
           .toFuture
           .onComplete {
             case Success(registration) =>
-              if (browser.browser
-                    .body()
+              if (//                browser.browser .body()
+                  org.scalajs.dom.document
                     .querySelector(
                       "#" + ElementNames.Notifications.submitMessageToServiceWorker
                     )
                     != null) {
 
-                browser.browser
-                  .body()
+//                browser.browser .body()
+                org.scalajs.dom.document
                   .querySelector(
                     "#" + ElementNames.Notifications.submitMessageToServiceWorker
                   )
