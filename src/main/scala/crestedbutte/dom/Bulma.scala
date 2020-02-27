@@ -69,7 +69,8 @@ object Bulma {
             a(cls := "navbar-link")("More"),
             div(cls := "navbar-dropdown")(
               a(cls := "navbar-item")("About"),
-              a(cls := "navbar-item")("Jobs"),
+              a(cls := "navbar-item",
+                href := "/index_dev.html?routes=[1,1]")("Jobs"),
               a(cls := "navbar-item")("Contact"),
               hr(cls := "navbar-divider"),
               a(cls := "navbar-item")("Report an issue")

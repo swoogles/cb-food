@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit
 import crestedbutte.routes.{ThreeSeasonsTimes, TownShuttleTimes}
 import zio.clock._
 import zio.console.Console
+import zio.console.putStrLn
 import zio.duration.Duration
 import zio.{App, Schedule, ZIO}
 import org.scalajs.dom.experimental.serviceworkers._
@@ -27,7 +28,9 @@ object MyApp extends App {
     registerServiceWorker()
 
     (for {
-      pageMode <- getCurrentPageMode
+      pageMode      <- getCurrentPageMode
+      selectedRoute <- getRouteQueryParamValue
+      _             <- putStrLn("SelectedRoute: " + selectedRoute)
       _ <- DomManipulation.createAndApplyPageStructure(
         pageMode
       ) // TODO Base on queryParam
@@ -115,6 +118,20 @@ object MyApp extends App {
           )
         } yield ()
     } yield ()
+
+  val getRouteQueryParamValue =
+    ZIO
+      .environment[Browser]
+      .map(
+        browser =>
+          UrlParsing
+            .getUrlParameter(
+              browser.browser.window().location.toString,
+              "route" // TODO Ugly string value
+            )
+            .flatMap(RouteName.fromString)
+            .getOrElse(RouteName.TownLoop)
+      )
 
   val getCurrentPageMode =
     ZIO.environment[Browser].map { browser =>
