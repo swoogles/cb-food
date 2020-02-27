@@ -46,11 +46,6 @@ object Bulma {
         role := "navigation",
         aria.label := "main navigation")(
       div(cls := "navbar-brand")(
-        a(cls := "navbar-item", href := "https://bulma.io")(
-          img(src := "https://bulma.io/images/bulma-logo.png",
-              width := "112",
-              height := "28")
-        ),
         a(role := "button",
           cls := "navbar-burger burger",
           aria.label := "menu",
@@ -64,26 +59,27 @@ object Bulma {
       div(id := "navbarBasicExample", cls := "navbar-menu")(
         div(cls := "navbar-start")(
           a(cls := "navbar-item")("Home"),
-          a(cls := "navbar-item")("Documentation"),
           div(cls := "navbar-item has-dropdown is-hoverable")(
             a(cls := "navbar-link")("More"),
             div(cls := "navbar-dropdown")(
-              a(cls := "navbar-item")("About"),
-              a(cls := "navbar-item",
-                href := "/index_dev.html?routes=[1,1]")("Jobs"),
-              a(cls := "navbar-item")("Contact"),
-              hr(cls := "navbar-divider"),
-              a(cls := "navbar-item")("Report an issue")
+              a(
+                cls := "navbar-item",
+                href := "/index_dev.html?route=Town_Loop"
+              )("Town Loop"),
+              a(
+                cls := "navbar-item",
+                href := "/index_dev.html?route=Three_Seasons_Loop"
+              )("Three Seasons Loop")
             )
           )
         ),
         div(cls := "navbar-end")(
-          div(cls := "navbar-item")(
-            div(cls := "buttons")(
-              a(cls := "button is-primary")(strong("Sign up")),
-              a(cls := "button is-light")("Log in")
-            )
-          )
+//          div(cls := "navbar-item")(
+//            div(cls := "buttons")(
+//              a(cls := "button is-primary")(strong("Sign up")),
+//              a(cls := "button is-light")("Log in")
+//            )
+//          )
         )
       )
     )

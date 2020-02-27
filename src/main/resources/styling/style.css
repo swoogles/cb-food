@@ -102,3 +102,16 @@ body {
     padding-left: 5px;
     padding-bottom: 5px;
 }
+.navbar {
+    background-color: #444;
+}
+.navbar-menu {
+    background-color: #444;
+}
+.navbar-item {
+    color: white;
+}
+
+.navbar-burger.burger{
+    color: white;
+}
