@@ -108,6 +108,9 @@ body {
 .navbar-menu {
     background-color: #444;
 }
+.navbar-brand {
+    background-color: #444;
+}
 .navbar-item {
     color: white;
 }
