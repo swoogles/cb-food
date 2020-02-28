@@ -156,7 +156,7 @@ object TagsOnly {
 
   def modalContentElementName(location: Location.Value,
                               routeName: RouteName.Value) =
-    "modal_content_" + routeName.humanReadibleName + "_" + location.elementName
+    "modal_content_" + routeName.name + "_" + location.elementName
 
   def renderStopTimeInfo(stopTimeInfo: StopTimeInfo,
                          busScheduleAtStop: BusScheduleAtStop,
