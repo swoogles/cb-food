@@ -4,6 +4,7 @@ import java.util.NoSuchElementException
 import java.util.concurrent.TimeUnit
 
 import crestedbutte.routes.{ThreeSeasonsTimes, TownShuttleTimes}
+import org.scalajs.dom.Node
 import zio.clock._
 import zio.console.Console
 import zio.console.putStrLn
@@ -156,45 +157,24 @@ object MyApp extends App {
           .addEventListener(
             "DOMContentLoaded",
             (_: Any) => {
-
-              // Get all "navbar-burger" elements
-              val navbarBurgers = browser.browser
-                .body()
+              browser.browser
                 .querySelectorAll(".navbar-burger")
+                .foreach { node =>
+                  node
+                    .addEventListener(
+                      "click",
+                      (mouseEvent: MouseEvent) =>
+                        // Get the target from the "data-target" attribute
+                        browser.browser
+                          .querySelector(
+                            "#" + node.attributes
+                              .getNamedItem("data-target")
+                              .value
+                          ) // POTENTIALLY VERY EXPENSIVE. It's jumping back to the root of the document with this search.
+                          .map(_.classList.toggle("is-active"))
+                    );
 
-              // Check if there are any navbar burgers
-              for { i <- Range(0, navbarBurgers.length) } yield {
-
-                // Add a click event on each of them
-
-                if (navbarBurgers.item(i) == null)
-                  println("About to fail in burger behavior adding")
-                navbarBurgers
-                  .item(i)
-                  .addEventListener(
-                    "click",
-                    (mouseEvent: MouseEvent) => {
-
-                      // Get the target from the "data-target" attribute
-                      val target = navbarBurgers
-                        .item(i)
-                        .attributes
-                        .getNamedItem("data-target")
-                        .value
-                      println("I'm about to blow.")
-                      val Xtarget =
-                        org.scalajs.dom.document
-                        //                        browser.browser .body()
-                          .querySelector("#" + target)
-                      println("didn't blow")
-
-                      // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
-//          navbarBurgers.item(i).classList.toggle("is-active");
-                      Xtarget.classList.toggle("is-active");
-
-                    }
-                  );
-              }
+                }
 
             }
           )
@@ -209,12 +189,15 @@ object MyApp extends App {
           .toFuture
           .onComplete {
             case Success(registration) =>
-              if (//                browser.browser .body()
-                  org.scalajs.dom.document
+              if (browser.browser
+                    .body()
                     .querySelector(
                       "#" + ElementNames.Notifications.submitMessageToServiceWorker
                     )
                     != null) {
+                println(
+                  "Got message submit button after SW registration"
+                )
 
 //                browser.browser .body()
                 org.scalajs.dom.document

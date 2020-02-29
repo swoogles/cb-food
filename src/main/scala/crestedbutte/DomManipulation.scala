@@ -30,9 +30,8 @@ object DomManipulation {
       .map[Unit](
         browser =>
           browser.browser
-            .body()
             .querySelector("#activity-log")
-            .appendChild(div(message).render)
+            .foreach(_.appendChild(div(message).render))
       )
 
   def updateUpcomingBusSectionInsideElement(
@@ -44,27 +43,25 @@ object DomManipulation {
       .environment[Browser]
       .map { browser =>
         println("Trying to get element: " + s"#${elementName}")
-        val routeElementResult =
-          browser.browser
-            .body()
-            .querySelector(s"#${elementName}") // TODO Handle case where this is missing
-
-        if (routeElementResult != null) {
-          routeElementResult
-            .querySelector("#upcoming-buses")
-            .innerHTML = ""
-          if (routeMode == RouteMode.Active) {
+        browser.browser
+          .querySelector(s"#$elementName") // TODO Handle case where this is missing
+          .foreach { routeElementResult =>
+            println("ZZZZ user better querySelector to get elements")
             routeElementResult
               .querySelector("#upcoming-buses")
-              .appendChild(newContent.render)
-          } else {
-            routeElementResult.parentNode.removeChild(
+              .innerHTML = ""
+            if (routeMode == RouteMode.Active) {
               routeElementResult
-            )
-            println("leaving unwanted route empty")
+                .querySelector("#upcoming-buses")
+                .appendChild(newContent.render)
+            } else {
+              routeElementResult.parentNode.removeChild(
+                routeElementResult
+              )
+              println("leaving unwanted route empty")
 
+            }
           }
-        }
         println("added content successfully")
       }
 

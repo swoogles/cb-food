@@ -21,7 +21,8 @@ object UrlParsing {
       }
       .map {
         case (key, values) => s"$key=${values(0)}"
-      }.mkString("&")
+      }
+      .mkString("&")
 
   def getPath(url: String) =
     java.net.URI
