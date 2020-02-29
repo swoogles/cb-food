@@ -103,7 +103,7 @@ object ServiceWorker {
       .toFuture
       .onComplete {
         case Success(cache) =>
-          println("toCache: caching assets...")
+//          println("toCache: caching assets...")
           cache.addAll(todoAssets).toFuture
         case Failure(error) =>
           println(s"toCache: failed > ${error.printStackTrace()}")
@@ -117,7 +117,7 @@ object ServiceWorker {
       .toFuture
       .asInstanceOf[Future[Response]]
       .map { response: Response =>
-        println(s"fromCache: matched request > ${request.url}")
+        if ( request.url.contains("index")) println(s"fromCache: matched request > ${request.url}")
         response
       }
 
