@@ -73,7 +73,7 @@ object MyApp extends App {
     routeMode: RouteMode.Value
   ) =
     for {
-      upcomingArrivalAtAllTownShuttleStops <- TimeCalculations
+      upcomingArrivalAtAllTownShuttleStops <- TimeCalculations // SKIP IF NOT ACTIVE ROUTE
         .getUpComingArrivalsWithFullSchedule(
           Route(schedules, routeName)
         )
@@ -92,7 +92,7 @@ object MyApp extends App {
       .map { browser =>
         browser.browser
           .body()
-          .querySelectorAll(".modal.is-active")
+          .querySelectorAll(".modal.is-active") // LONG SEARCH
           .length > 0
       }
 
@@ -138,7 +138,7 @@ object MyApp extends App {
 
   val getCurrentPageMode =
     ZIO.environment[Browser].map { browser =>
-      UrlParsing
+      UrlParsing // Make the url/query param functions part of the Browser.
         .getUrlParameter(
           browser.browser.window().location.toString,
           "mode" // TODO Ugly string value
@@ -197,19 +197,17 @@ object MyApp extends App {
                   "#" + ElementNames.Notifications.submitMessageToServiceWorker
                 )
                 .foreach(
-                  submitButton =>
-                    submitButton
-                      .addEventListener(
-                        "click",
-                        (_: MouseEvent) => {
-                          println(
-                            "submitting message to service worker"
-                          )
-                          registration.active.postMessage(
-                            "Submitting a message to the serviceWorker!"
-                          )
-                        }
+                  _.addEventListener(
+                    "click",
+                    (_: MouseEvent) => {
+                      println(
+                        "submitting message to service worker"
                       )
+                      registration.active.postMessage(
+                        "Submitting a message to the serviceWorker!"
+                      )
+                    }
+                  )
                 )
               registration.update()
             case Failure(error) =>

@@ -42,11 +42,9 @@ object DomManipulation {
     ZIO
       .environment[Browser]
       .map { browser =>
-        println("Trying to get element: " + s"#${elementName}")
         browser.browser
           .querySelector(s"#$elementName") // TODO Handle case where this is missing
           .foreach { routeElementResult =>
-            println("ZZZZ user better querySelector to get elements")
             routeElementResult
               .querySelector("#upcoming-buses")
               .innerHTML = ""
@@ -58,11 +56,8 @@ object DomManipulation {
               routeElementResult.parentNode.removeChild(
                 routeElementResult
               )
-              println("leaving unwanted route empty")
-
             }
           }
-        println("added content successfully")
       }
 
 }

@@ -89,9 +89,8 @@ object ModalBehavior {
                   browser.browser
                     .querySelector(".is-active")
                     .foreach(
-                      active =>
-                        active.classList
-                          .remove("is-active")
+                      _.classList
+                        .remove("is-active")
                     )
                 }
               )
