@@ -64,11 +64,11 @@ object Bulma {
             div(cls := "navbar-dropdown")(
               a(
                 cls := "navbar-item",
-                href := "/index_dev.html?route=Town_Loop"
+                href := "/index.html?route=Town_Loop"
               )("Town Loop"),
               a(
                 cls := "navbar-item",
-                href := "/index_dev.html?route=Three_Seasons_Loop"
+                href := "/index.html?route=Three_Seasons_Loop"
               )("Three Seasons Loop")
             )
           )
