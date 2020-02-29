@@ -53,10 +53,25 @@ object DomManipulation {
                 .querySelector("#upcoming-buses")
                 .appendChild(newContent.render)
             } else {
-              routeElementResult.parentNode.removeChild(
-                routeElementResult
-              )
+              println("Hiding instead of removing")
+              routeElementResult.setAttribute("style",
+                                              "visibility='hidden'")
             }
+          }
+      }
+
+  def hideUpcomingBusSectionInsideElement(
+    elementName: String,
+    routeMode: RouteMode.Value
+  ): ZIO[Browser, Nothing, Unit] =
+    ZIO
+      .environment[Browser]
+      .map { browser =>
+        browser.browser
+          .querySelector(s"#$elementName") // TODO Handle case where this is missing
+          .foreach { routeElementResult =>
+            routeElementResult.setAttribute("style",
+                                            "visibility='hidden'")
           }
       }
 
