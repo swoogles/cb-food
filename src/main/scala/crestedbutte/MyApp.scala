@@ -72,19 +72,24 @@ object MyApp extends App {
     schedules: Seq[BusScheduleAtStop],
     routeMode: RouteMode.Value
   ) =
-    for {
-      upcomingArrivalAtAllTownShuttleStops <- TimeCalculations // SKIP IF NOT ACTIVE ROUTE
-        .getUpComingArrivalsWithFullSchedule(
-          Route(schedules, routeName)
+    if (routeMode == RouteMode.Active)
+      for {
+        upcomingArrivalAtAllTownShuttleStops <- TimeCalculations // SKIP IF NOT ACTIVE ROUTE
+          .getUpComingArrivalsWithFullSchedule(
+            Route(schedules, routeName)
+          )
+        _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
+          componentName,
+          TagsOnly.structuredSetOfUpcomingArrivals(
+            upcomingArrivalAtAllTownShuttleStops
+          ),
+          routeMode
         )
-      _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
-        componentName,
-        TagsOnly.structuredSetOfUpcomingArrivals(
-          upcomingArrivalAtAllTownShuttleStops
-        ),
-        routeMode
+      } yield ()
+    else
+      DomManipulation.hideUpcomingBusSectionInsideElement(
+        componentName
       )
-    } yield ()
 
   val modalIsOpen: ZIO[Browser, Nothing, Boolean] =
     ZIO

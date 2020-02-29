@@ -61,8 +61,7 @@ object DomManipulation {
       }
 
   def hideUpcomingBusSectionInsideElement(
-    elementName: String,
-    routeMode: RouteMode.Value
+    elementName: String
   ): ZIO[Browser, Nothing, Unit] =
     ZIO
       .environment[Browser]
