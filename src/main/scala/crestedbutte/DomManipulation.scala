@@ -36,8 +36,7 @@ object DomManipulation {
 
   def updateUpcomingBusSectionInsideElement(
     elementName: String,
-    newContent: JsDom.TypedTag[Div],
-    routeMode: RouteMode.Value
+    newContent: JsDom.TypedTag[Div]
   ): ZIO[Browser, Nothing, Unit] =
     ZIO
       .environment[Browser]
@@ -48,15 +47,12 @@ object DomManipulation {
             routeElementResult
               .querySelector("#upcoming-buses")
               .innerHTML = ""
-            if (routeMode == RouteMode.Active) {
-              routeElementResult
-                .querySelector("#upcoming-buses")
-                .appendChild(newContent.render)
-            } else {
-              println("Hiding instead of removing")
-              routeElementResult.setAttribute("style",
-                                              "visibility='hidden'")
-            }
+
+            routeElementResult.setAttribute("style", "display:box") // TODO or grid?
+
+            routeElementResult
+              .querySelector("#upcoming-buses")
+              .appendChild(newContent.render)
           }
       }
 
@@ -69,8 +65,11 @@ object DomManipulation {
         browser.browser
           .querySelector(s"#$elementName") // TODO Handle case where this is missing
           .foreach { routeElementResult =>
-            routeElementResult.setAttribute("style",
-                                            "visibility='hidden'")
+            routeElementResult.setAttribute(
+              "style",
+              "display:none"
+            ) // Come up with way of hiding and collapsing
+//            routeElementResult.innerHTML = ""
           }
       }
 

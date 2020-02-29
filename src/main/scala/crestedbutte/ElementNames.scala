@@ -3,6 +3,10 @@ package crestedbutte
 object ElementNames {
   val BoxClass = "bill-box"
 
+  object UrlManipulation {
+    val rewriteUrl = "rewrite-url"
+  }
+
   object TownShuttles {
     val containerName = "town-shuttles"
     val contentName = "upcoming-buses"

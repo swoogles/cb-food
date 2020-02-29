@@ -66,6 +66,14 @@ object TagsOnly {
         )
       } else div(),
       if (pageMode == AppMode.Development) {
+        button(
+          id := ElementNames.UrlManipulation.rewriteUrl,
+          cls := "button"
+        )(
+          "Rewrite Url"
+        )
+      } else div(),
+      if (pageMode == AppMode.Development) {
         button(id := ElementNames.Notifications.notificationAction)(
           "10:20"
         )

@@ -23,6 +23,18 @@ trait BrowserLive extends Browser {
       result
     }
 
+    def rewriteCurrentUrl(paramName: String, paramValue: String) =
+      browser
+        .window()
+        .history
+        .pushState(
+          "stateData",
+          "newTitle",
+          UrlParsing.replaceParamInUrl(window().location.toString,
+                                       paramName,
+                                       paramValue)
+        )
+
     def workOnFullHtmlElement(function: (Element) => Unit) =
       function(
         org.scalajs.dom.document.querySelector("html")

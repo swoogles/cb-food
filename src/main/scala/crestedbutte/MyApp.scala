@@ -31,17 +31,17 @@ object MyApp extends App {
     (for {
       pageMode      <- getCurrentPageMode
       selectedRoute <- getRouteQueryParamValue
-      _             <- putStrLn("SelectedRoute: " + selectedRoute)
       _ <- DomManipulation.createAndApplyPageStructure(
         pageMode
       ) // TODO Base on queryParam
       _ <- attachMenuBehavior
+      _ <- attachUrlRewriteBehavior
       _ <- registerServiceWorker()
 
       _ <- NotificationStuff.addNotificationPermissionRequestToButton
 //      _ <- NotificationsStuff.addAlarmBehaviorToTimes
       _ <- NotificationStuff.displayNotificationPermission
-      _ <- loopLogic(pageMode, selectedRoute)
+      _ <- loopLogic(pageMode)
         .provide(
           // TODO Try to provide *only* a clock here.
           if (pageMode == AppMode.Development)
@@ -57,13 +57,16 @@ object MyApp extends App {
     }).provide(myEnvironment)
   }
 
-  def loopLogic(pageMode: AppMode.Value, routeName: RouteName.Value) =
+  def loopLogic(
+    pageMode: AppMode.Value
+  ): ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
-      _ <- updateUpcomingArrivalsOnPage(routeName)
-      _ <- NotificationStuff.addAlarmBehaviorToTimes
-      _ <- ModalBehavior.addModalOpenBehavior
-      _ <- ModalBehavior.addModalCloseBehavior
-      _ <- NotificationStuff.checkSubmittedAlarms
+      routeName <- getRouteQueryParamValue
+      _         <- updateUpcomingArrivalsOnPage(routeName)
+      _         <- NotificationStuff.addAlarmBehaviorToTimes
+      _         <- ModalBehavior.addModalOpenBehavior
+      _         <- ModalBehavior.addModalCloseBehavior
+      _         <- NotificationStuff.checkSubmittedAlarms
     } yield ()
 
   def updateUpcomingArrivalsForRoute(
@@ -82,14 +85,15 @@ object MyApp extends App {
           componentName,
           TagsOnly.structuredSetOfUpcomingArrivals(
             upcomingArrivalAtAllTownShuttleStops
-          ),
-          routeMode
+          )
         )
       } yield ()
-    else
+    else {
+      println("Should be hiding section: " + componentName)
       DomManipulation.hideUpcomingBusSectionInsideElement(
         componentName
       )
+    }
 
   val modalIsOpen: ZIO[Browser, Nothing, Boolean] =
     ZIO
@@ -109,6 +113,7 @@ object MyApp extends App {
       _ <- if (modalIsOpen) ZIO.succeed()
       else
         for {
+          _ <- putStrLn("current routeName: " + routeName)
           _ <- updateUpcomingArrivalsForRoute(
             ElementNames.TownShuttles.containerName,
             RouteName.TownLoop,
@@ -151,6 +156,24 @@ object MyApp extends App {
         .flatMap(rawString => AppMode.fromString(rawString))
         .getOrElse(AppMode.Production)
     }
+
+  val attachUrlRewriteBehavior =
+    ZIO
+      .environment[Browser]
+      .map { browser =>
+        browser.browser
+          .querySelector(
+            ModalBehavior.id(ElementNames.UrlManipulation.rewriteUrl)
+          ) // TODO Find better spot for .id function
+          .foreach(
+            _.addEventListener(
+              "click",
+              (_: MouseEvent) =>
+                browser.browser
+                  .rewriteCurrentUrl("route", "Three_Seasons_Loop")
+            )
+          )
+      }
 
   val attachMenuBehavior =
     ZIO
