@@ -5,7 +5,7 @@ import zio.test.{assert, suite, test, DefaultRunnableSpec}
 
 object UrlParsingSpec
     extends DefaultRunnableSpec(
-      suite("HelloWorldSpec")(
+      suite("UrlParsingSpec")(
         test("after last bus has run") {
           val fullUrl =
             "http://0.0.0.0:8000/index_dev.html?mode=DEV&homeRoute=TOWN_SHUTTLE"
@@ -22,6 +22,14 @@ object UrlParsingSpec
 
           assert(UrlParsing.getPath(fullUrl),
                  equalTo("/index_dev.html"))
+        },
+
+        test("Can replace a query Param in existing url") {
+          val fullUrl =
+            "http://0.0.0.0:8000/index_dev.html?mode=DEV&homeRoute=TOWN_SHUTTLE"
+          val updatedUrl = UrlParsing.replaceParamInUrl(fullUrl, "mode", "RANDOM_MODE")
+          println("UpdatedUrl: " + updatedUrl)
+          assert(updatedUrl.contains("RANDOM_MODE"), equalTo(true))
         }
       )
     )
