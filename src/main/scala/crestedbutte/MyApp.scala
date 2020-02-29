@@ -150,35 +150,38 @@ object MyApp extends App {
   val attachMenuBehavior =
     ZIO
       .environment[Browser]
-      .map { browser =>
-        browser.browser
-          .window()
-          .document
-          .addEventListener(
-            "DOMContentLoaded",
-            (_: Any) => {
-              browser.browser
-                .querySelectorAll(".navbar-burger")
-                .foreach { node =>
-                  node
-                    .addEventListener(
-                      "click",
-                      (mouseEvent: MouseEvent) =>
-                        // Get the target from the "data-target" attribute
-                        browser.browser
-                          .querySelector(
-                            "#" + node.attributes
-                              .getNamedItem("data-target")
-                              .value
-                          ) // POTENTIALLY VERY EXPENSIVE. It's jumping back to the root of the document with this search.
-                          .map(_.classList.toggle("is-active"))
-                    );
+      .map(
+        browser =>
+          browser.browser
+            .window()
+            .document
+            .addEventListener(
+              "DOMContentLoaded",
+              (_: Any) =>
+                browser.browser
+                  .querySelectorAll(".navbar-burger")
+                  .foreach(
+                    node =>
+                      node
+                        .addEventListener(
+                          "click",
+                          menuCallbackBehavior(node, browser)
+                        )
+                  )
+            )
+      )
 
-                }
-
-            }
-          )
-      }
+  def menuCallbackBehavior(node: Node, browser: Browser) =
+    (_: MouseEvent) =>
+      // Get the target from the "data-target" attribute
+      // POTENTIALLY VERY EXPENSIVE. It's jumping back to the root of the document with this search.
+      browser.browser
+        .querySelector(
+          "#" + node.attributes
+            .getNamedItem("data-target")
+            .value
+        )
+        .map(_.classList.toggle("is-active"))
 
   def registerServiceWorker() =
     ZIO
@@ -189,34 +192,25 @@ object MyApp extends App {
           .toFuture
           .onComplete {
             case Success(registration) =>
-              if (browser.browser
-                    .body()
-                    .querySelector(
-                      "#" + ElementNames.Notifications.submitMessageToServiceWorker
-                    )
-                    != null) {
-                println(
-                  "Got message submit button after SW registration"
+              browser.browser
+                .querySelector(
+                  "#" + ElementNames.Notifications.submitMessageToServiceWorker
                 )
-
-//                browser.browser .body()
-                org.scalajs.dom.document
-                  .querySelector(
-                    "#" + ElementNames.Notifications.submitMessageToServiceWorker
-                  )
-                  .addEventListener(
-                    "click",
-                    (mouseEvent: MouseEvent) => {
-                      println("submitting message to service worker")
-                      registration.active.postMessage(
-                        "Submitting a message to the serviceWorker!"
+                .foreach(
+                  submitButton =>
+                    submitButton
+                      .addEventListener(
+                        "click",
+                        (_: MouseEvent) => {
+                          println(
+                            "submitting message to service worker"
+                          )
+                          registration.active.postMessage(
+                            "Submitting a message to the serviceWorker!"
+                          )
+                        }
                       )
-                    }
-                  )
-              }
-              println(
-                "registerServiceWorker: registered service worker in a monad properly accesing the env"
-              )
+                )
               registration.update()
             case Failure(error) =>
               println(

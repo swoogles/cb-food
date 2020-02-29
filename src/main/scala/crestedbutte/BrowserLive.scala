@@ -23,10 +23,15 @@ trait BrowserLive extends Browser {
       result
     }
 
+    def workOnFullHtmlElement(function: (Element) => Unit) =
+      function(
+        org.scalajs.dom.document.querySelector("html")
+      )
+
     override def querySelectorAll(selectors: String): Seq[Node] = {
       val nodes =
         body()
-          .querySelectorAll(".navbar-burger")
+          .querySelectorAll(selectors)
 
       for { i <- Range(0, nodes.length) } yield nodes(i)
     }

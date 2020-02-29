@@ -10,6 +10,7 @@ object Browser {
     def window(): Window
     def querySelector(selectors: String): Option[Element]
     def querySelectorAll(selectors: String): Seq[Node]
+    def workOnFullHtmlElement(function: (Element) => Unit)
   }
 }
 
