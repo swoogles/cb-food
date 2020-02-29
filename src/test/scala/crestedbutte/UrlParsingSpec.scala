@@ -30,6 +30,12 @@ object UrlParsingSpec
           val updatedUrl = UrlParsing.replaceParamInUrl(fullUrl, "mode", "RANDOM_MODE")
           println("UpdatedUrl: " + updatedUrl)
           assert(updatedUrl.contains("RANDOM_MODE"), equalTo(true))
+        },
+          test("Parse a hostless URL") {
+          val fullUrl =
+            "/index_dev.html?mode=DEV&homeRoute=TOWN_SHUTTLE"
+          val updatedUrl = UrlParsing.replaceParamInUrl(fullUrl, "mode", "RANDOM_MODE")
+          assert(updatedUrl.contains("RANDOM_MODE"), equalTo(true))
         }
       )
     )
