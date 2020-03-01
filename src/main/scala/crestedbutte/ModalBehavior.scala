@@ -16,9 +16,8 @@ object ModalBehavior {
           browser.browser
             .querySelector(targetName)
             .foreach(
-              element =>
-                element.classList
-                  .add("is-active")
+              _.classList
+                .add("is-active")
             )
 
         browser.browser
@@ -55,7 +54,7 @@ object ModalBehavior {
                               removeClippedHtml(browser)
                               modal.classList.remove("is-active");
                             }
-                          );
+                          )
 
                         activateModal(
                           id(modalContentId)

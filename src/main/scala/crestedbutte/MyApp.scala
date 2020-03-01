@@ -3,15 +3,17 @@ package crestedbutte
 import java.util.NoSuchElementException
 import java.util.concurrent.TimeUnit
 
+import crestedbutte.MyApp.loopLogic
 import crestedbutte.routes.{ThreeSeasonsTimes, TownShuttleTimes}
 import org.scalajs.dom.Node
 import zio.clock._
 import zio.console.Console
 import zio.console.putStrLn
 import zio.duration.Duration
-import zio.{App, Schedule, ZIO}
+import zio.{App, DefaultRuntime, Schedule, ZIO}
 import org.scalajs.dom.experimental.serviceworkers._
 import org.scalajs.dom.raw.{MouseEvent, NamedNodeMap, NodeList}
+import zio.scheduler.SchedulerLive
 
 import scala.util.{Failure, Success}
 // TODO Ew. Try to get this removed after first version of PWA is working
@@ -35,7 +37,11 @@ object MyApp extends App {
         pageMode
       ) // TODO Base on queryParam
       _ <- attachMenuBehavior
-      _ <- attachUrlRewriteBehavior
+      environmentDependencies: SchedulerLive with Clock with Console.Live with BrowserLive = if (pageMode == AppMode.Development)
+        new LateNightClock.Fixed with Console.Live with BrowserLive
+      else
+        new Clock.Live with Console.Live with BrowserLive
+      _ <- attachUrlRewriteBehavior(pageMode, environmentDependencies)
       _ <- registerServiceWorker()
 
       _ <- NotificationStuff.addNotificationPermissionRequestToButton
@@ -44,11 +50,7 @@ object MyApp extends App {
       _ <- loopLogic(pageMode)
         .provide(
           // TODO Try to provide *only* a clock here.
-          if (pageMode == AppMode.Development)
-            new LateNightClock.Fixed with Console.Live
-            with BrowserLive
-          else
-            new Clock.Live with Console.Live with BrowserLive
+          environmentDependencies
         )
         // Currently, everytime I refresh, kills the modal
         .repeat(Schedule.spaced(Duration.apply(10, TimeUnit.SECONDS)))
@@ -156,7 +158,13 @@ object MyApp extends App {
         .getOrElse(AppMode.Production)
     }
 
-  val attachUrlRewriteBehavior =
+  def attachUrlRewriteBehavior(
+    pageMode: AppMode.Value,
+    environmentDependencies: SchedulerLive
+      with Clock
+      with Console.Live
+      with BrowserLive
+  ) =
     ZIO
       .environment[Browser]
       .map { browser =>
@@ -167,9 +175,13 @@ object MyApp extends App {
           .foreach(
             _.addEventListener(
               "click",
-              (_: MouseEvent) =>
+              (_: MouseEvent) => {
                 browser.browser
                   .rewriteCurrentUrl("route", "Three_Seasons_Loop")
+                new DefaultRuntime {}.unsafeRun(
+                  loopLogic(pageMode).provide(environmentDependencies)
+                )
+              }
             )
           )
       }
