@@ -48,6 +48,9 @@ object BulmaBehavior {
                                               "route",
                                               targetRoute)
                     }
+                    browser.browser
+                      .querySelector("#navbarBasicExample")
+                      .foreach(_.classList.remove("is-active"))
                     new DefaultRuntime {}.unsafeRun(input)
                   }
                 )
