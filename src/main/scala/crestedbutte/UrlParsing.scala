@@ -4,25 +4,37 @@ import scala.scalajs.js
 
 object UrlParsing {
 
+  def parseRawUrl(rawUrl: String) =
+    java.net.URI
+      .create(rawUrl)
+
   // TODO HTML encoding
   // Note: Only works for single values
   def replaceParamInUrl(url: String,
                         paramName: String,
                         paramValue: String): String =
-    getPath(url) +
-    "?" +
-    getUrlParameters(url)
-      .map {
-        case (key, values) =>
-          if (key == paramName)
-            (key, Array(paramValue))
-          else
-            (key, values)
-      }
-      .map {
-        case (key, values) => s"$key=${values(0)}"
-      }
-      .mkString("&")
+    getPath(url) + "?" + (if (getUrlParameter(url, paramName).isDefined)
+                            getUrlParameters(url)
+                              .map {
+                                case (key, values) =>
+                                  if (key == paramName)
+                                    (key, Array(paramValue))
+                                  else
+                                    (key, values)
+                              }
+                              .map {
+                                case (key, values) =>
+                                  s"$key=${values(0)}"
+                              }
+                              .mkString("&")
+                          else
+                            (getUrlParameters(url)
+                              .updated(paramName, Array(paramValue)))
+                              .map {
+                                case (key, values) =>
+                                  s"$key=${values(0)}"
+                              }
+                              .mkString("&"))
 
   def getPath(url: String) =
     java.net.URI

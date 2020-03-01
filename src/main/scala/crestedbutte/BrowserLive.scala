@@ -1,5 +1,7 @@
 package crestedbutte
 
+import java.net.URI
+
 import org.scalajs.dom.raw.HTMLElement
 import org.scalajs.dom.{document, Element, Node, NodeList, Window}
 
@@ -35,19 +37,34 @@ trait BrowserLive extends Browser {
                                        paramValue)
         )
 
+    override def alterUrlWithNewValue(url: String,
+                                      paramName: String,
+                                      paramValue: String): Unit =
+      browser
+        .window()
+        .history
+        .pushState(
+          "stateData",
+          "newTitle",
+          UrlParsing.replaceParamInUrl(url, paramName, paramValue)
+        )
+
     def workOnFullHtmlElement(function: (Element) => Unit) =
       function(
         org.scalajs.dom.document.querySelector("html")
       )
 
-    override def querySelectorAll(selectors: String): Seq[Node] = {
-      val nodes =
+    override def querySelectorAll(selectors: String): Seq[Node] =
+      convertNodesToList(
         body()
           .querySelectorAll(selectors)
+      )
 
+    override def convertNodesToList(nodes: NodeList): Seq[Node] =
       for { i <- Range(0, nodes.length) } yield nodes(i)
-    }
 
+    override def url(): URI =
+      UrlParsing.parseRawUrl(window().location.toString)
   }
 
 }

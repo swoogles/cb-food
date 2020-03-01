@@ -4,6 +4,7 @@ import java.util.NoSuchElementException
 import java.util.concurrent.TimeUnit
 
 import crestedbutte.MyApp.loopLogic
+import crestedbutte.dom.BulmaBehavior
 import crestedbutte.routes.{ThreeSeasonsTimes, TownShuttleTimes}
 import org.scalajs.dom.Node
 import zio.clock._
@@ -47,6 +48,13 @@ object MyApp extends App {
       _ <- NotificationStuff.addNotificationPermissionRequestToButton
 //      _ <- NotificationsStuff.addAlarmBehaviorToTimes
       _ <- NotificationStuff.displayNotificationPermission
+      _ <- BulmaBehavior.addMenuBehavior(
+        loopLogic(pageMode)
+          .provide(
+            // TODO Try to provide *only* a clock here.
+            environmentDependencies
+          )
+      )
       _ <- loopLogic(pageMode)
         .provide(
           // TODO Try to provide *only* a clock here.
@@ -176,6 +184,7 @@ object MyApp extends App {
             _.addEventListener(
               "click",
               (_: MouseEvent) => {
+//                if (browser.browser.url()) // Get current route query param, toggle route
                 browser.browser
                   .rewriteCurrentUrl("route", "Three_Seasons_Loop")
                 new DefaultRuntime {}.unsafeRun(

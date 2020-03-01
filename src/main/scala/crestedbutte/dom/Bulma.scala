@@ -1,12 +1,7 @@
 package crestedbutte.dom
 
 import crestedbutte.BusScheduleAtStop
-import crestedbutte.Location.StopLocation
 import crestedbutte.TagsOnly.svgIconForAlarm
-import crestedbutte.time.{BusDuration, BusTime}
-import org.scalajs.dom.html.{Anchor, Div}
-import org.scalajs.dom.raw.MouseEvent
-import scalatags.JsDom
 
 object Bulma {
   import scalatags.JsDom.all._
@@ -42,7 +37,8 @@ object Bulma {
     )
 
   def menu() =
-    div(cls := "navbar",
+    div(id := "main-menu",
+        cls := "navbar",
         role := "navigation",
         aria.label := "main navigation")(
       div(cls := "navbar-brand")(
@@ -63,12 +59,14 @@ object Bulma {
             a(cls := "navbar-link")("Routes"),
             div(cls := "navbar-dropdown")(
               a(
-                cls := "navbar-item",
-                href := "/index.html?route=Town_Loop"
+                cls := "navbar-item route",
+                data("route") := "Town_Loop"
+//                href := "/index.html?route=Town_Loop"
               )("Town Loop"),
               a(
-                cls := "navbar-item",
-                href := "/index.html?route=Three_Seasons_Loop"
+                cls := "navbar-item route",
+                data("route") := "Three_Seasons_Loop"
+//                href := "/index.html?route=Three_Seasons_Loop"
               )("Three Seasons Loop")
             )
           )

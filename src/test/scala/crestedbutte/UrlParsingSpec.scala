@@ -10,12 +10,6 @@ object UrlParsingSpec
           val fullUrl =
             "http://0.0.0.0:8000/index_dev.html?mode=DEV&homeRoute=TOWN_SHUTTLE"
           val queryParameters = UrlParsing.getUrlParameters(fullUrl)
-          queryParameters.foreach(
-            param =>
-              println(
-                "Name: " + param._1 + " Value: " + param._2.head
-              )
-          )
           assert(1, equalTo(1))
           assert(UrlParsing.getUrlParameter(fullUrl, "mode"),
                  equalTo(Some("DEV")))
@@ -27,6 +21,12 @@ object UrlParsingSpec
         test("Can replace a query Param in existing url") {
           val fullUrl =
             "http://0.0.0.0:8000/index_dev.html?mode=DEV&homeRoute=TOWN_SHUTTLE"
+          val updatedUrl = UrlParsing.replaceParamInUrl(fullUrl, "mode", "RANDOM_MODE")
+          assert(updatedUrl.contains("RANDOM_MODE"), equalTo(true))
+        },
+        test("Can add a new query Param if not already in the URL") {
+          val fullUrl =
+            "http://0.0.0.0:8000/index_dev.html?homeRoute=TOWN_SHUTTLE"
           val updatedUrl = UrlParsing.replaceParamInUrl(fullUrl, "mode", "RANDOM_MODE")
           println("UpdatedUrl: " + updatedUrl)
           assert(updatedUrl.contains("RANDOM_MODE"), equalTo(true))
