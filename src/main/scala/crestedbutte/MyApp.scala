@@ -122,7 +122,6 @@ object MyApp extends App {
       _ <- if (modalIsOpen) ZIO.succeed()
       else
         for {
-          _ <- putStrLn("current routeName: " + routeName)
           _ <- updateUpcomingArrivalsForRoute(
             ElementNames.TownShuttles.containerName,
             RouteName.TownLoop,

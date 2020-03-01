@@ -63,11 +63,6 @@ object NotificationStuff {
               .addEventListener(
                 "click",
                 (event: MouseEvent) => {
-                  println(
-                    "lossless value: " + event.target
-                      .asInstanceOf[org.scalajs.dom.raw.Element]
-                      .getAttribute("data-lossless-value")
-                  )
 
                   // This will give the user an idea of what the eventual notification will look/sound like
                   // While also letting them know that they successfully scheduled it.
@@ -104,19 +99,11 @@ object NotificationStuff {
       now   <- clock.clock.currentDateTime
       localTime = new BusTime(now.toLocalTime)
     } yield {
-      println("Checking for submitted alarms")
       // TODO Make sure it's at least 2 minutes in the future (or whatever offset is appropriate)
       val busTimes = desiredAlarms.dequeueAll { _ =>
         true
       }
-      println("Now: " + localTime)
       busTimes.map { busTime =>
-        println("bustime: " + busTime)
-        println(
-          "Minutes until arrival: " + localTime
-            .between(busTime)
-            .toMinutes
-        )
         val headsUpAmount = 3 // minutes
         if (localTime
               .between(busTime)
@@ -152,9 +139,6 @@ object NotificationStuff {
           .addEventListener(
             "click",
             (event: MouseEvent) => {
-              println(
-                "event.relatedTarget: " + event.target
-              )
               desiredAlarms
                 .appendAll(
                   Seq(
