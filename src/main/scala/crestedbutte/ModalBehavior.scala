@@ -42,8 +42,9 @@ object ModalBehavior {
                     .map {
                       modal =>
                         browser.browser
-                          .querySelector("html")
-                          .foreach(_.classList.add("is-clipped"))
+                          .workOnFullHtmlElement(
+                            _.classList.add("is-clipped")
+                          )
 
                         modal
                           .querySelector(".modal-background")
