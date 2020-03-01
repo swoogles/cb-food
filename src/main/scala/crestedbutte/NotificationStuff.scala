@@ -53,54 +53,47 @@ object NotificationStuff {
 
   val addAlarmBehaviorToTimes = ZIO.environment[Browser].map {
     browser =>
-      println("Notification.permission: " + Notification.permission)
       if (Notification.permission == "granted") {
-        val actionButton =
-          browser.browser
-            .body()
-            .querySelectorAll(
-              ".arrival-time-alarm"
-            )
-        println("Selected arrival-time elements")
-        if (actionButton != null)
-          for (i <- 0 to actionButton.length) {
-            val item = actionButton.item(i)
-            if (item != null)
-              item
-                .addEventListener(
-                  "click",
-                  (event: MouseEvent) => {
-                    println(
-                      "lossless value: " + event.target
-                        .asInstanceOf[org.scalajs.dom.raw.Element]
-                        .getAttribute("data-lossless-value")
-                    )
+        browser.browser
+          .querySelectorAll(
+            ".arrival-time-alarm"
+          )
+          .map { item =>
+            item
+              .addEventListener(
+                "click",
+                (event: MouseEvent) => {
+                  println(
+                    "lossless value: " + event.target
+                      .asInstanceOf[org.scalajs.dom.raw.Element]
+                      .getAttribute("data-lossless-value")
+                  )
 
-                    // This will give the user an idea of what the eventual notification will look/sound like
-                    // While also letting them know that they successfully scheduled it.
-                    new Notification(
-                      s"You will be alerted when the bus is about to arrive with a Notification like this.",
-                      NotificationOptions(
-                        vibrate = js.Array(100d)
-                      )
+                  // This will give the user an idea of what the eventual notification will look/sound like
+                  // While also letting them know that they successfully scheduled it.
+                  new Notification(
+                    s"You will be alerted when the bus is about to arrive with a Notification like this.",
+                    NotificationOptions(
+                      vibrate = js.Array(100d)
                     )
+                  )
 
-                    desiredAlarms
-                      .appendAll(
-                        Seq(
-                          BusTime(
-                            event.target
-                              .asInstanceOf[
-                                org.scalajs.dom.raw.Element
-                              ]
-                              .getAttribute("data-lossless-value")
-                              .replace("'", "")
-                              .trim
-                          )
+                  desiredAlarms
+                    .appendAll(
+                      Seq(
+                        BusTime(
+                          event.target
+                            .asInstanceOf[
+                              org.scalajs.dom.raw.Element
+                            ]
+                            .getAttribute("data-lossless-value")
+                            .replace("'", "")
+                            .trim
                         )
                       )
-                  }
-                )
+                    )
+                }
+              )
           }
       }
   }
