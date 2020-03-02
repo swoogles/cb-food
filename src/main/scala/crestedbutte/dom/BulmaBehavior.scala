@@ -33,21 +33,17 @@ object BulmaBehavior {
                   (_: MouseEvent) => {
                     val targetRoute =
                       node.attributes.getNamedItem("data-route").value
-                    println("targetRoute: " + targetRoute)
                     if (browser.browser
                           .url()
                           .getPath
-                          .contains("index_dev")) {
-                      println("Should rewrite index_dev route!")
+                          .contains("index_dev"))
                       browser.browser.rewriteCurrentUrl("route",
                                                         targetRoute)
-                    } else {
-                      println("Should rewrite index route!")
+                    else
                       browser.browser
                         .alterUrlWithNewValue("/index.html",
                                               "route",
                                               targetRoute)
-                    }
                     browser.browser
                       .querySelector("#navbarBasicExample")
                       .foreach(_.classList.remove("is-active"))
