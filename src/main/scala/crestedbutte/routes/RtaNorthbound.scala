@@ -37,11 +37,41 @@ object RtaNorthbound {
   val eleventhAndVirgina: BusScheduleAtStop =
     gunnisonSchoolsDepartures
       .delayedBy(2.minutes)
-      .at(Location.Clarks)
+      .at(Location.EleventhAndVirginia)
+
+  val safewayDepartures: BusScheduleAtStop =
+    eleventhAndVirgina
+      .delayedBy(4.minutes)
+      .at(Location.Safeway)
+
+  val tellerAndHighwayFifty: BusScheduleAtStop =
+    safewayDepartures
+      .delayedBy(2.minutes)
+      .at(Location.TellerAndHighwayFifty)
+
+  val western: BusScheduleAtStop =
+    tellerAndHighwayFifty
+      .delayedBy(2.minutes)
+      .at(Location.Western)
+
+  val denverAndHighwayOneThirtyFive: BusScheduleAtStop =
+    western
+      .delayedBy(3.minutes)
+      .at(Location.DenverAndHighwayOneThirtyFive)
+
+  val spencerAndHighwayOneThirtyFive: BusScheduleAtStop =
+    denverAndHighwayOneThirtyFive
+      .delayedBy(2.minutes)
+      .at(Location.SpencerAndHighwayOneThirtyFive)
 
   val stops: Seq[BusScheduleAtStop] = Seq(
     gunnisonSchoolsDepartures,
-    eleventhAndVirgina
+    eleventhAndVirgina,
+    safewayDepartures,
+    tellerAndHighwayFifty,
+    western,
+    denverAndHighwayOneThirtyFive,
+    spencerAndHighwayOneThirtyFive
   )
 
 }

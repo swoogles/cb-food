@@ -81,17 +81,36 @@ object Location extends Enumeration {
     ""
   )
 
-  val eleventhAndVirginia: Val = Val("Eleventh & Virgina",
+  val EleventhAndVirginia: Val = Val("Eleventh & Virgina",
                                      GpsCoordinates(0, 0),
                                      "eleventh_and_virginia",
                                      "")
 
-  /*
-  Mountain Sunrise	  :02, :17, :32, :47	8:02 AM	  10:47 PM
-    Upper Chateaux
-    Right after Mtn Sunrise
-    Lower Chateaux,
-  Marcellina	      :03, :18, :33, :48	8:03 AM	  10:48 PM
+  val Safeway: Val =
+    Val("Safeway",
+        GpsCoordinates(0, 0),
+        "Safeway",
+        "(Spruce & Highway 50)")
 
- */
+  val TellerAndHighwayFifty: Val =
+    Val("Teller & Highway 50",
+        GpsCoordinates(0, 0),
+        "teller_and_highway_fifty",
+        "")
+
+  val Western: Val =
+    Val("Western", GpsCoordinates(0, 0), "Western", "Colorado & Ohio")
+
+  val DenverAndHighwayOneThirtyFive: Val =
+    Val("Denver & Highway 135",
+        GpsCoordinates(0, 0),
+        "denver_and_highway_one_thirty_five",
+        "(City Market)")
+
+  val SpencerAndHighwayOneThirtyFive: Val =
+    Val("Spencer & Highway 135",
+        GpsCoordinates(0, 0),
+        "spencer_and_highway_one_thirty_five",
+        "(Walmart)")
+
 }
