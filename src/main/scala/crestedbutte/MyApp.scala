@@ -1,15 +1,14 @@
 package crestedbutte
 
-import java.util.NoSuchElementException
 import java.util.concurrent.TimeUnit
 
-import crestedbutte.MyApp.loopLogic
 import crestedbutte.dom.BulmaBehavior
 import crestedbutte.routes.{
   RtaNorthbound,
   ThreeSeasonsTimes,
   TownShuttleTimes
 }
+import crestedbutte.time.BusTime
 import org.scalajs.dom.Node
 import zio.clock._
 import zio.console.Console
@@ -20,7 +19,7 @@ import org.scalajs.dom.experimental.serviceworkers._
 import org.scalajs.dom.raw.{MouseEvent, NamedNodeMap, NodeList}
 import zio.scheduler.SchedulerLive
 
-import scala.util.{Failure, Success}
+import scala.util.{Failure, Success, Try}
 // TODO Ew. Try to get this removed after first version of PWA is working
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -36,21 +35,22 @@ object MyApp extends App {
     registerServiceWorker()
 
     (for {
-      pageMode      <- getCurrentPageMode
-      selectedRoute <- getRouteQueryParamValue
+      pageMode  <- QueryParams.getCurrentPageMode
+      fixedTime <- QueryParams.getCurrentTimeParamValue
       _ <- DomManipulation.createAndApplyPageStructure(
         pageMode
-      ) // TODO Base on queryParam
+      )
       _ <- attachMenuBehavior
-      environmentDependencies: SchedulerLive with Clock with Console.Live with BrowserLive = if (pageMode == AppMode.Development)
-        new LateNightClock.Fixed with Console.Live with BrowserLive
+      environmentDependencies: SchedulerLive with Clock with Console.Live with BrowserLive = if (fixedTime.isDefined)
+        new FixedClock.Fixed(
+          s"2020-02-20T${fixedTime.get.toString}:00.00-07:00"
+        ) with Console.Live with BrowserLive
       else
         new Clock.Live with Console.Live with BrowserLive
       _ <- attachUrlRewriteBehavior(pageMode, environmentDependencies)
       _ <- registerServiceWorker()
 
       _ <- NotificationStuff.addNotificationPermissionRequestToButton
-//      _ <- NotificationsStuff.addAlarmBehaviorToTimes
       _ <- NotificationStuff.displayNotificationPermission
       _ <- BulmaBehavior.addMenuBehavior(
         loopLogic(pageMode)
@@ -75,7 +75,7 @@ object MyApp extends App {
     pageMode: AppMode.Value
   ): ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
-      routeName <- getRouteQueryParamValue
+      routeName <- QueryParams.getRouteQueryParamValue
       _         <- updateUpcomingArrivalsOnPage(routeName)
       _         <- NotificationStuff.addAlarmBehaviorToTimes
       _         <- ModalBehavior.addModalOpenBehavior
@@ -151,30 +151,46 @@ object MyApp extends App {
         } yield ()
     } yield ()
 
-  val getRouteQueryParamValue =
-    ZIO
-      .environment[Browser]
-      .map(
-        browser =>
-          UrlParsing
-            .getUrlParameter(
-              browser.browser.window().location.toString,
-              "route" // TODO Ugly string value
-            )
-            .flatMap(RouteName.fromString)
-            .getOrElse(RouteName.TownLoop)
-      )
+  object QueryParams {
 
-  val getCurrentPageMode =
-    ZIO.environment[Browser].map { browser =>
-      UrlParsing // Make the url/query param functions part of the Browser.
-        .getUrlParameter(
-          browser.browser.window().location.toString,
-          "mode" // TODO Ugly string value
+    val getCurrentTimeParamValue =
+      ZIO
+        .environment[Browser]
+        .map(
+          browser =>
+            UrlParsing
+              .getUrlParameter(
+                browser.browser.window().location.toString,
+                "time" // TODO Ugly string value
+              )
+              .map(BusTime(_))
         )
-        .flatMap(rawString => AppMode.fromString(rawString))
-        .getOrElse(AppMode.Production)
-    }
+
+    val getRouteQueryParamValue =
+      ZIO
+        .environment[Browser]
+        .map(
+          browser =>
+            UrlParsing
+              .getUrlParameter(
+                browser.browser.window().location.toString,
+                "route" // TODO Ugly string value
+              )
+              .flatMap(RouteName.fromString)
+              .getOrElse(RouteName.TownLoop)
+        )
+
+    val getCurrentPageMode =
+      ZIO.environment[Browser].map { browser =>
+        UrlParsing // Make the url/query param functions part of the Browser.
+          .getUrlParameter(
+            browser.browser.window().location.toString,
+            "mode" // TODO Ugly string value
+          )
+          .flatMap(rawString => AppMode.fromString(rawString))
+          .getOrElse(AppMode.Production)
+      }
+  }
 
   def attachUrlRewriteBehavior(
     pageMode: AppMode.Value,
