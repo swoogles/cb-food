@@ -27,4 +27,15 @@ object BusScheduleAtStop {
   def apply(location: Location.Value,
             scheduleAtStop: BusSchedule): BusScheduleAtStop =
     BusScheduleAtStop(location, scheduleAtStop.stopTimes)
+
+  def combine(schedule1: BusScheduleAtStop,
+              schedule2: BusScheduleAtStop): BusScheduleAtStop =
+    if (schedule1.location != schedule2.location)
+      throw new RuntimeException("Blah")
+    else
+      BusScheduleAtStop(
+        schedule1.location,
+        (schedule1.times ++ schedule2.times).sortBy(_.toString)
+      ) // TODO Ensure sorted times
+
 }
