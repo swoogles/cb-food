@@ -2,7 +2,7 @@ package crestedbutte
 
 object RouteName extends Enumeration {
 
-  protected case class Val(name: String, humanReadibleName: String)
+  protected case class Val(name: String, userFriendlyName: String)
       extends super.Val(name)
   import scala.language.implicitConversions
 

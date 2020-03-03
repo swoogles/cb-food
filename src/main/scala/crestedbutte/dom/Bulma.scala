@@ -1,6 +1,6 @@
 package crestedbutte.dom
 
-import crestedbutte.BusScheduleAtStop
+import crestedbutte.{BusScheduleAtStop, RouteName}
 import crestedbutte.TagsOnly.svgIconForAlarm
 
 object Bulma {
@@ -61,13 +61,15 @@ object Bulma {
               a(
                 cls := "navbar-item route",
                 data("route") := "Town_Loop"
-//                href := "/index.html?route=Town_Loop"
               )("Town Loop"),
               a(
                 cls := "navbar-item route",
                 data("route") := "Three_Seasons_Loop"
-//                href := "/index.html?route=Three_Seasons_Loop"
-              )("Three Seasons Loop")
+              )("Three Seasons Loop"),
+              a(
+                cls := "navbar-item route",
+                data("route") := RouteName.RtaNorthbound.name
+              )(RouteName.RtaNorthbound.userFriendlyName)
             )
           )
         ),
