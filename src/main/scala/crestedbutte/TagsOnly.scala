@@ -204,7 +204,7 @@ object TagsOnly {
     div(
       div(cls := "route-header")(
         span(cls := "route-header_name")(
-          "Upcoming " + upcomingArrivalComponentData.routeName.userFriendlyName + " Buses"
+          upcomingArrivalComponentData.routeName.userFriendlyName + " Departures"
         ),
         img(
           cls := "glyphicon route-header_icon",
