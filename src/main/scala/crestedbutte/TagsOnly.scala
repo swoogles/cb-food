@@ -153,7 +153,7 @@ object TagsOnly {
       //    <a href="geo:37.786971,-122.399677;u=35">open map</a>
 //          href := s"geo:${stopLocation.gpsCoordinates.latitude}, ${stopLocation.gpsCoordinates.longitude}"
       href := s"https://www.google.com/maps/search/?api=1&query=${stopLocation.gpsCoordinates.latitude},${stopLocation.gpsCoordinates.longitude}"
-    )(svgIcon("glyphicons-basic-591-map-marker.svg"))
+    )(svgIcon("glyphicons-basic-592-map.svg"))
 
   def activateModal(targetName: String): Unit =
     org.scalajs.dom.document.body
