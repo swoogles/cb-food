@@ -50,6 +50,45 @@ object RtaNorthbound {
         .delayedBy(2.minutes)
         .at(Location.SpencerAndHighwayOneThirtyFive)
 
+    val tallTexan: BusScheduleAtStop =
+      spencerAndHighwayOneThirtyFive
+        .delayedBy(2.minutes)
+        .at(Location.TallTexan)
+
+    val ohioCreek: BusScheduleAtStop =
+      tallTexan
+        .delayedBy(1.minutes)
+        .at(Location.OhioCreek)
+
+    val almont: BusScheduleAtStop =
+      ohioCreek
+        .delayedBy(7.minutes)
+        .at(Location.Almont)
+
+    val riverLand: BusScheduleAtStop =
+      almont
+        .delayedBy(16.minutes)
+        .at(Location.Riverland)
+
+    val brushCreek: BusScheduleAtStop =
+      riverLand
+        .delayedBy(1.minutes)
+        .at(Location.BrushCreek)
+
+    val riverBend: BusScheduleAtStop =
+      brushCreek
+        .delayedBy(1.minutes)
+        .at(Location.Riverbend)
+
+    val fourWay: BusScheduleAtStop =
+      riverBend
+        .delayedBy(3.minutes)
+        .at(Location.FourWayUphill)
+
+    val mtCbTransitCenter: BusScheduleAtStop =
+      riverBend
+        .delayedBy(10.minutes)
+        .at(Location.MountaineerSquare)
   }
 
   val gunnisonSchoolsDepartures: BusScheduleAtStop =
@@ -111,6 +150,52 @@ object RtaNorthbound {
       .delayedBy(2.minutes)
       .at(Location.SpencerAndHighwayOneThirtyFive)
 
+  val tallTexan: BusScheduleAtStop =
+    spencerAndHighwayOneThirtyFive
+      .delayedBy(2.minutes)
+      .at(Location.TallTexan)
+
+  val ohioCreek: BusScheduleAtStop =
+    tallTexan
+      .delayedBy(1.minutes)
+      .at(Location.OhioCreek)
+
+  val almont: BusScheduleAtStop =
+    ohioCreek
+      .delayedBy(7.minutes)
+      .at(Location.Almont)
+
+  val cbSouth: BusScheduleAtStop =
+    almont
+      .delayedBy(17.minutes)
+      .at(Location.CBSouth)
+
+  val riverLand: BusScheduleAtStop =
+    cbSouth
+      .delayedBy(5.minutes)
+      .at(Location.Riverland)
+
+  val brushCreek: BusScheduleAtStop =
+    riverLand
+      .delayedBy(1.minutes)
+      .at(Location.BrushCreek)
+
+  val riverBend: BusScheduleAtStop =
+    brushCreek
+      .delayedBy(1.minutes)
+      .at(Location.Riverbend)
+
+  val fourWay: BusScheduleAtStop =
+    riverBend
+      .delayedBy(3.minutes)
+      .at(Location.FourWayUphill)
+
+  val mtCbTransitCenter: BusScheduleAtStop =
+    riverBend
+      .delayedBy(10.minutes)
+      .at(Location.MountaineerSquare)
+
+  // TODO When I turn a Seq[BusScheduleAtStop] into a real class, make an End-of-Line field.
   val stops: Seq[BusScheduleAtStop] = Seq(
     BusScheduleAtStop.combine(gunnisonSchoolsDepartures,
                               Express.gunnisonSchoolsDepartures),
@@ -124,7 +209,17 @@ object RtaNorthbound {
     BusScheduleAtStop.combine(denverAndHighwayOneThirtyFive,
                               Express.denverAndHighwayOneThirtyFive),
     BusScheduleAtStop.combine(spencerAndHighwayOneThirtyFive,
-                              Express.spencerAndHighwayOneThirtyFive)
+                              Express.spencerAndHighwayOneThirtyFive),
+    BusScheduleAtStop.combine(tallTexan, Express.tallTexan),
+    BusScheduleAtStop.combine(ohioCreek, Express.ohioCreek),
+    BusScheduleAtStop.combine(almont, Express.almont),
+    cbSouth,
+    BusScheduleAtStop.combine(riverLand, Express.riverLand),
+    BusScheduleAtStop.combine(brushCreek, Express.brushCreek),
+    BusScheduleAtStop.combine(riverBend, Express.riverBend),
+    BusScheduleAtStop.combine(fourWay, Express.fourWay),
+    BusScheduleAtStop.combine(mtCbTransitCenter,
+                              Express.mtCbTransitCenter)
   )
 
 }

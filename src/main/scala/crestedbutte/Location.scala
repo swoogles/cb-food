@@ -113,4 +113,37 @@ object Location extends Enumeration {
         "spencer_and_highway_one_thirty_five",
         "(Walmart)")
 
+  val TallTexan: Val =
+    Val("TallTexan",
+        GpsCoordinates(0, 0),
+        "tall_texan",
+        "(Flag Stop)")
+
+  val OhioCreek: Val =
+    Val("OhioCreek",
+        GpsCoordinates(0, 0),
+        "ohio_creek",
+        "(Flag Stop)")
+
+  val Almont: Val =
+    Val("Almont", GpsCoordinates(0, 0), "almont", "(Flag Stop)")
+
+  val CBSouth: Val =
+    Val("CB South",
+        GpsCoordinates(0, 0),
+        "CB_South",
+        "(Red Mtn Park)")
+
+  val Riverland: Val =
+    Val("Riverland", GpsCoordinates(0, 0), "Riverland", "(Flag Stop)")
+
+  val BrushCreek: Val =
+    Val("Brush Creek",
+        GpsCoordinates(0, 0),
+        "brush_creek",
+        "(Flag Stop)")
+
+  val Riverbend: Val =
+    Val("Riverbend", GpsCoordinates(0, 0), "Riverbend", "(Flag Stop)")
+
 }
