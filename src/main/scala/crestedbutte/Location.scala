@@ -72,6 +72,20 @@ object Location extends Enumeration {
                                GpsCoordinates(0, 0),
                                "lower_chateaux",
                                "")
+
+  // RTA stops.
+  val GunnisonCommunitySchools: Val = Val(
+    "Gunnison Community Schools",
+    GpsCoordinates(0, 0),
+    "gunnison_community_schools",
+    ""
+  )
+
+  val eleventhAndVirginia: Val = Val("Eleventh & Virgina",
+                                     GpsCoordinates(0, 0),
+                                     "eleventh_and_virginia",
+                                     "")
+
   /*
   Mountain Sunrise	  :02, :17, :32, :47	8:02 AM	  10:47 PM
     Upper Chateaux

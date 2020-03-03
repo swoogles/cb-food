@@ -21,6 +21,13 @@ object ElementNames {
     val readableRouteName = "Three Seasons Loop"
   }
 
+  object RtaNorthbound {
+    val containerName = "rta-northbound"
+    val contentName = "upcoming-buses"
+//    val title = "upcoming-buses-title"
+//    val readableRouteName = "Three Seasons Loop"
+  }
+
   object Notifications {
     val requestPermission = "request-notification-permission"
     val notificationAction = "notification-action"

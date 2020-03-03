@@ -29,6 +29,7 @@ object BusSchedule {
         )
     )
 
+  // Useful for irregular stoptimes
   def apply(stopTimeStrings: String*) =
     new BusSchedule(
       List(stopTimeStrings: _*)

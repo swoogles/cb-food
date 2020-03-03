@@ -5,7 +5,11 @@ import java.util.concurrent.TimeUnit
 
 import crestedbutte.MyApp.loopLogic
 import crestedbutte.dom.BulmaBehavior
-import crestedbutte.routes.{ThreeSeasonsTimes, TownShuttleTimes}
+import crestedbutte.routes.{
+  RtaNorthbound,
+  ThreeSeasonsTimes,
+  TownShuttleTimes
+}
 import org.scalajs.dom.Node
 import zio.clock._
 import zio.console.Console
@@ -127,6 +131,13 @@ object MyApp extends App {
             RouteName.TownLoop,
             TownShuttleTimes.townShuttleStops,
             if (routeName == RouteName.TownLoop) RouteMode.Active
+            else RouteMode.Hidden
+          )
+          _ <- updateUpcomingArrivalsForRoute(
+            ElementNames.RtaNorthbound.containerName,
+            RouteName.RtaNorthbound,
+            RtaNorthbound.stops,
+            if (routeName == RouteName.RtaNorthbound) RouteMode.Active
             else RouteMode.Hidden
           )
           _ <- updateUpcomingArrivalsForRoute(
