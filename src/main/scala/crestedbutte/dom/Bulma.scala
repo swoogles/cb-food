@@ -1,6 +1,6 @@
 package crestedbutte.dom
 
-import crestedbutte.{BusScheduleAtStop, RouteName}
+import crestedbutte.{BusScheduleAtStop, MyApp, RouteName}
 import crestedbutte.TagsOnly.svgIconForAlarm
 
 object Bulma {
@@ -36,7 +36,7 @@ object Bulma {
       button(cls := "modal-close is-large", aria.label := "close")()
     )
 
-  def menu() =
+  def menu(allComponentData: Seq[MyApp.ComponentData]) =
     div(id := "main-menu",
         cls := "navbar",
         role := "navigation",
@@ -58,14 +58,12 @@ object Bulma {
           div(cls := "navbar-item has-dropdown is-hoverable")(
             a(cls := "navbar-link")("Routes"),
             div(cls := "navbar-dropdown")(
-              a(
-                cls := "navbar-item route",
-                data("route") := "Town_Loop"
-              )("Town Loop"),
-              a(
-                cls := "navbar-item route",
-                data("route") := "Three_Seasons_Loop"
-              )("Three Seasons Loop")
+              allComponentData.map { componentData =>
+                a(
+                  cls := "navbar-item route",
+                  data("route") := componentData.componentName
+                )(componentData.routeName.userFriendlyName)
+              }
               // TODO Re-enable after demo
 //              a(
 //                cls := "navbar-item route",

@@ -1,6 +1,7 @@
 package crestedbutte
 
 import crestedbutte.Location.StopLocation
+import crestedbutte.MyApp.ComponentData
 import crestedbutte.dom.Bulma
 import crestedbutte.time.{BusDuration, BusTime}
 import org.scalajs.dom.html.{Anchor, Div}
@@ -44,11 +45,14 @@ object TagsOnly {
       span(aria.hidden := "true")
     )
 
-  def overallPageLayout(pageMode: AppMode.Value) =
+  def overallPageLayout(pageMode: AppMode.Value,
+                        componentData: Seq[ComponentData]) =
     div(id := "container")(
-      Bulma.menu(),
-      busScheduleDiv(ElementNames.TownShuttles.containerName),
-      busScheduleDiv(ElementNames.ThreeSeasonsLoop.containerName),
+      Bulma.menu(componentData),
+      componentData.map(
+        singleComponentData =>
+          busScheduleDiv(singleComponentData.componentName)
+      ),
       if (pageMode == AppMode.Development) {
         div(
           busScheduleDiv(ElementNames.RtaNorthbound.containerName),

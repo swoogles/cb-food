@@ -1,5 +1,6 @@
 package crestedbutte
 
+import crestedbutte.MyApp.ComponentData
 import org.scalajs.dom.html.Div
 import org.scalajs.dom.raw.Node
 import scalatags.JsDom
@@ -9,7 +10,8 @@ object DomManipulation {
   import scalatags.JsDom.all._
 
   def createAndApplyPageStructure(
-    pageMode: AppMode.Value
+    pageMode: AppMode.Value,
+    componentData: Seq[ComponentData]
   ): ZIO[Browser, Nothing, Node] =
     ZIO
       .environment[Browser]
@@ -18,7 +20,9 @@ object DomManipulation {
           browser.browser
             .body()
             .appendChild(
-              TagsOnly.overallPageLayout(pageMode).render
+              TagsOnly
+                .overallPageLayout(pageMode, componentData)
+                .render
             )
       )
 

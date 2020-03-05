@@ -22,7 +22,10 @@ object ElementNames { // TODO Change to bus-specific name
 
   object RtaNorthbound {
     val containerName = "rta-northbound"
-    val readableRouteName = "Three Seasons Loop" // TODO Can I delete this?
+  }
+
+  object CrystalCastleLoop {
+    val containerName = "crystal-castle-loop"
   }
 
   object Notifications {

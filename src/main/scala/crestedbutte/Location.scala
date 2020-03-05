@@ -8,8 +8,13 @@ object Location extends Enumeration {
                              GpsCoordinates(0, 0))
       extends super.Val(name) {
 
-    val elementName =
-      name.map(letter => if (letter.isLetter) letter else "_")
+    val elementName: String =
+      name
+        .map(
+          (letter: Char) =>
+            if (letter.isLetter) letter.toString else "_"
+        )
+        .mkString
   }
   import scala.language.implicitConversions
 
@@ -109,7 +114,7 @@ object Location extends Enumeration {
   val Riverbend: Val =
     Val("Riverbend", "(Flag Stop)")
 
-  // BEGIN Condo loop stops
+  // BEGIN Columbine loop stops
   val Whetstone: Val =
     Val("Whetstone")
 
@@ -123,13 +128,30 @@ object Location extends Enumeration {
     Val("Mt CB Town Hall")
 
   val UpperParadiseRoad: Val =
-    Val("UpperParadiseRoad")
+    Val("Upper Paradise Road")
 
   val LowerParadiseRoad: Val =
-    Val("LowerParadiseRoad")
+    Val("Lower Paradise Road")
 
   val EaglesNestCondos: Val =
-    Val("EaglesNestCondos")
-  // END Condo loop stops
+    Val("Eagles Nest Condos")
+
+  // END Columbine loop stops
+  // BEGIN Crystal/Castle stops
+  val Pitchfork: Val =
+    Val("Pitchfork")
+
+  val CrystalRoad: Val =
+    Val("Crystal Road")
+
+  val CastleRoad: Val =
+    Val("Castle Road")
+
+  val WoodCreekMountainEdge: Val =
+    Val("Wood Creek / Mountain Edge")
+
+  val HunterHillTimberline: Val =
+    Val("Hunter Hill / Timberline")
+  // END Crystal/Castle stops
 
 }

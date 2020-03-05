@@ -4,6 +4,8 @@ import java.util.concurrent.TimeUnit
 
 import crestedbutte.dom.BulmaBehavior
 import crestedbutte.routes.{
+  ColumbineLoop,
+  CrystalCastleShuttle,
   RtaNorthbound,
   ThreeSeasonsTimes,
   TownShuttleTimes
@@ -38,7 +40,8 @@ object MyApp extends App {
       pageMode  <- QueryParams.getCurrentPageMode
       fixedTime <- QueryParams.getCurrentTimeParamValue
       _ <- DomManipulation.createAndApplyPageStructure(
-        pageMode
+        pageMode,
+        components
       )
       _ <- attachMenuBehavior
       environmentDependencies: SchedulerLive with Clock with Console.Live with BrowserLive = if (fixedTime.isDefined)
@@ -116,24 +119,21 @@ object MyApp extends App {
           .length > 0
       }
 
-  case class ComponentData(
-    componentName: String,
-    routeName: RouteName.Value,
-    schedules: Seq[BusScheduleAtStop]
-  )
+  case class ComponentData(routeName: RouteName.Value,
+                           schedules: Seq[BusScheduleAtStop]) {
+    val componentName = routeName.name
+  }
 
   val components =
     Seq(
-      ComponentData(
-        ElementNames.TownShuttles.containerName,
-        RouteName.TownLoop,
-        TownShuttleTimes.townShuttleStops
-      ),
-      ComponentData(ElementNames.RtaNorthbound.containerName,
-                    RouteName.RtaNorthbound,
-                    RtaNorthbound.stops),
-      ComponentData(ElementNames.ThreeSeasonsLoop.containerName,
-                    RouteName.ThreeSeasonsLoop,
+      ComponentData(RouteName.TownLoop,
+                    TownShuttleTimes.townShuttleStops),
+//      ComponentData( RouteName.RtaNorthbound,
+//                    RtaNorthbound.stops),
+      ComponentData(RouteName.CrystalCastle,
+                    CrystalCastleShuttle.allStops),
+      ComponentData(RouteName.ColumbineLoop, ColumbineLoop.allStops),
+      ComponentData(RouteName.ThreeSeasonsLoop,
                     ThreeSeasonsTimes.allStops)
     )
 
