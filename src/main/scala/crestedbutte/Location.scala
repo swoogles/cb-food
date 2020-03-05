@@ -21,7 +21,7 @@ object Location extends Enumeration {
         "old_town_hall",
         "(Malardi Theater)")
 
-  val Clarks: Val = Val("6th/Belleview",
+  val Clarks: Val = Val("6th/A:LKFBelleview",
                         GpsCoordinates(38.866970, -106.981499),
                         "clarks",
                         "(Clarks Grocery)") //
@@ -145,5 +145,40 @@ object Location extends Enumeration {
 
   val Riverbend: Val =
     Val("Riverbend", GpsCoordinates(0, 0), "Riverbend", "(Flag Stop)")
+
+  // BEGIN Condo loop stops
+  val Whetstone: Val =
+    Val("Whetstone", GpsCoordinates(0, 0), "Whetstone", "")
+
+  val ColumbineCondo: Val =
+    Val("ColumbineCondo", GpsCoordinates(0, 0), "ColumbineCondo", "")
+
+  val CinnamonMtn: Val =
+    Val("Cinnamon Mtn / Gothic",
+        GpsCoordinates(0, 0),
+        "Cinnamon_Mtn_Gothic",
+        "")
+
+  val MtCbTownHall: Val =
+    Val("Mt CB Town Hall", GpsCoordinates(0, 0), "MtCbTownHall", "")
+
+  val UpperParadiseRoad: Val =
+    Val("UpperParadiseRoad",
+        GpsCoordinates(0, 0),
+        "UpperParadiseRoad",
+        "")
+
+  val LowerParadiseRoad: Val =
+    Val("LowerParadiseRoad",
+        GpsCoordinates(0, 0),
+        "LowerParadiseRoad",
+        "")
+
+  val EaglesNestCondos: Val =
+    Val("EaglesNestCondos",
+        GpsCoordinates(0, 0),
+        "EaglesNestCondos",
+        "")
+  // END Condo loop stops
 
 }
