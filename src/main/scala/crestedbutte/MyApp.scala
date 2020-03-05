@@ -84,19 +84,16 @@ object MyApp extends App {
     } yield ()
 
   def updateUpcomingArrivalsForRoute(
-    componentName: String,
-    routeName: RouteName.Value,
-    schedules: Seq[BusScheduleAtStop],
-    routeMode: RouteMode.Value
+    componentData: ComponentData
   ) =
-    if (routeMode == RouteMode.Active)
+    if (componentData.routeName == componentData.currentlySelectedRoute)
       for {
         upcomingArrivalAtAllTownShuttleStops <- TimeCalculations // SKIP IF NOT ACTIVE ROUTE
           .getUpComingArrivalsWithFullSchedule(
-            Route(schedules, routeName)
+            Route(componentData.schedules, componentData.routeName)
           )
         _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
-          componentName,
+          componentData.componentName,
           TagsOnly.structuredSetOfUpcomingArrivals(
             upcomingArrivalAtAllTownShuttleStops
           )
@@ -104,7 +101,7 @@ object MyApp extends App {
       } yield ()
     else {
       DomManipulation.hideUpcomingBusSectionInsideElement(
-        componentName
+        componentData.componentName
       )
     }
 
@@ -118,8 +115,15 @@ object MyApp extends App {
           .length > 0
       }
 
+  case class ComponentData(
+    componentName: String,
+    routeName: RouteName.Value,
+    schedules: Seq[BusScheduleAtStop],
+    currentlySelectedRoute: RouteName.Value
+  )
+
   def updateUpcomingArrivalsOnPage(
-    routeName: RouteName.Value
+    selectedRoute: RouteName.Value
   ): ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
       modalIsOpen <- modalIsOpen
@@ -127,26 +131,24 @@ object MyApp extends App {
       else
         for {
           _ <- updateUpcomingArrivalsForRoute(
-            ElementNames.TownShuttles.containerName,
-            RouteName.TownLoop,
-            TownShuttleTimes.townShuttleStops,
-            if (routeName == RouteName.TownLoop) RouteMode.Active
-            else RouteMode.Hidden
+            ComponentData(
+              ElementNames.TownShuttles.containerName,
+              RouteName.TownLoop,
+              TownShuttleTimes.townShuttleStops,
+              selectedRoute
+            )
           )
           _ <- updateUpcomingArrivalsForRoute(
-            ElementNames.RtaNorthbound.containerName,
-            RouteName.RtaNorthbound,
-            RtaNorthbound.stops,
-            if (routeName == RouteName.RtaNorthbound) RouteMode.Active
-            else RouteMode.Hidden
+            ComponentData(ElementNames.RtaNorthbound.containerName,
+                          RouteName.RtaNorthbound,
+                          RtaNorthbound.stops,
+                          selectedRoute)
           )
           _ <- updateUpcomingArrivalsForRoute(
-            ElementNames.ThreeSeasonsLoop.containerName,
-            RouteName.ThreeSeasonsLoop,
-            ThreeSeasonsTimes.allStops,
-            if (routeName == RouteName.ThreeSeasonsLoop)
-              RouteMode.Active
-            else RouteMode.Hidden
+            ComponentData(ElementNames.ThreeSeasonsLoop.containerName,
+                          RouteName.ThreeSeasonsLoop,
+                          ThreeSeasonsTimes.allStops,
+                          selectedRoute)
           )
         } yield ()
     } yield ()
