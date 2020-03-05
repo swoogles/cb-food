@@ -154,4 +154,24 @@ object Location extends Enumeration {
     Val("Hunter Hill / Timberline")
   // END Crystal/Castle stops
 
+  // BEGIN Snodgrass Shuttle Stops
+
+  val CinnamonMtnGothicToSnodgrass: Val =
+    Val("Cinnamon Mtn/Gothic to Snodgrass")
+
+  val GothicWintersetTosnodgrass: Val =
+    Val("Gothic/Winterset to Snodgrass")
+
+  val SnodgrassTrailhead: Val =
+    Val("SnodgrassTrailhead")
+
+  val GothicWintersetToMountaineerSquare: Val =
+    Val("Gothic/Winterset to Mountaineer Square")
+
+  val MtCBTownHallToMountaineerSquare: Val =
+    Val("Mt CB Town Hall to Mountaineer Square")
+
+  val ParadiseRoad: Val =
+    Val("ParadiseRoad")
+
 }

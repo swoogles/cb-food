@@ -35,6 +35,9 @@ object RouteName extends Enumeration {
   val ColumbineLoop: Val =
     Val("Columbine Loop")
 
+  val SnograssShuttle: Val =
+    Val("Snograss Shuttle")
+
   def fromString(input: String) =
     values.find(_.name == input)
 }

@@ -7,6 +7,7 @@ import crestedbutte.routes.{
   ColumbineLoop,
   CrystalCastleShuttle,
   RtaNorthbound,
+  SnodgrassShuttle,
   ThreeSeasonsTimes,
   TownShuttleTimes
 }
@@ -133,6 +134,8 @@ object MyApp extends App {
       ComponentData(RouteName.CrystalCastle,
                     CrystalCastleShuttle.allStops),
       ComponentData(RouteName.ColumbineLoop, ColumbineLoop.allStops),
+      ComponentData(RouteName.SnograssShuttle,
+                    SnodgrassShuttle.allStops),
       ComponentData(RouteName.ThreeSeasonsLoop,
                     ThreeSeasonsTimes.allStops)
     )
