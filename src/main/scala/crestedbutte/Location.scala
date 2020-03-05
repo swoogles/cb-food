@@ -26,7 +26,7 @@ object Location extends Enumeration {
   // TODO Check ordering of all coordinates
   val OldTownHall: Val =
     Val("Old Town Hall",
-        "(Malardi Theater)",
+        "(Mallardi Theatre)",
         GpsCoordinates(38.869538, -106.987547))
 
   val Clarks: Val = Val("6th/Belleview",
