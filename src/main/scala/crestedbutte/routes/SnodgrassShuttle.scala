@@ -24,6 +24,7 @@ object SnodgrassShuttle {
     BusScheduleAtStop(
       Location.MountaineerSquare,
       BusSchedule("07:55", "21:55", 60.minutes)
+      // TODO Find bug here.
     )
 
   val locationsWithDelays: Seq[(Location.Value, BusDuration)] =

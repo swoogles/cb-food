@@ -18,10 +18,12 @@ object BusSchedule {
             timeBetweenBuses: BusDuration) =
     new BusSchedule(
       List
-        .range(0,
-               BusTime(firstBus)
-                 .between(BusTime(lastBus))
-                 .dividedBy(timeBetweenBuses))
+        .range(
+          0,
+          BusTime(firstBus)
+            .between(BusTime(lastBus))
+            .dividedBy(timeBetweenBuses) + 1
+        ) // TODO Ugh. Nasty +1
         .map(
           index =>
             BusTime(firstBus)

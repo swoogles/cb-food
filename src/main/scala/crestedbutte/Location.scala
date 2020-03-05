@@ -163,7 +163,7 @@ object Location extends Enumeration {
     Val("Gothic/Winterset to Snodgrass")
 
   val SnodgrassTrailhead: Val =
-    Val("SnodgrassTrailhead")
+    Val("Snodgrass Trailhead")
 
   val GothicWintersetToMountaineerSquare: Val =
     Val("Gothic/Winterset to Mountaineer Square")
@@ -172,6 +172,6 @@ object Location extends Enumeration {
     Val("Mt CB Town Hall to Mountaineer Square")
 
   val ParadiseRoad: Val =
-    Val("ParadiseRoad")
+    Val("Paradise Road")
 
 }

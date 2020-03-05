@@ -24,12 +24,13 @@ object Bulma {
             div(textAlign := "center",
                 verticalAlign := "middle",
                 paddingBottom := "3px")(
-              span(time.toDumbAmericanString),
-              svgIconForAlarm(
-                "glyphicons-basic-443-bell-ringing.svg",
-                "arrival-time-alarm",
-                time
-              )
+              span(time.toDumbAmericanString)
+              // TODO Re-enable once Notifications are more solid
+//              svgIconForAlarm(
+//                "glyphicons-basic-443-bell-ringing.svg",
+//                "arrival-time-alarm",
+//                time
+//              )
             )
         )
       ),

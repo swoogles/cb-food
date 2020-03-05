@@ -22,12 +22,7 @@ object TagsOnly {
             scheduleAtStop.times.map(
               time =>
                 div(
-                  span(time.toDumbAmericanString),
-                  svgIconForAlarm(
-                    "glyphicons-basic-443-bell-ringing.svg",
-                    "arrival-time-alarm",
-                    time
-                  )
+                  span(time.toDumbAmericanString)
                 )
             )
           )
@@ -123,7 +118,8 @@ object TagsOnly {
       cls := "stop-information"
     )(
       div(cls := "map-link")(
-        geoLinkForStop(location)
+        // TODO Re-enable once maps are more polished
+        //  geoLinkForStop(location)
       ),
       div(cls := "stop-name")(
         div(location.name)
