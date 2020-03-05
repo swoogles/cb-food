@@ -35,11 +35,6 @@ object RouteName extends Enumeration {
   val ColumbineLoop: Val =
     Val("Columbine Loop")
 
-  def fromString(input: String) = {
-    println("Searching for route: " + input)
-    println("available names: ")
-    values.foreach(x => println(x.name))
+  def fromString(input: String) =
     values.find(_.name == input)
-
-  }
 }
