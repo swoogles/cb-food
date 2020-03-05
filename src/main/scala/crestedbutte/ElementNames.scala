@@ -1,6 +1,6 @@
 package crestedbutte
 
-object ElementNames {
+object ElementNames { // TODO Change to bus-specific name
   val BoxClass = "bill-box"
 
   object UrlManipulation {
@@ -9,23 +9,20 @@ object ElementNames {
 
   object TownShuttles {
     val containerName = "town-shuttles"
-    val contentName = "upcoming-buses"
-    val title = "upcoming-buses-title"
     val readableRouteName = "Town Loop"
   }
 
+  val contentName = "upcoming-buses"
+  val title = "upcoming-buses-title"
+
   object ThreeSeasonsLoop {
     val containerName = "three-seasons-loop"
-    val contentName = "upcoming-buses"
-    val title = "upcoming-buses-title"
     val readableRouteName = "Three Seasons Loop"
   }
 
   object RtaNorthbound {
     val containerName = "rta-northbound"
-    val contentName = "upcoming-buses"
-//    val title = "upcoming-buses-title"
-//    val readableRouteName = "Three Seasons Loop"
+    val readableRouteName = "Three Seasons Loop" // TODO Can I delete this?
   }
 
   object Notifications {

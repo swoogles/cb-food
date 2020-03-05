@@ -65,11 +65,12 @@ object Bulma {
               a(
                 cls := "navbar-item route",
                 data("route") := "Three_Seasons_Loop"
-              )("Three Seasons Loop"),
-              a(
-                cls := "navbar-item route",
-                data("route") := RouteName.RtaNorthbound.name
-              )(RouteName.RtaNorthbound.userFriendlyName)
+              )("Three Seasons Loop")
+              // TODO Re-enable after demo
+//              a(
+//                cls := "navbar-item route",
+//                data("route") := RouteName.RtaNorthbound.name
+//              )(RouteName.RtaNorthbound.userFriendlyName)
             )
           )
         ),

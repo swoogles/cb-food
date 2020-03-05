@@ -47,52 +47,37 @@ object TagsOnly {
   def overallPageLayout(pageMode: AppMode.Value) =
     div(id := "container")(
       Bulma.menu(),
-      div(cls := ElementNames.BoxClass,
-          id := ElementNames.TownShuttles.containerName)(
-        div(id := ElementNames.TownShuttles.contentName)
-      ),
+      busScheduleDiv(ElementNames.TownShuttles.containerName),
+      busScheduleDiv(ElementNames.ThreeSeasonsLoop.containerName),
       if (pageMode == AppMode.Development) {
-        button(id := ElementNames.Notifications.requestPermission,
-               cls := "button")(
-          "Request Notifications Permission"
-        )
-      } else div(),
-      if (pageMode == AppMode.Development) {
-        button(
-          id := ElementNames.Notifications.submitMessageToServiceWorker,
-          cls := "button"
-        )(
-          "SubmitMessage to SW"
-        )
-      } else div(),
-      if (pageMode == AppMode.Development) {
-        button(
-          id := ElementNames.UrlManipulation.rewriteUrl,
-          cls := "button"
-        )(
-          "Rewrite Url"
-        )
-      } else div(),
-      if (pageMode == AppMode.Development) {
-        button(id := ElementNames.Notifications.notificationAction)(
-          "10:20"
-        )
-      } else div(),
-      div(cls := ElementNames.BoxClass,
-          id := ElementNames.ThreeSeasonsLoop.containerName)(
-        div(id := ElementNames.ThreeSeasonsLoop.contentName)(
+        div(
+          busScheduleDiv(ElementNames.RtaNorthbound.containerName),
+          button(id := ElementNames.Notifications.requestPermission,
+                 cls := "button")(
+            "Request Notifications Permission"
+          ),
+          button(
+            id := ElementNames.Notifications.submitMessageToServiceWorker,
+            cls := "button"
+          )(
+            "SubmitMessage to SW"
+          ),
+          button(
+            id := ElementNames.UrlManipulation.rewriteUrl,
+            cls := "button"
+          )(
+            "Rewrite Url"
           )
-      ),
-      div(cls := ElementNames.BoxClass,
-          id := ElementNames.RtaNorthbound.containerName)(
-        div(id := ElementNames.RtaNorthbound.contentName)
-      )
-//      div(cls := ElementNames.BoxClass)(
-//        div("Future Work: RTA buses!")
-//      )
+        )
+      } else div()
     )
 
-//  <a href="tel:123-456-7890">123-456-7890</a>
+  def busScheduleDiv(containerName: String) =
+    div(cls := ElementNames.BoxClass, id := containerName)(
+      div(id := ElementNames.contentName)
+    )
+
+  //  <a href="tel:123-456-7890">123-456-7890</a>
   def safeRideLink(
     safeRideRecommendation: LateNightRecommendation
   ): JsDom.TypedTag[Div] =
