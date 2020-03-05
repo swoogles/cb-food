@@ -84,9 +84,10 @@ object MyApp extends App {
     } yield ()
 
   def updateUpcomingArrivalsForRoute(
-    componentData: ComponentData
+    componentData: ComponentData,
+    currentlySelectedRoute: RouteName.Value
   ) =
-    if (componentData.routeName == componentData.currentlySelectedRoute)
+    if (componentData.routeName == currentlySelectedRoute)
       for {
         upcomingArrivalAtAllTownShuttleStops <- TimeCalculations // SKIP IF NOT ACTIVE ROUTE
           .getUpComingArrivalsWithFullSchedule(
@@ -118,9 +119,23 @@ object MyApp extends App {
   case class ComponentData(
     componentName: String,
     routeName: RouteName.Value,
-    schedules: Seq[BusScheduleAtStop],
-    currentlySelectedRoute: RouteName.Value
+    schedules: Seq[BusScheduleAtStop]
   )
+
+  val components =
+    Seq(
+      ComponentData(
+        ElementNames.TownShuttles.containerName,
+        RouteName.TownLoop,
+        TownShuttleTimes.townShuttleStops
+      ),
+      ComponentData(ElementNames.RtaNorthbound.containerName,
+                    RouteName.RtaNorthbound,
+                    RtaNorthbound.stops),
+      ComponentData(ElementNames.ThreeSeasonsLoop.containerName,
+                    RouteName.ThreeSeasonsLoop,
+                    ThreeSeasonsTimes.allStops)
+    )
 
   def updateUpcomingArrivalsOnPage(
     selectedRoute: RouteName.Value
@@ -129,28 +144,14 @@ object MyApp extends App {
       modalIsOpen <- modalIsOpen
       _ <- if (modalIsOpen) ZIO.succeed()
       else
-        for {
-          _ <- updateUpcomingArrivalsForRoute(
-            ComponentData(
-              ElementNames.TownShuttles.containerName,
-              RouteName.TownLoop,
-              TownShuttleTimes.townShuttleStops,
+        ZIO.sequence(
+          components.map(
+            updateUpcomingArrivalsForRoute(
+              _,
               selectedRoute
             )
           )
-          _ <- updateUpcomingArrivalsForRoute(
-            ComponentData(ElementNames.RtaNorthbound.containerName,
-                          RouteName.RtaNorthbound,
-                          RtaNorthbound.stops,
-                          selectedRoute)
-          )
-          _ <- updateUpcomingArrivalsForRoute(
-            ComponentData(ElementNames.ThreeSeasonsLoop.containerName,
-                          RouteName.ThreeSeasonsLoop,
-                          ThreeSeasonsTimes.allStops,
-                          selectedRoute)
-          )
-        } yield ()
+        )
     } yield ()
 
   object QueryParams {

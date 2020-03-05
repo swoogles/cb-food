@@ -21,7 +21,7 @@ object Location extends Enumeration {
         "old_town_hall",
         "(Malardi Theater)")
 
-  val Clarks: Val = Val("6th/A:LKFBelleview",
+  val Clarks: Val = Val("6th/Belleview",
                         GpsCoordinates(38.866970, -106.981499),
                         "clarks",
                         "(Clarks Grocery)") //
