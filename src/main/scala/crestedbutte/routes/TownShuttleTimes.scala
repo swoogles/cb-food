@@ -21,7 +21,7 @@ object TownShuttleTimes {
   val oldTownHallBusStarts: BusScheduleAtStop =
     BusScheduleAtStop(
       Location.OldTownHall,
-      BusSchedule("07:10", "23:40", 15.minutes)
+      BusSchedule("07:11", "23:40", 15.minutes)
     )
 
   val locationsWithDelays: Seq[(Location.Value, BusDuration)] =
