@@ -1,5 +1,6 @@
 package crestedbutte.routes
 
+import crestedbutte.time.BusDuration
 import crestedbutte.{BusSchedule, BusScheduleAtStop, Location}
 import crestedbutte.time.BusDuration.toBusDuration
 
@@ -23,44 +24,23 @@ object TownShuttleTimes {
       BusSchedule("07:10", "23:40", 15.minutes)
     )
 
-  val clarksBusStarts: BusScheduleAtStop =
-    oldTownHallBusStarts
-      .delayedBy(4.minutes)
-      .at(Location.Clarks)
+  val locationsWithDelays: Seq[(Location.Value, BusDuration)] =
+    Seq(
+      (Location.Clarks, 4.minutes),
+      (Location.FourWayUphill, 1.minutes),
+      (Location.TeocalliUphill, 1.minutes),
+      (Location.MountaineerSquare, 14.minutes),
+      (Location.TeocalliDownhill, 6.minutes),
+      (Location.FourwayDownhill, 1.minutes)
+    )
 
-  val fourWayUphillBusStarts: BusScheduleAtStop =
-    clarksBusStarts
-      .delayedBy(1.minutes)
-      .at(Location.FourWayUphill)
-
-  val teocalliUphillBusStarts: BusScheduleAtStop =
-    fourWayUphillBusStarts
-      .delayedBy(1.minutes)
-      .at(Location.TeocalliUphill)
-
-  val mountaineerSquareBusStarts: BusScheduleAtStop =
-    teocalliUphillBusStarts
-      .delayedBy(14.minutes)
-      .at(Location.MountaineerSquare)
-
-  val teocalliDownhillBusStarts: BusScheduleAtStop =
-    mountaineerSquareBusStarts
-      .delayedBy(6.minutes)
-      .at(Location.TeocalliDownhill)
-
-  val fourwayDownhill: BusScheduleAtStop =
-    teocalliDownhillBusStarts
-      .delayedBy(1.minutes)
-      .at(Location.FourwayDownhill)
-
-  val townShuttleStops: Seq[BusScheduleAtStop] = Seq(
-    oldTownHallBusStarts,
-    clarksBusStarts,
-    fourWayUphillBusStarts,
-    teocalliUphillBusStarts,
-    mountaineerSquareBusStarts,
-    teocalliDownhillBusStarts,
-    fourwayDownhill
-  )
+  val townShuttleStops: Seq[BusScheduleAtStop] =
+    locationsWithDelays
+      .foldLeft(Seq(oldTownHallBusStarts)) {
+        case (stopsSoFar, currentStop) =>
+          stopsSoFar :+ stopsSoFar.last
+            .delayedBy(currentStop._2)
+            .at(currentStop._1)
+      }
 
 }
