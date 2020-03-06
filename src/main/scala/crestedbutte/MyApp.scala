@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit
 import crestedbutte.dom.BulmaBehavior
 import crestedbutte.routes.{
   ColumbineLoop,
+  CompanyRoutes,
   CrystalCastleShuttle,
   RtaNorthbound,
   SnodgrassShuttle,
@@ -91,11 +92,11 @@ object MyApp extends App {
     componentData: ComponentData,
     currentlySelectedRoute: RouteName.Value
   ) =
-    if (componentData.routeName == currentlySelectedRoute)
+    if (componentData.namedRoute.routeName == currentlySelectedRoute)
       for {
         upcomingArrivalAtAllTownShuttleStops <- TimeCalculations // SKIP IF NOT ACTIVE ROUTE
           .getUpComingArrivalsWithFullSchedule(
-            Route(componentData.schedules, componentData.routeName)
+            componentData.namedRoute
           )
         _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
           componentData.componentName,
@@ -120,24 +121,40 @@ object MyApp extends App {
           .length > 0
       }
 
-  case class ComponentData(routeName: RouteName.Value,
-                           schedules: Seq[BusScheduleAtStop]) {
-    val componentName = routeName.name
+  case class ComponentData(
+    namedRoute: NamedRoute
+  ) {
+    val componentName = namedRoute.routeName.name
   }
 
-  val components =
+  val mtnExpressRoutes =
+    new CompanyRoutes("Mtn Express",
+                      Set(
+                        NamedRoute(RouteName.TownLoop,
+                                   TownShuttleTimes.townShuttleStops)
+                      ))
+
+  private val components =
+    mtnExpressRoutes.routesWithTimes
+      .map(ComponentData) ++:
     Seq(
-      ComponentData(RouteName.TownLoop,
-                    TownShuttleTimes.townShuttleStops),
 //      ComponentData( RouteName.RtaNorthbound,
 //                    RtaNorthbound.stops),
-      ComponentData(RouteName.CrystalCastle,
-                    CrystalCastleShuttle.allStops),
-      ComponentData(RouteName.ColumbineLoop, ColumbineLoop.allStops),
-      ComponentData(RouteName.SnograssShuttle,
-                    SnodgrassShuttle.allStops),
-      ComponentData(RouteName.ThreeSeasonsLoop,
-                    ThreeSeasonsTimes.allStops)
+      ComponentData(
+        NamedRoute(RouteName.CrystalCastle,
+                   CrystalCastleShuttle.allStops)
+      ),
+      ComponentData(
+        NamedRoute(RouteName.ColumbineLoop, ColumbineLoop.allStops)
+      ),
+      ComponentData(
+        NamedRoute(RouteName.SnograssShuttle,
+                   SnodgrassShuttle.allStops)
+      ),
+      ComponentData(
+        NamedRoute(RouteName.ThreeSeasonsLoop,
+                   ThreeSeasonsTimes.allStops)
+      )
     )
 
   def updateUpcomingArrivalsOnPage(

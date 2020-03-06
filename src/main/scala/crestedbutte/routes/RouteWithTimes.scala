@@ -8,13 +8,13 @@ import crestedbutte.routes.SnodgrassShuttle.{
 import crestedbutte.time.BusDuration
 
 class RouteWithTimes(
-  mountaineerSquare: BusScheduleAtStop,
+  originStops: BusScheduleAtStop,
   locationsWithDelays: Seq[(Location.Value, BusDuration)]
 ) {
 
   val allStops: Seq[BusScheduleAtStop] =
     locationsWithDelays
-      .foldLeft(Seq(mountaineerSquare)) {
+      .foldLeft(Seq(originStops)) {
         case (stopsSoFar, currentStop) =>
           stopsSoFar :+ stopsSoFar.last
             .delayedBy(currentStop._2)

@@ -63,7 +63,7 @@ object Bulma {
                 a(
                   cls := "navbar-item route",
                   data("route") := componentData.componentName
-                )(componentData.routeName.userFriendlyName)
+                )(componentData.namedRoute.routeName.userFriendlyName)
               }
               // TODO Re-enable after demo
 //              a(
