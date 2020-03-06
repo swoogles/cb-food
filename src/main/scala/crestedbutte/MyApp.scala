@@ -131,7 +131,12 @@ object MyApp extends App {
     new CompanyRoutes("Mtn Express",
                       Set(
                         NamedRoute(RouteName.TownLoop,
-                                   TownShuttleTimes.townShuttleStops)
+                                   TownShuttleTimes.townShuttleStops),
+                        CrystalCastleShuttle,
+                        ColumbineLoop,
+                        SnodgrassShuttle,
+                        NamedRoute(RouteName.ThreeSeasonsLoop,
+                                   ThreeSeasonsTimes.allStops)
                       ))
 
   private val components =
@@ -140,17 +145,6 @@ object MyApp extends App {
     Seq(
 //      ComponentData( RouteName.RtaNorthbound,
 //                    RtaNorthbound.stops),
-      ComponentData(
-        NamedRoute(RouteName.CrystalCastle,
-                   CrystalCastleShuttle.allStops)
-      ),
-      ComponentData(
-        NamedRoute(RouteName.ColumbineLoop, ColumbineLoop.allStops)
-      ),
-      ComponentData(
-        NamedRoute(RouteName.SnograssShuttle,
-                   SnodgrassShuttle.allStops)
-      ),
       ComponentData(
         NamedRoute(RouteName.ThreeSeasonsLoop,
                    ThreeSeasonsTimes.allStops)
