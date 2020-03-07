@@ -145,17 +145,17 @@ object TagsOnly {
       .add("is-active")
 
   def modalContentElementNameTyped(location: Location.Value,
-                                   routeName: RouteName.Value) =
+                                   routeName: RouteName) =
     data("schedule-modal") := modalContentElementName(location,
                                                       routeName)
 
   def modalContentElementName(location: Location.Value,
-                              routeName: RouteName.Value) =
+                              routeName: RouteName) =
     "modal_content_" + routeName.name + "_" + location.elementName
 
   def renderStopTimeInfo(stopTimeInfo: StopTimeInfo,
                          busScheduleAtStop: BusScheduleAtStop,
-                         routeName: RouteName.Value) =
+                         routeName: RouteName) =
     div(
       button(
         cls := "arrival-time button open-arrival-time-modal",

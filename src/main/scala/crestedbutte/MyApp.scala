@@ -29,12 +29,22 @@ object MyApp extends App {
     components: Seq[ComponentData]
   ): ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
-      routeName <- QueryParameters.getRouteQueryParamValue
-      _         <- updateUpcomingArrivalsOnPage(routeName, components)
-      _         <- NotificationStuff.addAlarmBehaviorToTimes
-      _         <- ModalBehavior.addModalOpenBehavior
-      _         <- ModalBehavior.addModalCloseBehavior
-      _         <- NotificationStuff.checkSubmittedAlarms
+      routeNameOpt <- QueryParameters.getRouteQueryParamValue
+      selectedComponent: ComponentData = routeNameOpt
+        .flatMap(
+          routeNameStringParam =>
+            components.find(
+              _.namedRoute.routeName
+                .elementNameMatches(routeNameStringParam)
+            )
+        )
+        .getOrElse(components.head)
+
+      _ <- updateUpcomingArrivalsOnPage(selectedComponent, components)
+      _ <- NotificationStuff.addAlarmBehaviorToTimes
+      _ <- ModalBehavior.addModalOpenBehavior
+      _ <- ModalBehavior.addModalCloseBehavior
+      _ <- NotificationStuff.checkSubmittedAlarms
     } yield ()
 
   val mtnExpressRoutes =
@@ -98,9 +108,9 @@ object MyApp extends App {
 
   def updateUpcomingArrivalsForRoute(
     componentData: ComponentData,
-    currentlySelectedRoute: RouteName.Value
+    currentlySelectedRoute: ComponentData
   ) =
-    if (componentData.namedRoute.routeName == currentlySelectedRoute)
+    if (componentData == currentlySelectedRoute)
       for {
         arrivalsAtAllRouteStops <- TimeCalculations // SKIP IF NOT ACTIVE ROUTE
           .getUpComingArrivalsWithFullSchedule(
@@ -119,7 +129,7 @@ object MyApp extends App {
       )
 
   def updateUpcomingArrivalsOnPage(
-    selectedRoute: RouteName.Value,
+    selectedRoute: ComponentData,
     components: Seq[ComponentData]
   ): ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {

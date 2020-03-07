@@ -91,7 +91,7 @@ object RtaNorthbound {
     )
 
   val fullSchedule = NamedRoute(
-    RouteName.RtaNorthbound,
+    RouteName("Rta Northbound"),
     expressRouteWithTimes.combinedWith(expressRouteWithTimes)
   )
 

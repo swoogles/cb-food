@@ -1,6 +1,5 @@
 package crestedbutte.routes
 
-import crestedbutte.time.BusDuration
 import crestedbutte.{
   BusSchedule,
   BusScheduleAtStop,
@@ -17,7 +16,7 @@ import crestedbutte.time.BusDuration.toBusDuration
  */
 object ThreeSeasonsTimes
     extends NamedRoute(
-      RouteName.ThreeSeasonsLoop,
+      RouteName("Three Seasons Loop"),
       RouteWithTimes(
         BusScheduleAtStop(
           Location.MountaineerSquare,

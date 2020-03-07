@@ -26,7 +26,7 @@ Every 30 minutes from 8:10 AM to 10:40 PM
  */
 object CrystalCastleShuttle
     extends NamedRoute(
-      RouteName.CrystalCastle,
+      RouteName("Crystal/Castle"),
       RouteWithTimes(
         BusScheduleAtStop(
           Location.MountaineerSquare,
