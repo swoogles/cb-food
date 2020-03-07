@@ -38,5 +38,5 @@ object TownShuttleTimes
           (Location.TeocalliDownhill, 6.minutes),
           (Location.FourwayDownhill, 1.minutes)
         )
-      ).allStops
+      )
     )

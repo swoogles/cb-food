@@ -1,6 +1,5 @@
 package crestedbutte.routes
 
-import crestedbutte.time.BusDuration
 import crestedbutte.time.BusDuration.toBusDuration
 import crestedbutte.{
   BusSchedule,
@@ -40,5 +39,5 @@ object SnodgrassShuttle
           (Location.MtCBTownHallToMountaineerSquare, 1.minutes),
           (Location.ParadiseRoad, 1.minutes)
         )
-      ).allStops
+      )
     )

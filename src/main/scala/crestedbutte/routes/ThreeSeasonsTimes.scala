@@ -29,5 +29,5 @@ object ThreeSeasonsTimes
           (Location.UpperChateaux, 0.minutes),
           (Location.LowerChateaux, 1.minutes)
         )
-      ).allStops
+      )
     )

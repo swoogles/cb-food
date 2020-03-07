@@ -41,5 +41,5 @@ object ColumbineLoop
           (Location.LowerParadiseRoad, 1.minutes),
           (Location.EaglesNestCondos, 3.minutes)
         )
-      ).allStops
+      )
     )

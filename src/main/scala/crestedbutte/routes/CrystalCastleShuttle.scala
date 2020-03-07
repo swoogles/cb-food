@@ -39,5 +39,5 @@ object CrystalCastleShuttle
           (Location.WoodCreekMountainEdge, 1.minutes),
           (Location.HunterHillTimberline, 2.minutes)
         )
-      ).allStops
+      )
     )

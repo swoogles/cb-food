@@ -1,10 +1,6 @@
 package crestedbutte.routes
 
 import crestedbutte.{BusScheduleAtStop, Location}
-import crestedbutte.routes.SnodgrassShuttle.{
-  locationsWithDelays,
-  mountaineerSquare
-}
 import crestedbutte.time.BusDuration
 
 class RouteWithTimes(

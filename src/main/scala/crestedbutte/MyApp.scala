@@ -24,8 +24,6 @@ import org.scalajs.dom.raw.{MouseEvent, NamedNodeMap, NodeList}
 import zio.scheduler.SchedulerLive
 
 import scala.util.{Failure, Success, Try}
-// TODO Ew. Try to get this removed after first version of PWA is working
-import scala.concurrent.ExecutionContext.Implicits.global
 
 object MyApp extends App {
 
@@ -54,7 +52,6 @@ object MyApp extends App {
         new Clock.Live with Console.Live with BrowserLive
       _ <- attachUrlRewriteBehavior(pageMode, environmentDependencies)
       _ <- registerServiceWorker()
-
       _ <- NotificationStuff.addNotificationPermissionRequestToButton
       _ <- NotificationStuff.displayNotificationPermission
       _ <- BulmaBehavior.addMenuBehavior(
@@ -69,7 +66,6 @@ object MyApp extends App {
           // TODO Try to provide *only* a clock here.
           environmentDependencies
         )
-        // Currently, everytime I refresh, kills the modal
         .repeat(Schedule.spaced(Duration.apply(10, TimeUnit.SECONDS)))
     } yield {
       0
@@ -130,13 +126,11 @@ object MyApp extends App {
   val mtnExpressRoutes =
     new CompanyRoutes("Mtn Express",
                       Set(
-                        NamedRoute(RouteName.TownLoop,
-                                   TownShuttleTimes.townShuttleStops),
+                        TownShuttleTimes,
                         CrystalCastleShuttle,
                         ColumbineLoop,
                         SnodgrassShuttle,
-                        NamedRoute(RouteName.ThreeSeasonsLoop,
-                                   ThreeSeasonsTimes.allStops)
+                        ThreeSeasonsTimes
                       ))
 
   private val components =
@@ -145,10 +139,6 @@ object MyApp extends App {
     Seq(
 //      ComponentData( RouteName.RtaNorthbound,
 //                    RtaNorthbound.stops),
-      ComponentData(
-        NamedRoute(RouteName.ThreeSeasonsLoop,
-                   ThreeSeasonsTimes.allStops)
-      )
     )
 
   def updateUpcomingArrivalsOnPage(
@@ -278,6 +268,9 @@ object MyApp extends App {
     ZIO
       .environment[Browser]
       .map { browser =>
+        // TODO Ew. Try to get this removed after first version of PWA is working
+        import scala.concurrent.ExecutionContext.Implicits.global
+
         val serviceWorker =
           toServiceWorkerNavigator(browser.browser.window().navigator).serviceWorker
             .register("./sw-opt.js")
