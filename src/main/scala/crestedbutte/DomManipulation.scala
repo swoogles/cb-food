@@ -1,6 +1,5 @@
 package crestedbutte
 
-import crestedbutte.MyApp.ComponentData
 import org.scalajs.dom.html.Div
 import org.scalajs.dom.raw.Node
 import scalatags.JsDom

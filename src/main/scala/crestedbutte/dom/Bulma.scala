@@ -1,6 +1,6 @@
 package crestedbutte.dom
 
-import crestedbutte.{BusScheduleAtStop, MyApp, RouteName}
+import crestedbutte.{BusScheduleAtStop, ComponentData}
 import crestedbutte.TagsOnly.svgIconForAlarm
 
 object Bulma {
@@ -37,7 +37,7 @@ object Bulma {
       button(cls := "modal-close is-large", aria.label := "close")()
     )
 
-  def menu(allComponentData: Seq[MyApp.ComponentData]) =
+  def menu(allComponentData: Seq[ComponentData]) =
     div(id := "main-menu",
         cls := "navbar",
         role := "navigation",
@@ -74,13 +74,7 @@ object Bulma {
           )
         ),
         div(cls := "navbar-end")(
-//          div(cls := "navbar-item")(
-//            div(cls := "buttons")(
-//              a(cls := "button is-primary")(strong("Sign up")),
-//              a(cls := "button is-light")("Log in")
-//            )
-//          )
-        )
+          )
       )
     )
 }

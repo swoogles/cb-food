@@ -18,7 +18,7 @@ import crestedbutte.time.BusDuration.toBusDuration
 object ThreeSeasonsTimes
     extends NamedRoute(
       RouteName.ThreeSeasonsLoop,
-      new RouteWithTimes(
+      RouteWithTimes(
         BusScheduleAtStop(
           Location.MountaineerSquare,
           BusSchedule("08:00", "22:45", 15.minutes)

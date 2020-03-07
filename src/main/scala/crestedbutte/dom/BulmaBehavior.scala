@@ -1,11 +1,6 @@
 package crestedbutte.dom
 
-import crestedbutte.{
-  Browser,
-  BrowserLive,
-  ElementNames,
-  ModalBehavior
-}
+import crestedbutte.Browser
 import org.scalajs.dom.raw.MouseEvent
 import zio.{DefaultRuntime, IO, ZIO}
 
@@ -25,9 +20,6 @@ object BulmaBehavior {
                 element.querySelectorAll(".navbar-item .route")
               )
               .foreach { node =>
-                println(
-                  "Found a menu node to attach behavior to: " + node.textContent
-                )
                 node.addEventListener(
                   "click",
                   (_: MouseEvent) => {

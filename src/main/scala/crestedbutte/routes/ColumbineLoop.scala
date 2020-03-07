@@ -27,7 +27,7 @@ import crestedbutte.time.BusDuration.toBusDuration
 object ColumbineLoop
     extends NamedRoute(
       RouteName.ColumbineLoop,
-      new RouteWithTimes(
+      RouteWithTimes(
         BusScheduleAtStop(
           Location.MountaineerSquare,
           BusSchedule("08:25", "22:25", 60.minutes)

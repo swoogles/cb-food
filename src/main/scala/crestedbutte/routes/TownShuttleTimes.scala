@@ -25,7 +25,7 @@ import crestedbutte.time.BusDuration.toBusDuration
 object TownShuttleTimes
     extends NamedRoute(
       RouteName.TownLoop,
-      new RouteWithTimes(
+      RouteWithTimes(
         BusScheduleAtStop(
           Location.OldTownHall,
           BusSchedule("07:10", "23:40", 15.minutes)

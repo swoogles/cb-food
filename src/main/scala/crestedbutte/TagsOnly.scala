@@ -1,11 +1,9 @@
 package crestedbutte
 
 import crestedbutte.Location.StopLocation
-import crestedbutte.MyApp.ComponentData
 import crestedbutte.dom.Bulma
 import crestedbutte.time.{BusDuration, BusTime}
 import org.scalajs.dom.html.{Anchor, Div}
-import org.scalajs.dom.raw.MouseEvent
 import scalatags.JsDom
 
 object TagsOnly {
