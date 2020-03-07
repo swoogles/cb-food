@@ -4,5 +4,5 @@ import crestedbutte.NamedRoute
 
 class CompanyRoutes(
   name: String,
-  val routesWithTimes: Set[NamedRoute],
+  val routesWithTimes: Seq[NamedRoute],
 ) {}

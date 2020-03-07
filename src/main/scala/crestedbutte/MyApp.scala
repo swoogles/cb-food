@@ -49,7 +49,7 @@ object MyApp extends App {
 
   val mtnExpressRoutes =
     new CompanyRoutes("Mtn Express",
-                      Set(
+                      Seq(
                         TownShuttleTimes,
                         CrystalCastleShuttle,
                         ColumbineLoop,
