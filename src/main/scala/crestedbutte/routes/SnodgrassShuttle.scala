@@ -25,7 +25,7 @@ Mountaineer Square to a designated stop on a condo route, on demand only.
  */
 object SnodgrassShuttle
     extends NamedRoute(
-      RouteName.SnograssShuttle,
+      RouteName.SnodgrassShuttle,
       RouteWithTimes(
         BusScheduleAtStop(
           Location.MountaineerSquare,
