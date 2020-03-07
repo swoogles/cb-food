@@ -84,11 +84,6 @@ object MyApp extends App {
         ) with Console.Live with BrowserLive
       else
         new Clock.Live with Console.Live with BrowserLive
-      _ <- UnsafeCallbacks.attachUrlRewriteBehavior(
-        pageMode,
-        environmentDependencies,
-        components,
-      )
       _ <- registerServiceWorker()
       _ <- NotificationStuff.addNotificationPermissionRequestToButton
       _ <- NotificationStuff.displayNotificationPermission

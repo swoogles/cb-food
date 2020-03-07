@@ -48,7 +48,6 @@ object TagsOnly {
       ),
       if (pageMode == AppMode.Development) {
         div(
-          busScheduleDiv(ElementNames.RtaNorthbound.containerName),
           button(id := ElementNames.Notifications.requestPermission,
                  cls := "button")(
             "Request Notifications Permission",
@@ -58,12 +57,6 @@ object TagsOnly {
             cls := "button",
           )(
             "SubmitMessage to SW",
-          ),
-          button(
-            id := ElementNames.UrlManipulation.rewriteUrl,
-            cls := "button",
-          )(
-            "Rewrite Url",
           ),
         )
       } else div(),

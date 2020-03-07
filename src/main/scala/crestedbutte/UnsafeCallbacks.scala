@@ -1,44 +1,10 @@
 package crestedbutte
 
-import crestedbutte.MyApp.loopLogic
 import org.scalajs.dom.Node
 import org.scalajs.dom.raw.MouseEvent
-import zio.{DefaultRuntime, ZIO}
-import zio.clock.Clock
-import zio.console.Console
-import zio.scheduler.SchedulerLive
+import zio.ZIO
 
 object UnsafeCallbacks {
-
-  def attachUrlRewriteBehavior(
-    pageMode: AppMode.Value,
-    environmentDependencies: SchedulerLive
-      with Clock
-      with Console.Live
-      with BrowserLive,
-    components: Seq[ComponentData],
-  ) =
-    ZIO
-      .environment[Browser]
-      .map { browser =>
-        browser.browser
-          .querySelector(
-            ModalBehavior.id(ElementNames.UrlManipulation.rewriteUrl),
-          ) // TODO Find better spot for .id function
-          .foreach(
-            _.addEventListener(
-              "click",
-              (_: MouseEvent) => {
-                browser.browser
-                  .rewriteCurrentUrl("route", "Three_Seasons_Loop")
-                new DefaultRuntime {}.unsafeRun(
-                  loopLogic(pageMode, components)
-                    .provide(environmentDependencies),
-                )
-              },
-            ),
-          )
-      }
 
   val attachMenuBehavior =
     ZIO
