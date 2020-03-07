@@ -6,7 +6,7 @@ case class RouteName(userFriendlyName: String) {
     userFriendlyName
       .map(
         (letter: Char) =>
-          if (letter.isLetter) letter.toString else "_"
+          if (letter.isLetter) letter.toString else "_",
       )
       .mkString
 

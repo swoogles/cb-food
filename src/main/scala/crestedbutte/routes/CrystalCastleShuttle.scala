@@ -7,7 +7,7 @@ import crestedbutte.{
   BusScheduleAtStop,
   Location,
   NamedRoute,
-  RouteName
+  RouteName,
 }
 
 /*
@@ -30,14 +30,14 @@ object CrystalCastleShuttle
       RouteWithTimes(
         BusScheduleAtStop(
           Location.MountaineerSquare,
-          BusSchedule("08:10", "22:40", 30.minutes)
+          BusSchedule("08:10", "22:40", 30.minutes),
         ),
         Seq(
           (Location.Pitchfork, 2.minutes),
           (Location.CrystalRoad, 1.minutes),
           (Location.CastleRoad, 2.minutes),
           (Location.WoodCreekMountainEdge, 1.minutes),
-          (Location.HunterHillTimberline, 2.minutes)
-        )
-      )
+          (Location.HunterHillTimberline, 2.minutes),
+        ),
+      ),
     )

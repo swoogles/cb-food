@@ -16,9 +16,9 @@ class BusTime(localTime: LocalTime) {
       Duration
         .between(
           busTime.truncatedToMinutes,
-          truncatedToMinutes
+          truncatedToMinutes,
         )
-        .abs()
+        .abs(),
     )
 
   def plusMinutes(minutes: Int) =
@@ -67,7 +67,7 @@ object BusTime {
   def newParse(raw: String): Try[BusTime] =
     parseIdeal(raw).orElse(
       Try(new BusTime(LocalTime.parse("0" + raw)))
-        .orElse(Try(new BusTime(LocalTime.parse(raw))))
+        .orElse(Try(new BusTime(LocalTime.parse(raw)))),
     )
 
   def parse(raw: String) =

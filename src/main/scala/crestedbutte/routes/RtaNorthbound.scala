@@ -6,7 +6,7 @@ import crestedbutte.{
   BusScheduleAtStop,
   Location,
   NamedRoute,
-  RouteName
+  RouteName,
 }
 
 object RtaNorthbound {
@@ -21,8 +21,8 @@ object RtaNorthbound {
           "07:00",
           "07:30",
           "08:00",
-          "08:30"
-        )
+          "08:30",
+        ),
       ),
       Seq(
         (Location.EleventhAndVirginia, 2.minutes),
@@ -38,11 +38,11 @@ object RtaNorthbound {
         (Location.BrushCreek, 1.minutes),
         (Location.Riverbend, 1.minutes),
         (Location.FourWayUphill, 3.minutes),
-        (Location.MountaineerSquare, 10.minutes)
-      )
+        (Location.MountaineerSquare, 10.minutes),
+      ),
     )
 
-  val routeWithTimes =
+  val normalRouteWithTimes =
     RouteWithTimes(
       BusScheduleAtStop(
         Location.GunnisonCommunitySchools,
@@ -68,8 +68,8 @@ object RtaNorthbound {
           "19:05",
           "20:05",
           "21:10",
-          "22:10"
-        )
+          "22:10",
+        ),
       ),
       Seq(
         (Location.EleventhAndVirginia, 2.minutes),
@@ -86,13 +86,13 @@ object RtaNorthbound {
         (Location.BrushCreek, 1.minutes),
         (Location.Riverbend, 1.minutes),
         (Location.FourWayUphill, 3.minutes),
-        (Location.MountaineerSquare, 10.minutes)
-      )
+        (Location.MountaineerSquare, 10.minutes),
+      ),
     )
 
   val fullSchedule = NamedRoute(
     RouteName("Rta Northbound"),
-    expressRouteWithTimes.combinedWith(expressRouteWithTimes)
+    normalRouteWithTimes.combinedWith(expressRouteWithTimes),
   )
 
 }

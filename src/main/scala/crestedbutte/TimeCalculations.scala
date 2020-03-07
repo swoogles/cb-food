@@ -14,7 +14,7 @@ object TimeCalculations {
 
   def getUpcomingArrivalInfo(
     stops: BusScheduleAtStop,
-    now: BusTime
+    now: BusTime,
   ): UpcomingArrivalInfo =
     nextBusArrivalTime(stops.times, now)
       .map(
@@ -24,39 +24,39 @@ object TimeCalculations {
             StopTimeInfo(
               nextArrivalTime,
               nextArrivalTime
-                .between(now)
-            )
-          )
+                .between(now),
+            ),
+          ),
       )
       .getOrElse(
         UpcomingArrivalInfo(
           stops.location,
-          LateNightRecommendation("Late Shuttle")
-        )
+          LateNightRecommendation("Late Shuttle"),
+        ),
       )
 
   def calculateUpcomingArrivalAtAllStops(
     now: BusTime,
-    busRoute: NamedRoute
+    busRoute: NamedRoute,
   ): Seq[UpcomingArrivalInfo] =
     busRoute.routeWithTimes.allStops.map(
-      scheduleAtStop => getUpcomingArrivalInfo(scheduleAtStop, now)
+      scheduleAtStop => getUpcomingArrivalInfo(scheduleAtStop, now),
     )
 
   def calculateUpcomingArrivalWithFullScheduleAtAllStops(
     now: BusTime,
-    busRoute: NamedRoute
+    busRoute: NamedRoute,
   ): Seq[UpcomingArrivalInfoWithFullSchedule] =
     busRoute.routeWithTimes.allStops.map(
       scheduleAtStop =>
         UpcomingArrivalInfoWithFullSchedule(
           getUpcomingArrivalInfo(scheduleAtStop, now),
-          scheduleAtStop.scheduleAfter(now)
-        )
+          scheduleAtStop.scheduleAfter(now),
+        ),
     )
 
   def getUpComingArrivals(
-    busRoute: NamedRoute
+    busRoute: NamedRoute,
   ): ZIO[Clock, Nothing, Seq[UpcomingArrivalInfo]] =
     for {
       clockProper <- ZIO.environment[Clock]
@@ -65,12 +65,12 @@ object TimeCalculations {
     } yield {
       TimeCalculations.calculateUpcomingArrivalAtAllStops(
         localTime,
-        busRoute
+        busRoute,
       )
     }
 
   def getUpComingArrivalsWithFullSchedule(
-    busRoute: NamedRoute
+    busRoute: NamedRoute,
   ): ZIO[Clock, Nothing, UpcomingArrivalComponentData] =
     for {
       clockProper <- ZIO.environment[Clock]
@@ -81,9 +81,9 @@ object TimeCalculations {
         TimeCalculations
           .calculateUpcomingArrivalWithFullScheduleAtAllStops(
             localTime,
-            busRoute
+            busRoute,
           ),
-        busRoute.routeName
+        busRoute.routeName,
       )
     }
 }

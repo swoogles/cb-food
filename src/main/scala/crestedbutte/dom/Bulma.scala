@@ -14,27 +14,27 @@ object Bulma {
           marginLeft := "45px",
           marginRight := "45px")(
         h4(textAlign := "center")(
-          scheduleAtStop.location.name
+          scheduleAtStop.location.name,
         ),
         h5(textAlign := "center")(
-          "Upcoming Arrivals"
+          "Upcoming Arrivals",
         ),
         scheduleAtStop.times.map(
           time =>
             div(textAlign := "center",
                 verticalAlign := "middle",
                 paddingBottom := "3px")(
-              span(time.toDumbAmericanString)
+              span(time.toDumbAmericanString),
               // TODO Re-enable once Notifications are more solid
 //              svgIconForAlarm(
 //                "glyphicons-basic-443-bell-ringing.svg",
 //                "arrival-time-alarm",
 //                time
 //              )
-            )
-        )
+            ),
+        ),
       ),
-      button(cls := "modal-close is-large", aria.label := "close")()
+      button(cls := "modal-close is-large", aria.label := "close")(),
     )
 
   def menu(allComponentData: Seq[ComponentData]) =
@@ -50,8 +50,8 @@ object Bulma {
           data("target") := "navbarBasicExample")(
           span(aria.hidden := "true"),
           span(aria.hidden := "true"),
-          span(aria.hidden := "true")
-        )
+          span(aria.hidden := "true"),
+        ),
       ),
       div(id := "navbarBasicExample", cls := "navbar-menu")(
         div(cls := "navbar-start")(
@@ -62,19 +62,19 @@ object Bulma {
               allComponentData.map { componentData =>
                 a(
                   cls := "navbar-item route",
-                  data("route") := componentData.componentName
+                  data("route") := componentData.componentName,
                 )(componentData.namedRoute.routeName.userFriendlyName)
-              }
+              },
               // TODO Re-enable after demo
 //              a(
 //                cls := "navbar-item route",
 //                data("route") := RouteName.RtaNorthbound.name
 //              )(RouteName.RtaNorthbound.userFriendlyName)
-            )
-          )
+            ),
+          ),
         ),
         div(cls := "navbar-end")(
-          )
-      )
+          ),
+      ),
     )
 }

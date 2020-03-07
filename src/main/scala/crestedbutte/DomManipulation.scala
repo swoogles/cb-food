@@ -10,7 +10,7 @@ object DomManipulation {
 
   def createAndApplyPageStructure(
     pageMode: AppMode.Value,
-    componentData: Seq[ComponentData]
+    componentData: Seq[ComponentData],
   ): ZIO[Browser, Nothing, Node] =
     ZIO
       .environment[Browser]
@@ -21,12 +21,12 @@ object DomManipulation {
             .appendChild(
               TagsOnly
                 .overallPageLayout(pageMode, componentData)
-                .render
-            )
+                .render,
+            ),
       )
 
   def appendMessageToPage(
-    message: String
+    message: String,
   ): ZIO[Browser, Throwable, Unit] =
     ZIO
       .environment[Browser]
@@ -34,12 +34,12 @@ object DomManipulation {
         browser =>
           browser.browser
             .querySelector("#activity-log")
-            .foreach(_.appendChild(div(message).render))
+            .foreach(_.appendChild(div(message).render)),
       )
 
   def updateUpcomingBusSectionInsideElement(
     elementName: String,
-    newContent: JsDom.TypedTag[Div]
+    newContent: JsDom.TypedTag[Div],
   ): ZIO[Browser, Nothing, Unit] =
     ZIO
       .environment[Browser]
@@ -60,7 +60,7 @@ object DomManipulation {
       }
 
   def hideUpcomingBusSectionInsideElement(
-    elementName: String
+    elementName: String,
   ): ZIO[Browser, Nothing, Unit] =
     ZIO
       .environment[Browser]
@@ -70,7 +70,7 @@ object DomManipulation {
           .foreach { routeElementResult =>
             routeElementResult.setAttribute(
               "style",
-              "display:none"
+              "display:none",
             ) // Come up with way of hiding and collapsing
 //            routeElementResult.innerHTML = ""
           }

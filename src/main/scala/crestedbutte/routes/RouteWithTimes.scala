@@ -4,7 +4,7 @@ import crestedbutte.{BusScheduleAtStop, Location}
 import crestedbutte.time.BusDuration
 
 class RouteWithTimes(
-  val allStops: Seq[BusScheduleAtStop]
+  val allStops: Seq[BusScheduleAtStop],
 ) {
 
   def combinedWith(routeWithTimes: RouteWithTimes): RouteWithTimes =
@@ -20,14 +20,14 @@ class RouteWithTimes(
             if (combinedStop.isDefined) {
               val (beforeStop, replacedStop :: afterStop) =
                 stopsAcc.splitAt(
-                  stopsAcc.indexWhere(_.location == nextStop.location)
+                  stopsAcc.indexWhere(_.location == nextStop.location),
                 )
               beforeStop :+ combinedStop.get :++ afterStop
             } else {
               stopsAcc :+ nextStop
             }
 
-        }
+        },
     )
 }
 
@@ -35,7 +35,7 @@ object RouteWithTimes {
 
   def apply(
     originStops: BusScheduleAtStop,
-    locationsWithDelays: Seq[(Location.Value, BusDuration)]
+    locationsWithDelays: Seq[(Location.Value, BusDuration)],
   ) =
     new RouteWithTimes(
       locationsWithDelays
@@ -44,7 +44,7 @@ object RouteWithTimes {
             stopsSoFar :+ stopsSoFar.last
               .delayedBy(currentStop._2)
               .at(currentStop._1)
-        }
+        },
     )
 
 }

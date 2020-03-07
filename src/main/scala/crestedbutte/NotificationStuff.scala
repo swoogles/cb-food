@@ -5,7 +5,7 @@ import org.scalajs.dom
 import org.scalajs.dom.MouseEvent
 import org.scalajs.dom.experimental.{
   Notification,
-  NotificationOptions
+  NotificationOptions,
 }
 import zio.ZIO
 import zio.clock.Clock
@@ -25,7 +25,7 @@ object NotificationStuff {
         browser.browser
           .body()
           .querySelector(
-            s"#${ElementNames.Notifications.requestPermission}"
+            s"#${ElementNames.Notifications.requestPermission}",
           )
       if (requestPermissionButton != null)
         requestPermissionButton.addEventListener(
@@ -35,19 +35,19 @@ object NotificationStuff {
               Notification.requestPermission(
                 response =>
                   println(
-                    "Notification requestPermission response: " + response
-                  )
+                    "Notification requestPermission response: " + response,
+                  ),
               )
             else if (Notification.permission == "denied")
               println(
-                "They denied permission to notifications. Give it up."
+                "They denied permission to notifications. Give it up.",
               )
             else if (Notification.permission == "granted")
               println("we already have permission.")
             else
               println(
-                "Uknown permission state: " + Notification.permission
-              )
+                "Uknown permission state: " + Notification.permission,
+              ),
         )
     }
 
@@ -56,7 +56,7 @@ object NotificationStuff {
       if (Notification.permission == "granted") {
         browser.browser
           .querySelectorAll(
-            ".arrival-time-alarm"
+            ".arrival-time-alarm",
           )
           .map { item =>
             item
@@ -69,8 +69,8 @@ object NotificationStuff {
                   new Notification(
                     s"You will be alerted when the bus is about to arrive with a Notification like this.",
                     NotificationOptions(
-                      vibrate = js.Array(100d)
-                    )
+                      vibrate = js.Array(100d),
+                    ),
                   )
 
                   desiredAlarms
@@ -79,15 +79,15 @@ object NotificationStuff {
                         BusTime(
                           event.target
                             .asInstanceOf[
-                              org.scalajs.dom.raw.Element
+                              org.scalajs.dom.raw.Element,
                             ]
                             .getAttribute("data-lossless-value")
                             .replace("'", "")
-                            .trim
-                        )
-                      )
+                            .trim,
+                        ),
+                      ),
                     )
-                }
+                },
               )
           }
       }
@@ -115,12 +115,12 @@ object NotificationStuff {
               new Notification(
                 s"The ${busTime.toString} bus is arriving in ${headsUpAmount} minutes!",
                 NotificationOptions(
-                  vibrate = js.Array(100d)
-                )
+                  vibrate = js.Array(100d),
+                ),
               ),
             (localTime
               .between(busTime)
-              .toMinutes - headsUpAmount) * 60 * 1000
+              .toMinutes - headsUpAmount) * 60 * 1000,
           )
       }
       ()
@@ -132,7 +132,7 @@ object NotificationStuff {
         browser.browser
           .body()
           .querySelector(
-            s"#${ElementNames.Notifications.notificationAction}"
+            s"#${ElementNames.Notifications.notificationAction}",
           )
       if (actionButton != null)
         actionButton
@@ -145,12 +145,12 @@ object NotificationStuff {
                     BusTime(
                       event.target
                         .asInstanceOf[org.scalajs.dom.raw.Element]
-                        .innerHTML // TODO ewwwww
-                    )
-                  )
+                        .innerHTML, // TODO ewwwww
+                    ),
+                  ),
                 )
 
-            }
+            },
           )
   }
 }

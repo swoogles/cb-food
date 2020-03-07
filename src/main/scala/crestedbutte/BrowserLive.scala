@@ -16,11 +16,11 @@ trait BrowserLive extends Browser {
       val result =
         Option(
           body()
-            .querySelector(selectors)
+            .querySelector(selectors),
         )
       if (result.isEmpty)
         println(
-          "Failed to retrieve element with selector: " + selectors
+          "Failed to retrieve element with selector: " + selectors,
         )
       result
     }
@@ -34,7 +34,7 @@ trait BrowserLive extends Browser {
           "newTitle",
           UrlParsing.replaceParamInUrl(window().location.toString,
                                        paramName,
-                                       paramValue)
+                                       paramValue),
         )
 
     override def alterUrlWithNewValue(url: String,
@@ -46,18 +46,18 @@ trait BrowserLive extends Browser {
         .pushState(
           "stateData",
           "newTitle",
-          UrlParsing.replaceParamInUrl(url, paramName, paramValue)
+          UrlParsing.replaceParamInUrl(url, paramName, paramValue),
         )
 
     def workOnFullHtmlElement(function: (Element) => Unit) =
       function(
-        org.scalajs.dom.document.querySelector("html")
+        org.scalajs.dom.document.querySelector("html"),
       )
 
     override def querySelectorAll(selectors: String): Seq[Node] =
       convertNodesToList(
         body()
-          .querySelectorAll(selectors)
+          .querySelectorAll(selectors),
       )
 
     override def convertNodesToList(nodes: NodeList): Seq[Node] =

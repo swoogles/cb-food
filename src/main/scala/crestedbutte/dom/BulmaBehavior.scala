@@ -12,12 +12,12 @@ object BulmaBehavior {
       .map { browser =>
         browser.browser
           .querySelector(
-            "#main-menu"
+            "#main-menu",
           )
           .map { element =>
             browser.browser
               .convertNodesToList(
-                element.querySelectorAll(".navbar-item .route")
+                element.querySelectorAll(".navbar-item .route"),
               )
               .foreach { node =>
                 node.addEventListener(
@@ -40,7 +40,7 @@ object BulmaBehavior {
                       .querySelector("#navbarBasicExample")
                       .foreach(_.classList.remove("is-active"))
                     new DefaultRuntime {}.unsafeRun(input)
-                  }
+                  },
                 )
               }
 

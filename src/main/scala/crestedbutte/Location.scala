@@ -12,7 +12,7 @@ object Location extends Enumeration {
       name
         .map(
           (letter: Char) =>
-            if (letter.isLetter) letter.toString else "_"
+            if (letter.isLetter) letter.toString else "_",
         )
         .mkString
   }
@@ -36,27 +36,32 @@ object Location extends Enumeration {
   val FourWayUphill: Val = Val(
     "4-way",
     "(To Mountain)",
-    GpsCoordinates(38.870355, -106.980905)
+    GpsCoordinates(38.870355, -106.980905),
   ) // gps
   val TeocalliUphill: Val = Val(
     "Teocalli",
     "(To Mountain)",
-    GpsCoordinates(38.872718, -106.980830)
+    GpsCoordinates(38.872718, -106.980830),
   ) //
   val MountaineerSquare: Val = Val(
     "Mountaineer Square",
     "(CBMR)",
-    GpsCoordinates(38.900902, -106.966650)
+    GpsCoordinates(38.900902, -106.966650),
   ) //  // This is rough. Maps seems to be off...
   val TeocalliDownhill: Val = Val(
     "Teocalli",
     "(To Downtown)",
-    GpsCoordinates(38.872726, -106.981037)
+    GpsCoordinates(38.872726, -106.981037),
   ) //
   val FourwayDownhill: Val = Val(
     "4-way",
     "(To Downtown)",
-    GpsCoordinates(38.869944, -106.981503)
+    GpsCoordinates(38.869944, -106.981503),
+  ) //
+
+  val FourwayGunnison: Val = Val(
+    "4-way",
+    "(To Gunnison)",
   ) //
 
   // Condo loop entries
@@ -73,7 +78,7 @@ object Location extends Enumeration {
 
   // RTA stops.
   val GunnisonCommunitySchools: Val = Val(
-    "Gunnison Community Schools"
+    "Gunnison Community Schools",
   )
 
   val EleventhAndVirginia: Val = Val("Eleventh & Virgina")
@@ -113,6 +118,12 @@ object Location extends Enumeration {
 
   val Riverbend: Val =
     Val("Riverbend", "(Flag Stop)")
+
+  // Southbound
+  val RecCenter: Val =
+    Val("Rec Center")
+
+  // END RTA
 
   // BEGIN Columbine loop stops
   val Whetstone: Val =

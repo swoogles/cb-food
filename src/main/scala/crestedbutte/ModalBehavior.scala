@@ -17,7 +17,7 @@ object ModalBehavior {
             .querySelector(targetName)
             .foreach(
               _.classList
-                .add("is-active")
+                .add("is-active"),
             )
 
         browser.browser
@@ -36,13 +36,13 @@ object ModalBehavior {
 
                   browser.browser
                     .querySelector(
-                      id(modalContentId)
+                      id(modalContentId),
                     )
                     .map {
                       modal =>
                         browser.browser
                           .workOnFullHtmlElement(
-                            _.classList.add("is-clipped")
+                            _.classList.add("is-clipped"),
                           )
 
                         modal
@@ -53,14 +53,14 @@ object ModalBehavior {
                               e.preventDefault();
                               removeClippedHtml(browser)
                               modal.classList.remove("is-active");
-                            }
+                            },
                           )
 
                         activateModal(
-                          id(modalContentId)
+                          id(modalContentId),
                         )
                     }
-                }
+                },
               )
           }
       }
@@ -68,7 +68,7 @@ object ModalBehavior {
   def removeClippedHtml(browser: Browser) =
     browser.browser.workOnFullHtmlElement(
       _.classList
-        .remove("is-clipped")
+        .remove("is-clipped"),
     )
 
   val addModalCloseBehavior =
@@ -84,17 +84,17 @@ object ModalBehavior {
                 (_: MouseEvent) => {
 
                   browser.browser.workOnFullHtmlElement(
-                    _.classList.remove("is-clipped")
+                    _.classList.remove("is-clipped"),
                   )
                   browser.browser
                     .querySelector(".is-active")
                     .foreach(
                       _.classList
-                        .remove("is-active")
+                        .remove("is-active"),
                     )
-                }
-              )
-            )
+                },
+              ),
+            ),
       )
 
 }

@@ -8,7 +8,7 @@ object MyStyles extends StyleSheet.Inline {
   import dsl._
 
   val common = mixin(
-    backgroundColor.green
+    backgroundColor.green,
   )
 
   val outer = style(
@@ -17,11 +17,11 @@ object MyStyles extends StyleSheet.Inline {
     textAlign.left,
     cursor.pointer,
     &.hover(
-      cursor.zoomIn
+      cursor.zoomIn,
     ),
     media.not.handheld.landscape.maxWidth(640 px)(
-      width(400 px)
-    )
+      width(400 px),
+    ),
   )
 
   /** Style requiring an Int when applied. */
@@ -29,12 +29,12 @@ object MyStyles extends StyleSheet.Inline {
     styleF.int(0 to 3)(
       i =>
         styleS(
-          paddingLeft(i * 2.ex)
-        )
+          paddingLeft(i * 2.ex),
+        ),
     )
 
   /** Style hooking into Bootstrap. */
   val button = style(
-    addClassNames("btn", "btn-default")
+    addClassNames("btn", "btn-default"),
   )
 }

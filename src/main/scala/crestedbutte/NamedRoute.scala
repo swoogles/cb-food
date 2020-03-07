@@ -11,6 +11,6 @@ object NamedRoute {
             routeWithTimes: RouteWithTimes): Unit =
     NamedRoute(
       new RouteName(rawRouteName),
-      routeWithTimes
+      routeWithTimes,
     )
 }

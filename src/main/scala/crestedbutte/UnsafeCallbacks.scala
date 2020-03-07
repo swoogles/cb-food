@@ -16,14 +16,14 @@ object UnsafeCallbacks {
       with Clock
       with Console.Live
       with BrowserLive,
-    components: Seq[ComponentData]
+    components: Seq[ComponentData],
   ) =
     ZIO
       .environment[Browser]
       .map { browser =>
         browser.browser
           .querySelector(
-            ModalBehavior.id(ElementNames.UrlManipulation.rewriteUrl)
+            ModalBehavior.id(ElementNames.UrlManipulation.rewriteUrl),
           ) // TODO Find better spot for .id function
           .foreach(
             _.addEventListener(
@@ -33,10 +33,10 @@ object UnsafeCallbacks {
                   .rewriteCurrentUrl("route", "Three_Seasons_Loop")
                 new DefaultRuntime {}.unsafeRun(
                   loopLogic(pageMode, components)
-                    .provide(environmentDependencies)
+                    .provide(environmentDependencies),
                 )
-              }
-            )
+              },
+            ),
           )
       }
 
@@ -61,7 +61,7 @@ object UnsafeCallbacks {
                       .querySelector(
                         "#" + node.attributes
                           .getNamedItem("data-target")
-                          .value
+                          .value,
                       )
                       .map(_.classList.toggle("is-active"))
 
@@ -72,12 +72,12 @@ object UnsafeCallbacks {
                       node
                         .addEventListener(
                           "click",
-                          menuCallbackBehavior(node, browser)
-                        )
+                          menuCallbackBehavior(node, browser),
+                        ),
                   )
 
-              }
-            )
+              },
+            ),
       )
 
 }

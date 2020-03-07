@@ -20,7 +20,7 @@ object FixedClock {
         IO.effectTotal(
             ZonedDateTime
               .parse(rawInstant)
-              .toEpochSecond * 1000
+              .toEpochSecond * 1000,
 //            Instant.parse("2020-02-20T18:20:00.00Z").atZone(ZoneId.of("America/Denver")).toEpochSecond * 1000
           )
           .map(l => unit.convert(l, TimeUnit.MILLISECONDS))
@@ -37,7 +37,7 @@ object FixedClock {
                 .schedule(() => k(ZIO.unit), duration)
 
               Left(ZIO.effectTotal(canceler()))
-            }
+            },
         )
 
       def currentDateTime: ZIO[Any, Nothing, OffsetDateTime] =

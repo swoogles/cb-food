@@ -6,7 +6,7 @@ import crestedbutte.{
   BusScheduleAtStop,
   Location,
   NamedRoute,
-  RouteName
+  RouteName,
 }
 
 /*
@@ -29,7 +29,7 @@ object SnodgrassShuttle
       RouteWithTimes(
         BusScheduleAtStop(
           Location.MountaineerSquare,
-          BusSchedule("07:55", "21:55", 60.minutes)
+          BusSchedule("07:55", "21:55", 60.minutes),
         ),
         Seq(
           (Location.CinnamonMtnGothicToSnodgrass, 1.minutes),
@@ -37,7 +37,7 @@ object SnodgrassShuttle
           (Location.SnodgrassTrailhead, 2.minutes),
           (Location.GothicWintersetToMountaineerSquare, 2.minutes),
           (Location.MtCBTownHallToMountaineerSquare, 1.minutes),
-          (Location.ParadiseRoad, 1.minutes)
-        )
-      )
+          (Location.ParadiseRoad, 1.minutes),
+        ),
+      ),
     )

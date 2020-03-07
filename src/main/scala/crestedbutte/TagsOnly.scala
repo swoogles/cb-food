@@ -20,12 +20,12 @@ object TagsOnly {
             scheduleAtStop.times.map(
               time =>
                 div(
-                  span(time.toDumbAmericanString)
-                )
-            )
-          )
-        )
-      )
+                  span(time.toDumbAmericanString),
+                ),
+            ),
+          ),
+        ),
+      ),
     )
 
   def hamburgerMenu() =
@@ -35,7 +35,7 @@ object TagsOnly {
       aria.expanded := "false")(
       span(aria.hidden := "true"),
       span(aria.hidden := "true"),
-      span(aria.hidden := "true")
+      span(aria.hidden := "true"),
     )
 
   def overallPageLayout(pageMode: AppMode.Value,
@@ -44,60 +44,60 @@ object TagsOnly {
       Bulma.menu(componentData),
       componentData.map(
         singleComponentData =>
-          busScheduleDiv(singleComponentData.componentName)
+          busScheduleDiv(singleComponentData.componentName),
       ),
       if (pageMode == AppMode.Development) {
         div(
           busScheduleDiv(ElementNames.RtaNorthbound.containerName),
           button(id := ElementNames.Notifications.requestPermission,
                  cls := "button")(
-            "Request Notifications Permission"
+            "Request Notifications Permission",
           ),
           button(
             id := ElementNames.Notifications.submitMessageToServiceWorker,
-            cls := "button"
+            cls := "button",
           )(
-            "SubmitMessage to SW"
+            "SubmitMessage to SW",
           ),
           button(
             id := ElementNames.UrlManipulation.rewriteUrl,
-            cls := "button"
+            cls := "button",
           )(
-            "Rewrite Url"
-          )
+            "Rewrite Url",
+          ),
         )
-      } else div()
+      } else div(),
     )
 
   def busScheduleDiv(containerName: String) =
     div(cls := ElementNames.BoxClass, id := containerName)(
-      div(id := ElementNames.contentName)
+      div(id := ElementNames.contentName),
     )
 
   //  <a href="tel:123-456-7890">123-456-7890</a>
   def safeRideLink(
-    safeRideRecommendation: LateNightRecommendation
+    safeRideRecommendation: LateNightRecommendation,
   ): JsDom.TypedTag[Div] =
     div(cls := "late-night-call-button")(
       button(
         onclick :=
           s"window.location.href = 'tel:${safeRideRecommendation.phoneNumber}';",
-        cls := "button"
+        cls := "button",
       )(
         img(
           cls := "glyphicon",
           src := "/glyphicons/svg/individual-svg/glyphicons-basic-465-call.svg",
-          alt := "Call Late Night Shuttle!"
+          alt := "Call Late Night Shuttle!",
         ),
-        safeRideRecommendation.message
-      )
+        safeRideRecommendation.message,
+      ),
     )
 
   def phoneLink(
-    phoneNumber: PhoneNumber
+    phoneNumber: PhoneNumber,
   ): JsDom.TypedTag[Anchor] =
     a(href := s"tel:${phoneNumber.number}", cls := "link")(
-      phoneNumber.name
+      phoneNumber.name,
     )
 
   def renderWaitTime(duration: BusDuration) =
@@ -108,26 +108,26 @@ object TagsOnly {
 
   def createBusTimeElement(
     location: Location.Value,
-    content: JsDom.TypedTag[Div]
+    content: JsDom.TypedTag[Div],
     /* TODO: waitDuration: Duration*/
   ): JsDom.TypedTag[Div] =
     div(
       width := "100%",
-      cls := "stop-information"
+      cls := "stop-information",
     )(
       div(cls := "map-link")(
         // TODO Re-enable once maps are more polished
         //  geoLinkForStop(location)
       ),
       div(cls := "stop-name")(
-        div(location.name)
+        div(location.name),
       ),
       div(cls := "stop-alt-name")(
-        div(location.altName)
+        div(location.altName),
       ),
       div(cls := "upcoming-information")(
-        content
-      )
+        content,
+      ),
     )
 
   def geoLinkForStop(stopLocation: StopLocation) =
@@ -135,7 +135,7 @@ object TagsOnly {
       cls := "link",
       //    <a href="geo:37.786971,-122.399677;u=35">open map</a>
 //          href := s"geo:${stopLocation.gpsCoordinates.latitude}, ${stopLocation.gpsCoordinates.longitude}"
-      href := s"https://www.google.com/maps/search/?api=1&query=${stopLocation.gpsCoordinates.latitude},${stopLocation.gpsCoordinates.longitude}"
+      href := s"https://www.google.com/maps/search/?api=1&query=${stopLocation.gpsCoordinates.latitude},${stopLocation.gpsCoordinates.longitude}",
     )(svgIcon("glyphicons-basic-592-map.svg"))
 
   def activateModal(targetName: String): Unit =
@@ -161,7 +161,7 @@ object TagsOnly {
         cls := "arrival-time button open-arrival-time-modal",
         modalContentElementNameTyped(
           busScheduleAtStop.location,
-          routeName
+          routeName,
         ),
 //          data("schedule-modal") := modalContentElementName(
 //            busScheduleAtStop.location,
@@ -169,36 +169,36 @@ object TagsOnly {
 //          ),
         onclick := {},
 //          s"activateModal('#popup_${busScheduleAtStop.location}');",
-        data("lossless-value") := stopTimeInfo.time.toString
+        data("lossless-value") := stopTimeInfo.time.toString,
       )(stopTimeInfo.time.toDumbAmericanString),
       div(cls := "wait-time")(
         renderWaitTime(stopTimeInfo.waitingDuration),
         Bulma.bulmaModal(
           busScheduleAtStop,
           modalContentElementName(busScheduleAtStop.location,
-                                  routeName)
-        )
-      )
+                                  routeName),
+        ),
+      ),
     )
 
   def structuredSetOfUpcomingArrivals(
-    upcomingArrivalComponentData: UpcomingArrivalComponentData
+    upcomingArrivalComponentData: UpcomingArrivalComponentData,
   ) =
     div(
       div(cls := "route-header")(
         span(cls := "route-header_name")(
-          upcomingArrivalComponentData.routeName.userFriendlyName + " Departures"
+          upcomingArrivalComponentData.routeName.userFriendlyName + " Departures",
         ),
         img(
           cls := "glyphicon route-header_icon",
           src := "/glyphicons/svg/individual-svg/glyphicons-basic-32-bus.svg",
-          alt := "Thanks for riding the bus!"
-        )
+          alt := "Thanks for riding the bus!",
+        ),
       ),
       upcomingArrivalComponentData.upcomingArrivalInfo.map {
         case UpcomingArrivalInfoWithFullSchedule(
             UpcomingArrivalInfo(location, content),
-            fullScheduleAtStop
+            fullScheduleAtStop,
             ) => {
           TagsOnly.createBusTimeElement(
             location,
@@ -207,14 +207,14 @@ object TagsOnly {
                 renderStopTimeInfo(
                   stopTimeInfo,
                   fullScheduleAtStop,
-                  upcomingArrivalComponentData.routeName
+                  upcomingArrivalComponentData.routeName,
                 )
               case Right(safeRideRecommendation) =>
                 safeRideLink(safeRideRecommendation)
-            }
+            },
           )
         }
-      }
+      },
     )
 
   def svgIconForAlarm(name: String,
@@ -225,14 +225,14 @@ object TagsOnly {
       src := s"/glyphicons/svg/individual-svg/$name",
       alt := "Thanks for riding the bus!",
       data("lossless-value") := busTime.toString,
-      verticalAlign := "middle"
+      verticalAlign := "middle",
     )
 
   def svgIcon(name: String) =
     img(
       cls := "glyphicon",
       src := s"/glyphicons/svg/individual-svg/$name",
-      alt := "Thanks for riding the bus!"
+      alt := "Thanks for riding the bus!",
     )
   /*
   glyphicons-basic-591-map-marker.svg

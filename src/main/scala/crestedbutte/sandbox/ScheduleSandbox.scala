@@ -10,7 +10,7 @@ object ScheduleSandbox {
     Schedule.once && Schedule.spaced(duration.durationInt(2).seconds)
 
   def realBusSchedule(
-    numberOfBussesPerDay: Int
+    numberOfBussesPerDay: Int,
   ): Schedule[Clock, Any, (Int, Int)] =
     Schedule.recurs(numberOfBussesPerDay) &&
     Schedule.spaced(duration.durationInt(2).seconds)
@@ -22,27 +22,27 @@ object ScheduleSandbox {
       .flatMap(
         _ =>
           DomManipulation.appendMessageToPage(
-            s"Bus #$number arrived at clarks!"
-          )
+            s"Bus #$number arrived at clarks!",
+          ),
       )
       .flatMap(_ => ZIO.sleep(duration.durationInt(1).seconds))
       .flatMap(
         _ =>
           DomManipulation
-            .appendMessageToPage(s"Bus #$number arrived at 4 way!")
+            .appendMessageToPage(s"Bus #$number arrived at 4 way!"),
       )
       .flatMap(_ => ZIO.sleep(duration.durationInt(1).seconds))
       .flatMap(
         _ =>
           DomManipulation
-            .appendMessageToPage(s"Bus #$number arrived at Teocalli!")
+            .appendMessageToPage(s"Bus #$number arrived at Teocalli!"),
       )
       .flatMap(_ => ZIO.sleep(duration.durationInt(5).seconds)) // TODO Proper amount here
       .flatMap(
         _ =>
           DomManipulation.appendMessageToPage(
-            s"Bus #$number arrived at Mountaineer Square!"
-          )
+            s"Bus #$number arrived at Mountaineer Square!",
+          ),
       )
 
   val secondBus =

@@ -5,7 +5,7 @@ import crestedbutte.{
   BusScheduleAtStop,
   Location,
   NamedRoute,
-  RouteName
+  RouteName,
 }
 import crestedbutte.time.BusDuration.toBusDuration
 
@@ -30,7 +30,7 @@ object ColumbineLoop
       RouteWithTimes(
         BusScheduleAtStop(
           Location.MountaineerSquare,
-          BusSchedule("08:25", "22:25", 60.minutes)
+          BusSchedule("08:25", "22:25", 60.minutes),
         ),
         Seq(
           (Location.Whetstone, 1.minutes),
@@ -39,7 +39,7 @@ object ColumbineLoop
           (Location.MtCbTownHall, 0.minutes),
           (Location.UpperParadiseRoad, 1.minutes),
           (Location.LowerParadiseRoad, 1.minutes),
-          (Location.EaglesNestCondos, 3.minutes)
-        )
-      )
+          (Location.EaglesNestCondos, 3.minutes),
+        ),
+      ),
     )

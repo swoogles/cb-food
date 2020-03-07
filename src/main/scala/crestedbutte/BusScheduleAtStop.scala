@@ -18,7 +18,7 @@ case class BusScheduleAtStop(location: Location.Value,
   def scheduleAfter(busTime: BusTime) =
     BusScheduleAtStop(
       location,
-      times.dropWhile(!BusTime.catchableBus(busTime, _))
+      times.dropWhile(!BusTime.catchableBus(busTime, _)),
     )
 }
 
@@ -35,7 +35,7 @@ object BusScheduleAtStop {
     else
       BusScheduleAtStop(
         schedule1.location,
-        (schedule1.times ++ schedule2.times).sortBy(_.toString)
+        (schedule1.times ++ schedule2.times).sortBy(_.toString),
       ) // TODO Ensure sorted times
 
 }

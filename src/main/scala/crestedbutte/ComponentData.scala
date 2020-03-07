@@ -1,7 +1,7 @@
 package crestedbutte
 
 case class ComponentData(
-  namedRoute: NamedRoute
+  namedRoute: NamedRoute,
 ) {
   val componentName = namedRoute.routeName.name
 }

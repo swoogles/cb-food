@@ -16,7 +16,7 @@ import scala.util.{Failure, Success}
 object MyApp extends App {
 
   override def run(
-    args: List[String]
+    args: List[String],
   ): ZIO[zio.ZEnv, Nothing, Int] = {
     val myEnvironment =
       new Clock.Live with Console.Live with BrowserLive
@@ -26,7 +26,7 @@ object MyApp extends App {
 
   def loopLogic(
     pageMode: AppMode.Value,
-    components: Seq[ComponentData]
+    components: Seq[ComponentData],
   ): ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
       routeNameOpt <- QueryParameters.getRouteQueryParamValue
@@ -35,8 +35,8 @@ object MyApp extends App {
           routeNameStringParam =>
             components.find(
               _.namedRoute.routeName
-                .elementNameMatches(routeNameStringParam)
-            )
+                .elementNameMatches(routeNameStringParam),
+            ),
         )
         .getOrElse(components.head)
 
@@ -54,7 +54,7 @@ object MyApp extends App {
                         CrystalCastleShuttle,
                         ColumbineLoop,
                         SnodgrassShuttle,
-                        ThreeSeasonsTimes
+                        ThreeSeasonsTimes,
                       ))
 
   private val components: Seq[ComponentData] =
@@ -62,8 +62,11 @@ object MyApp extends App {
       .map(ComponentData) ++:
     Seq(
       ComponentData(
-        RtaNorthbound.fullSchedule
-      )
+        RtaNorthbound.fullSchedule,
+      ),
+      ComponentData(
+        RtaSouthbound.fullSchedule,
+      ),
     )
 
   val fullApplicationLogic =
@@ -72,19 +75,19 @@ object MyApp extends App {
       fixedTime <- QueryParameters.getCurrentTimeParamValue
       _ <- DomManipulation.createAndApplyPageStructure(
         pageMode,
-        components
+        components,
       )
       _ <- UnsafeCallbacks.attachMenuBehavior
       environmentDependencies = if (fixedTime.isDefined)
         new FixedClock.Fixed(
-          s"2020-02-20T${fixedTime.get.toString}:00.00-07:00"
+          s"2020-02-20T${fixedTime.get.toString}:00.00-07:00",
         ) with Console.Live with BrowserLive
       else
         new Clock.Live with Console.Live with BrowserLive
       _ <- UnsafeCallbacks.attachUrlRewriteBehavior(
         pageMode,
         environmentDependencies,
-        components
+        components,
       )
       _ <- registerServiceWorker()
       _ <- NotificationStuff.addNotificationPermissionRequestToButton
@@ -93,13 +96,13 @@ object MyApp extends App {
         loopLogic(pageMode, components)
           .provide(
             // TODO Try to provide *only* a clock here.
-            environmentDependencies
-          )
+            environmentDependencies,
+          ),
       )
       _ <- loopLogic(pageMode, components)
         .provide(
           // TODO Try to provide *only* a clock here.
-          environmentDependencies
+          environmentDependencies,
         )
         .repeat(Schedule.spaced(Duration.apply(10, TimeUnit.SECONDS)))
     } yield {
@@ -108,29 +111,29 @@ object MyApp extends App {
 
   def updateUpcomingArrivalsForRoute(
     componentData: ComponentData,
-    currentlySelectedRoute: ComponentData
+    currentlySelectedRoute: ComponentData,
   ) =
     if (componentData == currentlySelectedRoute)
       for {
         arrivalsAtAllRouteStops <- TimeCalculations // SKIP IF NOT ACTIVE ROUTE
           .getUpComingArrivalsWithFullSchedule(
-            componentData.namedRoute
+            componentData.namedRoute,
           )
         _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
           componentData.componentName,
           TagsOnly.structuredSetOfUpcomingArrivals(
-            arrivalsAtAllRouteStops
-          )
+            arrivalsAtAllRouteStops,
+          ),
         )
       } yield ()
     else
       DomManipulation.hideUpcomingBusSectionInsideElement(
-        componentData.componentName
+        componentData.componentName,
       )
 
   def updateUpcomingArrivalsOnPage(
     selectedRoute: ComponentData,
-    components: Seq[ComponentData]
+    components: Seq[ComponentData],
   ): ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
       modalIsOpen <- DomMonitoring.modalIsOpen
@@ -140,9 +143,9 @@ object MyApp extends App {
           components.map(
             updateUpcomingArrivalsForRoute(
               _,
-              selectedRoute
-            )
-          )
+              selectedRoute,
+            ),
+          ),
         )
     } yield ()
 
@@ -161,25 +164,25 @@ object MyApp extends App {
               case Success(registration) =>
                 browser.browser
                   .querySelector(
-                    "#" + ElementNames.Notifications.submitMessageToServiceWorker
+                    "#" + ElementNames.Notifications.submitMessageToServiceWorker,
                   )
                   .foreach(
                     _.addEventListener(
                       "click",
                       (_: MouseEvent) => {
                         println(
-                          "submitting message to service worker"
+                          "submitting message to service worker",
                         )
                         registration.active.postMessage(
-                          "Submitting a message to the serviceWorker!"
+                          "Submitting a message to the serviceWorker!",
                         )
-                      }
-                    )
+                      },
+                    ),
                   )
                 registration.update()
               case Failure(error) =>
                 println(
-                  s"registerServiceWorker: service worker registration failed > ${error.printStackTrace()}"
+                  s"registerServiceWorker: service worker registration failed > ${error.printStackTrace()}",
                 )
             }
       }

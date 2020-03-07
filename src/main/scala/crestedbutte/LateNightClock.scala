@@ -21,7 +21,7 @@ object LateNightClock {
         IO.effectTotal(
             ZonedDateTime
               .parse("2020-02-20T23:30:00.00-07:00")
-              .toEpochSecond * 1000
+              .toEpochSecond * 1000,
 //            Instant.parse("2020-02-20T18:20:00.00Z").atZone(ZoneId.of("America/Denver")).toEpochSecond * 1000
           )
           .map(l => unit.convert(l, TimeUnit.MILLISECONDS))
@@ -38,7 +38,7 @@ object LateNightClock {
                 .schedule(() => k(ZIO.unit), duration)
 
               Left(ZIO.effectTotal(canceler()))
-            }
+            },
         )
 
       def currentDateTime: ZIO[Any, Nothing, OffsetDateTime] =

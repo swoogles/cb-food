@@ -5,7 +5,7 @@ import crestedbutte.{
   BusScheduleAtStop,
   Location,
   NamedRoute,
-  RouteName
+  RouteName,
 }
 import crestedbutte.time.BusDuration.toBusDuration
 
@@ -27,7 +27,7 @@ object TownShuttleTimes
       RouteWithTimes(
         BusScheduleAtStop(
           Location.OldTownHall,
-          BusSchedule("07:10", "23:40", 15.minutes)
+          BusSchedule("07:10", "23:40", 15.minutes),
         ),
         Seq(
           (Location.Clarks, 4.minutes),
@@ -35,7 +35,7 @@ object TownShuttleTimes
           (Location.TeocalliUphill, 1.minutes),
           (Location.MountaineerSquare, 14.minutes),
           (Location.TeocalliDownhill, 6.minutes),
-          (Location.FourwayDownhill, 1.minutes)
-        )
-      )
+          (Location.FourwayDownhill, 1.minutes),
+        ),
+      ),
     )

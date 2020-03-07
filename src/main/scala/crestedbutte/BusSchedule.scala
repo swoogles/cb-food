@@ -22,19 +22,19 @@ object BusSchedule {
           0,
           BusTime(firstBus)
             .between(BusTime(lastBus))
-            .dividedBy(timeBetweenBuses) + 1
+            .dividedBy(timeBetweenBuses) + 1,
         ) // TODO Ugh. Nasty +1
         .map(
           index =>
             BusTime(firstBus)
-              .plus(timeBetweenBuses.times(index.toInt))
-        )
+              .plus(timeBetweenBuses.times(index.toInt)),
+        ),
     )
 
   // Useful for irregular stoptimes
   def apply(stopTimeStrings: String*) =
     new BusSchedule(
       List(stopTimeStrings: _*)
-        .map(BusTime(_))
+        .map(BusTime(_)),
     )
 }
