@@ -21,13 +21,13 @@ object ServiceWorker {
   val todoAssets: js.Array[RequestInfo] = List[RequestInfo](
     "/",
     "/index.html",
-//    "/compiledJavascript/sw-opt.js",
+    //    "/compiledJavascript/sw-opt.js",
     "/styling/style.css",
     "/compiledJavascript/cb-bus-opt.js",
-  "styling/popup_nojs.css",
+    "styling/popup_nojs.css",
     "styling/style.css",
-      "styling/bulma.min.css",
-        ).toJSArray
+    "styling/bulma.min.css",
+  ).toJSArray
 
   def main(args: Array[String]): Unit = {
     self.addEventListener(
@@ -114,14 +114,9 @@ object ServiceWorker {
     self.caches
       .open(todoCache)
       .toFuture
-      .onComplete {
-        case Success(cache) =>
-//          println("toCache: caching assets...")
-          cache.addAll(todoAssets).toFuture
-        case Failure(error) =>
-          println(s"toCache: failed > ${error.printStackTrace()}")
-      }
-    Future.unit
+      .map(cache =>
+        //          println("toCache: caching assets...")
+        cache.addAll(todoAssets).toFuture)
   }
 
   def fromCache(request: Request): Future[Response] =
