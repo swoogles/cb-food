@@ -46,7 +46,7 @@ object ServiceWorker {
 //        println(
 //          s"activate: service worker activated > ${event.toString}"
 //        )
-        invalidateCache()
+//        invalidateCache() // TODO Do I need this at all?
 //      event.waitUntil(toCache().toJSPromise)
         self.clients.claim()
       }
