@@ -21,10 +21,13 @@ object ServiceWorker {
   val todoAssets: js.Array[RequestInfo] = List[RequestInfo](
     "/",
     "/index.html",
-    "/compiledJavascript/sw-opt.js",
+//    "/compiledJavascript/sw-opt.js",
     "/styling/style.css",
-    "/compiledJavascript/cb-bus-opt.js"
-  ).toJSArray
+    "/compiledJavascript/cb-bus-opt.js",
+  "styling/popup_nojs.css",
+    "styling/style.css",
+      "styling/bulma.min.css",
+        ).toJSArray
 
   def main(args: Array[String]): Unit = {
     self.addEventListener(
@@ -67,6 +70,11 @@ object ServiceWorker {
     self.addEventListener(
       "fetch",
       (event: FetchEvent) => {
+        event.respondWith(
+          fromCache(event.request).toJSPromise
+        )
+
+        /*
         if (event.request.cache == RequestCache.`only-if-cached`
             && event.request.mode != RequestMode.`same-origin`) {
           println(
@@ -75,7 +83,7 @@ object ServiceWorker {
         } else {
           fromCache(event.request).onComplete {
             case Success(response) =>
-//              println(s"fetch: in cache > ${event.request.url}")
+              println(s"fetch: in cache > ${event.request.url}")
               response
             case Failure(error) =>
               println(
@@ -90,7 +98,10 @@ object ServiceWorker {
                     )
                 }
           }
+          3
         }
+
+         */
       }
     )
 
@@ -115,10 +126,10 @@ object ServiceWorker {
     self.caches
       .`match`(request)
       .toFuture
-      .asInstanceOf[Future[Response]]
-      .map { response: Response =>
+      .map { case response: Response =>
         if ( request.url.contains("index")) println(s"fromCache: matched request > ${request.url}")
         response
+      case other => new Response("oof")
       }
 
   def invalidateCache(): Unit = {
