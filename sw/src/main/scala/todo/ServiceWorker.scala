@@ -25,7 +25,6 @@ object ServiceWorker {
     "/styling/style.css",
     "/compiledJavascript/cb-bus-opt.js",
     "styling/popup_nojs.css",
-    "styling/style.css",
     "styling/bulma.min.css",
   ).toJSArray
 
@@ -114,7 +113,7 @@ object ServiceWorker {
     self.caches
       .open(todoCache)
       .toFuture
-      .map(cache =>
+      .flatMap(cache =>
         //          println("toCache: caching assets...")
         cache.addAll(todoAssets).toFuture)
   }
