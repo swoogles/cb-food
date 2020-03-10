@@ -71,7 +71,9 @@ object ServiceWorker {
       "fetch",
       (event: FetchEvent) => {
         event.respondWith(
-          fromCache(event.request).toJSPromise
+          fromCache(event.request)
+            .recoverWith{ case error => fetch(event.request).toFuture}
+            .toJSPromise
         )
 
         /*
@@ -126,10 +128,10 @@ object ServiceWorker {
     self.caches
       .`match`(request)
       .toFuture
-      .map { case response: Response =>
+      .flatMap { case response: Response =>
         if ( request.url.contains("index")) println(s"fromCache: matched request > ${request.url}")
-        response
-      case other => new Response("oof")
+        Future.successful(response)
+      case other => Future.failed(new Exception("Could not find cached request"))
       }
 
   def invalidateCache(): Unit = {
