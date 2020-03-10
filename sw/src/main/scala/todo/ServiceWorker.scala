@@ -24,6 +24,7 @@ object ServiceWorker {
     //    "/compiledJavascript/sw-opt.js",
     "/styling/style.css",
     "/compiledJavascript/cb-bus-opt.js",
+    "/glyphicons/svg/individual-svg/glyphicons-basic-32-bus.svg",
     "styling/popup_nojs.css",
     "styling/bulma.min.css",
   ).toJSArray
