@@ -19,7 +19,7 @@ object Browser {
                              paramName: String,
                              paramValue: String): Unit
     def url(): URI
-    def convertNodesToList(nodes: NodeList): Seq[Node]
+    def convertNodesToList(nodes: NodeList): Seq[Node] // TODO THIS DOES NOT BELONG HERE
   }
 }
 
