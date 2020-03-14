@@ -96,20 +96,12 @@ object MyApp extends App {
             environmentDependencies,
           ),
       )
-      _ <- DomManipulation
-        .appendMessageToPage(
-          "Timezones: " + ColoradoClock.Live.availableTimezones,
-        )
-        .flatMap(
-          _ =>
-            loopLogic(pageMode, components)
-              .provide(
-                // TODO Try to provide *only* a clock here.
-                environmentDependencies,
-              ),
+      _ <- loopLogic(pageMode, components)
+        .provide(
+          // TODO Try to provide *only* a clock here.
+          environmentDependencies,
         )
         .repeat(Schedule.spaced(Duration.apply(10, TimeUnit.SECONDS)))
-        .catchAll(ex => ZIO.succeed("Oh vell, no timezone messsage."))
     } yield {
       0
     }
