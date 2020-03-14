@@ -64,6 +64,7 @@ object TagsOnly {
 
   def busScheduleDiv(containerName: String) =
     div(cls := ElementNames.BoxClass, id := containerName)(
+      div(cls := "timezone"),
       div(id := ElementNames.contentName),
     )
 

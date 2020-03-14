@@ -13,6 +13,11 @@ object ColoradoClock {
 
   trait Live extends SchedulerLive with Clock {
 
+    val availableTimezones: String = {
+      import collection.JavaConverters._
+      ZoneId.getAvailableZoneIds.asScala.mkString(" :: ")
+    }
+
     val clock: Service[Any] = new Service[Any] {
 
       def currentTime(unit: TimeUnit): UIO[Long] =
@@ -39,6 +44,10 @@ object ColoradoClock {
           millis <- currentTime(TimeUnit.MILLISECONDS)
           _ <- ZIO.succeed {
             println("Getting a hard-coded Colorado timezone")
+            import collection.JavaConverters._
+            println(
+              ZoneId.getAvailableZoneIds.asScala.foreach(println),
+            )
           }
           zone <- ZIO.effectTotal(ZoneId.of("America/Denver"))
         } yield OffsetDateTime.ofInstant(Instant.ofEpochMilli(millis),

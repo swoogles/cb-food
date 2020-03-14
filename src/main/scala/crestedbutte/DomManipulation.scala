@@ -33,10 +33,12 @@ object DomManipulation {
     ZIO
       .environment[Browser]
       .map[Unit](
-        browser =>
+        browser => {
+          println("Should show timezones: " + message)
           browser.browser
-            .querySelector("#activity-log")
-            .foreach(_.appendChild(div(message).render)),
+            .querySelector(".timezone")
+            .foreach(_.appendChild(div(message).render))
+        },
       )
 
   def updateUpcomingBusSectionInsideElement(
