@@ -14,16 +14,18 @@ object DomManipulation {
   ): ZIO[Browser, Nothing, Node] =
     ZIO
       .environment[Browser]
-      .map(
-        browser =>
-          browser.browser
-            .body()
-            .appendChild(
-              TagsOnly
-                .overallPageLayout(pageMode, componentData)
-                .render,
-            ),
-      )
+      .map { browser =>
+        browser.browser
+          .querySelector("#landing-message")
+          .map(browser.browser.body().removeChild(_))
+        browser.browser
+          .body()
+          .appendChild(
+            TagsOnly
+              .overallPageLayout(pageMode, componentData)
+              .render,
+          )
+      }
 
   def appendMessageToPage(
     message: String,
