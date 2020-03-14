@@ -12,7 +12,12 @@
       "src": "images/BILLDING_LogoMark-500.png",
       "sizes": "192x192",
       "type": "image/png"
-    }
+    },
+         {
+           "src": "images/BILLDING_LogoMark-1000.png",
+           "sizes": "1000x1000",
+           "type": "image/png"
+         }
   ],
   "start_url": "/",
   "display": "standalone",
