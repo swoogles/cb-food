@@ -38,6 +38,5 @@ object QueryParameters {
           "mode", // TODO Ugly string value
         )
         .flatMap(rawString => AppMode.fromString(rawString))
-        .getOrElse(AppMode.Production)
     }
 }

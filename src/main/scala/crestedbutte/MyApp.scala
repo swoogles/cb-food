@@ -19,7 +19,7 @@ object MyApp extends App {
     args: List[String],
   ): ZIO[zio.ZEnv, Nothing, Int] = {
     val myEnvironment =
-      new Clock.Live with Console.Live with BrowserLive
+      new ColoradoClock.Live with Console.Live with BrowserLive
 
     fullApplicationLogic.provide(myEnvironment)
   }
@@ -71,7 +71,9 @@ object MyApp extends App {
 
   val fullApplicationLogic =
     for {
-      pageMode  <- QueryParameters.getCurrentPageMode
+      pageMode <- QueryParameters.getCurrentPageMode.map(
+        _.getOrElse(AppMode.Production),
+      )
       fixedTime <- QueryParameters.getCurrentTimeParamValue
       _ <- DomManipulation.createAndApplyPageStructure(
         pageMode,
@@ -83,7 +85,7 @@ object MyApp extends App {
           s"2020-02-20T${fixedTime.get.toString}:00.00-07:00",
         ) with Console.Live with BrowserLive
       else
-        new Clock.Live with Console.Live with BrowserLive
+        new ColoradoClock.Live with Console.Live with BrowserLive
       _ <- registerServiceWorker()
       _ <- NotificationStuff.addNotificationPermissionRequestToButton
       _ <- NotificationStuff.displayNotificationPermission
