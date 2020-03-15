@@ -185,4 +185,7 @@ object Location extends Enumeration {
   val ParadiseRoad: Val =
     Val("Paradise Road")
 
+  val ThePlaza: Val =
+    Val("The Plaza")
+
 }

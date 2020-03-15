@@ -50,6 +50,7 @@ object MyApp extends App {
   val mtnExpressRoutes =
     new CompanyRoutes("Mtn Express",
                       Seq(
+                        CovidLoop,
                         TownShuttleTimes,
                         CrystalCastleShuttle,
                         ColumbineLoop,
