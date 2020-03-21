@@ -19,6 +19,7 @@ libraryDependencies ++= Seq(
   "com.lihaoyi" %%% "pprint" % "0.5.6",
   "com.github.japgolly.scalacss" %%% "core" % "0.6.0",
   "com.github.japgolly.scalacss" %%% "ext-scalatags" % "0.6.0",
+//  "com.raquo" %%% "laminar" % "0.8.0"   // Scala.js 1.x only
 )
 
 testFrameworks := Seq(new TestFramework("zio.test.sbt.ZTestFramework"))
