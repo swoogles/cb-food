@@ -6,6 +6,10 @@ enablePlugins(ScalaJSPlugin)
 
 enablePlugins(TzdbPlugin)
 
+resolvers += "jitpack" at "https://jitpack.io"
+resolvers += Resolver.url("typesafe", url("http://repo.typesafe.com/typesafe/ivy-releases/"))(Resolver.ivyStylePatterns)
+
+
 libraryDependencies ++= Seq(
   "dev.zio" %%% "zio" % "1.0.0-RC17",
   "dev.zio" %%% "zio-streams" % "1.0.0-RC17",
@@ -19,6 +23,8 @@ libraryDependencies ++= Seq(
   "com.lihaoyi" %%% "pprint" % "0.5.9",
   "com.github.japgolly.scalacss" %%% "core" % "0.6.0",
   "com.github.japgolly.scalacss" %%% "ext-scalatags" % "0.6.0",
+//  "io.github.outwatch" %%% "outwatch" % "1.0.0-RC2",
+  "com.github.outwatch.outwatch" %%% "outwatch" % "a332851",
 //  "com.raquo" %%% "laminar" % "0.8.0"   // Scala.js 1.x only
 )
 

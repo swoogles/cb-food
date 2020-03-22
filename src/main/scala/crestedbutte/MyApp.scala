@@ -113,7 +113,7 @@ object MyApp extends App {
   ) =
     if (componentData == currentlySelectedRoute)
       for {
-        arrivalsAtAllRouteStops <- TimeCalculations // SKIP IF NOT ACTIVE ROUTE
+        arrivalsAtAllRouteStops <- TimeCalculations
           .getUpComingArrivalsWithFullSchedule(
             componentData.namedRoute,
           )
@@ -154,34 +154,33 @@ object MyApp extends App {
         // TODO Ew. Try to get this removed after first version of PWA is working
         import scala.concurrent.ExecutionContext.Implicits.global
 
-        val serviceWorker =
-          toServiceWorkerNavigator(browser.browser.window().navigator).serviceWorker
-            .register("./sw-opt.js")
-            .toFuture
-            .onComplete {
-              case Success(registration) =>
-                browser.browser
-                  .querySelector(
-                    "#" + ElementNames.Notifications.submitMessageToServiceWorker,
-                  )
-                  .foreach(
-                    _.addEventListener(
-                      "click",
-                      (_: MouseEvent) => {
-                        println(
-                          "submitting message to service worker",
-                        )
-                        registration.active.postMessage(
-                          "Submitting a message to the serviceWorker!",
-                        )
-                      },
-                    ),
-                  )
-                registration.update()
-              case Failure(error) =>
-                println(
-                  s"registerServiceWorker: service worker registration failed > ${error.printStackTrace()}",
+        toServiceWorkerNavigator(browser.browser.window().navigator).serviceWorker
+          .register("./sw-opt.js")
+          .toFuture
+          .onComplete {
+            case Success(registration) =>
+              browser.browser
+                .querySelector(
+                  "#" + ElementNames.Notifications.submitMessageToServiceWorker,
                 )
-            }
+                .foreach(
+                  _.addEventListener(
+                    "click",
+                    (_: MouseEvent) => {
+                      println(
+                        "submitting message to service worker",
+                      )
+                      registration.active.postMessage(
+                        "Submitting a message to the serviceWorker!",
+                      )
+                    },
+                  ),
+                )
+              registration.update()
+            case Failure(error) =>
+              println(
+                s"registerServiceWorker: service worker registration failed > ${error.printStackTrace()}",
+              )
+          }
       }
 }
