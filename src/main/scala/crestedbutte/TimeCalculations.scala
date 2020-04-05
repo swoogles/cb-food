@@ -13,7 +13,7 @@ object TimeCalculations {
       .filter(_ => now.isLikelyEarlyMorningRatherThanLateNight)
 
   def getUpcomingArrivalInfo(
-    stops: BusScheduleAtStop,
+    stops: RestaurantWithSchedule,
     now: BusTime,
   ): UpcomingArrivalInfo =
     nextBusArrivalTime(stops.times, now)
@@ -31,7 +31,7 @@ object TimeCalculations {
       .getOrElse(
         UpcomingArrivalInfo(
           stops.location,
-          LateNightRecommendation("Late Shuttle"),
+          CallToOrder("Order"),
         ),
       )
 

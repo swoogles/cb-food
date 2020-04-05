@@ -1,12 +1,13 @@
 package crestedbutte.dom
 
-import crestedbutte.{BusScheduleAtStop, ComponentData}
+import crestedbutte.{ComponentData, RestaurantWithSchedule}
 import crestedbutte.TagsOnly.svgIconForAlarm
 
 object Bulma {
   import scalatags.JsDom.all._
 
-  def bulmaModal(scheduleAtStop: BusScheduleAtStop, idValue: String) =
+  def bulmaModal(scheduleAtStop: RestaurantWithSchedule,
+                 idValue: String) =
     div(id := idValue, cls := "modal")(
       div(cls := "modal-background")(),
       div(cls := "modal-content",

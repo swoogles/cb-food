@@ -1,26 +1,29 @@
 package crestedbutte.routes
 
-import crestedbutte.{BusScheduleAtStop, Location}
+import crestedbutte.{Location, RestaurantWithSchedule}
 import crestedbutte.time.BusDuration
 
 class RouteWithTimes(
-  val allStops: Seq[BusScheduleAtStop],
+  val allStops: Seq[RestaurantWithSchedule],
 ) {
 
   def combinedWith(routeWithTimes: RouteWithTimes): RouteWithTimes =
     new RouteWithTimes(
       (allStops ++: routeWithTimes.allStops)
-        .foldLeft(Seq[BusScheduleAtStop]()) {
-          case (stopsAcc: Seq[BusScheduleAtStop], nextStop) =>
+        .foldLeft(Seq[RestaurantWithSchedule]()) {
+          case (stopsAcc: Seq[RestaurantWithSchedule], nextStop) =>
             val combinedStop =
               stopsAcc.find(_.location == nextStop.location).map {
                 existingStop =>
-                  BusScheduleAtStop.combine(existingStop, nextStop)
+                  RestaurantWithSchedule.combine(existingStop,
+                                                 nextStop)
               }
             if (combinedStop.isDefined) {
               val (beforeStop, replacedStop :: afterStop) =
                 stopsAcc.splitAt(
-                  stopsAcc.indexWhere(_.location == nextStop.location),
+                  stopsAcc.indexWhere(
+                    _.location == nextStop.location,
+                  ),
                 )
               beforeStop :+ combinedStop.get :++ afterStop
             } else {
@@ -34,7 +37,7 @@ class RouteWithTimes(
 object RouteWithTimes {
 
   def apply(
-    originStops: BusScheduleAtStop,
+    originStops: RestaurantWithSchedule,
     locationsWithDelays: Seq[(Location.Value, BusDuration)],
   ) =
     new RouteWithTimes(

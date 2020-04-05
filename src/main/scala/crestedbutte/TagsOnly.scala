@@ -9,7 +9,7 @@ import scalatags.JsDom
 object TagsOnly {
   import scalatags.JsDom.all._
 
-  def createPopupContent(scheduleAtStop: BusScheduleAtStop) =
+  def createPopupContent(scheduleAtStop: RestaurantWithSchedule) =
     div(
       div(id := s"popup_${scheduleAtStop.location}",
           cls := "overlay light")(
@@ -70,7 +70,7 @@ object TagsOnly {
 
   //  <a href="tel:123-456-7890">123-456-7890</a>
   def safeRideLink(
-    safeRideRecommendation: LateNightRecommendation,
+    safeRideRecommendation: CallToOrder,
   ): JsDom.TypedTag[Div] =
     div(cls := "late-night-call-button")(
       button(
@@ -148,7 +148,7 @@ object TagsOnly {
     "modal_content_" + routeName.name + "_" + location.elementName
 
   def renderStopTimeInfo(stopTimeInfo: StopTimeInfo,
-                         busScheduleAtStop: BusScheduleAtStop,
+                         busScheduleAtStop: RestaurantWithSchedule,
                          routeName: RouteName) =
     div(
       button(
@@ -181,12 +181,7 @@ object TagsOnly {
     div(
       div(cls := "route-header")(
         span(cls := "route-header_name")(
-          upcomingArrivalComponentData.routeName.userFriendlyName + " Departures",
-        ),
-        img(
-          cls := "glyphicon route-header_icon",
-          src := "/glyphicons/svg/individual-svg/glyphicons-basic-32-bus.svg",
-          alt := "Thanks for riding the bus!",
+          upcomingArrivalComponentData.routeName.userFriendlyName,
         ),
       ),
       upcomingArrivalComponentData.upcomingArrivalInfo.map {

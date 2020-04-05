@@ -35,7 +35,9 @@ object ScheduleSandbox {
       .flatMap(
         _ =>
           DomManipulation
-            .appendMessageToPage(s"Bus #$number arrived at Teocalli!"),
+            .appendMessageToPage(
+              s"Bus #$number arrived at Teocalli!",
+            ),
       )
       .flatMap(_ => ZIO.sleep(duration.durationInt(5).seconds)) // TODO Proper amount here
       .flatMap(

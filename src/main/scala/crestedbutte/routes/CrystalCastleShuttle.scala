@@ -4,9 +4,9 @@ import crestedbutte.time.BusDuration
 import crestedbutte.time.BusDuration.toBusDuration
 import crestedbutte.{
   BusSchedule,
-  BusScheduleAtStop,
   Location,
   NamedRoute,
+  RestaurantWithSchedule,
   RouteName,
 }
 
@@ -28,7 +28,7 @@ object CrystalCastleShuttle
     extends NamedRoute(
       RouteName("Crystal/Castle"),
       RouteWithTimes(
-        BusScheduleAtStop(
+        RestaurantWithSchedule(
           Location.MountaineerSquare,
           BusSchedule("08:10", "22:40", 30.minutes),
         ),

@@ -3,9 +3,9 @@ package crestedbutte.routes
 import crestedbutte.time.BusDuration.toBusDuration
 import crestedbutte.{
   BusSchedule,
-  BusScheduleAtStop,
   Location,
   NamedRoute,
+  RestaurantWithSchedule,
   RouteName,
 }
 
@@ -13,7 +13,7 @@ object RtaNorthbound {
 
   val expressRouteWithTimes =
     RouteWithTimes(
-      BusScheduleAtStop(
+      RestaurantWithSchedule(
         Location.GunnisonCommunitySchools,
         BusSchedule(
           "06:30",
@@ -37,14 +37,14 @@ object RtaNorthbound {
         (Location.Riverland, 16.minutes),
         (Location.BrushCreek, 1.minutes),
         (Location.Riverbend, 1.minutes),
-        (Location.FourWayUphill, 3.minutes),
+        (Location.Pitas, 3.minutes),
         (Location.MountaineerSquare, 10.minutes),
       ),
     )
 
   val normalRouteWithTimes =
     RouteWithTimes(
-      BusScheduleAtStop(
+      RestaurantWithSchedule(
         Location.GunnisonCommunitySchools,
         BusSchedule(
           "05:30",
@@ -85,7 +85,7 @@ object RtaNorthbound {
         (Location.Riverland, 5.minutes),
         (Location.BrushCreek, 1.minutes),
         (Location.Riverbend, 1.minutes),
-        (Location.FourWayUphill, 3.minutes),
+        (Location.Pitas, 3.minutes),
         (Location.MountaineerSquare, 10.minutes),
       ),
     )

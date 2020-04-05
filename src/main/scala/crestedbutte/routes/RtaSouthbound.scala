@@ -7,7 +7,7 @@ object RtaSouthbound {
 
   val expressRouteWithTimes =
     RouteWithTimes(
-      BusScheduleAtStop(
+      RestaurantWithSchedule(
         Location.MountaineerSquare,
         BusSchedule(
           "15:15",
@@ -34,7 +34,7 @@ object RtaSouthbound {
 
   val normalRouteWithTimes =
     RouteWithTimes(
-      BusScheduleAtStop(
+      RestaurantWithSchedule(
         Location.MountaineerSquare,
         BusSchedule(
           "06:40",

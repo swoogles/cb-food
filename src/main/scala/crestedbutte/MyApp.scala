@@ -48,26 +48,18 @@ object MyApp extends App {
     } yield ()
 
   val mtnExpressRoutes =
-    new CompanyRoutes("Mtn Express",
+    new CompanyRoutes("Crested Butte",
                       Seq(
-                        CovidLoop,
-                        TownShuttleTimes,
-                        CrystalCastleShuttle,
-                        ColumbineLoop,
-                        SnodgrassShuttle,
-                        ThreeSeasonsTimes,
+                        CbRestaurantsAndSchedules,
                       ))
 
   private val components: Seq[ComponentData] =
     mtnExpressRoutes.routesWithTimes
       .map(ComponentData) ++:
     Seq(
-      ComponentData(
-        RtaNorthbound.fullSchedule,
-      ),
-      ComponentData(
-        RtaSouthbound.fullSchedule,
-      ),
+//      ComponentData(
+//        RtaNorthbound.fullSchedule,
+//      ),
     )
 
   val fullApplicationLogic: ZIO[Clock with Browser, Nothing, Int] =

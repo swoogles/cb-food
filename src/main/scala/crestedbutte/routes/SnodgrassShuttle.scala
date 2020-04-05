@@ -3,9 +3,9 @@ package crestedbutte.routes
 import crestedbutte.time.BusDuration.toBusDuration
 import crestedbutte.{
   BusSchedule,
-  BusScheduleAtStop,
   Location,
   NamedRoute,
+  RestaurantWithSchedule,
   RouteName,
 }
 
@@ -27,7 +27,7 @@ object SnodgrassShuttle
     extends NamedRoute(
       RouteName("Snodgrass Shuttle"),
       RouteWithTimes(
-        BusScheduleAtStop(
+        RestaurantWithSchedule(
           Location.MountaineerSquare,
           BusSchedule("07:55", "21:55", 60.minutes),
         ),

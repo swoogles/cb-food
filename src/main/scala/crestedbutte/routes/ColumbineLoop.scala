@@ -2,9 +2,9 @@ package crestedbutte.routes
 
 import crestedbutte.{
   BusSchedule,
-  BusScheduleAtStop,
   Location,
   NamedRoute,
+  RestaurantWithSchedule,
   RouteName,
 }
 import crestedbutte.time.BusDuration.toBusDuration
@@ -28,7 +28,7 @@ object ColumbineLoop
     extends NamedRoute(
       RouteName("Columbine Loop"),
       RouteWithTimes(
-        BusScheduleAtStop(
+        RestaurantWithSchedule(
           Location.MountaineerSquare,
           BusSchedule("08:25", "22:25", 60.minutes),
         ),

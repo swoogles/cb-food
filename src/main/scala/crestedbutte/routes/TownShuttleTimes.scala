@@ -2,9 +2,9 @@ package crestedbutte.routes
 
 import crestedbutte.{
   BusSchedule,
-  BusScheduleAtStop,
   Location,
   NamedRoute,
+  RestaurantWithSchedule,
   RouteName,
 }
 import crestedbutte.time.BusDuration.toBusDuration
@@ -25,17 +25,13 @@ object TownShuttleTimes
     extends NamedRoute(
       RouteName("Town Loop"),
       RouteWithTimes(
-        BusScheduleAtStop(
-          Location.OldTownHall,
-          BusSchedule("07:10", "23:40", 15.minutes),
+        RestaurantWithSchedule(
+          Location.SecretStash,
+          BusSchedule("03:00", "03:01", 1.minutes),
         ),
         Seq(
-          (Location.Clarks, 4.minutes),
-          (Location.FourWayUphill, 1.minutes),
-          (Location.TeocalliUphill, 1.minutes),
-          (Location.MountaineerSquare, 14.minutes),
-          (Location.TeocalliDownhill, 6.minutes),
-          (Location.FourwayDownhill, 1.minutes),
+//          (Location.Clarks, 4.minutes),
+//          (Location.Pitas, 1.minutes),
         ),
       ),
       // Berp
