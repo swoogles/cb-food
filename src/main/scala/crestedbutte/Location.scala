@@ -33,32 +33,39 @@ object Location extends Enumeration {
 
   val Pitas: Val = Val(
     "Pitas in Paradise",
-  ) // gps
-  val TeocalliUphill: Val = Val(
-    "Teocalli",
-    "(To Mountain)",
-    GpsCoordinates(38.872718, -106.980830),
-  ) //
-  val MountaineerSquare: Val = Val(
-    "Mountaineer Square",
-    "(CBMR)",
-    GpsCoordinates(38.900902, -106.966650),
-  ) //  // This is rough. Maps seems to be off...
-  val TeocalliDownhill: Val = Val(
-    "Teocalli",
-    "(To Downtown)",
-    GpsCoordinates(38.872726, -106.981037),
-  ) //
-  val FourwayDownhill: Val = Val(
-    "4-way",
-    "(To Downtown)",
-    GpsCoordinates(38.869944, -106.981503),
-  ) //
+  )
 
-  val FourwayGunnison: Val = Val(
-    "4-way",
-    "(To Gunnison)",
-  ) //
+  val Slogar: Val = Val(
+    "Slogar",
+  )
+
+  val McGills: Val = Val(
+    "McGills",
+  )
+
+  val BrickOven: Val = Val(
+    "The Brick Oven",
+  )
+
+  val Bonez: Val = Val(
+    "Bones",
+  )
+
+  val Dogwood: Val = Val(
+    "Dogwood",
+  )
+
+  val TinCupPasty: Val = Val(
+    "Tin Cup Pasty Co",
+  )
+
+  val CoalCreekGrill: Val = Val(
+    "Coal Creek Grill",
+  )
+
+  val TacosLocale: Val = Val( // TODO Get accent mark figured out
+    "Tacos Locale",
+  )
 
   // Condo loop entries
   val ThreeSeasons: Val =

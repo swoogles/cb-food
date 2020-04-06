@@ -16,25 +16,50 @@ object CbRestaurantsAndSchedules
       RestaurantGroup(
         Seq(
           RestaurantWithSchedule(
-            Location.SecretStash,
+            Location.BrickOven,
             BusSchedule("03:00", "03:01", 1.minutes),
-            PhoneNumber("970-209-5159", "Order!"),
+            PhoneNumber("970-349-5044", "Order!"),
+          ),
+          RestaurantWithSchedule(
+            Location.Bonez,
+            BusSchedule("03:00", "03:01", 1.minutes),
+            PhoneNumber("970-349-5118", "Order!"),
+          ),
+          RestaurantWithSchedule(
+            Location.CoalCreekGrill,
+            BusSchedule("03:00", "03:01", 1.minutes),
+            PhoneNumber("970-349-6645", "Order!"),
+          ),
+          RestaurantWithSchedule(
+            Location.Dogwood,
+            BusSchedule("03:00", "03:01", 1.minutes),
+            PhoneNumber("970-349-6338", "Order!"),
+          ),
+          RestaurantWithSchedule(
+            Location.McGills,
+            BusSchedule("03:00", "03:01", 1.minutes),
+            PhoneNumber("970-349-5240", "Order!"),
           ),
           RestaurantWithSchedule(
             Location.Pitas,
             BusSchedule("03:00", "03:01", 1.minutes),
             PhoneNumber("970-349-0897", "Order!"),
           ),
-//        Seq(
-//          (Location.Clarks, 5.minutes),
-//          (Location.Pitas, 1.minutes),
-//          (Location.TeocalliUphill, 1.minutes),
-//          (Location.WoodCreekMountainEdge, 4.minutes),
-//          (Location.ThePlaza, 1.minutes),
-//          (Location.MountaineerSquare, 13.minutes),
-//          (Location.ThreeSeasons, 1.minutes),
-//          (Location.MountainSunrise, 0.minutes), // TODO Confirm
-//          (Location.Pitchfork, 5.minutes),
+          RestaurantWithSchedule(
+            Location.SecretStash,
+            BusSchedule("03:00", "03:01", 1.minutes),
+            PhoneNumber("970-209-5159", "Order!"),
+          ),
+          RestaurantWithSchedule(
+            Location.Slogar,
+            BusSchedule("03:00", "03:01", 1.minutes),
+            PhoneNumber("970-349-5765", "Order!"),
+          ),
+          RestaurantWithSchedule(
+            Location.TacosLocale,
+            BusSchedule("03:00", "03:01", 1.minutes),
+            PhoneNumber("970-349-7305", "Order!"),
+          ),
         ),
       ),
     )
