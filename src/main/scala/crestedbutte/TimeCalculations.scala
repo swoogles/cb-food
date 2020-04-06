@@ -31,7 +31,7 @@ object TimeCalculations {
       .getOrElse(
         UpcomingArrivalInfo(
           stops.location,
-          CallToOrder("Order"),
+          stops.phoneNumber,
         ),
       )
 

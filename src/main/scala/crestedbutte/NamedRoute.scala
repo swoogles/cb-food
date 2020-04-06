@@ -1,14 +1,14 @@
 package crestedbutte
 
-import crestedbutte.routes.RouteWithTimes
+import crestedbutte.routes.RestaurantGroup
 
 case class NamedRoute(routeName: RouteName,
-                      routeWithTimes: RouteWithTimes) {}
+                      routeWithTimes: RestaurantGroup) {}
 
 object NamedRoute {
 
   def apply(rawRouteName: String,
-            routeWithTimes: RouteWithTimes): Unit =
+            routeWithTimes: RestaurantGroup): Unit =
     NamedRoute(
       new RouteName(rawRouteName),
       routeWithTimes,

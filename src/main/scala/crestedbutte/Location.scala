@@ -32,7 +32,7 @@ object Location extends Enumeration {
                         GpsCoordinates(38.866970, -106.981499)) //
 
   val Pitas: Val = Val(
-    "Pitas",
+    "Pitas in Paradise",
   ) // gps
   val TeocalliUphill: Val = Val(
     "Teocalli",

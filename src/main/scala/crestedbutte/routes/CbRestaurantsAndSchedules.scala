@@ -5,6 +5,7 @@ import crestedbutte.{
   BusSchedule,
   Location,
   NamedRoute,
+  PhoneNumber,
   RestaurantWithSchedule,
   RouteName,
 }
@@ -12,12 +13,19 @@ import crestedbutte.{
 object CbRestaurantsAndSchedules
     extends NamedRoute(
       RouteName("Crested Butte Restaurants"),
-      RouteWithTimes(
-        RestaurantWithSchedule(
-          Location.SecretStash,
-          BusSchedule("03:00", "03:01", 1.minutes),
-        ),
+      RestaurantGroup(
         Seq(
+          RestaurantWithSchedule(
+            Location.SecretStash,
+            BusSchedule("03:00", "03:01", 1.minutes),
+            PhoneNumber("970-209-5159", "Order!"),
+          ),
+          RestaurantWithSchedule(
+            Location.Pitas,
+            BusSchedule("03:00", "03:01", 1.minutes),
+            PhoneNumber("970-349-0897", "Order!"),
+          ),
+//        Seq(
 //          (Location.Clarks, 5.minutes),
 //          (Location.Pitas, 1.minutes),
 //          (Location.TeocalliUphill, 1.minutes),

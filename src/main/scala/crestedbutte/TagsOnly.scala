@@ -70,12 +70,12 @@ object TagsOnly {
 
   //  <a href="tel:123-456-7890">123-456-7890</a>
   def safeRideLink(
-    safeRideRecommendation: CallToOrder,
+    safeRideRecommendation: PhoneNumber,
   ): JsDom.TypedTag[Div] =
     div(cls := "late-night-call-button")(
       button(
         onclick :=
-          s"window.location.href = 'tel:${safeRideRecommendation.phoneNumber}';",
+          s"window.location.href = 'tel:${safeRideRecommendation.number}';",
         cls := "button",
       )(
         img(
@@ -83,7 +83,7 @@ object TagsOnly {
           src := "/glyphicons/svg/individual-svg/glyphicons-basic-465-call.svg",
           alt := "Call Late Night Shuttle!",
         ),
-        safeRideRecommendation.message,
+        safeRideRecommendation.name,
       ),
     )
 
