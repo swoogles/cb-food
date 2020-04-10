@@ -68,6 +68,24 @@ object TagsOnly {
       div(id := ElementNames.contentName),
     )
 
+  def renderWebsiteLink(
+    website: Website,
+  ): JsDom.TypedTag[Div] =
+    div(cls := "call-button")(
+      button(
+        onclick :=
+          s"window.location.href = '${website.url}';",
+        cls := "button",
+      )(
+        img(
+          cls := "glyphicon",
+          src := "/glyphicons/svg/individual-svg/glyphicons-basic-417-globe.svg",
+          alt := "Call Late Night Shuttle!",
+        ),
+        "WebSite",
+      ),
+    )
+
   //  <a href="tel:123-456-7890">123-456-7890</a>
   def safeRideLink(
     safeRideRecommendation: PhoneNumber,
@@ -103,6 +121,7 @@ object TagsOnly {
   def createBusTimeElement(
     location: Location.Value,
     content: JsDom.TypedTag[Div],
+    website: Website,
     /* TODO: waitDuration: Duration*/
   ): JsDom.TypedTag[Div] =
     div(
@@ -123,7 +142,7 @@ object TagsOnly {
       footer(cls := "card-footer")(
         p(cls := "card-footer-item")(
           span(
-            "Footer left",
+            renderWebsiteLink(website),
           ),
         ),
         p(cls := "card-footer-item")(
@@ -211,6 +230,7 @@ object TagsOnly {
               case Right(safeRideRecommendation) =>
                 safeRideLink(safeRideRecommendation)
             },
+            fullScheduleAtStop.website,
           )
         }
       },
