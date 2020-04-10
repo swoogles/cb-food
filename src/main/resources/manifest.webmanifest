@@ -1,7 +1,7 @@
 {
-  "short_name": "CB Buses",
-  "name": "CB Buses",
-  "description": "Give live bus schedule updates",
+  "short_name": "CB Restaurants",
+  "name": "CB Restaurants",
+  "description": "Info for all CB restaurants",
   "icons": [
     {
       "src": "images/BILLDING_LogoMark-256.png",
