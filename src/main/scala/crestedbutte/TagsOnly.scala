@@ -82,7 +82,7 @@ object TagsOnly {
           src := "/glyphicons/svg/individual-svg/glyphicons-basic-417-globe.svg",
           alt := "Call Late Night Shuttle!",
         ),
-        "WebSite",
+        website.name,
       ),
     )
 
@@ -122,6 +122,7 @@ object TagsOnly {
     location: Location.Value,
     content: JsDom.TypedTag[Div],
     website: Website,
+    facebookPage: Website,
     /* TODO: waitDuration: Duration*/
   ): JsDom.TypedTag[Div] =
     div(
@@ -147,7 +148,7 @@ object TagsOnly {
         ),
         p(cls := "card-footer-item")(
           span(
-            "Footer right",
+            renderWebsiteLink(facebookPage),
           ),
         ),
       ),
@@ -214,23 +215,18 @@ object TagsOnly {
         ),
       ),
       upcomingArrivalComponentData.upcomingArrivalInfo.map {
-        case UpcomingArrivalInfoWithFullSchedule(
-            UpcomingArrivalInfo(location, content),
-            fullScheduleAtStop,
+        case RestaurantWithSchedule(
+            location: Location.Value,
+            times: Seq[BusTime],
+            phoneNumber: PhoneNumber,
+            website: Website,
+            facebookPage: Website,
             ) => {
           TagsOnly.createBusTimeElement(
             location,
-            content match {
-              case Left(stopTimeInfo) =>
-                renderStopTimeInfo(
-                  stopTimeInfo,
-                  fullScheduleAtStop,
-                  upcomingArrivalComponentData.routeName,
-                )
-              case Right(safeRideRecommendation) =>
-                safeRideLink(safeRideRecommendation)
-            },
-            fullScheduleAtStop.website,
+            safeRideLink(phoneNumber),
+            website,
+            facebookPage,
           )
         }
       },

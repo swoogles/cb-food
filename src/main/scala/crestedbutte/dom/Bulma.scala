@@ -58,7 +58,7 @@ object Bulma {
         div(cls := "navbar-start")(
 //          a(cls := "navbar-item")("Home"),
           div(cls := "navbar-item has-dropdown is-hoverable")(
-            a(cls := "navbar-link")("Routes"),
+            a(cls := "navbar-link")("Restaurants"),
             div(cls := "navbar-dropdown")(
               allComponentData.map { componentData =>
                 a(

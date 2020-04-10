@@ -126,3 +126,10 @@ body {
 .navbar-link {
     color: white;
 }
+
+.card {
+    border: 10px solid #444;
+}
+.button {
+    border-width: 3px;
+}

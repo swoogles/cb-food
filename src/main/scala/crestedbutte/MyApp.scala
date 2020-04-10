@@ -107,14 +107,13 @@ object MyApp extends App {
   ) =
     if (componentData == currentlySelectedRoute)
       for {
-        arrivalsAtAllRouteStops <- TimeCalculations
-          .getUpComingArrivalsWithFullSchedule(
-            componentData.namedRoute,
-          )
         _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
           componentData.componentName,
           TagsOnly.structuredSetOfUpcomingArrivals(
-            arrivalsAtAllRouteStops,
+            UpcomingArrivalComponentData(
+              componentData.namedRoute.routeWithTimes.allStops,
+              componentData.namedRoute.routeName,
+            ),
           ),
         )
       } yield ()

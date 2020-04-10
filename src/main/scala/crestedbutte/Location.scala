@@ -48,7 +48,7 @@ object Location extends Enumeration {
   )
 
   val Bonez: Val = Val(
-    "Bones",
+    "Bonez",
   )
 
   val Dogwood: Val = Val(
