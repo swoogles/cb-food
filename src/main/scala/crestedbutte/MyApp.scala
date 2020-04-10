@@ -94,7 +94,9 @@ object MyApp extends App {
           // TODO Try to provide *only* a clock here.
           environmentDependencies,
         )
-        .repeat(Schedule.spaced(Duration.apply(10, TimeUnit.SECONDS)))
+        .repeat(
+          Schedule.spaced(Duration.apply(600, TimeUnit.SECONDS)),
+        )
     } yield {
       0
     }

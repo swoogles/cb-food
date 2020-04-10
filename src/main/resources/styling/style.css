@@ -48,13 +48,13 @@ body {
     color: white;
 }
 
-.stop-information {
+.restaurant-information {
     display: grid;
-    grid-template-columns:1fr 6fr 3fr;
+    grid-template-columns:6fr 3fr;
     grid-template-rows: auto 1fr ;
     grid-template-areas:
-            "map-link stop-name upcoming-information"
-            "map-link stop-alt-name upcoming-information";
+            "restaurant-name restaurant-call"
+            "restaurant-name restaurant-call";
     padding-top: 5px;
     padding-bottom: 5px;
     border-bottom: 1px solid white;
@@ -68,18 +68,18 @@ body {
     top: calc(40% - 10px);
 }
 
-.stop-name {
-    grid-area: stop-name;
+.restaurant-name {
+    grid-area: restaurant-name;
     text-align: center;
 }
 
-.stop-alt-name {
-    grid-area: stop-alt-name;
+.restaurant-alt-name {
+    grid-area: restaurant-alt-name;
     text-align: center;
     font-size: 70%;
 }
-.upcoming-information {
-    grid-area: upcoming-information;
+.restaurant-call {
+    grid-area: restaurant-call;
     text-align:left;
 }
 

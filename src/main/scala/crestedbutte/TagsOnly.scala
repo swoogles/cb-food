@@ -72,7 +72,7 @@ object TagsOnly {
   def safeRideLink(
     safeRideRecommendation: PhoneNumber,
   ): JsDom.TypedTag[Div] =
-    div(cls := "late-night-call-button")(
+    div(cls := "call-button")(
       button(
         onclick :=
           s"window.location.href = 'tel:${safeRideRecommendation.number}';",
@@ -107,20 +107,30 @@ object TagsOnly {
   ): JsDom.TypedTag[Div] =
     div(
       width := "100%",
-      cls := "stop-information",
+      cls := "card",
     )(
-      div(cls := "map-link")(
-        // TODO Re-enable once maps are more polished
-        //  geoLinkForStop(location)
+      div(cls := "card-content restaurant-information")(
+        div(cls := "restaurant-name")(
+          div(location.name),
+        ),
+//        div(cls := "")(
+//          div(location.altName),
+//        ),
+        div(cls := "restaurant-call")(
+          content,
+        ),
       ),
-      div(cls := "stop-name")(
-        div(location.name),
-      ),
-      div(cls := "stop-alt-name")(
-        div(location.altName),
-      ),
-      div(cls := "upcoming-information")(
-        content,
+      footer(cls := "card-footer")(
+        p(cls := "card-footer-item")(
+          span(
+            "Footer left",
+          ),
+        ),
+        p(cls := "card-footer-item")(
+          span(
+            "Footer right",
+          ),
+        ),
       ),
     )
 
