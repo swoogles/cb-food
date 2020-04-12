@@ -5,7 +5,7 @@ import org.scalajs.dom.{Element, Event}
 import org.scalajs.dom.raw.MouseEvent
 import zio.{DefaultRuntime, IO, ZIO}
 
-object BulmaBehavior {
+object BulmaBehaviorLocal {
 
   def addMenuBehavior(input: IO[Nothing, Unit]) =
     ZIO

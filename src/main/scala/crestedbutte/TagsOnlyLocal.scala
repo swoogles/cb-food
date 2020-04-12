@@ -1,12 +1,12 @@
 package crestedbutte
 
 import crestedbutte.Location.StopLocation
-import crestedbutte.dom.Bulma
+import crestedbutte.dom.{Bulma, BulmaLocal}
 import crestedbutte.time.{BusDuration, BusTime}
 import org.scalajs.dom.html.{Anchor, Div}
 import scalatags.JsDom
 
-object TagsOnly {
+object TagsOnlyLocal {
   import scalatags.JsDom.all._
 
   def createPopupContent(scheduleAtStop: RestaurantWithSchedule) =
@@ -39,10 +39,18 @@ object TagsOnly {
     )
 
   def overallPageLayout(pageMode: AppMode.Value,
-                        componentData: Seq[ComponentData]) =
+                        allComponentData: Seq[ComponentData]) =
     div(id := "container")(
-      Bulma.menu(componentData),
-      componentData.map(
+      Bulma.menu(
+        allComponentData.map { componentData =>
+          a(
+            cls := "navbar-item route",
+            data("route") := componentData.componentName,
+          )(componentData.namedRoute.routeName.userFriendlyName)
+        },
+        "Restaurants"
+      ),
+      allComponentData.map(
         singleComponentData =>
           busScheduleDiv(singleComponentData.componentName),
       ),
@@ -125,32 +133,21 @@ object TagsOnly {
     facebookPage: Website,
     /* TODO: waitDuration: Duration*/
   ): JsDom.TypedTag[Div] =
-    div(
-      width := "100%",
-      cls := "card",
-    )(
-      div(cls := "card-content restaurant-information")(
+    TagsOnly.createBusTimeElement(
+      div(cls := "restaurant-information")(
         div(cls := "restaurant-name")(
-          div(location.name),
+          div(location.name + "!!"),
         ),
-//        div(cls := "")(
-//          div(location.altName),
-//        ),
+        //        div(cls := "")(
+        //          div(location.altName),
+        //        ),
         div(cls := "restaurant-call")(
           content,
         ),
       ),
-      footer(cls := "card-footer")(
-        p(cls := "card-footer-item")(
-          span(
-            renderWebsiteLink(website),
-          ),
-        ),
-        p(cls := "card-footer-item")(
-          span(
-            renderWebsiteLink(facebookPage),
-          ),
-        ),
+      List(
+        renderWebsiteLink(website),
+        renderWebsiteLink(facebookPage),
       ),
     )
 
@@ -177,33 +174,6 @@ object TagsOnly {
                               routeName: RouteName) =
     "modal_content_" + routeName.name + "_" + location.elementName
 
-  def renderStopTimeInfo(stopTimeInfo: StopTimeInfo,
-                         busScheduleAtStop: RestaurantWithSchedule,
-                         routeName: RouteName) =
-    div(
-      button(
-        cls := "arrival-time button open-arrival-time-modal",
-        modalContentElementNameTyped(
-          busScheduleAtStop.location,
-          routeName,
-        ),
-//          data("schedule-modal") := modalContentElementName(
-//            busScheduleAtStop.location,
-//            routeName
-//          ),
-        onclick := {},
-//          s"activateModal('#popup_${busScheduleAtStop.location}');",
-        data("lossless-value") := stopTimeInfo.time.toString,
-      )(stopTimeInfo.time.toDumbAmericanString),
-      div(cls := "wait-time")(
-        renderWaitTime(stopTimeInfo.waitingDuration),
-        Bulma.bulmaModal(
-          busScheduleAtStop,
-          modalContentElementName(busScheduleAtStop.location,
-                                  routeName),
-        ),
-      ),
-    )
 
   def structuredSetOfUpcomingArrivals(
     upcomingArrivalComponentData: UpcomingArrivalComponentData,
@@ -222,7 +192,7 @@ object TagsOnly {
             website: Website,
             facebookPage: Website,
             ) => {
-          TagsOnly.createBusTimeElement(
+          TagsOnlyLocal.createBusTimeElement(
             location,
             safeRideLink(phoneNumber),
             website,

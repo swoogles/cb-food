@@ -21,7 +21,7 @@ object DomManipulation {
         browser.browser
           .body()
           .appendChild(
-            TagsOnly
+            TagsOnlyLocal
               .overallPageLayout(pageMode, componentData)
               .render,
           )

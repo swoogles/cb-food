@@ -2,7 +2,7 @@ package crestedbutte
 
 import java.util.concurrent.TimeUnit
 
-import crestedbutte.dom.BulmaBehavior
+import crestedbutte.dom.BulmaBehaviorLocal
 import crestedbutte.routes._
 import org.scalajs.dom.experimental.serviceworkers._
 import org.scalajs.dom.raw.MouseEvent
@@ -82,7 +82,7 @@ object MyApp extends App {
       _ <- registerServiceWorker()
       _ <- NotificationStuff.addNotificationPermissionRequestToButton
       _ <- NotificationStuff.displayNotificationPermission
-      _ <- BulmaBehavior.addMenuBehavior(
+      _ <- BulmaBehaviorLocal.addMenuBehavior(
         loopLogic(pageMode, components)
           .provide(
             // TODO Try to provide *only* a clock here.
@@ -109,7 +109,7 @@ object MyApp extends App {
       for {
         _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
           componentData.componentName,
-          TagsOnly.structuredSetOfUpcomingArrivals(
+          TagsOnlyLocal.structuredSetOfUpcomingArrivals(
             UpcomingArrivalComponentData(
               componentData.namedRoute.routeWithTimes.allStops,
               componentData.namedRoute.routeName,
