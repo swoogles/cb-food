@@ -4,6 +4,7 @@ import crestedbutte.dom.Bulma
 import crestedbutte.time.{BusDuration, BusTime}
 import org.scalajs.dom.html.{Anchor, Div}
 import scalatags.JsDom
+import scalatags.JsDom.TypedTag
 
 object TagsOnlyLocal {
   import scalatags.JsDom.all._
@@ -13,10 +14,9 @@ object TagsOnlyLocal {
     div(id := "container")(
       Bulma.menu(
         allComponentData.map { componentData =>
-          a(
-            cls := "route",
-            data("route") := componentData.componentName,
-          )(componentData.namedRoute.routeName.userFriendlyName)
+          Bulma.Button.anchor(
+            componentData.namedRoute.routeName.userFriendlyName,
+          )(data("route") := componentData.componentName)
         },
         "Restaurants",
       ),
@@ -26,15 +26,11 @@ object TagsOnlyLocal {
       ),
       if (pageMode == AppMode.Development) {
         div(
-          button(id := ElementNames.Notifications.requestPermission,
-                 cls := "button")(
-            "Request Notifications Permission",
+          Bulma.Button.basic("Request Notifications Permission")(
+            id := ElementNames.Notifications.requestPermission,
           ),
-          button(
+          Bulma.Button.basic("SubmitMessage to SW")(
             id := ElementNames.Notifications.submitMessageToServiceWorker,
-            cls := "button",
-          )(
-            "SubmitMessage to SW",
           ),
         )
       } else div(),
@@ -50,36 +46,38 @@ object TagsOnlyLocal {
     website: Website,
   ): JsDom.TypedTag[Div] =
     div(cls := "call-button")(
-      button(
+      Bulma.Button.basic(
+        span(
+          img(
+            cls := "glyphicon",
+            src := "/glyphicons/svg/individual-svg/glyphicons-basic-417-globe.svg",
+            alt := "Visit Website",
+          ),
+          website.name,
+        ),
+      )(
         onclick :=
           s"window.location.href = '${website.url}';",
-        cls := "button",
-      )(
-        img(
-          cls := "glyphicon",
-          src := "/glyphicons/svg/individual-svg/glyphicons-basic-417-globe.svg",
-          alt := "Call Late Night Shuttle!",
-        ),
-        website.name,
       ),
     )
 
   //  <a href="tel:123-456-7890">123-456-7890</a>
-  def safeRideLink(
+  def phoneButton(
     safeRideRecommendation: PhoneNumber,
   ): JsDom.TypedTag[Div] =
     div(cls := "call-button")(
-      button(
+      Bulma.Button.basic(
+        span(
+          img(
+            cls := "glyphicon",
+            src := "/glyphicons/svg/individual-svg/glyphicons-basic-465-call.svg",
+            alt := "Call Late Night Shuttle!",
+          ),
+          safeRideRecommendation.name,
+        ),
+      )(
         onclick :=
           s"window.location.href = 'tel:${safeRideRecommendation.number}';",
-        cls := "button",
-      )(
-        img(
-          cls := "glyphicon",
-          src := "/glyphicons/svg/individual-svg/glyphicons-basic-465-call.svg",
-          alt := "Call Late Night Shuttle!",
-        ),
-        safeRideRecommendation.name,
       ),
     )
 
@@ -155,7 +153,7 @@ object TagsOnlyLocal {
             ) => {
           TagsOnlyLocal.createBusTimeElement(
             location,
-            safeRideLink(phoneNumber),
+            phoneButton(phoneNumber),
             website,
             facebookPage,
           )

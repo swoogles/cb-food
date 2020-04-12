@@ -2,10 +2,7 @@ package crestedbutte
 
 object Location extends Enumeration {
 
-  protected case class Val(name: String,
-                           altName: String = "",
-                           gpsCoordinates: GpsCoordinates =
-                             GpsCoordinates(0, 0))
+  protected case class Val(name: String, altName: String = "")
       extends super.Val(name) {
 
     val elementName: String =
@@ -27,168 +24,24 @@ object Location extends Enumeration {
   val SecretStash: Val =
     Val("Secret Stash")
 
-  val Clarks: Val = Val("6th/Belleview",
-                        "(Clarks Grocery)",
-                        GpsCoordinates(38.866970, -106.981499)) //
+  val Clarks: Val = Val("6th/Belleview", "(Clarks Grocery)") //
 
-  val Pitas: Val = Val(
-    "Pitas in Paradise",
-  )
+  val Pitas: Val = Val("Pitas in Paradise")
 
-  val Slogar: Val = Val(
-    "Slogar",
-  )
+  val Slogar: Val = Val("Slogar")
 
-  val McGills: Val = Val(
-    "McGills",
-  )
+  val McGills: Val = Val("McGills")
 
-  val BrickOven: Val = Val(
-    "The Brick Oven",
-  )
+  val BrickOven: Val = Val("The Brick Oven")
 
-  val Bonez: Val = Val(
-    "Bonez",
-  )
+  val Bonez: Val = Val("Bonez")
 
-  val Dogwood: Val = Val(
-    "Dogwood",
-  )
+  val Dogwood: Val = Val("Dogwood")
 
-  val TinCupPasty: Val = Val(
-    "Tin Cup Pasty Co",
-  )
+  val TinCupPasty: Val = Val("Tin Cup Pasty Co")
 
-  val CoalCreekGrill: Val = Val(
-    "Coal Creek Grill",
-  )
+  val CoalCreekGrill: Val = Val("Coal Creek Grill")
 
-  val TacosLocale: Val = Val( // TODO Get accent mark figured out
-    "Tacos Locale",
-  )
-
-  // Condo loop entries
-  val ThreeSeasons: Val =
-    Val("Three Seasons")
-
-  val MountainSunrise: Val =
-    Val("Mountain Sunrise")
-
-  val UpperChateaux: Val =
-    Val("Upper Chateaux")
-
-  val LowerChateaux: Val = Val("Lower Chateaux / Marcellina")
-
-  // RTA stops.
-  val GunnisonCommunitySchools: Val = Val(
-    "Gunnison Community Schools",
-  )
-
-  val EleventhAndVirginia: Val = Val("Eleventh & Virgina")
-
-  val Safeway: Val =
-    Val("Safeway", "(Spruce & Highway 50)")
-
-  val TellerAndHighwayFifty: Val =
-    Val("Teller & Highway 50", "")
-
-  val Western: Val =
-    Val("Western", "Colorado & Ohio")
-
-  val DenverAndHighwayOneThirtyFive: Val =
-    Val("Denver & Highway 135", "(City Market)")
-
-  val SpencerAndHighwayOneThirtyFive: Val =
-    Val("Spencer & Highway 135", "(Walmart)")
-
-  val TallTexan: Val =
-    Val("TallTexan", "(Flag Stop)")
-
-  val OhioCreek: Val =
-    Val("OhioCreek", "(Flag Stop)")
-
-  val Almont: Val =
-    Val("Almont", "(Flag Stop)")
-
-  val CBSouth: Val =
-    Val("CB South", "(Red Mtn Park)")
-
-  val Riverland: Val =
-    Val("Riverland", "(Flag Stop)")
-
-  val BrushCreek: Val =
-    Val("Brush Creek", "(Flag Stop)")
-
-  val Riverbend: Val =
-    Val("Riverbend", "(Flag Stop)")
-
-  // Southbound
-  val RecCenter: Val =
-    Val("Rec Center")
-
-  // END RTA
-
-  // BEGIN Columbine loop stops
-  val Whetstone: Val =
-    Val("Whetstone")
-
-  val ColumbineCondo: Val =
-    Val("ColumbineCondo")
-
-  val CinnamonMtn: Val =
-    Val("Cinnamon Mtn / Gothic")
-
-  val MtCbTownHall: Val =
-    Val("Mt CB Town Hall")
-
-  val UpperParadiseRoad: Val =
-    Val("Upper Paradise Road")
-
-  val LowerParadiseRoad: Val =
-    Val("Lower Paradise Road")
-
-  val EaglesNestCondos: Val =
-    Val("Eagles Nest Condos")
-
-  // END Columbine loop stops
-  // BEGIN Crystal/Castle stops
-  val Pitchfork: Val =
-    Val("Pitchfork")
-
-  val CrystalRoad: Val =
-    Val("Crystal Road")
-
-  val CastleRoad: Val =
-    Val("Castle Road")
-
-  val WoodCreekMountainEdge: Val =
-    Val("Wood Creek / Mountain Edge")
-
-  val HunterHillTimberline: Val =
-    Val("Hunter Hill / Timberline")
-  // END Crystal/Castle stops
-
-  // BEGIN Snodgrass Shuttle Stops
-
-  val CinnamonMtnGothicToSnodgrass: Val =
-    Val("Cinnamon Mtn/Gothic to Snodgrass")
-
-  val GothicWintersetTosnodgrass: Val =
-    Val("Gothic/Winterset to Snodgrass")
-
-  val SnodgrassTrailhead: Val =
-    Val("Snodgrass Trailhead")
-
-  val GothicWintersetToMountaineerSquare: Val =
-    Val("Gothic/Winterset to Mountaineer Square")
-
-  val MtCBTownHallToMountaineerSquare: Val =
-    Val("Mt CB Town Hall to Mountaineer Square")
-
-  val ParadiseRoad: Val =
-    Val("Paradise Road")
-
-  val ThePlaza: Val =
-    Val("The Plaza")
+  val TacosLocale: Val = Val("Tacos Locale")
 
 }
