@@ -1,7 +1,6 @@
 package crestedbutte
 
-import crestedbutte.Location.StopLocation
-import crestedbutte.dom.{Bulma, BulmaLocal}
+import crestedbutte.dom.Bulma
 import crestedbutte.time.{BusDuration, BusTime}
 import org.scalajs.dom.html.{Anchor, Div}
 import scalatags.JsDom
@@ -15,7 +14,7 @@ object TagsOnlyLocal {
       Bulma.menu(
         allComponentData.map { componentData =>
           a(
-            cls := "navbar-item route",
+            cls := "route",
             data("route") := componentData.componentName,
           )(componentData.namedRoute.routeName.userFriendlyName)
         },
@@ -104,10 +103,10 @@ object TagsOnlyLocal {
     facebookPage: Website,
     /* TODO: waitDuration: Duration*/
   ): JsDom.TypedTag[Div] =
-    TagsOnly.createBusTimeElement(
+    Bulma.card(
       div(cls := "restaurant-information")(
         div(cls := "restaurant-name")(
-          div(location.name + "!!"),
+          div(location.name),
         ),
         //        div(cls := "")(
         //          div(location.altName),

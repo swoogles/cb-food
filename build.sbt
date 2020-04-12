@@ -12,7 +12,7 @@ resolvers += Resolver.githubPackages("swoogles", "BulmaScala")
 
 
 libraryDependencies ++= Seq(
-  "default" %%% "bulmalibrary" % "0.2.3",
+  "default" %%% "bulmalibrary" % "0.2.5",
   "dev.zio" %%% "zio" % "1.0.0-RC17",
   "dev.zio" %%% "zio-streams" % "1.0.0-RC17",
   "com.lihaoyi" %%% "scalatags" % "0.8.6",
