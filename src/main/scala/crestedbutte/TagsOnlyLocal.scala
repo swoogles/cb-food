@@ -9,35 +9,6 @@ import scalatags.JsDom
 object TagsOnlyLocal {
   import scalatags.JsDom.all._
 
-  def createPopupContent(scheduleAtStop: RestaurantWithSchedule) =
-    div(
-      div(id := s"popup_${scheduleAtStop.location}",
-          cls := "overlay light")(
-        a(cls := "cancel", href := "#")("x" /*&times*/ ),
-        div(cls := "popup")(
-          h2("Later Arrivals"),
-          div(cls := "content")(
-            scheduleAtStop.times.map(
-              time =>
-                div(
-                  span(time.toDumbAmericanString),
-                ),
-            ),
-          ),
-        ),
-      ),
-    )
-
-  def hamburgerMenu() =
-    a(role := "button",
-      cls := "navbar-burger",
-      aria.label := "menu",
-      aria.expanded := "false")(
-      span(aria.hidden := "true"),
-      span(aria.hidden := "true"),
-      span(aria.hidden := "true"),
-    )
-
   def overallPageLayout(pageMode: AppMode.Value,
                         allComponentData: Seq[ComponentData]) =
     div(id := "container")(
@@ -150,14 +121,6 @@ object TagsOnlyLocal {
         renderWebsiteLink(facebookPage),
       ),
     )
-
-  def geoLinkForStop(stopLocation: StopLocation) =
-    a(
-      cls := "link",
-      //    <a href="geo:37.786971,-122.399677;u=35">open map</a>
-//          href := s"geo:${stopLocation.gpsCoordinates.latitude}, ${stopLocation.gpsCoordinates.longitude}"
-      href := s"https://www.google.com/maps/search/?api=1&query=${stopLocation.gpsCoordinates.latitude},${stopLocation.gpsCoordinates.longitude}",
-    )(svgIcon("glyphicons-basic-592-map.svg"))
 
   def activateModal(targetName: String): Unit =
     org.scalajs.dom.document.body
