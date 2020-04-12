@@ -48,7 +48,7 @@ object TagsOnlyLocal {
             data("route") := componentData.componentName,
           )(componentData.namedRoute.routeName.userFriendlyName)
         },
-        "Restaurants"
+        "Restaurants",
       ),
       allComponentData.map(
         singleComponentData =>
@@ -173,7 +173,6 @@ object TagsOnlyLocal {
   def modalContentElementName(location: Location.Value,
                               routeName: RouteName) =
     "modal_content_" + routeName.name + "_" + location.elementName
-
 
   def structuredSetOfUpcomingArrivals(
     upcomingArrivalComponentData: UpcomingArrivalComponentData,
