@@ -44,4 +44,6 @@ object Location extends Enumeration {
 
   val TacosLocale: Val = Val("Tacos Locale")
 
+  val Tullys: Val = Val("Tully's")
+
 }
