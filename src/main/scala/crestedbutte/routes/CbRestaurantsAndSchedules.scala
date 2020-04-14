@@ -61,6 +61,15 @@ object CbRestaurantsAndSchedules
           ),
         ),
         RestaurantWithSchedule(
+          Location.Montanyas,
+          BusSchedule("03:00", "03:01", 1.minutes),
+          PhoneNumber("970-799-3206", "Order!"),
+          Website.global("https://www.montanyarum.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/MontanyaDistillers/",
+          ),
+        ),
+        RestaurantWithSchedule(
           Location.Pitas,
           BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-349-0897", "Order!"),
@@ -94,15 +103,6 @@ object CbRestaurantsAndSchedules
           Website.global("https://www.tullyscbsouth.com/"),
           Website.facebookPage(
             "https://www.facebook.com/tullys456/",
-          ),
-        ),
-        RestaurantWithSchedule(
-          Location.Montanyas,
-          BusSchedule("03:00", "03:01", 1.minutes),
-          PhoneNumber("970-799-3206", "Order!"),
-          Website.global("https://www.montanyarum.com/"),
-          Website.facebookPage(
-            "https://www.facebook.com/MontanyaDistillers/",
           ),
         ),
       ),
