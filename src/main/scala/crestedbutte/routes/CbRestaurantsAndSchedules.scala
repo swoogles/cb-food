@@ -4,7 +4,15 @@ import java.time.DayOfWeek
 
 import crestedbutte.time.BusDuration.toBusDuration
 import crestedbutte.time.{DailyHours, HoursOfOperation}
-import crestedbutte.{BusSchedule, Location, NamedRoute, PhoneNumber, RestaurantGroupName, RestaurantWithSchedule, Website}
+import crestedbutte.{
+  BusSchedule,
+  Location,
+  NamedRoute,
+  PhoneNumber,
+  RestaurantGroupName,
+  RestaurantWithSchedule,
+  Website,
+}
 
 object CbRestaurantsAndSchedules
     extends RestaurantGroup(
@@ -19,7 +27,7 @@ object CbRestaurantsAndSchedules
             "https://www.facebook.com/BrickOvenCB/",
           ),
           Some(
-            HoursOfOperation("17:00", "20:00")
+            HoursOfOperation("17:00", "20:00"),
           ),
         ),
         RestaurantWithSchedule(

@@ -10,12 +10,11 @@ class BusTime(localTime: LocalTime) {
 
   def isBeforeOrNow(busTime: BusTime) =
     truncatedToMinutes.isBefore(busTime.truncatedToMinutes) ||
-      truncatedToMinutes.equals(busTime.truncatedToMinutes)
+    truncatedToMinutes.equals(busTime.truncatedToMinutes)
 
   def isAfterOrNow(busTime: BusTime) =
     truncatedToMinutes.isAfter(busTime.truncatedToMinutes) ||
-      truncatedToMinutes.equals(busTime.truncatedToMinutes)
-
+    truncatedToMinutes.equals(busTime.truncatedToMinutes)
 
   private val truncatedToMinutes =
     localTime.truncatedTo(ChronoUnit.MINUTES)
