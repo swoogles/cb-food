@@ -66,15 +66,15 @@ object CbRestaurantsAndSchedules
             "https://www.facebook.com/TheDivvyCB/",
           ),
         ),
-        RestaurantWithSchedule(
-          Location.Dogwood,
-          BusSchedule("03:00", "03:01", 1.minutes),
-          PhoneNumber("970-349-6338", "Order!"),
-          Website.global("https://thedogwoodcb.wordpress.com/"),
-          Website.facebookPage(
-            "https://www.facebook.com/thedogwoodcb/",
-          ),
-        ),
+//        RestaurantWithSchedule(
+//          Location.Dogwood,
+//          BusSchedule("03:00", "03:01", 1.minutes),
+//          PhoneNumber("970-349-6338", "Order!"),
+//          Website.global("https://thedogwoodcb.wordpress.com/"),
+//          Website.facebookPage(
+//            "https://www.facebook.com/thedogwoodcb/",
+//          ),
+//        ),
         RestaurantWithSchedule(
           Location.GeneralStore,
           BusSchedule("03:00", "03:01", 1.minutes),
