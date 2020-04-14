@@ -47,13 +47,15 @@ object TagsOnlyLocal {
   ): JsDom.TypedTag[Div] =
     div(cls := "call-button")(
       Bulma.Button.basic(
-        span(
+        div(
           img(
             cls := "glyphicon",
             src := "/glyphicons/svg/individual-svg/glyphicons-basic-417-globe.svg",
             alt := "Visit Website",
           ),
-          website.name,
+          span(verticalAlign := "top")(
+            website.name,
+          ),
         ),
       )(
         onclick :=
@@ -67,13 +69,15 @@ object TagsOnlyLocal {
   ): JsDom.TypedTag[Div] =
     div(cls := "call-button")(
       Bulma.Button.basic(
-        span(
+        div(
           img(
             cls := "glyphicon",
             src := "/glyphicons/svg/individual-svg/glyphicons-basic-465-call.svg",
             alt := "Call Late Night Shuttle!",
           ),
-          safeRideRecommendation.name,
+          span(verticalAlign := "top")(
+            safeRideRecommendation.name,
+          ),
         ),
       )(
         onclick :=
