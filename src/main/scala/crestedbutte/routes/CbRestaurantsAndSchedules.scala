@@ -64,7 +64,7 @@ object CbRestaurantsAndSchedules
           Location.Montanyas,
           BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-799-3206", "Order!"),
-          Website.global("https://www.montanyarum.com/"),
+          Website.global("https://www.montanyarum.com/shop"),
           Website.facebookPage(
             "https://www.facebook.com/MontanyaDistillers/",
           ),
