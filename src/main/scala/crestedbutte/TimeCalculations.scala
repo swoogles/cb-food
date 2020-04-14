@@ -16,7 +16,7 @@ object TimeCalculations {
     stops: RestaurantWithSchedule,
     now: BusTime,
   ): UpcomingArrivalInfo =
-    nextBusArrivalTime(stops.times, now)
+    nextBusArrivalTime(stops.scheduleAtStop.stopTimes, now)
       .map(
         nextArrivalTime =>
           UpcomingArrivalInfo(

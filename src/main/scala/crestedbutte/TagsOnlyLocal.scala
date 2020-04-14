@@ -1,7 +1,7 @@
 package crestedbutte
 
 import crestedbutte.dom.Bulma
-import crestedbutte.time.{BusDuration, BusTime}
+import crestedbutte.time.{BusDuration, BusTime, HoursOfOperation}
 import org.scalajs.dom.html.{Anchor, Div}
 import scalatags.JsDom
 import scalatags.JsDom.TypedTag
@@ -150,10 +150,11 @@ object TagsOnlyLocal {
       upcomingArrivalComponentData.upcomingArrivalInfo.map {
         case RestaurantWithSchedule(
             location: Location.Value,
-            times: Seq[BusTime],
+            scheduleAtStop: BusSchedule,
             phoneNumber: PhoneNumber,
             website: Website,
             facebookPage: Website,
+            deliveryHours: Option[HoursOfOperation],
             ) => {
           TagsOnlyLocal.createBusTimeElement(
             location,

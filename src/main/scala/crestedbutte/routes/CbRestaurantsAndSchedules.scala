@@ -1,6 +1,7 @@
 package crestedbutte.routes
 
 import crestedbutte.time.BusDuration.toBusDuration
+import crestedbutte.time.{DailyHours, HoursOfOperation}
 import crestedbutte.{
   BusSchedule,
   Location,
@@ -22,6 +23,11 @@ object CbRestaurantsAndSchedules
           Website.global("http://brickovencb.com/"),
           Website.facebookPage(
             "https://www.facebook.com/BrickOvenCB/",
+          ),
+          Some(
+            HoursOfOperation(
+              DailyHours("17:00", "20:00"),
+            ),
           ),
         ),
         RestaurantWithSchedule(
@@ -67,6 +73,15 @@ object CbRestaurantsAndSchedules
           Website.global("https://thedogwoodcb.wordpress.com/"),
           Website.facebookPage(
             "https://www.facebook.com/thedogwoodcb/",
+          ),
+        ),
+        RestaurantWithSchedule(
+          Location.GeneralStore,
+          BusSchedule("03:00", "03:01", 1.minutes),
+          PhoneNumber("970-349-2783", "Order!"),
+          Website.global("https://www.cbsouthgeneralstore.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/cbsouthgeneralstore/",
           ),
         ),
         RestaurantWithSchedule(
