@@ -50,4 +50,6 @@ object Location extends Enumeration {
 
   val ButteBagels: Val = Val("Butte Bagels")
 
+  val TheDivvy: Val = Val("The Divvy")
+
 }

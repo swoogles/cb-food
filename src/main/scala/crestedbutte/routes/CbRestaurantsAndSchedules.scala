@@ -52,6 +52,15 @@ object CbRestaurantsAndSchedules
           ),
         ),
         RestaurantWithSchedule(
+          Location.TheDivvy,
+          BusSchedule("03:00", "03:01", 1.minutes),
+          PhoneNumber("970-787-5447", "Order!"),
+          Website.global("https://thedivvycrestedbutte.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/TheDivvyCB/",
+          ),
+        ),
+        RestaurantWithSchedule(
           Location.Dogwood,
           BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-349-6338", "Order!"),
