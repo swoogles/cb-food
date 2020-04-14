@@ -27,6 +27,9 @@ object CbRestaurantsAndSchedules
             "https://www.facebook.com/BrickOvenCB/",
           ),
           Some(
+            HoursOfOperation("11:00", "20:00"),
+          ),
+          Some(
             HoursOfOperation("17:00", "20:00"),
           ),
         ),

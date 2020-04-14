@@ -114,12 +114,17 @@ object TagsOnlyLocal {
 
   def renderHoursOfOperation(hoursOfOperation: HoursOfOperation,
                              scheduleHeader: String) =
-    div(
-      div(
+    div(cls := "hours-of-operation")(
+      div(cls := "hours-header")(
         scheduleHeader + " Schedule",
       ),
       renderDailyhours(hoursOfOperation.sunday),
       renderDailyhours(hoursOfOperation.monday),
+      renderDailyhours(hoursOfOperation.tuesday),
+      renderDailyhours(hoursOfOperation.wednesday),
+      renderDailyhours(hoursOfOperation.thursday),
+      renderDailyhours(hoursOfOperation.friday),
+      renderDailyhours(hoursOfOperation.saturday),
     )
 
   def renderDailyhours(dailyHours: DailyHours) =
@@ -136,6 +141,7 @@ object TagsOnlyLocal {
     website: Website,
     facebookPage: Website,
     deliverySchedule: Option[HoursOfOperation],
+    carryOutSchedule: Option[HoursOfOperation],
   ): JsDom.TypedTag[Div] =
     Bulma.card(
       div(cls := "restaurant-information")(
@@ -149,11 +155,10 @@ object TagsOnlyLocal {
           content,
         ),
         div(cls := "pickup-schedule")(
-          deliverySchedule
-            .map(renderPickupSchedule), // TODO Add real pickup schedule data
+//          carryOutSchedule .map(renderPickupSchedule),
         ),
         div(cls := "delivery-schedule")(
-          deliverySchedule.map(renderDeliverySchedule),
+//          deliverySchedule.map(renderDeliverySchedule),
         ),
       ),
       List(
@@ -195,12 +200,14 @@ object TagsOnlyLocal {
             website: Website,
             facebookPage: Website,
             deliveryHours: Option[HoursOfOperation],
+            carryOutHours: Option[HoursOfOperation],
             ) => {
           TagsOnlyLocal.createBusTimeElement(location,
                                              phoneButton(phoneNumber),
                                              website,
                                              facebookPage,
-                                             deliveryHours)
+                                             deliveryHours,
+                                             carryOutHours)
         }
       },
     )

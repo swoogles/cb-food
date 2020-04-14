@@ -98,6 +98,13 @@ body {
 
 .daily-hours {
     font-size: 50%;
+    text-align: center;
+}
+.hours-of-operation {
+    /*align-content: center;*/
+}
+.hours-header {
+    text-align: center;
 }
 
 .route-header {

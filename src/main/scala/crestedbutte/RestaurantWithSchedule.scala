@@ -9,4 +9,5 @@ case class RestaurantWithSchedule(
   website: Website,
   facebookPage: Website,
   deliveryHours: Option[HoursOfOperation] = None,
+  carryOutHours: Option[HoursOfOperation] = None,
 ) {}
