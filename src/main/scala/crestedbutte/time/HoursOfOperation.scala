@@ -1,5 +1,7 @@
 package crestedbutte.time
 
+import java.time.DayOfWeek
+
 case class HoursOfOperation(
   sunday: DailyHours,
   monday: DailyHours,
@@ -12,14 +14,14 @@ case class HoursOfOperation(
 
 object HoursOfOperation {
 
-  def apply(hours: DailyHours): HoursOfOperation =
+  def apply(open: String, close: String): HoursOfOperation =
     HoursOfOperation(
-      sunday = hours,
-      monday = hours,
-      tuesday = hours,
-      wednesday = hours,
-      thursday = hours,
-      friday = hours,
-      saturday = hours,
+      sunday = DailyHours(open, close, DayOfWeek.SUNDAY),
+      monday = DailyHours(open, close, DayOfWeek.MONDAY),
+      tuesday = DailyHours(open, close, DayOfWeek.TUESDAY),
+      wednesday = DailyHours(open, close, DayOfWeek.WEDNESDAY),
+      thursday = DailyHours(open, close, DayOfWeek.THURSDAY),
+      friday = DailyHours(open, close, DayOfWeek.FRIDAY),
+      saturday = DailyHours(open, close, DayOfWeek.SATURDAY),
     )
 }

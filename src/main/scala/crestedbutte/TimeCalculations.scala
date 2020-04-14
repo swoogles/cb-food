@@ -49,7 +49,7 @@ object TimeCalculations {
     for {
       clockProper <- ZIO.environment[Clock]
       now         <- clockProper.clock.currentDateTime
-      localTime = new BusTime(now.toLocalTime)
+      localTime = new BusTime(now.toLocalTime) // TODO This is where I get my time
     } yield {
       TimeCalculations.calculateUpcomingArrivalAtAllStops(
         localTime,
