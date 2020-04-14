@@ -88,6 +88,15 @@ object CbRestaurantsAndSchedules
           ),
         ),
         RestaurantWithSchedule(
+          Location.OctopusCoffee,
+          BusSchedule("03:00", "03:01", 1.minutes),
+          PhoneNumber("970-312-5394", "Order!"),
+          Website.global("https://www.octopuscoffeecb.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/octopuscoffeecb/",
+          ),
+        ),
+        RestaurantWithSchedule(
           Location.Pitas,
           BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-349-0897", "Order!"),
