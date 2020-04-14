@@ -15,7 +15,7 @@ object TagsOnlyLocal {
       Bulma.menu(
         allComponentData.map { componentData =>
           Bulma.Button.anchor(
-            componentData.namedRoute.routeName.userFriendlyName,
+            componentData.restaurantGroup.restaurantGroupName.userFriendlyName,
           )(data("route") := componentData.componentName)
         },
         "Restaurants",
@@ -126,12 +126,12 @@ object TagsOnlyLocal {
       .add("is-active")
 
   def modalContentElementNameTyped(location: Location.Value,
-                                   routeName: RouteName) =
+                                   routeName: RestaurantGroupName) =
     data("schedule-modal") := modalContentElementName(location,
                                                       routeName)
 
   def modalContentElementName(location: Location.Value,
-                              routeName: RouteName) =
+                              routeName: RestaurantGroupName) =
     "modal_content_" + routeName.name + "_" + location.elementName
 
   def structuredSetOfUpcomingArrivals(

@@ -34,7 +34,7 @@ object MyApp extends App {
         .flatMap(
           routeNameStringParam =>
             components.find(
-              _.namedRoute.routeName
+              _.restaurantGroup.restaurantGroupName
                 .elementNameMatches(routeNameStringParam),
             ),
         )
@@ -47,14 +47,14 @@ object MyApp extends App {
       _ <- NotificationStuff.checkSubmittedAlarms
     } yield ()
 
-  val mtnExpressRoutes =
-    new CompanyRoutes("Crested Butte",
-                      Seq(
-                        CbRestaurantsAndSchedules,
-                      ))
+  val crestedButteRestaurants =
+    new TownRestaurants("Crested Butte",
+                        Seq(
+                          CbRestaurantsAndSchedules,
+                        ))
 
   private val components: Seq[ComponentData] =
-    mtnExpressRoutes.routesWithTimes
+    crestedButteRestaurants.restaurantGroups
       .map(ComponentData) ++:
     Seq(
 //      ComponentData(
@@ -111,8 +111,8 @@ object MyApp extends App {
           componentData.componentName,
           TagsOnlyLocal.structuredSetOfUpcomingArrivals(
             UpcomingArrivalComponentData(
-              componentData.namedRoute.routeWithTimes.allStops,
-              componentData.namedRoute.routeName,
+              componentData.restaurantGroup.allRestaurants,
+              componentData.restaurantGroup.restaurantGroupName,
             ),
           ),
         )

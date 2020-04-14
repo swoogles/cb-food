@@ -1,6 +1,6 @@
 package crestedbutte
 
-case class RouteName(userFriendlyName: String) {
+case class RestaurantGroupName(userFriendlyName: String) {
 
   val name: String =
     userFriendlyName

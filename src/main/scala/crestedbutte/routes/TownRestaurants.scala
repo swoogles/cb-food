@@ -2,7 +2,7 @@ package crestedbutte.routes
 
 import crestedbutte.NamedRoute
 
-class CompanyRoutes(
+class TownRestaurants(
   name: String,
-  val routesWithTimes: Seq[NamedRoute],
+  val restaurantGroups: Seq[RestaurantGroup],
 ) {}

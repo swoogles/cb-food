@@ -1,7 +1,9 @@
 package crestedbutte
 
+import crestedbutte.routes.RestaurantGroup
+
 case class ComponentData(
-  namedRoute: NamedRoute,
+  restaurantGroup: RestaurantGroup,
 ) {
-  val componentName = namedRoute.routeName.name
+  val componentName = restaurantGroup.restaurantGroupName.name
 }

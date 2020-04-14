@@ -39,7 +39,7 @@ object TimeCalculations {
     now: BusTime,
     busRoute: NamedRoute,
   ): Seq[UpcomingArrivalInfo] =
-    busRoute.routeWithTimes.allStops.map(
+    busRoute.routeWithTimes.allRestaurants.map(
       scheduleAtStop => getUpcomingArrivalInfo(scheduleAtStop, now),
     )
 
