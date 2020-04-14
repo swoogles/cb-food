@@ -1,7 +1,15 @@
 package crestedbutte
 
+import java.time.format.TextStyle
+import java.util.Locale
+
 import crestedbutte.dom.Bulma
-import crestedbutte.time.{BusDuration, BusTime, HoursOfOperation}
+import crestedbutte.time.{
+  BusDuration,
+  BusTime,
+  DailyHours,
+  HoursOfOperation,
+}
 import org.scalajs.dom.html.{Anchor, Div}
 import scalatags.JsDom
 import scalatags.JsDom.TypedTag
@@ -98,12 +106,36 @@ object TagsOnlyLocal {
     else
       duration.toMinutes + " min."
 
+  def renderDeliverySchedule(hoursOfOperation: HoursOfOperation) =
+    renderHoursOfOperation(hoursOfOperation, "Delivery")
+
+  def renderPickupSchedule(hoursOfOperation: HoursOfOperation) =
+    renderHoursOfOperation(hoursOfOperation, "Pickup")
+
+  def renderHoursOfOperation(hoursOfOperation: HoursOfOperation,
+                             scheduleHeader: String) =
+    div(
+      div(
+        scheduleHeader + " Schedule",
+      ),
+      renderDailyhours(hoursOfOperation.sunday),
+      renderDailyhours(hoursOfOperation.monday),
+    )
+
+  def renderDailyhours(dailyHours: DailyHours) =
+    div(cls := "daily-hours")(
+      dailyHours.dayOfWeek
+        .getDisplayName(TextStyle.NARROW, Locale.US) + " " +
+      dailyHours.open.toDumbAmericanString + "-" +
+      dailyHours.close.toDumbAmericanString,
+    )
+
   def createBusTimeElement(
     location: Location.Value,
-    content: JsDom.TypedTag[Div],
+    content: TypedTag[Div],
     website: Website,
     facebookPage: Website,
-    /* TODO: waitDuration: Duration*/
+    deliverySchedule: Option[HoursOfOperation],
   ): JsDom.TypedTag[Div] =
     Bulma.card(
       div(cls := "restaurant-information")(
@@ -116,10 +148,18 @@ object TagsOnlyLocal {
         div(cls := "restaurant-call")(
           content,
         ),
+        div(cls := "pickup-schedule")(
+          deliverySchedule
+            .map(renderPickupSchedule), // TODO Add real pickup schedule data
+        ),
+        div(cls := "delivery-schedule")(
+          deliverySchedule.map(renderDeliverySchedule),
+        ),
       ),
       List(
         renderWebsiteLink(website),
         renderWebsiteLink(facebookPage),
+//        renderHoursOfOperation(hoursOfOperation)
       ),
     )
 
@@ -156,12 +196,11 @@ object TagsOnlyLocal {
             facebookPage: Website,
             deliveryHours: Option[HoursOfOperation],
             ) => {
-          TagsOnlyLocal.createBusTimeElement(
-            location,
-            phoneButton(phoneNumber),
-            website,
-            facebookPage,
-          )
+          TagsOnlyLocal.createBusTimeElement(location,
+                                             phoneButton(phoneNumber),
+                                             website,
+                                             facebookPage,
+                                             deliveryHours)
         }
       },
     )
