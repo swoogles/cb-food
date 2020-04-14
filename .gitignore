@@ -4,3 +4,4 @@
 /.idea/
 /src/main/resources/compiledJavascript/
 /sw/target/
+.env
