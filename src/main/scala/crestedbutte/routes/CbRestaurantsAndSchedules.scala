@@ -34,6 +34,15 @@ object CbRestaurantsAndSchedules
           ),
         ),
         RestaurantWithSchedule(
+          Location.ButteBagels,
+          BusSchedule("03:00", "03:01", 1.minutes),
+          PhoneNumber("970-349-5630", "Order!"),
+          Website.global("https://butte-bagels.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/pages/category/Bagel-Shop/Butte-Bagels-1225240390980501/",
+          ),
+        ),
+        RestaurantWithSchedule(
           Location.CoalCreekGrill,
           BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-349-6645", "Order!"),
