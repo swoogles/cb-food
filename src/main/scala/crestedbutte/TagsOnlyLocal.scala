@@ -154,11 +154,11 @@ object TagsOnlyLocal {
         div(cls := "restaurant-call")(
           content,
         ),
-        div(cls := "pickup-schedule")(
-//          carryOutSchedule .map(renderPickupSchedule),
+        div(cls := "pickup-schedule is-hidden")(
+          carryOutSchedule.map(renderPickupSchedule),
         ),
-        div(cls := "delivery-schedule")(
-//          deliverySchedule.map(renderDeliverySchedule),
+        div(cls := "delivery-schedule is-hidden")(
+          deliverySchedule.map(renderDeliverySchedule),
         ),
       ),
       List(
@@ -166,7 +166,7 @@ object TagsOnlyLocal {
         renderWebsiteLink(facebookPage),
 //        renderHoursOfOperation(hoursOfOperation)
       ),
-    )
+    )(data("location") := location.elementName)
 
   def activateModal(targetName: String): Unit =
     org.scalajs.dom.document.body

@@ -44,6 +44,7 @@ object MyApp extends App {
       _ <- NotificationStuff.addAlarmBehaviorToTimes
       _ <- ModalBehavior.addModalOpenBehavior
       _ <- ModalBehavior.addModalCloseBehavior
+      _ <- UnsafeCallbacks.attachCardClickBehavior
       _ <- NotificationStuff.checkSubmittedAlarms
     } yield ()
 

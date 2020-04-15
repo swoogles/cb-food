@@ -83,10 +83,11 @@ object BulmaBehaviorLocal {
               .document
               .removeEventListener("click", outsideClickListener())
 
-        browser.browser
-          .window()
-          .document
-          .addEventListener("click", outsideClickListener())
+      // TODO Re-enable when attempting to close the menu when you click outside of i
+//        browser.browser
+//          .window()
+//          .document
+//          .addEventListener("click", outsideClickListener())
       }
 
   val isVisible = (element: Element) =>

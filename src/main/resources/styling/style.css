@@ -101,6 +101,7 @@ body {
     text-align: center;
 }
 .hours-of-operation {
+    /*display: none;*/
     /*align-content: center;*/
 }
 .hours-header {
