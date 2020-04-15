@@ -10,11 +10,12 @@ object UnsafeCallbacks {
     ZIO
       .environment[Browser]
       .map {
-        println("About to attach card behavior")
+        // println("About to attach card behavior") // um, why does this code work if I restore this?
         browser =>
           browser.browser
             .querySelectorAll(".card")
-            .foreach { modalOpenButton =>
+            .collect{ case x: HTMLElement => x} // TODO Move this into browser interface. I want it basically everywhere.
+            .foreach { modalOpenButton: HTMLElement =>
               println("Found a card. Attaching click behavior.")
               modalOpenButton
                 .addEventListener(
@@ -22,54 +23,14 @@ object UnsafeCallbacks {
                   (clickEvent: MouseEvent) => {
                     println("clicked a card.")
 
-                    modalOpenButton match {
-                      case clickedElement: HTMLElement =>
-                        clickedElement
+                    modalOpenButton
                           .querySelector(".pickup-schedule")
                           .classList
                           .remove("is-hidden")
-                        clickedElement
+                    modalOpenButton
                           .querySelector(".delivery-schedule")
                           .classList
                           .remove("is-hidden")
-                      case _ =>
-                    }
-//                    val modalContentId =
-//                      modalOpenButton.attributes
-//                        .getNamedItem("data-schedule-modal")
-//                        .value
-//
-//                    clickEvent.preventDefault();
-
-                    /*
-              browser.browser
-                .querySelector(
-                  id(modalContentId),
-                )
-                .map {
-                  modal =>
-                    browser.browser
-                      .workOnFullHtmlElement(
-                        _.classList.add("is-clipped"),
-                      )
-
-                    modal
-                      .querySelector(".modal-background")
-                      .addEventListener(
-                        "click",
-                        (e: MouseEvent) => {
-                          e.preventDefault();
-                          removeClippedHtml(browser)
-                          modal.classList.remove("is-active");
-                        },
-                      )
-
-                    activateModal(
-                      id(modalContentId),
-                    )
-                }
-
-                   */
                   },
                 )
             }
