@@ -7,6 +7,7 @@ import crestedbutte.dom.Bulma
 import crestedbutte.time.{
   BusDuration,
   BusTime,
+  ClosedForTheDay,
   DailyHours,
   HoursOfOperation,
 }
@@ -118,13 +119,13 @@ object TagsOnlyLocal {
       div(cls := "hours-header")(
         scheduleHeader + " Schedule",
       ),
-      renderDailyhours(hoursOfOperation.sunday),
-      renderDailyhours(hoursOfOperation.monday),
-      renderDailyhours(hoursOfOperation.tuesday),
-      renderDailyhours(hoursOfOperation.wednesday),
-      renderDailyhours(hoursOfOperation.thursday),
-      renderDailyhours(hoursOfOperation.friday),
-      renderDailyhours(hoursOfOperation.saturday),
+      renderDailySchedule(hoursOfOperation.sunday),
+      renderDailySchedule(hoursOfOperation.monday),
+      renderDailySchedule(hoursOfOperation.tuesday),
+      renderDailySchedule(hoursOfOperation.wednesday),
+      renderDailySchedule(hoursOfOperation.thursday),
+      renderDailySchedule(hoursOfOperation.friday),
+      renderDailySchedule(hoursOfOperation.saturday),
     )
 
   def renderDailyhours(dailyHours: DailyHours) =
@@ -133,6 +134,22 @@ object TagsOnlyLocal {
         .getDisplayName(TextStyle.NARROW, Locale.US) + " " +
       dailyHours.open.toDumbAmericanString + "-" +
       dailyHours.close.toDumbAmericanString,
+    )
+
+  def renderDailySchedule(
+    dailySchedule: Either[ClosedForTheDay, DailyHours],
+  ) =
+    dailySchedule match {
+      case Left(closedForTheDay) =>
+        renderClosedForTheDay(closedForTheDay)
+      case Right(dailyHours) => renderDailyhours(dailyHours)
+    }
+
+  def renderClosedForTheDay(closedForTheDay: ClosedForTheDay) =
+    div(cls := "daily-hours")(
+      closedForTheDay.dayOfWeek
+        .getDisplayName(TextStyle.NARROW, Locale.US) + " " +
+      " *CLOSED* ",
     )
 
   def createBusTimeElement(

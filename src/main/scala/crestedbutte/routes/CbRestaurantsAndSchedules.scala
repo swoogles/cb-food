@@ -3,7 +3,11 @@ package crestedbutte.routes
 import java.time.DayOfWeek
 
 import crestedbutte.time.BusDuration.toBusDuration
-import crestedbutte.time.{DailyHours, HoursOfOperation}
+import crestedbutte.time.{
+  ClosedForTheDay,
+  DailyHours,
+  HoursOfOperation,
+}
 import crestedbutte.{
   BusSchedule,
   Location,
@@ -67,6 +71,36 @@ object CbRestaurantsAndSchedules
           Website.global("https://thedivvycrestedbutte.com/"),
           Website.facebookPage(
             "https://www.facebook.com/TheDivvyCB/",
+          ),
+        ),
+        RestaurantWithSchedule(
+          Location.GasCafe,
+          BusSchedule("03:00", "03:01", 1.minutes),
+          PhoneNumber("970-349-9656", "Order!"),
+          Website.global("https://www.gascafe1stop.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/gascafeonestop/",
+          ),
+          None,
+          Some(
+            HoursOfOperation(
+              sunday = Left(ClosedForTheDay(DayOfWeek.SUNDAY)),
+              monday =
+                Right(DailyHours("07:00", "15:00", DayOfWeek.MONDAY)),
+              tuesday = Right(
+                DailyHours("07:00", "15:00", DayOfWeek.TUESDAY),
+              ),
+              wednesday = Right(
+                DailyHours("07:00", "15:00", DayOfWeek.WEDNESDAY),
+              ),
+              thursday = Right(
+                DailyHours("07:00", "15:00", DayOfWeek.THURSDAY),
+              ),
+              friday =
+                Right(DailyHours("07:00", "15:00", DayOfWeek.FRIDAY)),
+              saturday =
+                Right(DailyHours("07:00", "15:00", DayOfWeek.SUNDAY)),
+            ),
           ),
         ),
 //        RestaurantWithSchedule(

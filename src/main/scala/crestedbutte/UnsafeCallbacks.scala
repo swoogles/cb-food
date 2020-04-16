@@ -14,7 +14,7 @@ object UnsafeCallbacks {
         browser =>
           browser.browser
             .querySelectorAll(".card")
-            .collect{ case x: HTMLElement => x} // TODO Move this into browser interface. I want it basically everywhere.
+            .collect { case x: HTMLElement => x } // TODO Move this into browser interface. I want it basically everywhere.
             .foreach { modalOpenButton: HTMLElement =>
               println("Found a card. Attaching click behavior.")
               modalOpenButton
@@ -24,13 +24,13 @@ object UnsafeCallbacks {
                     println("clicked a card.")
 
                     modalOpenButton
-                          .querySelector(".pickup-schedule")
-                          .classList
-                          .remove("is-hidden")
+                      .querySelector(".pickup-schedule")
+                      .classList
+                      .remove("is-hidden")
                     modalOpenButton
-                          .querySelector(".delivery-schedule")
-                          .classList
-                          .remove("is-hidden")
+                      .querySelector(".delivery-schedule")
+                      .classList
+                      .remove("is-hidden")
                   },
                 )
             }
