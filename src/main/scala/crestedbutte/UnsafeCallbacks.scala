@@ -38,6 +38,8 @@ object UnsafeCallbacks {
         .classList
         .remove("is-hidden")
 
+      htmlElement.scrollIntoView(true)
+
       htmlElement.removeEventListener("click",
                                       expandSection(htmlElement))
       htmlElement.addEventListener("click",
@@ -54,6 +56,8 @@ object UnsafeCallbacks {
         .querySelector(".card-footer")
         .classList
         .add("is-hidden")
+
+      htmlElement.scrollIntoView(true)
 
       htmlElement.removeEventListener("click",
                                       collapseSection(htmlElement))
