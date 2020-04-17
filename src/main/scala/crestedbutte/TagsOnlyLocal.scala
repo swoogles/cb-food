@@ -191,7 +191,7 @@ object TagsOnlyLocal {
           }
           .getOrElse(
             div(
-              "No details available for this restaurant. Please visit their sites directly.",
+              "Please visit these sites for more detailed information.",
             ),
           ),
       ),
