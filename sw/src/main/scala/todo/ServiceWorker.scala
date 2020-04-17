@@ -25,6 +25,8 @@ object ServiceWorker {
     "/styling/style.css",
     "/compiledJavascript/cb-food-opt.js",
     "/glyphicons/svg/individual-svg/glyphicons-basic-32-bus.svg",
+    "/glyphicons/svg/individual-svg/glyphicons-basic-221-chevron-down.svg",
+    "/glyphicons/svg/individual-svg/glyphicons-basic-465-call.svg",
     "styling/popup_nojs.css",
     "styling/bulma.min.css",
   ).toJSArray
