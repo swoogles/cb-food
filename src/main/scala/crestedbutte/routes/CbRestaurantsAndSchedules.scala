@@ -57,15 +57,15 @@ object CbRestaurantsAndSchedules
             "https://www.facebook.com/pages/category/Bagel-Shop/Butte-Bagels-1225240390980501/",
           ),
         ),
-        RestaurantWithSchedule(
-          Location.CoalCreekGrill,
-          BusSchedule("03:00", "03:01", 1.minutes),
-          PhoneNumber("970-349-6645", "Order!"),
-          Website.global("http://www.coalcreekgrill.com/"),
-          Website.facebookPage(
-            "https://www.facebook.com/CoalCreekGrillCB/",
-          ),
-        ),
+//        RestaurantWithSchedule(
+//          Location.CoalCreekGrill,
+//          BusSchedule("03:00", "03:01", 1.minutes),
+//          PhoneNumber("970-349-6645", "Order!"),
+//          Website.global("http://www.coalcreekgrill.com/"),
+//          Website.facebookPage(
+//            "https://www.facebook.com/CoalCreekGrillCB/",
+//          ),
+//        ),
         RestaurantWithSchedule(
           Location.TheDivvy,
           BusSchedule("03:00", "03:01", 1.minutes),
