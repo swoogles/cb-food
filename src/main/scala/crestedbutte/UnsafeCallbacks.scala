@@ -20,21 +20,46 @@ object UnsafeCallbacks {
               modalOpenButton
                 .addEventListener(
                   "click",
-                  (clickEvent: MouseEvent) => {
-                    println("clicked a card.")
-
-                    modalOpenButton
-                      .querySelector(".card-content")
-                      .classList
-                      .remove("is-hidden")
-                    modalOpenButton
-                      .querySelector(".card-footer")
-                      .classList
-                      .remove("is-hidden")
-                  },
+                  expandSection(modalOpenButton),
                 )
             }
       }
+
+  def expandSection(htmlElement: HTMLElement): MouseEvent => Unit =
+    (clickEvent: MouseEvent) => {
+      println("clicked a card.")
+
+      htmlElement
+        .querySelector(".card-content")
+        .classList
+        .remove("is-hidden")
+      htmlElement
+        .querySelector(".card-footer")
+        .classList
+        .remove("is-hidden")
+
+      htmlElement.removeEventListener("click",
+                                      expandSection(htmlElement))
+      htmlElement.addEventListener("click",
+                                   collapseSection(htmlElement))
+    }
+
+  def collapseSection(htmlElement: HTMLElement): MouseEvent => Unit =
+    (clickEvent: MouseEvent) => {
+      htmlElement
+        .querySelector(".card-content")
+        .classList
+        .add("is-hidden")
+      htmlElement
+        .querySelector(".card-footer")
+        .classList
+        .add("is-hidden")
+
+      htmlElement.removeEventListener("click",
+                                      collapseSection(htmlElement))
+      htmlElement.addEventListener("click",
+                                   expandSection(htmlElement))
+    }
 
   val attachMenuBehavior =
     ZIO
