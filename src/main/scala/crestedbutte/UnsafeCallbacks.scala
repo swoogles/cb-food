@@ -12,58 +12,103 @@ object UnsafeCallbacks {
       .map {
         // println("About to attach card behavior") // um, why does this code work if I restore this?
         browser =>
+//          browser.browser
+//            .querySelectorAll(".card")
+//            .collect { case x: HTMLElement => x } // TODO Move this into browser interface. I want it basically everywhere.
+//            .foreach { modalOpenButton: HTMLElement =>
+//              println("Found a card. Attaching click behavior.")
+//              modalOpenButton
+//                .addEventListener(
+//                  "click",
+//                  toggleSection(modalOpenButton),
+//                )
+//            }
           browser.browser
-            .querySelectorAll(".card")
+            .querySelectorAll(".restaurant-name")
             .collect { case x: HTMLElement => x } // TODO Move this into browser interface. I want it basically everywhere.
             .foreach { modalOpenButton: HTMLElement =>
               println("Found a card. Attaching click behavior.")
               modalOpenButton
                 .addEventListener(
                   "click",
-                  expandSection(modalOpenButton),
+                  toggleSiblingSection(modalOpenButton),
+                )
+            }
+          browser.browser
+            .querySelectorAll(".card-header-icon")
+            .collect { case x: HTMLElement => x } // TODO Move this into browser interface. I want it basically everywhere.
+            .foreach { modalOpenButton: HTMLElement =>
+              println("Found a card. Attaching click behavior.")
+              modalOpenButton
+                .addEventListener(
+                  "click",
+                  toggleSiblingSection2LevelsUp(modalOpenButton),
                 )
             }
       }
 
-  def expandSection(htmlElement: HTMLElement): MouseEvent => Unit =
+  def toggleSiblingSection(
+    htmlElement: HTMLElement,
+  ): MouseEvent => Unit =
     (clickEvent: MouseEvent) => {
-      println("clicked a card.")
-
-      htmlElement
-        .querySelector(".card-content")
-        .classList
-        .remove("is-hidden")
-      htmlElement
-        .querySelector(".card-footer")
-        .classList
-        .remove("is-hidden")
-
-//      htmlElement.scrollIntoView(true)
-
-      htmlElement.removeEventListener("click",
-                                      expandSection(htmlElement))
-      htmlElement.addEventListener("click",
-                                   collapseSection(htmlElement))
+      val parentCard =
+        htmlElement.parentElement.parentElement.parentElement.parentElement
+      if (parentCard.querySelectorAll(".is-hidden").length > 0) {
+        expandSection(parentCard)
+      } else {
+        collapseSection(parentCard)
+      }
     }
 
-  def collapseSection(htmlElement: HTMLElement): MouseEvent => Unit =
+  def toggleSiblingSection2LevelsUp(
+    htmlElement: HTMLElement,
+  ): MouseEvent => Unit =
     (clickEvent: MouseEvent) => {
-      htmlElement
-        .querySelector(".card-content")
-        .classList
-        .add("is-hidden")
-      htmlElement
-        .querySelector(".card-footer")
-        .classList
-        .add("is-hidden")
+      val parentCard =
+        htmlElement.parentElement.parentElement
+      if (parentCard.querySelectorAll(".is-hidden").length > 0) {
+        expandSection(parentCard)
+      } else {
+        collapseSection(parentCard)
+      }
+    }
+
+  def toggleSection(htmlElement: HTMLElement): MouseEvent => Unit =
+    (clickEvent: MouseEvent) => {
+      if (htmlElement.querySelectorAll(".is-hidden").length > 0) {
+        expandSection(htmlElement)
+      } else {
+        collapseSection(htmlElement)
+      }
+    }
+
+  def expandSection(htmlElement: HTMLElement): Unit = {
+    println("clicked a card.")
+
+    htmlElement
+      .querySelector(".card-content")
+      .classList
+      .remove("is-hidden")
+    htmlElement
+      .querySelector(".card-footer")
+      .classList
+      .remove("is-hidden")
 
 //      htmlElement.scrollIntoView(true)
+  }
 
-      htmlElement.removeEventListener("click",
-                                      collapseSection(htmlElement))
-      htmlElement.addEventListener("click",
-                                   expandSection(htmlElement))
-    }
+  def collapseSection(htmlElement: HTMLElement): Unit = {
+    htmlElement
+      .querySelector(".card-content")
+      .classList
+      .add("is-hidden")
+    htmlElement
+      .querySelector(".card-footer")
+      .classList
+      .add("is-hidden")
+
+//      htmlElement.scrollIntoView(true)
+  }
 
   val attachMenuBehavior =
     ZIO
