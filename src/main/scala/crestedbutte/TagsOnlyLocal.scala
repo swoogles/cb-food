@@ -160,40 +160,40 @@ object TagsOnlyLocal {
     facebookPage: Website,
     businessDetailsOpt: Option[BusinessDetails],
   ): JsDom.TypedTag[Div] =
-    Bulma.card(
-      div(cls := "restaurant-information")(
+    Bulma.collapsedCardWithHeader(
+      div(cls := "restaurant-header")(
         div(cls := "restaurant-name")(
           div(location.name),
         ),
-        //        div(cls := "")(
-        //          div(location.altName),
-        //        ),
         div(cls := "restaurant-call")(
           content,
         ),
-        div(cls := "operating-info is-hidden")(
-          businessDetailsOpt
-            .map {
-              case StandardSchedule(deliveryHours, carryOutHours) =>
-                div(cls := "schedule")( // TODO Orrrr do the advance order text here
-                  div(cls := "pickup-schedule")(
-                    carryOutHours.map(renderPickupSchedule),
-                  ),
-                  div(cls := "delivery-schedule")(
-                    deliveryHours.map(renderDeliverySchedule),
-                  ),
-                )
-              case advanceOrdersOnly: AdvanceOrdersOnly =>
-                div(cls := "advance-order-procedure")(
-                  "Advance order only: " + advanceOrdersOnly.instructions,
-                )
-            }
-            .getOrElse(
-              div(
-                "No details available for this restaurant. Please visit their sites directly.",
-              ),
+      ),
+      div(
+        svgIcon("glyphicons-basic-221-chevron-down.svg"),
+      ),
+      div(cls := "restaurant-information")(
+        businessDetailsOpt
+          .map {
+            case StandardSchedule(deliveryHours, carryOutHours) =>
+              div(cls := "schedule")( // TODO Orrrr do the advance order text here
+                div(cls := "pickup-schedule")(
+                  carryOutHours.map(renderPickupSchedule),
+                ),
+                div(cls := "delivery-schedule")(
+                  deliveryHours.map(renderDeliverySchedule),
+                ),
+              )
+            case advanceOrdersOnly: AdvanceOrdersOnly =>
+              div(cls := "advance-order-procedure")(
+                "Advance order only: " + advanceOrdersOnly.instructions,
+              )
+          }
+          .getOrElse(
+            div(
+              "No details available for this restaurant. Please visit their sites directly.",
             ),
-        ),
+          ),
       ),
       List(
         renderWebsiteLink(website),
@@ -259,7 +259,7 @@ object TagsOnlyLocal {
     img(
       cls := "glyphicon",
       src := s"/glyphicons/svg/individual-svg/$name",
-      alt := "Thanks for riding the bus!",
+      alt := "",
     )
   /*
   glyphicons-basic-591-map-marker.svg

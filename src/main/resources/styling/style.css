@@ -62,20 +62,23 @@ body {
     top: calc(40% - 10px);
 }
 
-.restaurant-information {
+.restaurant-header {
     display: grid;
     grid-template-columns: 6fr 3fr;
     grid-template-rows: auto 1fr ;
     grid-template-areas:
             "restaurant-name restaurant-call"
-            "operating-info operating-info";
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid white;
 }
 
-.operating-info {
-    grid-area: operating-info;
+.restaurant-information {
+/*    display: grid;*/
+/*    grid-template-columns: 1fr 1fr;*/
+/*    grid-template-rows: auto 1fr ;*/
+/*    grid-template-areas:*/
+/*            "operating-info operating-info";*/
+/*    padding-top: 5px;*/
+/*    padding-bottom: 5px;*/
+/*    border-bottom: 1px solid white;*/
 }
 
 .restaurant-name {

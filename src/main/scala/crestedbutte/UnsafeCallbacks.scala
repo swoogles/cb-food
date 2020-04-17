@@ -24,13 +24,13 @@ object UnsafeCallbacks {
                     println("clicked a card.")
 
                     modalOpenButton
-                      .querySelector(".operating-info")
+                      .querySelector(".card-content")
                       .classList
                       .remove("is-hidden")
-//                    modalOpenButton
-//                      .querySelector(".delivery-schedule")
-//                      .classList
-//                      .remove("is-hidden")
+                    modalOpenButton
+                      .querySelector(".card-footer")
+                      .classList
+                      .remove("is-hidden")
                   },
                 )
             }
