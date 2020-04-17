@@ -2,6 +2,8 @@ package crestedbutte.routes
 
 import java.time.DayOfWeek
 
+import contextual.Prefix
+import crestedbutte.interpolators.PhoneNumberValueInterpolator
 import crestedbutte.time.BusDuration.toBusDuration
 import crestedbutte.time.{
   ClosedForTheDay,
@@ -84,22 +86,17 @@ object CbRestaurantsAndSchedules
           None,
           Some(
             HoursOfOperation(
-              sunday = Left(ClosedForTheDay(DayOfWeek.SUNDAY)),
-              monday =
-                Right(DailyHours("07:00", "15:00", DayOfWeek.MONDAY)),
-              tuesday = Right(
+              sunday = ClosedForTheDay(DayOfWeek.SUNDAY),
+              monday = DailyHours("07:00", "15:00", DayOfWeek.MONDAY),
+              tuesday =
                 DailyHours("07:00", "15:00", DayOfWeek.TUESDAY),
-              ),
-              wednesday = Right(
+              wednesday =
                 DailyHours("07:00", "15:00", DayOfWeek.WEDNESDAY),
-              ),
-              thursday = Right(
+              thursday =
                 DailyHours("07:00", "15:00", DayOfWeek.THURSDAY),
-              ),
-              friday =
-                Right(DailyHours("07:00", "15:00", DayOfWeek.FRIDAY)),
+              friday = DailyHours("07:00", "15:00", DayOfWeek.FRIDAY),
               saturday =
-                Right(DailyHours("07:00", "15:00", DayOfWeek.SUNDAY)),
+                DailyHours("07:00", "15:00", DayOfWeek.SUNDAY),
             ),
           ),
         ),

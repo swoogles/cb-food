@@ -9,6 +9,7 @@ import crestedbutte.time.{
   BusTime,
   ClosedForTheDay,
   DailyHours,
+  DailyInfo,
   HoursOfOperation,
 }
 import org.scalajs.dom.html.{Anchor, Div}
@@ -137,12 +138,12 @@ object TagsOnlyLocal {
     )
 
   def renderDailySchedule(
-    dailySchedule: Either[ClosedForTheDay, DailyHours],
+    dailySchedule: DailyInfo,
   ) =
     dailySchedule match {
-      case Left(closedForTheDay) =>
+      case closedForTheDay: ClosedForTheDay =>
         renderClosedForTheDay(closedForTheDay)
-      case Right(dailyHours) => renderDailyhours(dailyHours)
+      case dailyHours: DailyHours => renderDailyhours(dailyHours)
     }
 
   def renderClosedForTheDay(closedForTheDay: ClosedForTheDay) =
