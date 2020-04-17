@@ -89,7 +89,7 @@ body {
 }
 
 .advance-order-procedure {
-    grid-area: operating-info;
+    font-size: 80%;
 }
 
 .schedule {
@@ -99,6 +99,7 @@ body {
     grid-template-rows: auto 1fr ;
     grid-template-areas:
             "pickup-schedule delivery-schedule";
+    font-size: 60%;
 }
 
 .pickup-schedule {
@@ -109,7 +110,6 @@ body {
 }
 
 .daily-hours {
-    font-size: 60%;
     text-align: center;
 }
 .hours-of-operation {

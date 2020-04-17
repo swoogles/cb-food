@@ -184,8 +184,8 @@ object TagsOnlyLocal {
                   ),
                 )
               case advanceOrdersOnly: AdvanceOrdersOnly =>
-                div(cls := "schedule is-hidden")(
-                  "Advance orders only!",
+                div(cls := "advance-order-procedure")(
+                  "Advance order only: " + advanceOrdersOnly.instructions,
                 )
             }
             .getOrElse(

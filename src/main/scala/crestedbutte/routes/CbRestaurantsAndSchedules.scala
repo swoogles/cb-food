@@ -11,6 +11,7 @@ import crestedbutte.time.{
   HoursOfOperation,
 }
 import crestedbutte.{
+  AdvanceOrdersOnly,
   BusSchedule,
   Location,
   NamedRoute,
@@ -181,6 +182,20 @@ object CbRestaurantsAndSchedules
           Website.global("https://www.slogarcb.com/"),
           Website.facebookPage(
             "https://www.facebook.com/slogarqueen/",
+          ),
+        ),
+        RestaurantWithSchedule(
+          Location.SoupCon,
+          BusSchedule("03:00", "03:01", 1.minutes),
+          PhoneNumber("970-349-5448", "Order!"),
+          Website.global("https://www.soupconcb.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/Soupconcb",
+          ),
+          Some(
+            AdvanceOrdersOnly(
+              "Order by 5:00PM Friday. Pickup between 5:00 and 7:30 Saturday.",
+            ),
           ),
         ),
         RestaurantWithSchedule(

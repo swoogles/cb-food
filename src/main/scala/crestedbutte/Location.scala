@@ -58,4 +58,6 @@ object Location extends Enumeration {
 
   val GasCafe: Val = Val("Gas Cafe")
 
+  val SoupCon: Val = Val("Soupcon")
+
 }
