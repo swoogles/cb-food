@@ -172,11 +172,13 @@ object TagsOnlyLocal {
         div(cls := "restaurant-call")(
           content,
         ),
-        div(cls := "pickup-schedule is-hidden")(
-          carryOutSchedule.map(renderPickupSchedule),
-        ),
-        div(cls := "delivery-schedule is-hidden")(
-          deliverySchedule.map(renderDeliverySchedule),
+        div(cls := "schedule")( // TODO Orrrr do the advance order text here
+          div(cls := "pickup-schedule is-hidden")(
+            carryOutSchedule.map(renderPickupSchedule),
+          ),
+          div(cls := "delivery-schedule is-hidden")(
+            deliverySchedule.map(renderDeliverySchedule),
+          ),
         ),
       ),
       List(

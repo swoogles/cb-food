@@ -54,18 +54,6 @@ body {
     color: white;
 }
 
-.restaurant-information {
-    display: grid;
-    grid-template-columns:6fr 3fr;
-    grid-template-rows: auto 1fr ;
-    grid-template-areas:
-            "restaurant-name restaurant-call"
-            "pickup-schedule delivery-schedule";
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid white;
-}
-
 .map-link {
     grid-area: map-link;
     text-align: center;
@@ -74,19 +62,39 @@ body {
     top: calc(40% - 10px);
 }
 
+.restaurant-information {
+    display: grid;
+    grid-template-columns:6fr 3fr;
+    grid-template-rows: auto 1fr ;
+    grid-template-areas:
+            "restaurant-name restaurant-call"
+            "operating-info operating-info";
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid white;
+}
+
 .restaurant-name {
     grid-area: restaurant-name;
     text-align: center;
 }
 
-.restaurant-alt-name {
-    grid-area: restaurant-alt-name;
-    text-align: center;
-    font-size: 70%;
-}
 .restaurant-call {
     grid-area: restaurant-call;
     text-align:left;
+}
+
+.advance-order-procedure {
+    grid-area: operating-info;
+}
+
+.schedule {
+    display: grid;
+    grid-area: operating-info;
+    grid-template-columns:1fr 1fr;
+    grid-template-rows: auto 1fr ;
+    grid-template-areas:
+            "pickup-schedule delivery-schedule";
 }
 
 .pickup-schedule {
