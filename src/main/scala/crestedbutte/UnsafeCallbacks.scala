@@ -38,7 +38,7 @@ object UnsafeCallbacks {
         .classList
         .remove("is-hidden")
 
-      htmlElement.scrollIntoView(true)
+//      htmlElement.scrollIntoView(true)
 
       htmlElement.removeEventListener("click",
                                       expandSection(htmlElement))
@@ -57,7 +57,7 @@ object UnsafeCallbacks {
         .classList
         .add("is-hidden")
 
-      htmlElement.scrollIntoView(true)
+//      htmlElement.scrollIntoView(true)
 
       htmlElement.removeEventListener("click",
                                       collapseSection(htmlElement))
