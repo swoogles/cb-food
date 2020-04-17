@@ -27,6 +27,7 @@ libraryDependencies ++= Seq(
   "com.github.japgolly.scalacss" %%% "ext-scalatags" % "0.6.0",
 //  "io.github.outwatch" %%% "outwatch" % "1.0.0-RC2",
   "com.github.outwatch.outwatch" %%% "outwatch" % "a332851",
+  "com.propensive" %%% "contextual" % "1.2.1"
 //  "com.raquo" %%% "laminar" % "0.8.0"   // Scala.js 1.x only
 )
 
