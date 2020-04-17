@@ -64,7 +64,7 @@ body {
 
 .restaurant-information {
     display: grid;
-    grid-template-columns:6fr 3fr;
+    grid-template-columns: 6fr 3fr;
     grid-template-rows: auto 1fr ;
     grid-template-areas:
             "restaurant-name restaurant-call"
@@ -72,6 +72,10 @@ body {
     padding-top: 5px;
     padding-bottom: 5px;
     border-bottom: 1px solid white;
+}
+
+.operating-info {
+    grid-area: operating-info;
 }
 
 .restaurant-name {

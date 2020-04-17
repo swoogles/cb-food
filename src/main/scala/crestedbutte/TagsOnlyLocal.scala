@@ -158,8 +158,7 @@ object TagsOnlyLocal {
     content: TypedTag[Div],
     website: Website,
     facebookPage: Website,
-    deliverySchedule: Option[HoursOfOperation],
-    carryOutSchedule: Option[HoursOfOperation],
+    businessDetailsOpt: Option[BusinessDetails],
   ): JsDom.TypedTag[Div] =
     Bulma.card(
       div(cls := "restaurant-information")(
@@ -172,13 +171,28 @@ object TagsOnlyLocal {
         div(cls := "restaurant-call")(
           content,
         ),
-        div(cls := "schedule")( // TODO Orrrr do the advance order text here
-          div(cls := "pickup-schedule is-hidden")(
-            carryOutSchedule.map(renderPickupSchedule),
-          ),
-          div(cls := "delivery-schedule is-hidden")(
-            deliverySchedule.map(renderDeliverySchedule),
-          ),
+        div(cls := "operating-info is-hidden")(
+          businessDetailsOpt
+            .map {
+              case StandardSchedule(deliveryHours, carryOutHours) =>
+                div(cls := "schedule")( // TODO Orrrr do the advance order text here
+                  div(cls := "pickup-schedule")(
+                    carryOutHours.map(renderPickupSchedule),
+                  ),
+                  div(cls := "delivery-schedule")(
+                    deliveryHours.map(renderDeliverySchedule),
+                  ),
+                )
+              case advanceOrdersOnly: AdvanceOrdersOnly =>
+                div(cls := "schedule is-hidden")(
+                  "Advance orders only!",
+                )
+            }
+            .getOrElse(
+              div(
+                "No details available for this restaurant. Please visit their sites directly.",
+              ),
+            ),
         ),
       ),
       List(
@@ -219,15 +233,13 @@ object TagsOnlyLocal {
             phoneNumber: PhoneNumber,
             website: Website,
             facebookPage: Website,
-            deliveryHours: Option[HoursOfOperation],
-            carryOutHours: Option[HoursOfOperation],
+            businessDetails: Option[BusinessDetails],
             ) => {
           TagsOnlyLocal.createBusTimeElement(location,
                                              phoneButton(phoneNumber),
                                              website,
                                              facebookPage,
-                                             deliveryHours,
-                                             carryOutHours)
+                                             businessDetails)
         }
       },
     )

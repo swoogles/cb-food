@@ -17,6 +17,7 @@ import crestedbutte.{
   PhoneNumber,
   RestaurantGroupName,
   RestaurantWithSchedule,
+  StandardSchedule,
   Website,
 }
 
@@ -33,10 +34,14 @@ object CbRestaurantsAndSchedules
             "https://www.facebook.com/BrickOvenCB/",
           ),
           Some(
-            HoursOfOperation("11:00", "20:00"),
-          ),
-          Some(
-            HoursOfOperation("17:00", "20:00"),
+            StandardSchedule(
+              Some(
+                HoursOfOperation("11:00", "20:00"),
+              ),
+              Some(
+                HoursOfOperation("17:00", "20:00"),
+              ),
+            ),
           ),
         ),
         RestaurantWithSchedule(
@@ -83,20 +88,26 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/gascafeonestop/",
           ),
-          None,
           Some(
-            HoursOfOperation(
-              sunday = ClosedForTheDay(DayOfWeek.SUNDAY),
-              monday = DailyHours("07:00", "15:00", DayOfWeek.MONDAY),
-              tuesday =
-                DailyHours("07:00", "15:00", DayOfWeek.TUESDAY),
-              wednesday =
-                DailyHours("07:00", "15:00", DayOfWeek.WEDNESDAY),
-              thursday =
-                DailyHours("07:00", "15:00", DayOfWeek.THURSDAY),
-              friday = DailyHours("07:00", "15:00", DayOfWeek.FRIDAY),
-              saturday =
-                DailyHours("07:00", "15:00", DayOfWeek.SUNDAY),
+            StandardSchedule(
+              deliveryHours = None,
+              carryOutHours = Some(
+                HoursOfOperation(
+                  sunday = ClosedForTheDay(DayOfWeek.SUNDAY),
+                  monday =
+                    DailyHours("07:00", "15:00", DayOfWeek.MONDAY),
+                  tuesday =
+                    DailyHours("07:00", "15:00", DayOfWeek.TUESDAY),
+                  wednesday =
+                    DailyHours("07:00", "15:00", DayOfWeek.WEDNESDAY),
+                  thursday =
+                    DailyHours("07:00", "15:00", DayOfWeek.THURSDAY),
+                  friday =
+                    DailyHours("07:00", "15:00", DayOfWeek.FRIDAY),
+                  saturday =
+                    DailyHours("07:00", "15:00", DayOfWeek.SUNDAY),
+                ),
+              ),
             ),
           ),
         ),
