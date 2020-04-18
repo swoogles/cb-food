@@ -1,5 +1,6 @@
 package crestedbutte
 
+import java.time.{Instant, OffsetDateTime}
 import java.util.concurrent.TimeUnit
 
 import crestedbutte.dom.BulmaBehaviorLocal
@@ -63,25 +64,30 @@ object MyApp extends App {
 //      ),
     )
 
+  def deserializeTimeString(rawTime: String): OffsetDateTime =
+    OffsetDateTime.parse(
+      s"2020-02-20T${rawTime}:00.00-07:00",
+    )
+
   val fullApplicationLogic: ZIO[Clock with Browser, Nothing, Int] =
     for {
-      pageMode <- QueryParameters.getBasicStringParam("mode").map {
-        paramAttempt =>
+      pageMode <- QueryParameters
+        .getWithErrorsAsEmpty("mode", AppMode.fromString)
+        .map { paramAttempt =>
           println("paramAttempt: " + paramAttempt)
           paramAttempt
-            .flatMap(AppMode.fromString)
             .getOrElse(AppMode.Production)
-      }
-      fixedTime <- QueryParameters.getBasicStringParam("time")
+        }
       _ <- DomManipulation.createAndApplyPageStructure(
         pageMode,
         components,
       )
-      _ <- UnsafeCallbacks.attachMenuBehavior
+      _         <- UnsafeCallbacks.attachMenuBehavior
+      fixedTime <- QueryParameters.get("time", deserializeTimeString)
       environmentDependencies = if (fixedTime.isDefined) { // TODO use map instead
-        println("!queryParam currentTime: " + fixedTime.get)
+        println("generic queryParam currentTime: " + fixedTime.get)
         new FixedClock.Fixed(
-          s"2020-02-20T${fixedTime.get.toString}:00.00-07:00",
+          fixedTime.get.toString,
         ) with Console.Live with BrowserLive
       } else
         new ColoradoClock.Live with Console.Live with BrowserLive

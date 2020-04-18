@@ -18,6 +18,10 @@ object QueryParameters {
       )
 
   def get[T](parameterName: String, typer: String => T) =
+    getWithErrorsAsEmpty(parameterName, raw => Some(typer(raw)))
+
+  def getWithErrorsAsEmpty[T](parameterName: String,
+                              typer: String => Option[T]) =
     ZIO
       .environment[Browser]
       .map(
@@ -27,7 +31,7 @@ object QueryParameters {
               browser.browser.window().location.toString,
               parameterName,
             )
-            .map(typer),
+            .flatMap(typer),
       )
 
 }
