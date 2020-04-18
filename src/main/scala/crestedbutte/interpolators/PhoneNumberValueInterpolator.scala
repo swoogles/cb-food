@@ -3,7 +3,8 @@ package crestedbutte.interpolators
 import contextual._
 
 object PhoneNumberValueInterpolator extends Interpolator {
-  type Out = PhoneNumberValue
+//  type Out = PhoneNumberValue
+//  type Output = PhoneNumberValue
 
   def checkValidPhoneNumberValue(str: String): Boolean =
     true

@@ -29,13 +29,13 @@ object MyApp extends App {
     components: Seq[ComponentData],
   ): ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
-      routeNameOpt <- QueryParameters.getRouteQueryParamValue
-      selectedComponent: ComponentData = routeNameOpt
+      serviceAreaOpt <- QueryParameters.getBasicStringParam("route")
+      selectedComponent: ComponentData = serviceAreaOpt
         .flatMap(
-          routeNameStringParam =>
+          serviceAreaParam =>
             components.find(
               _.restaurantGroup.restaurantGroupName
-                .elementNameMatches(routeNameStringParam),
+                .elementNameMatches(serviceAreaParam),
             ),
         )
         .getOrElse(components.head)
@@ -65,20 +65,25 @@ object MyApp extends App {
 
   val fullApplicationLogic: ZIO[Clock with Browser, Nothing, Int] =
     for {
-      pageMode <- QueryParameters.getCurrentPageMode.map(
-        _.getOrElse(AppMode.Production),
-      )
-      fixedTime <- QueryParameters.getCurrentTimeParamValue
+      pageMode <- QueryParameters.getBasicStringParam("mode").map {
+        paramAttempt =>
+          println("paramAttempt: " + paramAttempt)
+          paramAttempt
+            .flatMap(AppMode.fromString)
+            .getOrElse(AppMode.Production)
+      }
+      fixedTime <- QueryParameters.getBasicStringParam("time")
       _ <- DomManipulation.createAndApplyPageStructure(
         pageMode,
         components,
       )
       _ <- UnsafeCallbacks.attachMenuBehavior
-      environmentDependencies = if (fixedTime.isDefined)
+      environmentDependencies = if (fixedTime.isDefined) { // TODO use map instead
+        println("!queryParam currentTime: " + fixedTime.get)
         new FixedClock.Fixed(
           s"2020-02-20T${fixedTime.get.toString}:00.00-07:00",
         ) with Console.Live with BrowserLive
-      else
+      } else
         new ColoradoClock.Live with Console.Live with BrowserLive
       _ <- registerServiceWorker()
       _ <- NotificationStuff.addNotificationPermissionRequestToButton
