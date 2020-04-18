@@ -29,6 +29,7 @@ object CbRestaurantsAndSchedules
         RestaurantWithSchedule(
           Location.BrickOven,
           BusSchedule("03:00", "03:01", 1.minutes),
+//          PhoneNumber("970-349-5044", "Order!"),
           PhoneNumber("970-349-5044", "Order!"),
           Website.global("http://brickovencb.com/"),
           Website.facebookPage(
@@ -36,11 +37,11 @@ object CbRestaurantsAndSchedules
           ),
           Some(
             StandardSchedule(
-              Some(
-                HoursOfOperation("11:00", "20:00"),
-              ),
-              Some(
+              deliveryHours = Some(
                 HoursOfOperation("17:00", "20:00"),
+              ),
+              carryOutHours = Some(
+                HoursOfOperation("11:00", "20:00"),
               ),
             ),
           ),
