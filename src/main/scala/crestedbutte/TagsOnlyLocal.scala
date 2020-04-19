@@ -36,7 +36,12 @@ object TagsOnlyLocal {
           busScheduleDiv(singleComponentData.componentName),
       ),
       div(cls := "contact-me")(
-        "For corrections, confusion, kudos, or anger: ",
+        div(
+          "Created by Billding Software LLC",
+        ),
+        div(
+          "For corrections, confusion, kudos, or anger: ",
+        ),
         Bulma.Button.basic(
           a(href := "mailto:bill@billdingsoftware.com")("Email Me!"),
         ),
