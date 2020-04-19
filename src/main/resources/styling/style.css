@@ -76,6 +76,7 @@ body {
     display: grid;
     grid-template-columns: 6fr 3fr;
     grid-template-rows: auto 1fr ;
+    margin: auto;
     grid-template-areas:
             "restaurant-name restaurant-call"
 }
@@ -133,6 +134,8 @@ body {
     /*align-content: center;*/
 }
 .hours-header {
+    font-weight: bold;
+    text-decoration: underline;
     text-align: center;
 }
 
@@ -183,4 +186,8 @@ body {
 .card {
     border: 10px solid #444;
     border-radius: 15px;
+}
+
+.card-header-title {
+    text-align: center;
 }
