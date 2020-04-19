@@ -3,6 +3,11 @@ body {
     background-color: #444;
 }
 
+#container {
+    max-width: 1000px;
+    margin: auto;
+}
+
 #landing-message {
     background-color: #444;
 }
@@ -118,6 +123,9 @@ body {
 }
 
 .daily-hours {
+    text-align: center;
+}
+.service-unavailable {
     text-align: center;
 }
 .hours-of-operation {

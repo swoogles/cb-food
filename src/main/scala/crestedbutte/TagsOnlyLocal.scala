@@ -159,7 +159,8 @@ object TagsOnlyLocal {
             renderDailySchedule(hoursOfOperation.friday),
             renderDailySchedule(hoursOfOperation.saturday),
           )
-        case None => div("Not available.")
+        case None =>
+          div(cls := "service-unavailable")("Not available.")
       },
     )
 
