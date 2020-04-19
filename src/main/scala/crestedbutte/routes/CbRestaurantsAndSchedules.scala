@@ -83,6 +83,25 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/pages/category/Bagel-Shop/Butte-Bagels-1225240390980501/",
           ),
+          StandardSchedule(
+            deliveryHours = None,
+            carryOutHours = Some(
+              HoursOfOperation(
+                sunday =
+                  DailyHours("08:00", "14:00", DayOfWeek.SUNDAY),
+                monday = ClosedForTheDay(DayOfWeek.MONDAY),
+                tuesday = ClosedForTheDay(DayOfWeek.TUESDAY),
+                wednesday =
+                  DailyHours("08:00", "14:00", DayOfWeek.WEDNESDAY),
+                thursday =
+                  DailyHours("08:00", "14:00", DayOfWeek.THURSDAY),
+                friday =
+                  DailyHours("08:00", "14:00", DayOfWeek.FRIDAY),
+                saturday =
+                  DailyHours("08:00", "14:00", DayOfWeek.SATURDAY),
+              ),
+            ),
+          ),
         ),
 //        RestaurantWithSchedule(
 //          Location.CoalCreekGrill,
@@ -99,6 +118,12 @@ object CbRestaurantsAndSchedules
           Website.global("https://thedivvycrestedbutte.com/"),
           Website.facebookPage(
             "https://www.facebook.com/TheDivvyCB/",
+          ),
+          AdvanceOrdersOnly(
+            """Pick-up/Carry Out by appointment only.
+              |Will deliver if quarantined.
+              |Must order 1 day in advance.
+              |Taking orders 7 days a week""".stripMargin,
           ),
         ),
         RestaurantWithSchedule(
@@ -145,6 +170,12 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/cbsouthgeneralstore/",
           ),
+          StandardSchedule(
+            deliveryHours = None,
+            carryOutHours = Some(
+              HoursOfOperation("11:00", "19:00"),
+            ),
+          ),
         ),
         RestaurantWithSchedule(
           Location.McGills,
@@ -152,6 +183,12 @@ object CbRestaurantsAndSchedules
           Website.global("https://www.mcgillscrestedbutte.com/"),
           Website.facebookPage(
             "https://www.facebook.com/pages/McGills-At-Crested-Butte/119847854694618",
+          ),
+          StandardSchedule(
+            deliveryHours = None,
+            carryOutHours = Some(
+              HoursOfOperation("09:00", "14:00"),
+            ),
           ),
         ),
         RestaurantWithSchedule(
@@ -161,6 +198,9 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/MontanyaDistillers/",
           ),
+          AdvanceOrdersOnly(
+            "Order by 4 pm on Thursday and your order will be ready for pick up on Friday between 4 - 7 pm.",
+          ),
         ),
         RestaurantWithSchedule(
           Location.OctopusCoffee,
@@ -168,6 +208,24 @@ object CbRestaurantsAndSchedules
           Website.global("https://www.octopuscoffeecb.com/"),
           Website.facebookPage(
             "https://www.facebook.com/octopuscoffeecb/",
+          ),
+          StandardSchedule(
+            deliveryHours = None,
+            carryOutHours = Some(
+              HoursOfOperation(
+                sunday =
+                  DailyHours("10:00", "15:00", DayOfWeek.SUNDAY),
+                monday =
+                  DailyHours("10:00", "15:00", DayOfWeek.SUNDAY),
+                tuesday = ClosedForTheDay(DayOfWeek.TUESDAY),
+                wednesday = ClosedForTheDay(DayOfWeek.WEDNESDAY),
+                thursday = ClosedForTheDay(DayOfWeek.THURSDAY),
+                friday =
+                  DailyHours("10:00", "15:00", DayOfWeek.FRIDAY),
+                saturday =
+                  DailyHours("10:00", "15:00", DayOfWeek.SATURDAY),
+              ),
+            ),
           ),
         ),
         RestaurantWithSchedule(
