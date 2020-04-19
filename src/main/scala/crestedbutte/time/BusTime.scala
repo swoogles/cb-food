@@ -8,11 +8,17 @@ import scala.util.Try
 
 class BusTime(localTime: LocalTime) {
 
-  def isBeforeOrNow(busTime: BusTime) =
+  def isBefore(busTime: BusTime) =
+    truncatedToMinutes.isBefore(busTime.truncatedToMinutes)
+
+  def isAfter(busTime: BusTime) =
+    truncatedToMinutes.isAfter(busTime.truncatedToMinutes)
+
+  def isBeforeOrEqualTo(busTime: BusTime) =
     truncatedToMinutes.isBefore(busTime.truncatedToMinutes) ||
     truncatedToMinutes.equals(busTime.truncatedToMinutes)
 
-  def isAfterOrNow(busTime: BusTime) =
+  def isAfterOrEqualTo(busTime: BusTime) =
     truncatedToMinutes.isAfter(busTime.truncatedToMinutes) ||
     truncatedToMinutes.equals(busTime.truncatedToMinutes)
 

@@ -10,7 +10,7 @@ case class DailyHours(open: BusTime,
     extends DailyInfo {
 
   def isOpenNow(now: BusTime) =
-    open.isBeforeOrNow(now) || close.isAfterOrNow(now)
+    open.isBeforeOrEqualTo(now) || close.isAfterOrEqualTo(now)
 }
 
 object DailyHours {

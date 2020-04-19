@@ -1,6 +1,6 @@
 package crestedbutte
 
 case class UpcomingArrivalInfoWithFullSchedule(
-  upcomingArrivalInfo: UpcomingArrivalInfo,
+  upcomingArrivalInfo: RestaurantWithStatus,
   busScheduleAtStop: RestaurantWithSchedule,
 ) {}

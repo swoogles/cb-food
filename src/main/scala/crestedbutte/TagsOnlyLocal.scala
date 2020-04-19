@@ -76,23 +76,30 @@ object TagsOnlyLocal {
   //  <a href="tel:123-456-7890">123-456-7890</a>
   def phoneButton(
     safeRideRecommendation: PhoneNumber,
+    openForOrders: Boolean,
   ): JsDom.TypedTag[Div] =
     div(cls := "call-button")(
-      Bulma.Button.basic(
-        div(
-          img(
-            cls := "glyphicon",
-            src := "/glyphicons/svg/individual-svg/glyphicons-basic-465-call.svg",
-            alt := "Call Late Night Shuttle!",
+      Bulma.Button
+        .basic(
+          div(
+            img(
+              cls := "glyphicon",
+              src := "/glyphicons/svg/individual-svg/glyphicons-basic-465-call.svg",
+              alt := "Call Late Night Shuttle!",
+            ),
+            span(verticalAlign := "top")(
+              safeRideRecommendation.name,
+            ),
           ),
-          span(verticalAlign := "top")(
-            safeRideRecommendation.name,
-          ),
+        )
+        .apply(
+          onclick :=
+            s"window.location.href = 'tel:${safeRideRecommendation.number}';",
+          cls := (if (openForOrders)
+                    "button is-success" // TODO Should only be submitting extra classes to bulma lib, *not* re-writing them here.
+                  else
+                    "button"),
         ),
-      )(
-        onclick :=
-          s"window.location.href = 'tel:${safeRideRecommendation.number}';",
-      ),
     )
 
   def phoneLink(
@@ -159,10 +166,15 @@ object TagsOnlyLocal {
     website: Website,
     facebookPage: Website,
     businessDetailsOpt: Option[BusinessDetails],
+    carryOutStatus: RestaurantStatus,
+    deliveryStatus: RestaurantStatus,
   ): JsDom.TypedTag[Div] =
     Bulma.collapsedCardWithHeader(
       div(cls := "restaurant-header")(
         div(cls := "restaurant-name")(
+//          if (carryOutStatus == Open || deliveryStatus == Open)
+//            div(location.name + "Open now!")
+//          else
           div(location.name),
         ),
         div(cls := "restaurant-call")(
@@ -218,7 +230,7 @@ object TagsOnlyLocal {
     "modal_content_" + routeName.name + "_" + location.elementName
 
   def structuredSetOfUpcomingArrivals(
-    upcomingArrivalComponentData: UpcomingArrivalComponentData,
+    upcomingArrivalComponentData: CurrentComponentData,
   ) =
     div(
       div(cls := "route-header")(
@@ -227,19 +239,29 @@ object TagsOnlyLocal {
         ),
       ),
       upcomingArrivalComponentData.upcomingArrivalInfo.map {
-        case RestaurantWithSchedule(
-            location: Location.Value,
-            scheduleAtStop: BusSchedule,
-            phoneNumber: PhoneNumber,
-            website: Website,
-            facebookPage: Website,
-            businessDetails: Option[BusinessDetails],
+        case RestaurantWithStatus(
+            RestaurantWithSchedule(
+              location: Location.Value,
+              scheduleAtStop: BusSchedule,
+              phoneNumber: PhoneNumber,
+              website: Website,
+              facebookPage: Website,
+              businessDetails: Option[BusinessDetails],
+            ),
+            carryOutStatus,
+            deliveryStatus,
             ) => {
-          TagsOnlyLocal.createBusTimeElement(location,
-                                             phoneButton(phoneNumber),
-                                             website,
-                                             facebookPage,
-                                             businessDetails)
+          val openForOrders =
+            (carryOutStatus == Open || deliveryStatus == Open)
+          TagsOnlyLocal.createBusTimeElement(
+            location,
+            phoneButton(phoneNumber, openForOrders),
+            website,
+            facebookPage,
+            businessDetails,
+            carryOutStatus,
+            deliveryStatus,
+          )
         }
       },
     )

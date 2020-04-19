@@ -41,7 +41,10 @@ object MyApp extends App {
         )
         .getOrElse(components.head)
 
-      _ <- updateUpcomingArrivalsOnPage(selectedComponent, components)
+      now <- TimeCalculations.now
+      _ <- updateUpcomingArrivalsOnPage(selectedComponent,
+                                        components,
+                                        now)
       _ <- NotificationStuff.addAlarmBehaviorToTimes
       _ <- ModalBehavior.addModalOpenBehavior
       _ <- ModalBehavior.addModalCloseBehavior
@@ -116,20 +119,29 @@ object MyApp extends App {
   def updateUpcomingArrivalsForRoute(
     componentData: ComponentData,
     currentlySelectedRoute: ComponentData,
+    now: Instant,
   ) =
-    if (componentData == currentlySelectedRoute)
+    if (componentData == currentlySelectedRoute) {
+      val restaurantsWithStatus =
+        TimeCalculations.calculateUpcomingArrivalAtAllStops(
+          now,
+          NamedRestaurantGroup(
+            componentData.restaurantGroup.restaurantGroupName,
+            componentData.restaurantGroup,
+          ),
+        )
       for {
         _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
           componentData.componentName,
           TagsOnlyLocal.structuredSetOfUpcomingArrivals(
-            UpcomingArrivalComponentData(
-              componentData.restaurantGroup.allRestaurants,
+            CurrentComponentData(
+              restaurantsWithStatus,
               componentData.restaurantGroup.restaurantGroupName,
             ),
           ),
         )
       } yield ()
-    else
+    } else
       DomManipulation.hideUpcomingBusSectionInsideElement(
         componentData.componentName,
       )
@@ -137,6 +149,7 @@ object MyApp extends App {
   def updateUpcomingArrivalsOnPage(
     selectedRoute: ComponentData,
     components: Seq[ComponentData],
+    now: Instant,
   ): ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
       modalIsOpen <- DomMonitoring.modalIsOpen
@@ -147,6 +160,7 @@ object MyApp extends App {
             updateUpcomingArrivalsForRoute(
               _,
               selectedRoute,
+              now: Instant,
             ),
           ),
         )

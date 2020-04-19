@@ -10,7 +10,28 @@ case class HoursOfOperation(
   thursday: DailyInfo,
   friday: DailyInfo,
   saturday: DailyInfo,
-)
+) {
+
+  def dailyInfoFor(dayOfWeek: DayOfWeek): DailyInfo =
+    if (dayOfWeek == DayOfWeek.SUNDAY)
+      sunday
+    else if (dayOfWeek == DayOfWeek.MONDAY)
+      monday
+    else if (dayOfWeek == DayOfWeek.TUESDAY)
+      tuesday
+    else if (dayOfWeek == DayOfWeek.WEDNESDAY)
+      wednesday
+    else if (dayOfWeek == DayOfWeek.THURSDAY)
+      thursday
+    else if (dayOfWeek == DayOfWeek.FRIDAY)
+      friday
+    else if (dayOfWeek == DayOfWeek.SATURDAY)
+      saturday
+    else
+      throw new IllegalArgumentException(
+        "WTF is this day? day: " + dayOfWeek,
+      )
+}
 
 object HoursOfOperation {
 

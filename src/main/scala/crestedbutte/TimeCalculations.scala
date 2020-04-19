@@ -1,6 +1,13 @@
 package crestedbutte
 
-import crestedbutte.time.BusTime
+import java.time.{Instant, LocalDateTime, ZoneId, ZoneOffset}
+
+import crestedbutte.time.{
+  BusTime,
+  ClosedForTheDay,
+  DailyHours,
+  DailyInfo,
+}
 import zio.ZIO
 import zio.clock.Clock
 
@@ -12,48 +19,100 @@ object TimeCalculations {
       .find(stopTime => BusTime.catchableBus(now, stopTime))
       .filter(_ => now.isLikelyEarlyMorningRatherThanLateNight)
 
+  def currentStatus(dailyInfo: DailyInfo, now: BusTime) =
+    dailyInfo match {
+      case ClosedForTheDay(dayOfWeek) => Closed
+      case DailyHours(open, close, dayOfWeek) =>
+        if (now.isBefore(open) && now.between(open).toMinutes > 30)
+          OpeningSoon
+        else if (now.isAfterOrEqualTo(open) && now.isBefore(close))
+          if (now.between(close).toMinutes < 20)
+            ClosingSoon
+          else
+            Open
+        else
+          Closed
+    }
+
   def getUpcomingArrivalInfo(
-    stops: RestaurantWithSchedule,
-    now: BusTime,
-  ): UpcomingArrivalInfo =
-    nextBusArrivalTime(stops.scheduleAtStop.stopTimes, now)
-      .map(
-        nextArrivalTime =>
-          UpcomingArrivalInfo(
-            stops.location,
-            StopTimeInfo(
-              nextArrivalTime,
-              nextArrivalTime
-                .between(now),
-            ),
-          ),
-      )
-      .getOrElse(
-        UpcomingArrivalInfo(
-          stops.location,
-          stops.phoneNumber,
-        ),
-      )
+    restaurant: RestaurantWithSchedule,
+    now: Instant,
+  ): RestaurantWithStatus =
+    restaurant.businessDetails match {
+      case Some(details) =>
+        details match {
+          case AdvanceOrdersOnly(instructions) =>
+            RestaurantWithStatus(restaurantWithSchedule = restaurant,
+                                 carryOutStatus = Unknown,
+                                 deliveryStatus = Unknown)
+          case StandardSchedule(deliveryHours, carryOutHours) => {
+            val localDateTime =
+              LocalDateTime.ofInstant(
+                now,
+                ZoneId.ofOffset("UTC", ZoneOffset.ofHours(-7)),
+              )
+            val localTime = new BusTime(localDateTime.toLocalTime)
+            val deliveryStatus =
+              deliveryHours
+                .map(
+                  hoursOfOperation =>
+                    currentStatus(hoursOfOperation.dailyInfoFor(
+                                    localDateTime.getDayOfWeek,
+                                  ),
+                                  localTime),
+                )
+                .getOrElse(Unknown)
+            val carryOutStatus =
+              carryOutHours
+                .map(
+                  hoursOfOperation =>
+                    currentStatus(hoursOfOperation.dailyInfoFor(
+                                    localDateTime.getDayOfWeek,
+                                  ),
+                                  localTime),
+                )
+                .getOrElse(Unknown)
+            RestaurantWithStatus(restaurantWithSchedule = restaurant,
+                                 carryOutStatus = carryOutStatus,
+                                 deliveryStatus = deliveryStatus)
+
+          }
+
+        }
+      case None =>
+        RestaurantWithStatus(restaurantWithSchedule = restaurant,
+                             carryOutStatus = Unknown,
+                             deliveryStatus = Unknown)
+    }
 
   def calculateUpcomingArrivalAtAllStops(
-    now: BusTime,
-    busRoute: NamedRoute,
-  ): Seq[UpcomingArrivalInfo] =
-    busRoute.routeWithTimes.allRestaurants.map(
-      scheduleAtStop => getUpcomingArrivalInfo(scheduleAtStop, now),
+    now: Instant,
+    busRoute: NamedRestaurantGroup,
+  ): Seq[RestaurantWithStatus] =
+    busRoute.restaurantGroup.allRestaurants.map(
+      (scheduleAtStop: RestaurantWithSchedule) =>
+        getUpcomingArrivalInfo(scheduleAtStop, now),
     )
 
-  def getUpComingArrivals(
-    busRoute: NamedRoute,
-  ): ZIO[Clock, Nothing, Seq[UpcomingArrivalInfo]] =
+  val now: ZIO[Clock, Nothing, Instant] =
     for {
       clockProper <- ZIO.environment[Clock]
       now         <- clockProper.clock.currentDateTime
-      localTime = new BusTime(now.toLocalTime) // TODO This is where I get my time
+    } yield {
+      now.toInstant
+    }
+
+  def getUpComingArrivals(
+    namedRestaurantgroup: NamedRestaurantGroup,
+  ): ZIO[Clock, Nothing, Seq[RestaurantWithStatus]] =
+    for {
+      clockProper <- ZIO.environment[Clock]
+      now         <- clockProper.clock.currentDateTime
+      nowInstant = now.toInstant // TODO This is where I get my time
     } yield {
       TimeCalculations.calculateUpcomingArrivalAtAllStops(
-        localTime,
-        busRoute,
+        nowInstant,
+        namedRestaurantgroup,
       )
     }
 

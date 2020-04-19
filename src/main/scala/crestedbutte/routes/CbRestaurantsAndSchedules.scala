@@ -14,7 +14,7 @@ import crestedbutte.{
   AdvanceOrdersOnly,
   BusSchedule,
   Location,
-  NamedRoute,
+  NamedRestaurantGroup,
   PhoneNumber,
   RestaurantGroupName,
   RestaurantWithSchedule,
