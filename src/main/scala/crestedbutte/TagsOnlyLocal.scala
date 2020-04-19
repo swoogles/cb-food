@@ -200,7 +200,7 @@ object TagsOnlyLocal {
         businessDetailsOpt
           .map {
             case StandardSchedule(deliveryHours, carryOutHours) =>
-              div(cls := "schedule")( // TODO Orrrr do the advance order text here
+              div(cls := "schedule")(
                 div(cls := "pickup-schedule")(
                   renderPickupSchedule(carryOutHours),
                 ),
