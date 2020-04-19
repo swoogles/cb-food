@@ -38,7 +38,7 @@ object TagsOnlyLocal {
       div(cls := "contact-me")(
         div(
           span("Created by "),
-          a(href := "www.billdingsoftware.com")(
+          a(href := "https://www.billdingsoftware.com")(
             "Billding Software LLC",
           ),
         ),
