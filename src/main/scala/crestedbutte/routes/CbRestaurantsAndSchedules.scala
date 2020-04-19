@@ -2,9 +2,7 @@ package crestedbutte.routes
 
 import java.time.DayOfWeek
 
-import contextual.Prefix
 import crestedbutte.interpolators.PhoneNumberValueInterpolator
-import crestedbutte.time.BusDuration.toBusDuration
 import crestedbutte.time.{
   ClosedForTheDay,
   DailyHours,
@@ -12,9 +10,7 @@ import crestedbutte.time.{
 }
 import crestedbutte.{
   AdvanceOrdersOnly,
-  BusSchedule,
   Location,
-  NamedRestaurantGroup,
   PhoneNumber,
   RestaurantGroupName,
   RestaurantWithSchedule,
@@ -28,8 +24,6 @@ object CbRestaurantsAndSchedules
       Seq(
         RestaurantWithSchedule(
           Location.BrickOven,
-          BusSchedule("03:00", "03:01", 1.minutes),
-//          PhoneNumber("970-349-5044", "Order!"),
           PhoneNumber("970-349-5044", "Order!"),
           Website.global("http://brickovencb.com/"),
           Website.facebookPage(
@@ -48,7 +42,6 @@ object CbRestaurantsAndSchedules
         ),
         RestaurantWithSchedule(
           Location.Bonez,
-          BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-349-5118", "Order!"),
           Website.global("https://www.bonez.co/"),
           Website.facebookPage(
@@ -57,7 +50,6 @@ object CbRestaurantsAndSchedules
         ),
         RestaurantWithSchedule(
           Location.ButteBagels,
-          BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-349-5630", "Order!"),
           Website.global("https://butte-bagels.com/"),
           Website.facebookPage(
@@ -75,7 +67,6 @@ object CbRestaurantsAndSchedules
 //        ),
         RestaurantWithSchedule(
           Location.TheDivvy,
-          BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-787-5447", "Order!"),
           Website.global("https://thedivvycrestedbutte.com/"),
           Website.facebookPage(
@@ -84,7 +75,6 @@ object CbRestaurantsAndSchedules
         ),
         RestaurantWithSchedule(
           Location.GasCafe,
-          BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-349-9656", "Order!"),
           Website.global("https://www.gascafe1stop.com/"),
           Website.facebookPage(
@@ -124,7 +114,6 @@ object CbRestaurantsAndSchedules
 //        ),
         RestaurantWithSchedule(
           Location.GeneralStore,
-          BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-349-2783", "Order!"),
           Website.global("https://www.cbsouthgeneralstore.com/"),
           Website.facebookPage(
@@ -133,7 +122,6 @@ object CbRestaurantsAndSchedules
         ),
         RestaurantWithSchedule(
           Location.McGills,
-          BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-349-5240", "Order!"),
           Website.global("https://www.mcgillscrestedbutte.com/"),
           Website.facebookPage(
@@ -142,7 +130,6 @@ object CbRestaurantsAndSchedules
         ),
         RestaurantWithSchedule(
           Location.Montanyas,
-          BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-799-3206", "Order!"),
           Website.global("https://www.montanyarum.com/shop"),
           Website.facebookPage(
@@ -151,7 +138,6 @@ object CbRestaurantsAndSchedules
         ),
         RestaurantWithSchedule(
           Location.OctopusCoffee,
-          BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-312-5394", "Order!"),
           Website.global("https://www.octopuscoffeecb.com/"),
           Website.facebookPage(
@@ -160,7 +146,6 @@ object CbRestaurantsAndSchedules
         ),
         RestaurantWithSchedule(
           Location.Pitas,
-          BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-349-0897", "Order!"),
           Website.global("http://pitasinparadise.com/"),
           Website.facebookPage(
@@ -169,7 +154,6 @@ object CbRestaurantsAndSchedules
         ),
         RestaurantWithSchedule(
           Location.SecretStash,
-          BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-209-5159", "Order!"),
           Website.global("http://www.secretstash.com/"),
           Website.facebookPage(
@@ -178,7 +162,6 @@ object CbRestaurantsAndSchedules
         ),
         RestaurantWithSchedule(
           Location.Slogar,
-          BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-349-5765", "Order!"),
           Website.global("https://www.slogarcb.com/"),
           Website.facebookPage(
@@ -187,7 +170,6 @@ object CbRestaurantsAndSchedules
         ),
         RestaurantWithSchedule(
           Location.SoupCon,
-          BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-349-5448", "Order!"),
           Website.global("https://www.soupconcb.com/"),
           Website.facebookPage(
@@ -201,7 +183,6 @@ object CbRestaurantsAndSchedules
         ),
         RestaurantWithSchedule(
           Location.Tullys,
-          BusSchedule("03:00", "03:01", 1.minutes),
           PhoneNumber("970-349-2444", "Order!"),
           Website.global("https://www.tullyscbsouth.com/"),
           Website.facebookPage(

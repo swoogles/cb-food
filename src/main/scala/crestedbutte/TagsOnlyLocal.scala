@@ -242,7 +242,6 @@ object TagsOnlyLocal {
         case RestaurantWithStatus(
             RestaurantWithSchedule(
               location: Location.Value,
-              scheduleAtStop: BusSchedule,
               phoneNumber: PhoneNumber,
               website: Website,
               facebookPage: Website,
