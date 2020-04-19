@@ -37,7 +37,10 @@ object TagsOnlyLocal {
       ),
       div(cls := "contact-me")(
         div(
-          "Created by Billding Software LLC",
+          span("Created by "),
+          a(href := "www.billdingsoftware.com")(
+            "Billding Software LLC",
+          ),
         ),
         div(
           "For corrections, confusion, kudos, or anger: ",
