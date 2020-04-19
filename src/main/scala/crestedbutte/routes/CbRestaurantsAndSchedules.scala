@@ -29,14 +29,12 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/BrickOvenCB/",
           ),
-          Some(
-            StandardSchedule(
-              deliveryHours = Some(
-                HoursOfOperation("17:00", "20:00"),
-              ),
-              carryOutHours = Some(
-                HoursOfOperation("11:00", "20:00"),
-              ),
+          StandardSchedule(
+            deliveryHours = Some(
+              HoursOfOperation("17:00", "20:00"),
+            ),
+            carryOutHours = Some(
+              HoursOfOperation("11:00", "20:00"),
             ),
           ),
         ),
@@ -80,25 +78,23 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/gascafeonestop/",
           ),
-          Some(
-            StandardSchedule(
-              deliveryHours = None,
-              carryOutHours = Some(
-                HoursOfOperation(
-                  sunday = ClosedForTheDay(DayOfWeek.SUNDAY),
-                  monday =
-                    DailyHours("07:00", "15:00", DayOfWeek.MONDAY),
-                  tuesday =
-                    DailyHours("07:00", "15:00", DayOfWeek.TUESDAY),
-                  wednesday =
-                    DailyHours("07:00", "15:00", DayOfWeek.WEDNESDAY),
-                  thursday =
-                    DailyHours("07:00", "15:00", DayOfWeek.THURSDAY),
-                  friday =
-                    DailyHours("07:00", "15:00", DayOfWeek.FRIDAY),
-                  saturday =
-                    DailyHours("07:00", "15:00", DayOfWeek.SUNDAY),
-                ),
+          StandardSchedule(
+            deliveryHours = None,
+            carryOutHours = Some(
+              HoursOfOperation(
+                sunday = ClosedForTheDay(DayOfWeek.SUNDAY),
+                monday =
+                  DailyHours("07:00", "15:00", DayOfWeek.MONDAY),
+                tuesday =
+                  DailyHours("07:00", "15:00", DayOfWeek.TUESDAY),
+                wednesday =
+                  DailyHours("07:00", "15:00", DayOfWeek.WEDNESDAY),
+                thursday =
+                  DailyHours("07:00", "15:00", DayOfWeek.THURSDAY),
+                friday =
+                  DailyHours("07:00", "15:00", DayOfWeek.FRIDAY),
+                saturday =
+                  DailyHours("07:00", "15:00", DayOfWeek.SUNDAY),
               ),
             ),
           ),
@@ -175,10 +171,8 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/Soupconcb",
           ),
-          Some(
-            AdvanceOrdersOnly(
-              "Order by 5:00PM Friday. Pickup between 5:00 and 7:30 Saturday.",
-            ),
+          AdvanceOrdersOnly(
+            "Order by 5:00PM Friday. Pickup between 5:00 and 7:30 Saturday.",
           ),
         ),
         RestaurantWithSchedule(
