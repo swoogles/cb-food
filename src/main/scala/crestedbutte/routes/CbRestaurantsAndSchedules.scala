@@ -4,8 +4,9 @@ import java.time.DayOfWeek
 
 import crestedbutte.interpolators.PhoneNumberValueInterpolator
 import crestedbutte.time.{
+  ClosedAllDay,
   ClosedForTheDay,
-  DailyHours,
+  Hours,
   HoursOfOperation,
 }
 import crestedbutte.{
@@ -48,30 +49,24 @@ object CbRestaurantsAndSchedules
           StandardSchedule(
             deliveryHours = Some(
               HoursOfOperation(
-                sunday = ClosedForTheDay(DayOfWeek.SUNDAY),
-                monday =
-                  DailyHours("16:30", "19:30", DayOfWeek.MONDAY),
-                tuesday =
-                  DailyHours("16:30", "19:30", DayOfWeek.TUESDAY),
-                wednesday =
-                  DailyHours("16:30", "19:30", DayOfWeek.WEDNESDAY),
-                thursday = ClosedForTheDay(DayOfWeek.THURSDAY),
-                friday = ClosedForTheDay(DayOfWeek.FRIDAY),
-                saturday = ClosedForTheDay(DayOfWeek.SATURDAY),
+                sunday = ClosedAllDay,
+                monday = Hours("16:30", "19:30"),
+                tuesday = Hours("16:30", "19:30"),
+                wednesday = Hours("16:30", "19:30"),
+                thursday = ClosedAllDay,
+                friday = ClosedAllDay,
+                saturday = ClosedAllDay,
               ),
             ),
             carryOutHours = Some(
               HoursOfOperation(
-                sunday = ClosedForTheDay(DayOfWeek.SUNDAY),
-                monday =
-                  DailyHours("16:30", "19:30", DayOfWeek.MONDAY),
-                tuesday =
-                  DailyHours("16:30", "19:30", DayOfWeek.TUESDAY),
-                wednesday =
-                  DailyHours("16:30", "19:30", DayOfWeek.WEDNESDAY),
-                thursday = ClosedForTheDay(DayOfWeek.THURSDAY),
-                friday = ClosedForTheDay(DayOfWeek.FRIDAY),
-                saturday = ClosedForTheDay(DayOfWeek.SATURDAY),
+                sunday = ClosedAllDay,
+                monday = Hours("16:30", "19:30"),
+                tuesday = Hours("16:30", "19:30"),
+                wednesday = Hours("16:30", "19:30"),
+                thursday = ClosedAllDay,
+                friday = ClosedAllDay,
+                saturday = ClosedAllDay,
               ),
             ),
           ),
@@ -87,18 +82,13 @@ object CbRestaurantsAndSchedules
             deliveryHours = None,
             carryOutHours = Some(
               HoursOfOperation(
-                sunday =
-                  DailyHours("08:00", "14:00", DayOfWeek.SUNDAY),
-                monday = ClosedForTheDay(DayOfWeek.MONDAY),
-                tuesday = ClosedForTheDay(DayOfWeek.TUESDAY),
-                wednesday =
-                  DailyHours("08:00", "14:00", DayOfWeek.WEDNESDAY),
-                thursday =
-                  DailyHours("08:00", "14:00", DayOfWeek.THURSDAY),
-                friday =
-                  DailyHours("08:00", "14:00", DayOfWeek.FRIDAY),
-                saturday =
-                  DailyHours("08:00", "14:00", DayOfWeek.SATURDAY),
+                sunday = Hours("08:00", "14:00"),
+                monday = ClosedAllDay,
+                tuesday = ClosedAllDay,
+                wednesday = Hours("08:00", "14:00"),
+                thursday = Hours("08:00", "14:00"),
+                friday = Hours("08:00", "14:00"),
+                saturday = Hours("08:00", "14:00"),
               ),
             ),
           ),
@@ -137,19 +127,13 @@ object CbRestaurantsAndSchedules
             deliveryHours = None,
             carryOutHours = Some(
               HoursOfOperation(
-                sunday = ClosedForTheDay(DayOfWeek.SUNDAY),
-                monday =
-                  DailyHours("07:00", "15:00", DayOfWeek.MONDAY),
-                tuesday =
-                  DailyHours("07:00", "15:00", DayOfWeek.TUESDAY),
-                wednesday =
-                  DailyHours("07:00", "15:00", DayOfWeek.WEDNESDAY),
-                thursday =
-                  DailyHours("07:00", "15:00", DayOfWeek.THURSDAY),
-                friday =
-                  DailyHours("07:00", "15:00", DayOfWeek.FRIDAY),
-                saturday =
-                  DailyHours("07:00", "15:00", DayOfWeek.SATURDAY),
+                sunday = ClosedAllDay,
+                monday = Hours("07:00", "15:00"),
+                tuesday = Hours("07:00", "15:00"),
+                wednesday = Hours("07:00", "15:00"),
+                thursday = Hours("07:00", "15:00"),
+                friday = Hours("07:00", "15:00"),
+                saturday = Hours("07:00", "15:00"),
               ),
             ),
           ),
@@ -212,32 +196,24 @@ object CbRestaurantsAndSchedules
           StandardSchedule(
             deliveryHours = Some(
               HoursOfOperation(
-                sunday =
-                  DailyHours("10:00", "15:00", DayOfWeek.SUNDAY),
-                monday =
-                  DailyHours("10:00", "15:00", DayOfWeek.MONDAY),
-                tuesday = ClosedForTheDay(DayOfWeek.TUESDAY),
-                wednesday = ClosedForTheDay(DayOfWeek.WEDNESDAY),
-                thursday = ClosedForTheDay(DayOfWeek.THURSDAY),
-                friday =
-                  DailyHours("10:00", "15:00", DayOfWeek.FRIDAY),
-                saturday =
-                  DailyHours("10:00", "15:00", DayOfWeek.SATURDAY),
+                sunday = Hours("10:00", "15:00"),
+                monday = Hours("10:00", "15:00"),
+                tuesday = ClosedAllDay,
+                wednesday = ClosedAllDay,
+                thursday = ClosedAllDay,
+                friday = Hours("10:00", "15:00"),
+                saturday = Hours("10:00", "15:00"),
               ),
             ),
             carryOutHours = Some(
               HoursOfOperation(
-                sunday =
-                  DailyHours("10:00", "15:00", DayOfWeek.SUNDAY),
-                monday =
-                  DailyHours("10:00", "15:00", DayOfWeek.MONDAY),
-                tuesday = ClosedForTheDay(DayOfWeek.TUESDAY),
-                wednesday = ClosedForTheDay(DayOfWeek.WEDNESDAY),
-                thursday = ClosedForTheDay(DayOfWeek.THURSDAY),
-                friday =
-                  DailyHours("10:00", "15:00", DayOfWeek.FRIDAY),
-                saturday =
-                  DailyHours("10:00", "15:00", DayOfWeek.SATURDAY),
+                sunday = Hours("10:00", "15:00"),
+                monday = Hours("10:00", "15:00"),
+                tuesday = ClosedAllDay,
+                wednesday = ClosedAllDay,
+                thursday = ClosedAllDay,
+                friday = Hours("10:00", "15:00"),
+                saturday = Hours("10:00", "15:00"),
               ),
             ),
           ),
@@ -266,32 +242,24 @@ object CbRestaurantsAndSchedules
           StandardSchedule(
             deliveryHours = Some(
               HoursOfOperation(
-                sunday =
-                  DailyHours("16:30", "19:30", DayOfWeek.SUNDAY),
-                monday = ClosedForTheDay(DayOfWeek.MONDAY),
-                tuesday = ClosedForTheDay(DayOfWeek.TUESDAY),
-                wednesday = ClosedForTheDay(DayOfWeek.WEDNESDAY),
-                thursday =
-                  DailyHours("16:30", "19:30", DayOfWeek.THURSDAY),
-                friday =
-                  DailyHours("16:30", "19:30", DayOfWeek.FRIDAY),
-                saturday =
-                  DailyHours("16:30", "19:30", DayOfWeek.SATURDAY),
+                sunday = Hours("16:30", "19:30"),
+                monday = ClosedAllDay,
+                tuesday = ClosedAllDay,
+                wednesday = ClosedAllDay,
+                thursday = Hours("16:30", "19:30"),
+                friday = Hours("16:30", "19:30"),
+                saturday = Hours("16:30", "19:30"),
               ),
             ),
             carryOutHours = Some(
               HoursOfOperation(
-                sunday =
-                  DailyHours("16:30", "19:30", DayOfWeek.SUNDAY),
-                monday = ClosedForTheDay(DayOfWeek.MONDAY),
-                tuesday = ClosedForTheDay(DayOfWeek.TUESDAY),
-                wednesday = ClosedForTheDay(DayOfWeek.WEDNESDAY),
-                thursday =
-                  DailyHours("16:30", "19:30", DayOfWeek.THURSDAY),
-                friday =
-                  DailyHours("16:30", "19:30", DayOfWeek.FRIDAY),
-                saturday =
-                  DailyHours("16:30", "19:30", DayOfWeek.SATURDAY),
+                sunday = Hours("16:30", "19:30"),
+                monday = ClosedAllDay,
+                tuesday = ClosedAllDay,
+                wednesday = ClosedAllDay,
+                thursday = Hours("16:30", "19:30"),
+                friday = Hours("16:30", "19:30"),
+                saturday = Hours("16:30", "19:30"),
               ),
             ),
           ),
@@ -331,18 +299,13 @@ object CbRestaurantsAndSchedules
             deliveryHours = None,
             carryOutHours = Some(
               HoursOfOperation(
-                sunday = ClosedForTheDay(DayOfWeek.SUNDAY),
-                monday = ClosedForTheDay(DayOfWeek.MONDAY),
-                tuesday =
-                  DailyHours("16:00", "21:00", DayOfWeek.TUESDAY),
-                wednesday =
-                  DailyHours("16:00", "21:00", DayOfWeek.WEDNESDAY),
-                thursday =
-                  DailyHours("16:00", "21:00", DayOfWeek.THURSDAY),
-                friday =
-                  DailyHours("16:00", "21:00", DayOfWeek.FRIDAY),
-                saturday =
-                  DailyHours("16:00", "21:00", DayOfWeek.SATURDAY),
+                sunday = ClosedAllDay,
+                monday = ClosedAllDay,
+                tuesday = Hours("16:00", "21:00"),
+                wednesday = Hours("16:00", "21:00"),
+                thursday = Hours("16:00", "21:00"),
+                friday = Hours("16:00", "21:00"),
+                saturday = Hours("16:00", "21:00"),
               ),
             ),
           ),

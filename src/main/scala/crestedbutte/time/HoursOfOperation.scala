@@ -45,4 +45,23 @@ object HoursOfOperation {
       friday = DailyHours(open, close, DayOfWeek.FRIDAY),
       saturday = DailyHours(open, close, DayOfWeek.SATURDAY),
     )
+
+  def apply(
+    sunday: ScheduleInput,
+    monday: ScheduleInput,
+    tuesday: ScheduleInput,
+    wednesday: ScheduleInput,
+    thursday: ScheduleInput,
+    friday: ScheduleInput,
+    saturday: ScheduleInput,
+  ): HoursOfOperation =
+    HoursOfOperation(
+      sunday = sunday.on(DayOfWeek.SUNDAY),
+      monday = monday.on(DayOfWeek.MONDAY),
+      tuesday = tuesday.on(DayOfWeek.TUESDAY),
+      wednesday = wednesday.on(DayOfWeek.WEDNESDAY),
+      thursday = thursday.on(DayOfWeek.THURSDAY),
+      friday = friday.on(DayOfWeek.FRIDAY),
+      saturday = saturday.on(DayOfWeek.SATURDAY),
+    )
 }
