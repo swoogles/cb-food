@@ -35,7 +35,7 @@ case class HoursOfOperation(
 
 object HoursOfOperation {
 
-  def apply(open: String, close: String): HoursOfOperation =
+  def everyDay(open: String, close: String): HoursOfOperation =
     HoursOfOperation(
       sunday = DailyHours(open, close, DayOfWeek.SUNDAY),
       monday = DailyHours(open, close, DayOfWeek.MONDAY),

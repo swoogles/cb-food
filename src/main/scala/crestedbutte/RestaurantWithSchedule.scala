@@ -54,6 +54,35 @@ case class AdvanceOrdersOnly(
 ) extends BusinessDetails
 
 case class StandardSchedule(
-  deliveryHours: Option[HoursOfOperation] = None,
-  carryOutHours: Option[HoursOfOperation] = None,
+  deliveryHours: Option[HoursOfOperation],
+  carryOutHours: Option[HoursOfOperation],
 ) extends BusinessDetails
+
+object StandardSchedule {
+
+  def carryOutOnly(
+    carryOutHours: HoursOfOperation,
+  ): StandardSchedule =
+    StandardSchedule(
+      None,
+      Some(carryOutHours),
+    )
+
+  def apply(
+    deliveryHours: HoursOfOperation,
+    carryOutHours: HoursOfOperation,
+  ): StandardSchedule =
+    StandardSchedule(
+      Some(deliveryHours),
+      Some(carryOutHours),
+    )
+
+  def carryOutAndDelivery(
+    hoursOfOperation: HoursOfOperation,
+  ) =
+    StandardSchedule(
+      Some(hoursOfOperation),
+      Some(hoursOfOperation),
+    )
+
+}

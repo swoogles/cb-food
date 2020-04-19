@@ -31,12 +31,10 @@ object CbRestaurantsAndSchedules
             "https://www.facebook.com/BrickOvenCB/",
           ),
           StandardSchedule(
-            deliveryHours = Some(
-              HoursOfOperation("17:00", "20:00"),
-            ),
-            carryOutHours = Some(
-              HoursOfOperation("11:00", "20:00"),
-            ),
+            deliveryHours =
+              HoursOfOperation.everyDay("17:00", "20:00"),
+            carryOutHours =
+              HoursOfOperation.everyDay("11:00", "20:00"),
           ),
         ),
         RestaurantWithSchedule(
@@ -46,28 +44,15 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/BONEZ-662144153840370/",
           ),
-          StandardSchedule(
-            deliveryHours = Some(
-              HoursOfOperation(
-                sunday = ClosedAllDay,
-                monday = Hours("16:30", "19:30"),
-                tuesday = Hours("16:30", "19:30"),
-                wednesday = Hours("16:30", "19:30"),
-                thursday = ClosedAllDay,
-                friday = ClosedAllDay,
-                saturday = ClosedAllDay,
-              ),
-            ),
-            carryOutHours = Some(
-              HoursOfOperation(
-                sunday = ClosedAllDay,
-                monday = Hours("16:30", "19:30"),
-                tuesday = Hours("16:30", "19:30"),
-                wednesday = Hours("16:30", "19:30"),
-                thursday = ClosedAllDay,
-                friday = ClosedAllDay,
-                saturday = ClosedAllDay,
-              ),
+          StandardSchedule.carryOutAndDelivery(
+            HoursOfOperation(
+              sunday = ClosedAllDay,
+              monday = Hours("16:30", "19:30"),
+              tuesday = Hours("16:30", "19:30"),
+              wednesday = Hours("16:30", "19:30"),
+              thursday = ClosedAllDay,
+              friday = ClosedAllDay,
+              saturday = ClosedAllDay,
             ),
           ),
         ),
@@ -78,18 +63,15 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/pages/category/Bagel-Shop/Butte-Bagels-1225240390980501/",
           ),
-          StandardSchedule(
-            deliveryHours = None,
-            carryOutHours = Some(
-              HoursOfOperation(
-                sunday = Hours("08:00", "14:00"),
-                monday = ClosedAllDay,
-                tuesday = ClosedAllDay,
-                wednesday = Hours("08:00", "14:00"),
-                thursday = Hours("08:00", "14:00"),
-                friday = Hours("08:00", "14:00"),
-                saturday = Hours("08:00", "14:00"),
-              ),
+          StandardSchedule.carryOutOnly(
+            HoursOfOperation(
+              sunday = Hours("08:00", "14:00"),
+              monday = ClosedAllDay,
+              tuesday = ClosedAllDay,
+              wednesday = Hours("08:00", "14:00"),
+              thursday = Hours("08:00", "14:00"),
+              friday = Hours("08:00", "14:00"),
+              saturday = Hours("08:00", "14:00"),
             ),
           ),
         ),
@@ -123,18 +105,15 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/gascafeonestop/",
           ),
-          StandardSchedule(
-            deliveryHours = None,
-            carryOutHours = Some(
-              HoursOfOperation(
-                sunday = ClosedAllDay,
-                monday = Hours("07:00", "15:00"),
-                tuesday = Hours("07:00", "15:00"),
-                wednesday = Hours("07:00", "15:00"),
-                thursday = Hours("07:00", "15:00"),
-                friday = Hours("07:00", "15:00"),
-                saturday = Hours("07:00", "15:00"),
-              ),
+          StandardSchedule.carryOutOnly(
+            HoursOfOperation(
+              sunday = ClosedAllDay,
+              monday = Hours("07:00", "15:00"),
+              tuesday = Hours("07:00", "15:00"),
+              wednesday = Hours("07:00", "15:00"),
+              thursday = Hours("07:00", "15:00"),
+              friday = Hours("07:00", "15:00"),
+              saturday = Hours("07:00", "15:00"),
             ),
           ),
         ),
@@ -154,11 +133,9 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/cbsouthgeneralstore/",
           ),
-          StandardSchedule(
-            deliveryHours = None,
-            carryOutHours = Some(
-              HoursOfOperation("11:00", "19:00"),
-            ),
+          StandardSchedule.carryOutOnly(
+            carryOutHours =
+              HoursOfOperation.everyDay("11:00", "19:00"),
           ),
         ),
         RestaurantWithSchedule(
@@ -168,11 +145,8 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/pages/McGills-At-Crested-Butte/119847854694618",
           ),
-          StandardSchedule(
-            deliveryHours = None,
-            carryOutHours = Some(
-              HoursOfOperation("09:00", "14:00"),
-            ),
+          StandardSchedule.carryOutOnly(
+            HoursOfOperation.everyDay("09:00", "14:00"),
           ),
         ),
         RestaurantWithSchedule(
@@ -193,28 +167,15 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/octopuscoffeecb/",
           ),
-          StandardSchedule(
-            deliveryHours = Some(
-              HoursOfOperation(
-                sunday = Hours("10:00", "15:00"),
-                monday = Hours("10:00", "15:00"),
-                tuesday = ClosedAllDay,
-                wednesday = ClosedAllDay,
-                thursday = ClosedAllDay,
-                friday = Hours("10:00", "15:00"),
-                saturday = Hours("10:00", "15:00"),
-              ),
-            ),
-            carryOutHours = Some(
-              HoursOfOperation(
-                sunday = Hours("10:00", "15:00"),
-                monday = Hours("10:00", "15:00"),
-                tuesday = ClosedAllDay,
-                wednesday = ClosedAllDay,
-                thursday = ClosedAllDay,
-                friday = Hours("10:00", "15:00"),
-                saturday = Hours("10:00", "15:00"),
-              ),
+          StandardSchedule.carryOutAndDelivery(
+            HoursOfOperation(
+              sunday = Hours("10:00", "15:00"),
+              monday = Hours("10:00", "15:00"),
+              tuesday = ClosedAllDay,
+              wednesday = ClosedAllDay,
+              thursday = ClosedAllDay,
+              friday = Hours("10:00", "15:00"),
+              saturday = Hours("10:00", "15:00"),
             ),
           ),
         ),
@@ -225,11 +186,8 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/PitasInParadise/",
           ),
-          StandardSchedule(
-            deliveryHours = None,
-            carryOutHours = Some(
-              HoursOfOperation("12:00", "18:00"),
-            ),
+          StandardSchedule.carryOutOnly(
+            HoursOfOperation.everyDay("12:00", "18:00"),
           ),
         ),
         RestaurantWithSchedule(
@@ -239,28 +197,24 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/TheSecretStashPizza",
           ),
-          StandardSchedule(
-            deliveryHours = Some(
-              HoursOfOperation(
-                sunday = Hours("16:30", "19:30"),
-                monday = ClosedAllDay,
-                tuesday = ClosedAllDay,
-                wednesday = ClosedAllDay,
-                thursday = Hours("16:30", "19:30"),
-                friday = Hours("16:30", "19:30"),
-                saturday = Hours("16:30", "19:30"),
-              ),
+          StandardSchedule( // TODO create StandardSchedule.carryOutAndDelivery(
+            deliveryHours = HoursOfOperation(
+              sunday = Hours("16:30", "19:30"),
+              monday = ClosedAllDay,
+              tuesday = ClosedAllDay,
+              wednesday = ClosedAllDay,
+              thursday = Hours("16:30", "19:30"),
+              friday = Hours("16:30", "19:30"),
+              saturday = Hours("16:30", "19:30"),
             ),
-            carryOutHours = Some(
-              HoursOfOperation(
-                sunday = Hours("16:30", "19:30"),
-                monday = ClosedAllDay,
-                tuesday = ClosedAllDay,
-                wednesday = ClosedAllDay,
-                thursday = Hours("16:30", "19:30"),
-                friday = Hours("16:30", "19:30"),
-                saturday = Hours("16:30", "19:30"),
-              ),
+            carryOutHours = HoursOfOperation(
+              sunday = Hours("16:30", "19:30"),
+              monday = ClosedAllDay,
+              tuesday = ClosedAllDay,
+              wednesday = ClosedAllDay,
+              thursday = Hours("16:30", "19:30"),
+              friday = Hours("16:30", "19:30"),
+              saturday = Hours("16:30", "19:30"),
             ),
           ),
         ),
@@ -295,18 +249,15 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/tullys456/",
           ),
-          StandardSchedule(
-            deliveryHours = None,
-            carryOutHours = Some(
-              HoursOfOperation(
-                sunday = ClosedAllDay,
-                monday = ClosedAllDay,
-                tuesday = Hours("16:00", "21:00"),
-                wednesday = Hours("16:00", "21:00"),
-                thursday = Hours("16:00", "21:00"),
-                friday = Hours("16:00", "21:00"),
-                saturday = Hours("16:00", "21:00"),
-              ),
+          StandardSchedule.carryOutOnly(
+            HoursOfOperation(
+              sunday = ClosedAllDay,
+              monday = ClosedAllDay,
+              tuesday = Hours("16:00", "21:00"),
+              wednesday = Hours("16:00", "21:00"),
+              thursday = Hours("16:00", "21:00"),
+              friday = Hours("16:00", "21:00"),
+              saturday = Hours("16:00", "21:00"),
             ),
           ),
         ),
