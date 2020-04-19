@@ -149,7 +149,7 @@ object CbRestaurantsAndSchedules
                 friday =
                   DailyHours("07:00", "15:00", DayOfWeek.FRIDAY),
                 saturday =
-                  DailyHours("07:00", "15:00", DayOfWeek.SUNDAY),
+                  DailyHours("07:00", "15:00", DayOfWeek.SATURDAY),
               ),
             ),
           ),
@@ -216,7 +216,7 @@ object CbRestaurantsAndSchedules
                 sunday =
                   DailyHours("10:00", "15:00", DayOfWeek.SUNDAY),
                 monday =
-                  DailyHours("10:00", "15:00", DayOfWeek.SUNDAY),
+                  DailyHours("10:00", "15:00", DayOfWeek.MONDAY),
                 tuesday = ClosedForTheDay(DayOfWeek.TUESDAY),
                 wednesday = ClosedForTheDay(DayOfWeek.WEDNESDAY),
                 thursday = ClosedForTheDay(DayOfWeek.THURSDAY),
