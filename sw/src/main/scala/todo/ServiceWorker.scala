@@ -23,7 +23,7 @@ object ServiceWorker {
     "/index.html",
     //    "/compiledJavascript/sw-opt.js",
     "/styling/style.css",
-    "/compiledJavascript/cb-food-opt.js",
+//    "/compiledJavascript/cb-food-opt.js", // TODO Re-enable once I can figure out how to immediately see updates in app
     "/glyphicons/svg/individual-svg/glyphicons-basic-32-bus.svg",
     "/glyphicons/svg/individual-svg/glyphicons-basic-221-chevron-down.svg",
     "/glyphicons/svg/individual-svg/glyphicons-basic-465-call.svg",
