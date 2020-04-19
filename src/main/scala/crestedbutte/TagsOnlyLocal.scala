@@ -115,25 +115,37 @@ object TagsOnlyLocal {
     else
       duration.toMinutes + " min."
 
-  def renderDeliverySchedule(hoursOfOperation: HoursOfOperation) =
-    renderHoursOfOperation(hoursOfOperation, "Delivery")
+  def renderDeliverySchedule(
+    hoursOfOperationOpt: Option[HoursOfOperation],
+  ) =
+    renderHoursOfOperation(hoursOfOperationOpt, "Delivery")
 
-  def renderPickupSchedule(hoursOfOperation: HoursOfOperation) =
-    renderHoursOfOperation(hoursOfOperation, "Pickup")
+  def renderPickupSchedule(
+    hoursOfOperationOpt: Option[HoursOfOperation],
+  ) =
+    renderHoursOfOperation(hoursOfOperationOpt, "Pickup")
 
-  def renderHoursOfOperation(hoursOfOperation: HoursOfOperation,
-                             scheduleHeader: String) =
+  def renderHoursOfOperation(
+    hoursOfOperationOpt: Option[HoursOfOperation],
+    scheduleHeader: String,
+  ) =
     div(cls := "hours-of-operation")(
       div(cls := "hours-header")(
         scheduleHeader + " Schedule",
       ),
-      renderDailySchedule(hoursOfOperation.sunday),
-      renderDailySchedule(hoursOfOperation.monday),
-      renderDailySchedule(hoursOfOperation.tuesday),
-      renderDailySchedule(hoursOfOperation.wednesday),
-      renderDailySchedule(hoursOfOperation.thursday),
-      renderDailySchedule(hoursOfOperation.friday),
-      renderDailySchedule(hoursOfOperation.saturday),
+      hoursOfOperationOpt match {
+        case Some(hoursOfOperation) =>
+          div(
+            renderDailySchedule(hoursOfOperation.sunday),
+            renderDailySchedule(hoursOfOperation.monday),
+            renderDailySchedule(hoursOfOperation.tuesday),
+            renderDailySchedule(hoursOfOperation.wednesday),
+            renderDailySchedule(hoursOfOperation.thursday),
+            renderDailySchedule(hoursOfOperation.friday),
+            renderDailySchedule(hoursOfOperation.saturday),
+          )
+        case None => div("Not available.")
+      },
     )
 
   def renderDailyhours(dailyHours: DailyHours) =
@@ -190,10 +202,10 @@ object TagsOnlyLocal {
             case StandardSchedule(deliveryHours, carryOutHours) =>
               div(cls := "schedule")( // TODO Orrrr do the advance order text here
                 div(cls := "pickup-schedule")(
-                  carryOutHours.map(renderPickupSchedule),
+                  renderPickupSchedule(carryOutHours),
                 ),
                 div(cls := "delivery-schedule")(
-                  deliveryHours.map(renderDeliverySchedule),
+                  renderDeliverySchedule(deliveryHours),
                 ),
               )
             case advanceOrdersOnly: AdvanceOrdersOnly =>
