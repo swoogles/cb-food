@@ -45,6 +45,36 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/BONEZ-662144153840370/",
           ),
+          StandardSchedule(
+            deliveryHours = Some(
+              HoursOfOperation(
+                sunday = ClosedForTheDay(DayOfWeek.SUNDAY),
+                monday =
+                  DailyHours("16:30", "19:30", DayOfWeek.MONDAY),
+                tuesday =
+                  DailyHours("16:30", "19:30", DayOfWeek.TUESDAY),
+                wednesday =
+                  DailyHours("16:30", "19:30", DayOfWeek.WEDNESDAY),
+                thursday = ClosedForTheDay(DayOfWeek.THURSDAY),
+                friday = ClosedForTheDay(DayOfWeek.FRIDAY),
+                saturday = ClosedForTheDay(DayOfWeek.SATURDAY),
+              ),
+            ),
+            carryOutHours = Some(
+              HoursOfOperation(
+                sunday = ClosedForTheDay(DayOfWeek.SUNDAY),
+                monday =
+                  DailyHours("16:30", "19:30", DayOfWeek.MONDAY),
+                tuesday =
+                  DailyHours("16:30", "19:30", DayOfWeek.TUESDAY),
+                wednesday =
+                  DailyHours("16:30", "19:30", DayOfWeek.WEDNESDAY),
+                thursday = ClosedForTheDay(DayOfWeek.THURSDAY),
+                friday = ClosedForTheDay(DayOfWeek.FRIDAY),
+                saturday = ClosedForTheDay(DayOfWeek.SATURDAY),
+              ),
+            ),
+          ),
         ),
         RestaurantWithSchedule(
           Location.ButteBagels,
