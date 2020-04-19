@@ -235,6 +235,12 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/PitasInParadise/",
           ),
+          StandardSchedule(
+            deliveryHours = None,
+            carryOutHours = Some(
+              HoursOfOperation("12:00", "18:00"),
+            ),
+          ),
         ),
         RestaurantWithSchedule(
           Location.SecretStash,
@@ -243,6 +249,38 @@ object CbRestaurantsAndSchedules
           Website.facebookPage(
             "https://www.facebook.com/TheSecretStashPizza",
           ),
+          StandardSchedule(
+            deliveryHours = Some(
+              HoursOfOperation(
+                sunday =
+                  DailyHours("16:30", "19:30", DayOfWeek.SUNDAY),
+                monday = ClosedForTheDay(DayOfWeek.MONDAY),
+                tuesday = ClosedForTheDay(DayOfWeek.TUESDAY),
+                wednesday = ClosedForTheDay(DayOfWeek.WEDNESDAY),
+                thursday =
+                  DailyHours("16:30", "19:30", DayOfWeek.THURSDAY),
+                friday =
+                  DailyHours("16:30", "19:30", DayOfWeek.FRIDAY),
+                saturday =
+                  DailyHours("16:30", "19:30", DayOfWeek.SATURDAY),
+              ),
+            ),
+            carryOutHours = Some(
+              HoursOfOperation(
+                sunday =
+                  DailyHours("16:30", "19:30", DayOfWeek.SUNDAY),
+                monday = ClosedForTheDay(DayOfWeek.MONDAY),
+                tuesday = ClosedForTheDay(DayOfWeek.TUESDAY),
+                wednesday = ClosedForTheDay(DayOfWeek.WEDNESDAY),
+                thursday =
+                  DailyHours("16:30", "19:30", DayOfWeek.THURSDAY),
+                friday =
+                  DailyHours("16:30", "19:30", DayOfWeek.FRIDAY),
+                saturday =
+                  DailyHours("16:30", "19:30", DayOfWeek.SATURDAY),
+              ),
+            ),
+          ),
         ),
         RestaurantWithSchedule(
           Location.Slogar,
@@ -250,6 +288,11 @@ object CbRestaurantsAndSchedules
           Website.global("https://www.slogarcb.com/"),
           Website.facebookPage(
             "https://www.facebook.com/slogarqueen/",
+          ),
+          AdvanceOrdersOnly(
+            """Place order Thursday-Friday BY 6 on FRIDAYS!
+              |We will call/text you with confirmation on SATURDAY
+              |to tell you what time to pick up your order on SUNDAY.""".stripMargin,
           ),
         ),
         RestaurantWithSchedule(
@@ -269,6 +312,25 @@ object CbRestaurantsAndSchedules
           Website.global("https://www.tullyscbsouth.com/"),
           Website.facebookPage(
             "https://www.facebook.com/tullys456/",
+          ),
+          StandardSchedule(
+            deliveryHours = None,
+            carryOutHours = Some(
+              HoursOfOperation(
+                sunday = ClosedForTheDay(DayOfWeek.SUNDAY),
+                monday = ClosedForTheDay(DayOfWeek.MONDAY),
+                tuesday =
+                  DailyHours("16:00", "21:00", DayOfWeek.TUESDAY),
+                wednesday =
+                  DailyHours("16:00", "21:00", DayOfWeek.WEDNESDAY),
+                thursday =
+                  DailyHours("16:00", "21:00", DayOfWeek.THURSDAY),
+                friday =
+                  DailyHours("16:00", "21:00", DayOfWeek.FRIDAY),
+                saturday =
+                  DailyHours("16:00", "21:00", DayOfWeek.SATURDAY),
+              ),
+            ),
           ),
         ),
       ),
