@@ -60,4 +60,6 @@ object Location extends Enumeration {
 
   val SoupCon: Val = Val("Soupcon")
 
+  val Mikeys: Val = Val("Mikey's Pizza")
+
 }

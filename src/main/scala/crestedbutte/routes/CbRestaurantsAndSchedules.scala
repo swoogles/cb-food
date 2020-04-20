@@ -150,6 +150,17 @@ object CbRestaurantsAndSchedules
           ),
         ),
         RestaurantWithSchedule(
+          Location.Mikeys,
+          PhoneNumber("970-349-1110", "Order!"),
+          Website.global("https://www.mikeyspizza.net/"),
+          Website.facebookPage(
+            "https://www.facebook.com/mikeyspizzacrestedbutte/",
+          ),
+          StandardSchedule.carryOutOnly(
+            HoursOfOperation.everyDay("10:00", "19:00"),
+          ),
+        ),
+        RestaurantWithSchedule(
           Location.Montanyas,
           PhoneNumber("970-799-3206", "Order!"),
           Website.global("https://www.montanyarum.com/shop"),
