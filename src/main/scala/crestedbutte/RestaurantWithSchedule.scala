@@ -5,7 +5,7 @@ import java.time.DayOfWeek
 import crestedbutte.time.{BusDuration, BusTime, HoursOfOperation}
 
 case class RestaurantWithSchedule(
-  location: Location.Value,
+  location: Location,
   externalActions: ExternalActionCollection,
   businessDetails: Option[BusinessDetails] = None,
 )
@@ -13,7 +13,7 @@ case class RestaurantWithSchedule(
 object RestaurantWithSchedule {
 
   def apply(
-    location: Location.Value,
+    location: Location,
     phoneNumber: PhoneNumber,
     website: Website,
     facebookPage: Website,
@@ -28,7 +28,7 @@ object RestaurantWithSchedule {
   )
 
   def apply(
-    location: Location.Value,
+    location: Location,
     phoneNumber: PhoneNumber,
     website: Website,
     facebookPage: Website,
@@ -43,7 +43,7 @@ object RestaurantWithSchedule {
     )
 
   def apply(
-    location: Location.Value,
+    location: Location,
     phoneNumber: PhoneNumber,
     website: Website,
     facebookPage: Website,

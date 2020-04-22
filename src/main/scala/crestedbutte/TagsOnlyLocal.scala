@@ -189,7 +189,7 @@ object TagsOnlyLocal {
     )
 
   def createBusTimeElement(
-    location: Location.Value,
+    location: Location,
     externalActions: Seq[TypedTag[Div]],
     businessDetailsOpt: Option[BusinessDetails],
     carryOutStatus: RestaurantStatus,
@@ -201,7 +201,7 @@ object TagsOnlyLocal {
 //          if (carryOutStatus == Open || deliveryStatus == Open)
 //            div(location.name + "Open now!")
 //          else
-          div(location.name),
+          div(location.officialName),
         ),
         div(cls := "restaurant-call")(
           externalActions.head, // Unsafe
@@ -242,12 +242,12 @@ object TagsOnlyLocal {
       .classList
       .add("is-active")
 
-  def modalContentElementNameTyped(location: Location.Value,
+  def modalContentElementNameTyped(location: Location,
                                    routeName: RestaurantGroupName) =
     data("schedule-modal") := modalContentElementName(location,
                                                       routeName)
 
-  def modalContentElementName(location: Location.Value,
+  def modalContentElementName(location: Location,
                               routeName: RestaurantGroupName) =
     "modal_content_" + routeName.name + "_" + location.elementName
 
@@ -272,7 +272,7 @@ object TagsOnlyLocal {
       upcomingArrivalComponentData.upcomingArrivalInfo.map {
         case RestaurantWithStatus(
             RestaurantWithSchedule(
-              location: Location.Value,
+              location: Location,
               externalActions: ExternalActionCollection,
               businessDetails: Option[BusinessDetails],
             ),
