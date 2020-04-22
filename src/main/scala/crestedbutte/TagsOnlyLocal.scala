@@ -23,14 +23,14 @@ object TagsOnlyLocal {
                         allComponentData: Seq[ComponentData]) =
     div(id := "container")(
       // TODO Restore menu once Gunnison is added
-//      Bulma.menu(
-//        allComponentData.map { componentData =>
-//          Bulma.Button.anchor(
-//            componentData.restaurantGroup.restaurantGroupName.userFriendlyName,
-//          )(data("route") := componentData.componentName)
-//        },
-//        "Restaurants",
-//      ),
+      Bulma.menu(
+        allComponentData.map { componentData =>
+          Bulma.Button.anchor(
+            componentData.restaurantGroup.restaurantGroupName.userFriendlyName,
+          )(data("route") := componentData.componentName)
+        },
+        "Restaurants",
+      ),
       allComponentData.map(
         singleComponentData =>
           busScheduleDiv(singleComponentData.componentName),

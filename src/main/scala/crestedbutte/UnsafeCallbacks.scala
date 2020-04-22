@@ -122,19 +122,6 @@ object UnsafeCallbacks {
               "DOMContentLoaded",
               (_: Any) => {
 
-                def menuCallbackBehavior(node: Node,
-                                         browser: Browser) =
-                  (_: MouseEvent) =>
-                    // Get the target from the "data-target" attribute
-                    // POTENTIALLY VERY EXPENSIVE. It's jumping back to the root of the document with this search.
-                    browser.browser
-                      .querySelector(
-                        "#" + node.attributes
-                          .getNamedItem("data-target")
-                          .value,
-                      )
-                      .map(_.classList.toggle("is-active"))
-
                 browser.browser
                   .querySelectorAll(".navbar-burger")
                   .foreach(
@@ -149,5 +136,19 @@ object UnsafeCallbacks {
               },
             ),
       )
+
+  def menuCallbackBehavior(node: Node, browser: Browser) = {
+    (_: MouseEvent) =>
+      println("Clicked a menu item")
+      // Get the target from the "data-target" attribute
+      // POTENTIALLY VERY EXPENSIVE. It's jumping back to the root of the document with this search.
+      browser.browser
+        .querySelector(
+          "#" + node.attributes
+            .getNamedItem("data-target")
+            .value,
+        )
+        .map(_.classList.toggle("is-active"))
+  }
 
 }

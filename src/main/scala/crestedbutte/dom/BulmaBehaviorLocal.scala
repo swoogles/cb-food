@@ -21,12 +21,13 @@ object BulmaBehaviorLocal {
 
             browser.browser
               .convertNodesToList(
-                element.querySelectorAll(".navbar-item .route"),
+                element.querySelectorAll(".navbar-item"),
               )
               .foreach { node =>
                 node.addEventListener(
                   "click",
                   (_: MouseEvent) => {
+                    println("Clicked a menu item")
                     val targetRoute =
                       node.attributes.getNamedItem("data-route").value
                     if (browser.browser
