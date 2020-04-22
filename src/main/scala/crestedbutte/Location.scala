@@ -48,6 +48,8 @@ object Location extends Enumeration {
 
   val Montanyas: Val = Val("Montanya")
 
+  val Nikys: Val = Val("Niky's")
+
   val ButteBagels: Val = Val("Butte Bagels")
 
   val TheDivvy: Val = Val("The Divvy")

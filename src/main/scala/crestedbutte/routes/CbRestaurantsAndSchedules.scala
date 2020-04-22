@@ -11,11 +11,14 @@ import crestedbutte.time.{
 }
 import crestedbutte.{
   AdvanceOrdersOnly,
+  ExternalActionCollection,
   Location,
   PhoneNumber,
   RestaurantGroupName,
   RestaurantWithSchedule,
   StandardSchedule,
+  VisitFacebookPage,
+  VisitHomePage,
   Website,
 }
 
@@ -169,6 +172,29 @@ object CbRestaurantsAndSchedules
           ),
           AdvanceOrdersOnly(
             "Order by 4 pm on Thursday and your order will be ready for pick up on Friday between 4 - 7 pm.",
+          ),
+        ),
+        RestaurantWithSchedule(
+          Location.Nikys,
+          ExternalActionCollection(
+            VisitHomePage(
+              Website.global("https://www.nikysminidonuts.com/"),
+            ),
+            List(
+              VisitFacebookPage(
+                Website.facebookPage(
+                  "https://www.facebook.com/NikysMiniDonuts/",
+                ),
+              ),
+              // TODO mention phone at all?
+            ),
+          ),
+          Some(
+            AdvanceOrdersOnly(
+              """Niky's Mini Donuts has online ordering for delivery and take-out
+                |on Saturday and Sunday each week from 10AM to 3PM.
+                |Free delivery with $20 minimum order.""".stripMargin,
+            ),
           ),
         ),
         RestaurantWithSchedule(

@@ -201,7 +201,7 @@ object TagsOnlyLocal {
 //          if (carryOutStatus == Open || deliveryStatus == Open)
 //            div(location.name + "Open now!")
 //          else
-          div(location.name + "_2"),
+          div(location.name),
         ),
         div(cls := "restaurant-call")(
           externalActions.head, // Unsafe
