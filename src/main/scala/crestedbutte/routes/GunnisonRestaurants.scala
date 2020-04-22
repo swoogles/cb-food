@@ -2,11 +2,14 @@ package crestedbutte.routes
 
 import crestedbutte.time.{ClosedAllDay, Hours, HoursOfOperation}
 import crestedbutte.{
+  CallLocation,
+  ExternalActionCollection,
   Location,
   PhoneNumber,
   RestaurantGroupName,
   RestaurantWithSchedule,
   StandardSchedule,
+  VisitHomePage,
   Website,
 }
 
@@ -42,6 +45,32 @@ object GunnisonRestaurants
           ),
           StandardSchedule.carryOutOnly(
             HoursOfOperation.everyDay("10:30", "20:00"),
+          ),
+        ),
+        RestaurantWithSchedule(
+          Location("Anjeo"),
+          ExternalActionCollection(
+            CallLocation(PhoneNumber("970-641-1427")),
+            Seq(
+              VisitHomePage(
+                Website.facebookPage(
+                  "https://www.facebook.com/AnejoBistroBar/",
+                ),
+              ),
+            ),
+          ),
+          Some(
+            StandardSchedule.carryOutOnly(
+              HoursOfOperation(
+                sunday = ClosedAllDay,
+                monday = Hours("11:30", "20:00"),
+                tuesday = Hours("11:30", "20:00"),
+                wednesday = Hours("11:30", "20:00"),
+                thursday = Hours("11:30", "20:00"),
+                friday = Hours("11:30", "20:00"),
+                saturday = Hours("11:30", "20:00"),
+              ),
+            ),
           ),
         ),
       ),
