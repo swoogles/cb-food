@@ -9,4 +9,7 @@ object Website {
 
   def global(url: String) =
     Website(url, "Website")
+
+  def onlineOrder(url: String) =
+    Website(url, "Order")
 }

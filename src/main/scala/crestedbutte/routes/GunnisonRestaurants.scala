@@ -9,6 +9,7 @@ import crestedbutte.{
   RestaurantGroupName,
   RestaurantWithSchedule,
   StandardSchedule,
+  VisitFacebookPage,
   VisitHomePage,
   Website,
 }
@@ -84,6 +85,28 @@ object GunnisonRestaurants
           ),
           StandardSchedule.carryOutOnly(
             HoursOfOperation.everyDay("10:00", "20:00"),
+          ),
+        ),
+        RestaurantWithSchedule(
+          Location("Blackstock Bistro"),
+          ExternalActionCollection(
+            VisitHomePage(
+              Website.onlineOrder(
+                "https://us.orderspoon.com/blackstock-bistro",
+              ),
+            ),
+            Seq(
+              VisitHomePage(
+                Website.global("http://blackstockbistro.com/"),
+              ),
+              // TODO Ask them which actions they prefer
+//              VisitFacebookPage(
+//                Website.facebookPage(
+//                  "https://www.facebook.com/Blackstock-Bistro-1440692279549356/",
+//                ),
+//              ),
+              CallLocation(PhoneNumber("970-641-4394")),
+            ),
           ),
         ),
       ),
