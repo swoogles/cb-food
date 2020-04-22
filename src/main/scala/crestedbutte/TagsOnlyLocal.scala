@@ -190,7 +190,7 @@ object TagsOnlyLocal {
 
   def createBusTimeElement(
     location: Location.Value,
-    externalActions: List[TypedTag[Div]],
+    externalActions: Seq[TypedTag[Div]],
     businessDetailsOpt: Option[BusinessDetails],
     carryOutStatus: RestaurantStatus,
     deliveryStatus: RestaurantStatus,
@@ -201,7 +201,7 @@ object TagsOnlyLocal {
 //          if (carryOutStatus == Open || deliveryStatus == Open)
 //            div(location.name + "Open now!")
 //          else
-          div(location.name + "_1"),
+          div(location.name + "_2"),
         ),
         div(cls := "restaurant-call")(
           externalActions.head, // Unsafe
@@ -251,6 +251,15 @@ object TagsOnlyLocal {
                               routeName: RestaurantGroupName) =
     "modal_content_" + routeName.name + "_" + location.elementName
 
+  def renderExternalAction(externalAction: ExternalAction,
+                           openForOrders: Boolean) =
+    externalAction match {
+      case VisitHomePage(website)     => renderWebsiteLink(website)
+      case VisitFacebookPage(website) => renderWebsiteLink(website)
+      case CallLocation(phoneNumber) =>
+        phoneButton(phoneNumber, openForOrders)
+    }
+
   def structuredSetOfUpcomingArrivals(
     upcomingArrivalComponentData: CurrentComponentData,
   ) =
@@ -264,9 +273,7 @@ object TagsOnlyLocal {
         case RestaurantWithStatus(
             RestaurantWithSchedule(
               location: Location.Value,
-              phoneNumber: PhoneNumber,
-              website: Website,
-              facebookPage: Website,
+              externalActions: ExternalActionCollection,
               businessDetails: Option[BusinessDetails],
             ),
             carryOutStatus,
@@ -276,10 +283,12 @@ object TagsOnlyLocal {
             (carryOutStatus == Open || deliveryStatus == Open)
           TagsOnlyLocal.createBusTimeElement(
             location,
-            List(
-              phoneButton(phoneNumber, openForOrders),
-              renderWebsiteLink(website),
-              renderWebsiteLink(facebookPage),
+            renderExternalAction(
+              externalActions.primary,
+              openForOrders,
+            ) +: externalActions.others.map(
+              externalAction =>
+                renderExternalAction(externalAction, openForOrders),
             ),
             businessDetails,
             carryOutStatus,

@@ -6,13 +6,26 @@ import crestedbutte.time.{BusDuration, BusTime, HoursOfOperation}
 
 case class RestaurantWithSchedule(
   location: Location.Value,
-  phoneNumber: PhoneNumber,
-  website: Website,
-  facebookPage: Website,
+  externalActions: ExternalActionCollection,
   businessDetails: Option[BusinessDetails] = None,
-) {}
+)
 
 object RestaurantWithSchedule {
+
+  def apply(
+    location: Location.Value,
+    phoneNumber: PhoneNumber,
+    website: Website,
+    facebookPage: Website,
+    businessDetails: Option[BusinessDetails],
+  ): RestaurantWithSchedule = RestaurantWithSchedule(
+    location,
+    ExternalActionCollection(
+      CallLocation(phoneNumber),
+      Seq(VisitHomePage(website), VisitFacebookPage(facebookPage)),
+    ),
+    businessDetails,
+  )
 
   def apply(
     location: Location.Value,
