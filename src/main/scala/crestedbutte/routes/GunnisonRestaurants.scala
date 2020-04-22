@@ -73,5 +73,18 @@ object GunnisonRestaurants
             ),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("Arby's"),
+          PhoneNumber("970-641-8851"),
+          Website.global(
+            "https://locations.arbys.com/co/gunnison/800-e-tomichi-ave-temp.html",
+          ),
+          Website.facebookPage(
+            "https://www.facebook.com/Arbys-468185087012524/",
+          ),
+          StandardSchedule.carryOutOnly(
+            HoursOfOperation.everyDay("10:00", "20:00"),
+          ),
+        ),
       ),
     )
