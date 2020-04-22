@@ -12,7 +12,7 @@ import crestedbutte.{
 
 object GunnisonRestaurants
     extends RestaurantGroup(
-      RestaurantGroupName("Crested Butte Restaurants"),
+      RestaurantGroupName("Gunnison Restaurants"),
       Seq(
         RestaurantWithSchedule(
           Location("5 B's Bar-B-Q"),

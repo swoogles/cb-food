@@ -41,6 +41,11 @@ object MyApp extends App {
         )
         .getOrElse(components.head)
 
+      _ <- ZIO.succeed(
+        println(
+          "selectedComponent: " + selectedComponent.restaurantGroup.restaurantGroupName.userFriendlyName,
+        ),
+      )
       now <- TimeCalculations.now
       _ <- updateUpcomingArrivalsOnPage(selectedComponent,
                                         components,
@@ -60,11 +65,10 @@ object MyApp extends App {
 
   private val components: Seq[ComponentData] =
     crestedButteRestaurants.restaurantGroups
-      .map(ComponentData) ++:
-    Seq(
-//      ComponentData(
-//        RtaNorthbound.fullSchedule,
-//      ),
+      .map(ComponentData) ++: Seq(
+      ComponentData(
+        GunnisonRestaurants,
+      ),
     )
 
   def deserializeTimeString(rawTime: String): OffsetDateTime =
@@ -122,6 +126,9 @@ object MyApp extends App {
     now: Instant,
   ) =
     if (componentData == currentlySelectedRoute) {
+      println(
+        "SelectedRoute: " + currentlySelectedRoute.componentName,
+      )
       val restaurantsWithStatus =
         TimeCalculations.calculateUpcomingArrivalAtAllStops(
           now,
@@ -141,10 +148,12 @@ object MyApp extends App {
           ),
         )
       } yield ()
-    } else
+    } else {
+      println("Hiding other element: " + componentData.componentName)
       DomManipulation.hideUpcomingBusSectionInsideElement(
         componentData.componentName,
       )
+    }
 
   def updateUpcomingArrivalsOnPage(
     selectedRoute: ComponentData,
