@@ -190,9 +190,7 @@ object TagsOnlyLocal {
 
   def createBusTimeElement(
     location: Location.Value,
-    content: TypedTag[Div],
-    website: Website,
-    facebookPage: Website,
+    externalActions: List[TypedTag[Div]],
     businessDetailsOpt: Option[BusinessDetails],
     carryOutStatus: RestaurantStatus,
     deliveryStatus: RestaurantStatus,
@@ -203,10 +201,10 @@ object TagsOnlyLocal {
 //          if (carryOutStatus == Open || deliveryStatus == Open)
 //            div(location.name + "Open now!")
 //          else
-          div(location.name),
+          div(location.name + "_1"),
         ),
         div(cls := "restaurant-call")(
-          content,
+          externalActions.head, // Unsafe
         ),
       ),
       div(
@@ -235,11 +233,7 @@ object TagsOnlyLocal {
             ),
           ),
       ),
-      List(
-        renderWebsiteLink(website),
-        renderWebsiteLink(facebookPage),
-//        renderHoursOfOperation(hoursOfOperation)
-      ),
+      externalActions.tail,
     )(data("location") := location.elementName)
 
   def activateModal(targetName: String): Unit =
@@ -282,9 +276,11 @@ object TagsOnlyLocal {
             (carryOutStatus == Open || deliveryStatus == Open)
           TagsOnlyLocal.createBusTimeElement(
             location,
-            phoneButton(phoneNumber, openForOrders),
-            website,
-            facebookPage,
+            List(
+              phoneButton(phoneNumber, openForOrders),
+              renderWebsiteLink(website),
+              renderWebsiteLink(facebookPage),
+            ),
             businessDetails,
             carryOutStatus,
             deliveryStatus,
