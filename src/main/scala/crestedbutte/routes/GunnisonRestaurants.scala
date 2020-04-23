@@ -129,5 +129,23 @@ object GunnisonRestaurants
             ),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("Cafe Silvestri"),
+          ExternalActionCollection(
+            CallLocation(PhoneNumber("970-642-4550")), // TODO confirm number. It's either this or 970-641-4001
+            Seq(
+              VisitFacebookPage(
+                Website.facebookPage(
+                  "https://www.facebook.com/pages/Cafe-Silvestri/176065582455513",
+                ),
+              ),
+            ),
+          ),
+          Some(
+            CompletelyUnstructedOperation(
+              "Carry-out Monday-Friday 10:30AM-2:00PM & 4:30PM-7:00PM",
+            ),
+          ),
+        ),
       ),
     )
