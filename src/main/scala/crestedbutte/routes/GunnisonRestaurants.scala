@@ -110,6 +110,11 @@ object GunnisonRestaurants
             ),
           ),
           // TODO Hours. They've got 2 different shifts.
+          Some(
+            CompletelyUnstructedOperation(
+              "Carry-out & Delivery for Lunch Noon-2:30PM, and Dinner 5:00-7:30 Wednesday - Monday",
+            ),
+          ),
         ),
         RestaurantWithSchedule(
           Location("Buckel Family Wine"),
