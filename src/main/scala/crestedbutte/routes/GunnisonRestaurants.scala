@@ -147,5 +147,18 @@ object GunnisonRestaurants
             ),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("Crumb de la Crumb"),
+          PhoneNumber("970-596-8128"),
+          Website.global("https://crumbdelacrumbbake.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/Crumb-de-la-Crumb-LLC-203085957157606/",
+          ),
+          Some(
+            CompletelyUnstructedOperation(
+              "Advance Orders only. Complimentary delivery Monday-Friday.",
+            ),
+          ),
+        ),
       ),
     )
