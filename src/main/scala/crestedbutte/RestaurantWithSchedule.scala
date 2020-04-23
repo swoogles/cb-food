@@ -58,11 +58,15 @@ object RestaurantWithSchedule {
     )
 }
 
-trait BusinessDetails
+sealed trait BusinessDetails
 
 case class AdvanceOrdersOnly(
   //  orderCutoff: (BusTime, DayOfWeek),
   //  pickupTime: (BusTime, DayOfWeek)
+  instructions: String,
+) extends BusinessDetails
+
+case class CompletelyUnstructedOperation(
   instructions: String,
 ) extends BusinessDetails
 

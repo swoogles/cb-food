@@ -106,6 +106,10 @@ body {
     font-size: 80%;
 }
 
+.completely-unstructured-operation {
+    font-size: 80%;
+}
+
 .schedule {
     display: grid;
     grid-area: operating-info;

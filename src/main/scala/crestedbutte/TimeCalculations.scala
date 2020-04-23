@@ -45,6 +45,11 @@ object TimeCalculations {
             RestaurantWithStatus(restaurantWithSchedule = restaurant,
                                  carryOutStatus = Unknown,
                                  deliveryStatus = Unknown)
+          case CompletelyUnstructedOperation(instructions) =>
+            RestaurantWithStatus(restaurantWithSchedule = restaurant,
+                                 carryOutStatus = Unknown,
+                                 deliveryStatus = Unknown)
+
           case StandardSchedule(deliveryHours, carryOutHours) => {
             val localDateTime =
               LocalDateTime.ofInstant(

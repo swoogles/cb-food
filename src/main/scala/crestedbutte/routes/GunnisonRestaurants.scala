@@ -3,6 +3,7 @@ package crestedbutte.routes
 import crestedbutte.time.{ClosedAllDay, Hours, HoursOfOperation}
 import crestedbutte.{
   CallLocation,
+  CompletelyUnstructedOperation,
   ExternalActionCollection,
   Location,
   PhoneNumber,
@@ -106,6 +107,20 @@ object GunnisonRestaurants
 //                ),
 //              ),
               CallLocation(PhoneNumber("970-641-4394")),
+            ),
+          ),
+          // TODO Hours. They've got 2 different shifts.
+        ),
+        RestaurantWithSchedule(
+          Location("Buckel Family Wine"),
+          PhoneNumber("970-349-2071"),
+          Website.global("https://www.buckelfamilywine.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/BuckelFamily/",
+          ),
+          Some(
+            CompletelyUnstructedOperation(
+              "Call or email sales@buckelfamilywine.com to order wine to be picked up at the winery or for Thursday delivery.",
             ),
           ),
         ),

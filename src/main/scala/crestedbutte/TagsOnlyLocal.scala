@@ -226,6 +226,10 @@ object TagsOnlyLocal {
               div(cls := "advance-order-procedure")(
                 "Advance order only: " + advanceOrdersOnly.instructions,
               )
+            case completelyUnstructedOperation: CompletelyUnstructedOperation =>
+              div(cls := "completely-unstructured-operation")(
+                completelyUnstructedOperation.instructions,
+              )
           }
           .getOrElse(
             div(
