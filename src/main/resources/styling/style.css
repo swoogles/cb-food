@@ -129,7 +129,19 @@ body {
 
 .daily-hours {
     text-align: center;
+    grid-template-columns:1fr 3fr;
+    grid-template-rows: auto 1fr ;
+    grid-template-areas:
+            "day hours";
+    font-size: 60%;
 }
+.day {
+    .grid-area: day;
+}
+.hours {
+.grid-area: hours;
+}
+
 .service-unavailable {
     text-align: center;
 }

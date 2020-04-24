@@ -166,10 +166,17 @@ object TagsOnlyLocal {
 
   def renderDailyhours(dailyHours: DailyHours) =
     div(cls := "daily-hours")(
-      dailyHours.dayOfWeek
-        .getDisplayName(TextStyle.NARROW, Locale.US) + " " +
-      dailyHours.open.toDumbAmericanString + "-" +
-      dailyHours.close.toDumbAmericanString,
+      div(cls := "day")(
+        dailyHours.dayOfWeek
+          .getDisplayName(TextStyle.NARROW, Locale.US),
+      ),
+      dailyHours.hoursSegment.map(
+        hoursSegment =>
+          div(cls := "hours")(
+            hoursSegment.open.toDumbAmericanString + "-" +
+            hoursSegment.close.toDumbAmericanString,
+          ),
+      ),
     )
 
   def renderDailySchedule(

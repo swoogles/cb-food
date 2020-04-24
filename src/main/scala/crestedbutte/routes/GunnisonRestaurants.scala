@@ -1,6 +1,11 @@
 package crestedbutte.routes
 
-import crestedbutte.time.{ClosedAllDay, Hours, HoursOfOperation}
+import crestedbutte.time.{
+  ClosedAllDay,
+  Hours,
+  HoursGrouping,
+  HoursOfOperation,
+}
 import crestedbutte.{
   CallLocation,
   CompletelyUnstructedOperation,
@@ -251,6 +256,39 @@ object GunnisonRestaurants
                 friday = Hours("17:00", "19:00"),
                 saturday = Hours("17:00", "19:00"),
               ),
+            ),
+          ),
+        ),
+        RestaurantWithSchedule(
+          Location("Gunnisack"),
+          PhoneNumber("970-641-5445"),
+          Website.global("https://www.thegunnisack.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/thegunnisack/",
+          ),
+          Some(
+            StandardSchedule.carryOutOnly(
+              HoursOfOperation(
+                sunday = ClosedAllDay,
+                monday = HoursGrouping(
+                  Hours("11:30", "14:00", "17:00", "20:00"),
+                ),
+                tuesday = HoursGrouping(
+                  Hours("11:30", "14:00", "17:00", "20:00"),
+                ),
+                wednesday = HoursGrouping(
+                  Hours("11:30", "14:00", "17:00", "20:00"),
+                ),
+                thursday = HoursGrouping(
+                  Hours("11:30", "14:00", "17:00", "20:00"),
+                ),
+                friday = HoursGrouping(
+                  Hours("11:30", "14:00", "17:00", "20:00"),
+                ),
+                saturday = HoursGrouping(
+                  Hours("11:30", "14:00", "17:00", "20:00"),
+                ),
+              ), // TODO Multi-segment hours
             ),
           ),
         ),

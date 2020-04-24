@@ -6,6 +6,7 @@ import crestedbutte.time.{
   BusTime,
   ClosedForTheDay,
   DailyHours,
+  DailyHoursSegment,
   DailyInfo,
 }
 import zio.ZIO
@@ -19,10 +20,27 @@ object TimeCalculations {
       .find(stopTime => BusTime.catchableBus(now, stopTime))
       .filter(_ => now.isLikelyEarlyMorningRatherThanLateNight)
 
-  def currentStatus(dailyInfo: DailyInfo, now: BusTime) =
+  def currentStatus(dailyInfo: DailyInfo,
+                    now: BusTime): RestaurantStatus =
     dailyInfo match {
       case ClosedForTheDay(dayOfWeek) => Closed
-      case DailyHours(open, close, dayOfWeek) =>
+      case DailyHours(
+          dailyHoursSegments: Seq[DailyHoursSegment],
+          dayOfWeek,
+          ) => // TODO This will need to handle multiple time segments.
+        if (dailyHoursSegments
+              .map(statusForCurrentSegment(_, now))
+              .exists(
+                statusForCurrentSegment =>
+                  statusForCurrentSegment.equals(Open),
+              )) Open
+        else Closed
+    }
+
+  def statusForCurrentSegment(hoursSegment: DailyHoursSegment,
+                              now: BusTime): RestaurantStatus =
+    hoursSegment match {
+      case DailyHoursSegment(open, close) => // TODO This will need to handle multiple time segments.
         if (now.isBefore(open) && now.between(open).toMinutes > 30)
           OpeningSoon
         else if (now.isAfterOrEqualTo(open) && now.isBefore(close))

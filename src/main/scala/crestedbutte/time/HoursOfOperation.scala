@@ -46,6 +46,27 @@ object HoursOfOperation {
       saturday = DailyHours(open, close, DayOfWeek.SATURDAY),
     )
 
+  def everyDay(open: String,
+               close: String,
+               open2: String,
+               close2: String): HoursOfOperation =
+    HoursOfOperation(
+      sunday =
+        DailyHours(open, close, open2, close2, DayOfWeek.SUNDAY),
+      monday =
+        DailyHours(open, close, open2, close2, DayOfWeek.MONDAY),
+      tuesday =
+        DailyHours(open, close, open2, close2, DayOfWeek.TUESDAY),
+      wednesday =
+        DailyHours(open, close, open2, close2, DayOfWeek.WEDNESDAY),
+      thursday =
+        DailyHours(open, close, open2, close2, DayOfWeek.THURSDAY),
+      friday =
+        DailyHours(open, close, open2, close2, DayOfWeek.FRIDAY),
+      saturday =
+        DailyHours(open, close, open2, close2, DayOfWeek.SATURDAY),
+    )
+
   def apply(
     sunday: ScheduleInput,
     monday: ScheduleInput,
