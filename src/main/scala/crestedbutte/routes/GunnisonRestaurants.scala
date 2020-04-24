@@ -196,13 +196,39 @@ object GunnisonRestaurants
           Some(
             StandardSchedule.carryOutOnly(
               HoursOfOperation.apply(
-                sunday = Hours("11:00", "8:00"),
-                monday = Hours("11:00", "8:00"),
-                tuesday = Hours("11:00", "8:00"),
-                wednesday = Hours("11:00", "8:00"),
-                thursday = Hours("11:00", "8:00"),
-                friday = Hours("11:00", "9:00"),
-                saturday = Hours("11:00", "9:00"),
+                sunday = Hours("11:00", "20:00"),
+                monday = Hours("11:00", "20:00"),
+                tuesday = Hours("11:00", "20:00"),
+                wednesday = Hours("11:00", "20:00"),
+                thursday = Hours("11:00", "20:00"),
+                friday = Hours("11:00", "21:00"),
+                saturday = Hours("11:00", "21:00"),
+              ),
+            ),
+          ),
+        ),
+        RestaurantWithSchedule(
+          Location("Firebrand"),
+          ExternalActionCollection(
+            CallLocation(PhoneNumber("970-641-6266")),
+            Seq(
+              VisitFacebookPage(
+                Website.facebookPage(
+                  "https://www.facebook.com/FirebrandDelicatessen/",
+                ),
+              ),
+            ),
+          ),
+          Some(
+            StandardSchedule.carryOutOnly(
+              HoursOfOperation(
+                sunday = ClosedAllDay,
+                monday = ClosedAllDay,
+                tuesday = ClosedAllDay,
+                wednesday = Hours("08:00", "13:00"),
+                thursday = Hours("08:00", "13:00"),
+                friday = Hours("08:00", "13:00"),
+                saturday = Hours("08:00", "13:00"),
               ),
             ),
           ),
