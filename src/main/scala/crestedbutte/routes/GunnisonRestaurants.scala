@@ -233,5 +233,26 @@ object GunnisonRestaurants
             ),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("Garlic Mikes"),
+          PhoneNumber("970-641-2493"),
+          Website.global("https://garlicmikes.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/garlicmikesrestaurant/",
+          ),
+          Some(
+            StandardSchedule.carryOutOnly(
+              HoursOfOperation.apply(
+                sunday = ClosedAllDay,
+                monday = ClosedAllDay,
+                tuesday = Hours("17:00", "19:00"),
+                wednesday = Hours("17:00", "19:00"),
+                thursday = Hours("17:00", "19:00"),
+                friday = Hours("17:00", "19:00"),
+                saturday = Hours("17:00", "19:00"),
+              ),
+            ),
+          ),
+        ),
       ),
     )
