@@ -46,7 +46,7 @@ class BusTime(localTime: LocalTime) {
   override val toString: String = localTime.format(dateFormat)
 
   private val dumbAmericanDateFormat =
-    DateTimeFormatter.ofPattern("hh:mm")
+    DateTimeFormatter.ofPattern("hh:mm a") // TODO Fuck! Why aren't you showing AM/PM???
 
   val toDumbAmericanString: String =
     localTime.format(dumbAmericanDateFormat)

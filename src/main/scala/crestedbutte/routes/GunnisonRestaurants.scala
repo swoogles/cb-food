@@ -160,5 +160,26 @@ object GunnisonRestaurants
             ),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("Dominos"),
+          PhoneNumber("970-707-4199"),
+          Website.global(
+            "https://pizza.dominos.com/colorado/gunnison/",
+          ),
+          Website.facebookPage(
+            "https://www.facebook.com/DominosGunnisonCO/",
+          ),
+          StandardSchedule.carryOutAndDelivery(
+            HoursOfOperation(
+              sunday = Hours("10:00", "24:00"),
+              monday = Hours("10:00", "24:00"),
+              tuesday = Hours("10:00", "24:00"),
+              wednesday = Hours("10:00", "24:00"),
+              thursday = Hours("10:00", "24:00"),
+              friday = Hours("10:00", "01:00"), // TODO Really need to render 1AM properly for this to make sense
+              saturday = Hours("10:00", "01:00"),
+            ),
+          ),
+        ),
       ),
     )
