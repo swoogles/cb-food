@@ -181,5 +181,31 @@ object GunnisonRestaurants
             ),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("El paraiso"),
+          ExternalActionCollection(
+            CallLocation(PhoneNumber("970-641-4957")),
+            Seq(
+              VisitFacebookPage(
+                Website.facebookPage(
+                  "https://www.facebook.com/pages/El-Paraiso/111826328853249?rf=1494752060823593",
+                ),
+              ),
+            ),
+          ),
+          Some(
+            StandardSchedule.carryOutOnly(
+              HoursOfOperation.apply(
+                sunday = Hours("11:00", "8:00"),
+                monday = Hours("11:00", "8:00"),
+                tuesday = Hours("11:00", "8:00"),
+                wednesday = Hours("11:00", "8:00"),
+                thursday = Hours("11:00", "8:00"),
+                friday = Hours("11:00", "9:00"),
+                saturday = Hours("11:00", "9:00"),
+              ),
+            ),
+          ),
+        ),
       ),
     )
