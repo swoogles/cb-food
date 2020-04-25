@@ -397,5 +397,38 @@ object GunnisonRestaurants
             ),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("Mario's Pizza"),
+          PhoneNumber("970-641-1374"),
+          Website.global("http://mariosgunnison.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/Marios-Pizza-Pasta-113554522011947/",
+          ),
+          Some(
+            StandardSchedule.carryOutAndDelivery(
+              HoursOfOperation(
+                sunday = ClosedAllDay,
+                monday = HoursGrouping(
+                  Hours("12:00", "14:00", "16:00", "18:00"),
+                ),
+                tuesday = HoursGrouping(
+                  Hours("12:00", "14:00", "16:00", "18:00"),
+                ),
+                wednesday = HoursGrouping(
+                  Hours("12:00", "14:00", "16:00", "18:00"),
+                ),
+                thursday = HoursGrouping(
+                  Hours("12:00", "14:00", "16:00", "18:00"),
+                ),
+                friday = HoursGrouping(
+                  Hours("12:00", "14:00", "16:00", "18:00"),
+                ),
+                saturday = HoursGrouping(
+                  Hours("12:00", "14:00", "16:00", "18:00"),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     )
