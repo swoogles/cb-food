@@ -142,9 +142,11 @@ body {
     grid-area: day;
     display: inline-block;
     vertical-align: middle;
+    text-align: right;
 }
 .hours {
     grid-area: hours;
+    text-align: center;
 }
 
 .service-unavailable {
