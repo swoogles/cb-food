@@ -114,10 +114,29 @@ object GunnisonRestaurants
               CallLocation(PhoneNumber("970-641-4394")),
             ),
           ),
-          // TODO Hours. They've got 2 different shifts.
           Some(
-            CompletelyUnstructedOperation(
-              "Carry-out & Delivery for Lunch Noon-2:30PM, and Dinner 5:00-7:30 Wednesday - Monday",
+            StandardSchedule.carryOutOnly(
+              HoursOfOperation(
+                sunday = HoursGrouping(
+                  Hours("12:00", "14:30", "17:00", "19:30"),
+                ),
+                monday = HoursGrouping(
+                  Hours("12:00", "14:30", "17:00", "19:30"),
+                ),
+                tuesday = ClosedAllDay,
+                wednesday = HoursGrouping(
+                  Hours("12:00", "14:30", "17:00", "19:30"),
+                ),
+                thursday = HoursGrouping(
+                  Hours("12:00", "14:30", "17:00", "19:30"),
+                ),
+                friday = HoursGrouping(
+                  Hours("12:00", "14:30", "17:00", "19:30"),
+                ),
+                saturday = HoursGrouping(
+                  Hours("12:00", "14:30", "17:00", "19:30"),
+                ),
+              ),
             ),
           ),
         ),
