@@ -449,5 +449,16 @@ object GunnisonRestaurants
               HoursOfOperation.everyDay("06:30", "14:00"),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("Pie Zans"),
+          PhoneNumber("970-641-5255"),
+          Website.global("https://www.piezanspizzeria.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/piezanspizzeria/",
+          ),
+          StandardSchedule.carryOutAndDelivery(
+            HoursOfOperation.everyDay("11:00", "9:00"),
+          ),
+        ),
       ),
     )
