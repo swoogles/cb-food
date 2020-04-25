@@ -355,5 +355,26 @@ object GunnisonRestaurants
             ),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("Gunnison Vitamin & Health Food"), // TODO Might need to shrink the name
+          PhoneNumber("970-641-5928"),
+          Website.global("https://gunnisonvitamin.net/"),
+          Website.facebookPage(
+            "https://www.facebook.com/gunnisonvitamin/",
+          ),
+          Some(
+            StandardSchedule.carryOutOnly(
+              HoursOfOperation(
+                sunday = ClosedAllDay,
+                monday = Hours("08:00", "19:00"),
+                tuesday = Hours("08:00", "19:00"),
+                wednesday = Hours("08:00", "19:00"),
+                thursday = Hours("08:00", "19:00"),
+                friday = Hours("08:00", "19:00"),
+                saturday = Hours("08:00", "19:00"),
+              ),
+            ),
+          ),
+        ),
       ),
     )
