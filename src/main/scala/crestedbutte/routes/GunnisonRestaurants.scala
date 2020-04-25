@@ -206,7 +206,7 @@ object GunnisonRestaurants
           ),
         ),
         RestaurantWithSchedule(
-          Location("El paraiso"),
+          Location("El Paraiso"),
           ExternalActionCollection(
             CallLocation(PhoneNumber("970-641-4957")),
             Seq(
@@ -307,6 +307,29 @@ object GunnisonRestaurants
                 saturday = HoursGrouping(
                   Hours("11:30", "14:00", "17:00", "20:00"),
                 ),
+              ),
+            ),
+          ),
+        ),
+        RestaurantWithSchedule(
+          Location("Gunnison Coffee Company"),
+          ExternalActionCollection(
+            VisitFacebookPage(
+              Website.facebookPage(
+                "https://www.facebook.com/gunnisoncoffeecompany/",
+              ),
+            ),
+          ),
+          Some(
+            StandardSchedule.carryOutOnly(
+              HoursOfOperation(
+                sunday = Hours("08:00", "12:00"),
+                monday = Hours("06:00", "12:00"),
+                tuesday = Hours("06:00", "12:00"),
+                wednesday = Hours("06:00", "12:00"),
+                thursday = Hours("06:00", "12:00"),
+                friday = Hours("06:00", "12:00"),
+                saturday = Hours("08:00", "12:00"),
               ),
             ),
           ),
