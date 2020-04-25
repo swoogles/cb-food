@@ -130,7 +130,7 @@ body {
 .daily-hours {
     /*text-align: center;*/
     display: grid;
-    grid-template-columns:1fr 3fr;
+    grid-template-columns:1fr 4fr;
     grid-template-rows: auto 1fr;
     grid-template-areas:
             "day hours";
@@ -207,6 +207,10 @@ body {
 .card {
     border: 10px solid #444;
     border-radius: 15px;
+}
+
+.card-content {
+    padding: .5rem;
 }
 
 .card-header-title {
