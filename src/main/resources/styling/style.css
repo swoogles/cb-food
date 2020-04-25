@@ -154,7 +154,11 @@ body {
     /*display: none;*/
     /*align-content: center;*/
 }
-.hours-header {
+.hours-header-top {
+    font-weight: bold;
+    text-align: center;
+}
+.hours-header-bottom {
     font-weight: bold;
     text-decoration: underline;
     text-align: center;

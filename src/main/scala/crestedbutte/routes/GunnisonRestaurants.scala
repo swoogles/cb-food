@@ -288,7 +288,7 @@ object GunnisonRestaurants
                 saturday = HoursGrouping(
                   Hours("11:30", "14:00", "17:00", "20:00"),
                 ),
-              ), // TODO Multi-segment hours
+              ),
             ),
           ),
         ),

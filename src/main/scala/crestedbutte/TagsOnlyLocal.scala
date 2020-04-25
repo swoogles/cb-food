@@ -147,8 +147,8 @@ object TagsOnlyLocal {
   ) =
     div(cls := "hours-of-operation")(
       div(cls := "hours-header")(
-        div(scheduleHeader),
-        div("Schedule"),
+        div(cls := "hours-header-top")(scheduleHeader),
+        div(cls := "hours-header-bottom")("Schedule"),
       ),
       hoursOfOperationOpt match {
         case Some(hoursOfOperation) =>
