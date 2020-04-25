@@ -483,5 +483,31 @@ object GunnisonRestaurants
               .everyDay("17:00", "20:00"), // TODO Confirm days
           ),
         ),
+        RestaurantWithSchedule(
+          Location("Taco Bell"),
+          ExternalActionCollection(
+            CallLocation(PhoneNumber("970-641-0414")),
+            Seq(
+              VisitFacebookPage(
+                Website.facebookPage(
+                  "https://www.facebook.com/Taco-Bell-319798508053989/",
+                ),
+              ),
+            ),
+          ),
+          Some(
+            StandardSchedule.carryOutOnly(
+              HoursOfOperation(
+                sunday = Hours("10:00", "21:00"),
+                monday = Hours("10:00", "21:00"),
+                tuesday = Hours("10:00", "21:00"),
+                wednesday = Hours("10:00", "21:00"),
+                thursday = Hours("10:00", "21:00"),
+                friday = Hours("10:00", "22:00"),
+                saturday = Hours("9:00", "22:00"),
+              ),
+            ),
+          ),
+        ),
       ),
     )
