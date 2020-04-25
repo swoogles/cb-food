@@ -350,7 +350,7 @@ object GunnisonRestaurants
           ),
         ),
         RestaurantWithSchedule(
-          Location("Gunnison Vitamin & Health Food"), // TODO Might need to shrink the name
+          Location("Gunnison Vitamin & Health Deli"), // TODO Might need to shrink the name
           PhoneNumber("970-641-5928"),
           Website.global("https://gunnisonvitamin.net/"),
           Website.facebookPage(
@@ -360,12 +360,12 @@ object GunnisonRestaurants
             StandardSchedule.carryOutOnly(
               HoursOfOperation(
                 sunday = ClosedAllDay,
-                monday = Hours("08:00", "19:00"),
-                tuesday = Hours("08:00", "19:00"),
-                wednesday = Hours("08:00", "19:00"),
-                thursday = Hours("08:00", "19:00"),
-                friday = Hours("08:00", "19:00"),
-                saturday = Hours("08:00", "19:00"),
+                monday = Hours("08:00", "15:00"),
+                tuesday = Hours("08:00", "15:00"),
+                wednesday = Hours("08:00", "15:00"),
+                thursday = Hours("08:00", "15:00"),
+                friday = Hours("08:00", "15:00"),
+                saturday = Hours("08:00", "15:00"),
               ),
             ),
           ),
@@ -506,6 +506,25 @@ object GunnisonRestaurants
                 friday = Hours("10:00", "22:00"),
                 saturday = Hours("9:00", "22:00"),
               ),
+            ),
+          ),
+        ),
+        RestaurantWithSchedule(
+          Location("Taco Cat Taco Cart"),
+          PhoneNumber("970-209-6707"),
+          Website.global("https://www.tacocattacocart.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/tacocattacocart/",
+          ),
+          StandardSchedule.carryOutOnly(
+            HoursOfOperation(
+              sunday = ClosedAllDay,
+              monday = ClosedAllDay,
+              tuesday = ClosedAllDay,
+              wednesday = Hours("12:00", "14:00"),
+              thursday = Hours("12:00", "14:00"),
+              friday = Hours("12:00", "14:00"),
+              saturday = ClosedAllDay,
             ),
           ),
         ),
