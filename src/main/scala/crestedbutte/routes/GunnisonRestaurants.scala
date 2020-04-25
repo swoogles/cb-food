@@ -460,5 +460,16 @@ object GunnisonRestaurants
             HoursOfOperation.everyDay("11:00", "9:00"),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("Powerstop"),
+          PhoneNumber("970-641-2328"),
+          Website.global("http://www.the-powerstop.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/PowerstopBarAndGrill/",
+          ),
+          StandardSchedule.carryOutAndDelivery(
+            HoursOfOperation.everyDay("06:00", "23:00"),
+          ),
+        ),
       ),
     )
