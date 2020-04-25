@@ -607,7 +607,7 @@ object GunnisonRestaurants
           ),
           Some(
             CompletelyUnstructedOperation(
-              "Frozen and ready to cook at your home. Available at Mocah's Drive Thru or delivered to your home. $30/6 pack.",
+              "Frozen and ready to cook at your home. Available at Mocha's Drive Thru or delivered to your home. $30/6 pack.",
             ),
           ),
         ),
