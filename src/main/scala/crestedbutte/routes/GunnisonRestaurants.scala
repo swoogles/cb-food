@@ -579,5 +579,24 @@ object GunnisonRestaurants
             ),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("W Cafe"),
+          PhoneNumber("970-641-1744"),
+          Website.global("http://thewcafe.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/wcafegunnison/",
+          ),
+          StandardSchedule.carryOutOnly(
+            HoursOfOperation(
+              sunday = Hours("08:00", "13:00"),
+              monday = Hours("08:00", "13:00"),
+              tuesday = Hours("08:00", "13:00"),
+              wednesday = ClosedAllDay,
+              thursday = Hours("08:00", "13:00"),
+              friday = Hours("08:00", "13:00"),
+              saturday = Hours("08:00", "13:00"),
+            ),
+          ),
+        ),
       ),
     )
