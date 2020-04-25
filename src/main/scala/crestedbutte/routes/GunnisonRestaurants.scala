@@ -376,5 +376,26 @@ object GunnisonRestaurants
             ),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("High Alpine Brewing Company"), // TODO Might need to shrink the name
+          PhoneNumber("970-642-4500"),
+          Website.global("http://highalpinebrewing.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/highalpinebrewingcompany/",
+          ),
+          Some(
+            StandardSchedule.carryOutAndDelivery(
+              HoursOfOperation(
+                sunday = Hours("16:00", "20:00"),
+                monday = ClosedAllDay,
+                tuesday = ClosedAllDay,
+                wednesday = Hours("16:00", "20:00"),
+                thursday = Hours("16:00", "20:00"),
+                friday = Hours("16:00", "20:00"),
+                saturday = Hours("16:00", "20:00"),
+              ),
+            ),
+          ),
+        ),
       ),
     )
