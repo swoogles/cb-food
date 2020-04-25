@@ -334,5 +334,26 @@ object GunnisonRestaurants
             ),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("Gunnison Pizza Company"),
+          PhoneNumber("970-641-1110"),
+          Website.global("https://www.gunnisonpizzaco.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/gunnisonpizza/",
+          ),
+          Some(
+            StandardSchedule.carryOutAndDelivery(
+              HoursOfOperation(
+                sunday = Hours("17:00", "20:00"),
+                monday = ClosedAllDay,
+                tuesday = Hours("17:00", "20:00"),
+                wednesday = Hours("17:00", "20:00"),
+                thursday = Hours("17:00", "20:00"),
+                friday = Hours("17:00", "20:00"),
+                saturday = Hours("17:00", "20:00"),
+              ),
+            ),
+          ),
+        ),
       ),
     )
