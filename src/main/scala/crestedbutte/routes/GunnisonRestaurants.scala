@@ -559,5 +559,25 @@ object GunnisonRestaurants
             ),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("Tributary Coffee Roaster"),
+          ExternalActionCollection(
+            VisitHomePage(
+              Website.global("https://www.tributarycoffee.com/"),
+            ),
+            Seq(
+              VisitFacebookPage(
+                Website.facebookPage(
+                  "https://www.facebook.com/tributarycoffeeroasters/",
+                ),
+              ),
+            ),
+          ),
+          Some(
+            CompletelyUnstructedOperation(
+              "Delivery only. Please place orders through website.",
+            ),
+          ),
+        ),
       ),
     )
