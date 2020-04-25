@@ -528,5 +528,36 @@ object GunnisonRestaurants
             ),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("The Dive Pub"),
+          PhoneNumber("970-641-1375"),
+          Website.global("https://www.thedivegunnison.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/thedivegunnison/",
+          ),
+          StandardSchedule.carryOutAndDelivery(
+            HoursOfOperation(
+              sunday = ClosedAllDay,
+              monday = HoursGrouping(
+                Hours("12:00", "14:00", "16:00", "18:00"),
+              ),
+              tuesday = HoursGrouping(
+                Hours("12:00", "14:00", "16:00", "18:00"),
+              ),
+              wednesday = HoursGrouping(
+                Hours("12:00", "14:00", "16:00", "18:00"),
+              ),
+              thursday = HoursGrouping(
+                Hours("12:00", "14:00", "16:00", "18:00"),
+              ),
+              friday = HoursGrouping(
+                Hours("12:00", "14:00", "16:00", "18:00"),
+              ),
+              saturday = HoursGrouping(
+                Hours("12:00", "14:00", "16:00", "18:00"),
+              ),
+            ),
+          ),
+        ),
       ),
     )
