@@ -264,17 +264,15 @@ object GunnisonRestaurants
           Website.facebookPage(
             "https://www.facebook.com/garlicmikesrestaurant/",
           ),
-          Some(
-            StandardSchedule.carryOutOnly(
-              HoursOfOperation.apply(
-                sunday = ClosedAllDay,
-                monday = ClosedAllDay,
-                tuesday = Hours("17:00", "19:00"),
-                wednesday = Hours("17:00", "19:00"),
-                thursday = Hours("17:00", "19:00"),
-                friday = Hours("17:00", "19:00"),
-                saturday = Hours("17:00", "19:00"),
-              ),
+          StandardSchedule.carryOutOnly(
+            HoursOfOperation.apply(
+              sunday = ClosedAllDay,
+              monday = ClosedAllDay,
+              tuesday = Hours("17:00", "19:00"),
+              wednesday = Hours("17:00", "19:00"),
+              thursday = Hours("17:00", "19:00"),
+              friday = Hours("17:00", "19:00"),
+              saturday = Hours("17:00", "19:00"),
             ),
           ),
         ),
@@ -285,28 +283,26 @@ object GunnisonRestaurants
           Website.facebookPage(
             "https://www.facebook.com/thegunnisack/",
           ),
-          Some(
-            StandardSchedule.carryOutOnly(
-              HoursOfOperation(
-                sunday = ClosedAllDay,
-                monday = HoursGrouping(
-                  Hours("11:30", "14:00", "17:00", "20:00"),
-                ),
-                tuesday = HoursGrouping(
-                  Hours("11:30", "14:00", "17:00", "20:00"),
-                ),
-                wednesday = HoursGrouping(
-                  Hours("11:30", "14:00", "17:00", "20:00"),
-                ),
-                thursday = HoursGrouping(
-                  Hours("11:30", "14:00", "17:00", "20:00"),
-                ),
-                friday = HoursGrouping(
-                  Hours("11:30", "14:00", "17:00", "20:00"),
-                ),
-                saturday = HoursGrouping(
-                  Hours("11:30", "14:00", "17:00", "20:00"),
-                ),
+          StandardSchedule.carryOutOnly(
+            HoursOfOperation(
+              sunday = ClosedAllDay,
+              monday = HoursGrouping(
+                Hours("11:30", "14:00", "17:00", "20:00"),
+              ),
+              tuesday = HoursGrouping(
+                Hours("11:30", "14:00", "17:00", "20:00"),
+              ),
+              wednesday = HoursGrouping(
+                Hours("11:30", "14:00", "17:00", "20:00"),
+              ),
+              thursday = HoursGrouping(
+                Hours("11:30", "14:00", "17:00", "20:00"),
+              ),
+              friday = HoursGrouping(
+                Hours("11:30", "14:00", "17:00", "20:00"),
+              ),
+              saturday = HoursGrouping(
+                Hours("11:30", "14:00", "17:00", "20:00"),
               ),
             ),
           ),
@@ -341,17 +337,15 @@ object GunnisonRestaurants
           Website.facebookPage(
             "https://www.facebook.com/gunnisonpizza/",
           ),
-          Some(
-            StandardSchedule.carryOutAndDelivery(
-              HoursOfOperation(
-                sunday = Hours("17:00", "20:00"),
-                monday = ClosedAllDay,
-                tuesday = Hours("17:00", "20:00"),
-                wednesday = Hours("17:00", "20:00"),
-                thursday = Hours("17:00", "20:00"),
-                friday = Hours("17:00", "20:00"),
-                saturday = Hours("17:00", "20:00"),
-              ),
+          StandardSchedule.carryOutAndDelivery(
+            HoursOfOperation(
+              sunday = Hours("17:00", "20:00"),
+              monday = ClosedAllDay,
+              tuesday = Hours("17:00", "20:00"),
+              wednesday = Hours("17:00", "20:00"),
+              thursday = Hours("17:00", "20:00"),
+              friday = Hours("17:00", "20:00"),
+              saturday = Hours("17:00", "20:00"),
             ),
           ),
         ),
@@ -383,17 +377,15 @@ object GunnisonRestaurants
           Website.facebookPage(
             "https://www.facebook.com/highalpinebrewingcompany/",
           ),
-          Some(
-            StandardSchedule.carryOutAndDelivery(
-              HoursOfOperation(
-                sunday = Hours("16:00", "20:00"),
-                monday = ClosedAllDay,
-                tuesday = ClosedAllDay,
-                wednesday = Hours("16:00", "20:00"),
-                thursday = Hours("16:00", "20:00"),
-                friday = Hours("16:00", "20:00"),
-                saturday = Hours("16:00", "20:00"),
-              ),
+          StandardSchedule.carryOutAndDelivery(
+            HoursOfOperation(
+              sunday = Hours("16:00", "20:00"),
+              monday = ClosedAllDay,
+              tuesday = ClosedAllDay,
+              wednesday = Hours("16:00", "20:00"),
+              thursday = Hours("16:00", "20:00"),
+              friday = Hours("16:00", "20:00"),
+              saturday = Hours("16:00", "20:00"),
             ),
           ),
         ),
@@ -404,30 +396,57 @@ object GunnisonRestaurants
           Website.facebookPage(
             "https://www.facebook.com/Marios-Pizza-Pasta-113554522011947/",
           ),
-          Some(
-            StandardSchedule.carryOutAndDelivery(
-              HoursOfOperation(
-                sunday = ClosedAllDay,
-                monday = HoursGrouping(
-                  Hours("12:00", "14:00", "16:00", "18:00"),
-                ),
-                tuesday = HoursGrouping(
-                  Hours("12:00", "14:00", "16:00", "18:00"),
-                ),
-                wednesday = HoursGrouping(
-                  Hours("12:00", "14:00", "16:00", "18:00"),
-                ),
-                thursday = HoursGrouping(
-                  Hours("12:00", "14:00", "16:00", "18:00"),
-                ),
-                friday = HoursGrouping(
-                  Hours("12:00", "14:00", "16:00", "18:00"),
-                ),
-                saturday = HoursGrouping(
-                  Hours("12:00", "14:00", "16:00", "18:00"),
-                ),
+          StandardSchedule.carryOutAndDelivery(
+            HoursOfOperation(
+              sunday = ClosedAllDay,
+              monday = HoursGrouping(
+                Hours("12:00", "14:00", "16:00", "18:00"),
+              ),
+              tuesday = HoursGrouping(
+                Hours("12:00", "14:00", "16:00", "18:00"),
+              ),
+              wednesday = HoursGrouping(
+                Hours("12:00", "14:00", "16:00", "18:00"),
+              ),
+              thursday = HoursGrouping(
+                Hours("12:00", "14:00", "16:00", "18:00"),
+              ),
+              friday = HoursGrouping(
+                Hours("12:00", "14:00", "16:00", "18:00"),
+              ),
+              saturday = HoursGrouping(
+                Hours("12:00", "14:00", "16:00", "18:00"),
               ),
             ),
+          ),
+        ),
+        RestaurantWithSchedule(
+          Location("McDonald's"),
+          PhoneNumber("970-641-5050"),
+          Website.global(
+            "https://www.mcdonalds.com/us/en-us/location/co/gunnison/800-e-tomichi/6315.html",
+          ),
+          Website.facebookPage(
+            "https://www.facebook.com/McDonalds800ETomichi/",
+          ),
+          StandardSchedule.carryOutOnly(
+            HoursOfOperation.everyDay("05:00", "23:00"),
+          ),
+        ),
+        RestaurantWithSchedule(
+          Location("Mocha's Drive Thru"),
+          PhoneNumber("970-641-2006"),
+          Website.global(
+            "https://mochascoffeehouse.com/",
+          ),
+          Website.facebookPage(
+            "https://www.facebook.com/Mochas-Coffeehouse-Bakery-144796784110/",
+          ),
+          StandardSchedule(
+            deliveryHours =
+              HoursOfOperation.everyDay("09:00", "14:00"),
+            carryOutHours =
+              HoursOfOperation.everyDay("06:30", "14:00"),
           ),
         ),
       ),
