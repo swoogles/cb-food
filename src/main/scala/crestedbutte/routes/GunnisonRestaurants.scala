@@ -471,5 +471,17 @@ object GunnisonRestaurants
             HoursOfOperation.everyDay("06:00", "23:00"),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("Sherpa Cafe"),
+          PhoneNumber("970-641-7480"),
+          Website.global("https://www.sherpascafe.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/sherpacafegunnison/",
+          ),
+          StandardSchedule.carryOutOnly(
+            HoursOfOperation
+              .everyDay("17:00", "20:00"), // TODO Confirm days
+          ),
+        ),
       ),
     )
