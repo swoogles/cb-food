@@ -209,8 +209,7 @@ object TagsOnlyLocal {
     div(cls := "daily-hours")(
       div(cls := "day")(
         div(cls := "day-name")(
-          closedForTheDay.dayOfWeek
-            .getDisplayName(TextStyle.NARROW, Locale.US),
+          renderDayName(closedForTheDay.dayOfWeek),
         ),
       ),
       div(cls := "hours")(
