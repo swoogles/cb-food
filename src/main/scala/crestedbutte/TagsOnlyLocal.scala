@@ -1,5 +1,6 @@
 package crestedbutte
 
+import java.time.DayOfWeek
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -164,18 +165,34 @@ object TagsOnlyLocal {
       },
     )
 
+  def renderDayName(dayOfWeek: DayOfWeek): String =
+    // This doesn't work for some lame reason.
+    // .getDisplayName(TextStyle.SHORT_STANDALONE, Locale.US),
+    dayOfWeek match {
+      case DayOfWeek.SUNDAY    => "Sun"
+      case DayOfWeek.MONDAY    => "Mon"
+      case DayOfWeek.TUESDAY   => "Tue"
+      case DayOfWeek.WEDNESDAY => "Wed"
+      case DayOfWeek.THURSDAY  => "Thur"
+      case DayOfWeek.FRIDAY    => "Fri"
+      case DayOfWeek.SATURDAY  => "Sat"
+    }
+
   def renderDailyhours(dailyHours: DailyHours) =
     div(cls := "daily-hours")(
       div(cls := "day")(
-        dailyHours.dayOfWeek
-          .getDisplayName(TextStyle.NARROW, Locale.US),
+        div(cls := "day-name")(
+          renderDayName(dailyHours.dayOfWeek),
+        ),
       ),
-      dailyHours.hoursSegment.map(
-        hoursSegment =>
-          div(cls := "hours")(
-            hoursSegment.open.toDumbAmericanString + "-" +
-            hoursSegment.close.toDumbAmericanString,
-          ),
+      div(cls := "hours")(
+        dailyHours.hoursSegment.map(
+          hoursSegment =>
+            div(
+              hoursSegment.open.toDumbAmericanString + "-" +
+              hoursSegment.close.toDumbAmericanString,
+            ),
+        ),
       ),
     )
 
@@ -190,9 +207,15 @@ object TagsOnlyLocal {
 
   def renderClosedForTheDay(closedForTheDay: ClosedForTheDay) =
     div(cls := "daily-hours")(
-      closedForTheDay.dayOfWeek
-        .getDisplayName(TextStyle.NARROW, Locale.US) + " " +
-      " *CLOSED* ",
+      div(cls := "day")(
+        div(cls := "day-name")(
+          closedForTheDay.dayOfWeek
+            .getDisplayName(TextStyle.NARROW, Locale.US),
+        ),
+      ),
+      div(cls := "hours")(
+        " *CLOSED* ",
+      ),
     )
 
   def createBusTimeElement(

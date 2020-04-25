@@ -128,18 +128,23 @@ body {
 }
 
 .daily-hours {
-    text-align: center;
+    /*text-align: center;*/
+    display: grid;
     grid-template-columns:1fr 3fr;
-    grid-template-rows: auto 1fr ;
+    grid-template-rows: auto 1fr;
     grid-template-areas:
             "day hours";
     font-size: 60%;
+    margin-bottom: .5em;
 }
+
 .day {
-    .grid-area: day;
+    grid-area: day;
+    display: inline-block;
+    vertical-align: middle;
 }
 .hours {
-.grid-area: hours;
+    grid-area: hours;
 }
 
 .service-unavailable {
