@@ -598,5 +598,18 @@ object GunnisonRestaurants
             ),
           ),
         ),
+        RestaurantWithSchedule(
+          Location("The Burrito Kitchen of Gunnison"),
+          ExternalActionCollection(
+            CallLocation(
+              PhoneNumber("970-641-9687"),
+            ),
+          ),
+          Some(
+            CompletelyUnstructedOperation(
+              "Frozen and ready to cook at your home. Available at Mocah's Drive Thru or delivered to your home. $30/6 pack.",
+            ),
+          ),
+        ),
       ),
     )
