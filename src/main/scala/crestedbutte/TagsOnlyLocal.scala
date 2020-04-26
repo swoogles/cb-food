@@ -219,19 +219,23 @@ object TagsOnlyLocal {
     )
 
   def createBusTimeElement(
-    location: Location,
-    externalActions: Seq[TypedTag[Div]],
-    businessDetailsOpt: Option[BusinessDetails],
-    carryOutStatus: RestaurantStatus,
-    deliveryStatus: RestaurantStatus,
-  ): JsDom.TypedTag[Div] =
+    restaurantWithStatus: RestaurantWithStatus,
+    openForOrders: Boolean,
+  ): JsDom.TypedTag[Div] = {
+    val externalActions =
+      renderExternalActions(
+        restaurantWithStatus.restaurantWithSchedule.externalActions,
+        openForOrders,
+      )
     Bulma.collapsedCardWithHeader(
       div(cls := "restaurant-header")(
         div(cls := "restaurant-name")(
 //          if (carryOutStatus == Open || deliveryStatus == Open)
 //            div(location.name + "Open now!")
 //          else
-          div(location.officialName),
+          div(
+            restaurantWithStatus.restaurantWithSchedule.location.officialName,
+          ),
         ),
         div(cls := "restaurant-call")(
           externalActions.head, // Unsafe
@@ -241,7 +245,7 @@ object TagsOnlyLocal {
         svgIcon("glyphicons-basic-221-chevron-down.svg"),
       ),
       div(cls := "restaurant-information")(
-        businessDetailsOpt
+        restaurantWithStatus.restaurantWithSchedule.businessDetails
           .map {
             case StandardSchedule(deliveryHours, carryOutHours) =>
               div(cls := "schedule")(
@@ -268,7 +272,10 @@ object TagsOnlyLocal {
           ),
       ),
       externalActions.tail,
-    )(data("location") := location.elementName)
+    )(
+      data("location") := restaurantWithStatus.restaurantWithSchedule.location.elementName,
+    )
+  }
 
   def activateModal(targetName: String): Unit =
     org.scalajs.dom.document.body
@@ -304,32 +311,26 @@ object TagsOnlyLocal {
         ),
       ),
       upcomingArrivalComponentData.upcomingArrivalInfo.map {
-        case RestaurantWithStatus(
-            RestaurantWithSchedule(
-              location: Location,
-              externalActions: ExternalActionCollection,
-              businessDetails: Option[BusinessDetails],
-            ),
-            carryOutStatus,
-            deliveryStatus,
-            ) => {
+        case restaurantWithStatus: RestaurantWithStatus => {
           val openForOrders =
-            (carryOutStatus == Open || deliveryStatus == Open)
+            (restaurantWithStatus.carryOutStatus == Open || restaurantWithStatus.deliveryStatus == Open)
           TagsOnlyLocal.createBusTimeElement(
-            location,
-            renderExternalAction(
-              externalActions.primary,
-              openForOrders,
-            ) +: externalActions.others.map(
-              externalAction =>
-                renderExternalAction(externalAction, openForOrders),
-            ),
-            businessDetails,
-            carryOutStatus,
-            deliveryStatus,
+            restaurantWithStatus,
+            openForOrders,
           )
         }
       },
+    )
+
+  def renderExternalActions(externalActions: ExternalActionCollection,
+                            openForOrders: Boolean,
+  ) =
+    renderExternalAction(
+      externalActions.primary,
+      openForOrders,
+    ) +: externalActions.others.map(
+      externalAction =>
+        renderExternalAction(externalAction, openForOrders),
     )
 
   def svgIconForAlarm(name: String,
