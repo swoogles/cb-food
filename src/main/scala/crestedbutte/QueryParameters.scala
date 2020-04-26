@@ -4,24 +4,14 @@ import zio.ZIO
 
 object QueryParameters {
 
-  // This String result should be immediately transformed into a stronger type
-  def getBasicStringParam(parameterName: String) =
-    ZIO
-      .environment[Browser]
-      .map(
-        browser =>
-          UrlParsing
-            .getUrlParameter(
-              browser.browser.window().location.toString,
-              parameterName,
-            ),
-      )
+  def getRequired[T](
+    parameterName: String,
+    typer: String => T,
+  ): ZIO[Browser, Nothing, Option[T]] =
+    getOptional(parameterName, raw => Some(typer(raw)))
 
-  def get[T](parameterName: String, typer: String => T) =
-    getWithErrorsAsEmpty(parameterName, raw => Some(typer(raw)))
-
-  def getWithErrorsAsEmpty[T](parameterName: String,
-                              typer: String => Option[T]) =
+  def getOptional[T](parameterName: String,
+                     typer: String => Option[T]) =
     ZIO
       .environment[Browser]
       .map(
@@ -34,4 +24,21 @@ object QueryParameters {
             .flatMap(typer),
       )
 
+  def getOptionalZ[T](
+    parameterName: String,
+    typer: String => Option[T],
+  ): ZIO[Browser, Unit, T] =
+    ZIO
+      .environment[Browser]
+      .map { browser =>
+        val result: Option[T] =
+          UrlParsing
+            .getUrlParameter(
+              browser.browser.window().location.toString,
+              parameterName,
+            )
+            .flatMap(typer)
+        result
+      }
+      .flatMap(optResult => ZIO.fromOption(optResult))
 }

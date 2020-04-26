@@ -30,7 +30,10 @@ object MyApp extends App {
     components: Seq[ComponentData],
   ): ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
-      serviceAreaOpt <- QueryParameters.getBasicStringParam("route")
+      serviceAreaOpt <- QueryParameters.getOptional(
+        "route",
+        x => Some(x),
+      )
       selectedComponent: ComponentData = serviceAreaOpt
         .flatMap(
           serviceAreaParam =>
@@ -79,9 +82,8 @@ object MyApp extends App {
   val fullApplicationLogic: ZIO[Clock with Browser, Nothing, Int] =
     for {
       pageMode <- QueryParameters
-        .getWithErrorsAsEmpty("mode", AppMode.fromString)
+        .getOptional("mode", AppMode.fromString)
         .map { paramAttempt =>
-          println("paramAttempt: " + paramAttempt)
           paramAttempt
             .getOrElse(AppMode.Production)
         }
@@ -89,8 +91,9 @@ object MyApp extends App {
         pageMode,
         components,
       )
-      _         <- UnsafeCallbacks.attachMenuBehavior
-      fixedTime <- QueryParameters.get("time", deserializeTimeString)
+      _ <- UnsafeCallbacks.attachMenuBehavior
+      fixedTime <- QueryParameters.getRequired("time",
+                                               deserializeTimeString)
       environmentDependencies = if (fixedTime.isDefined) { // TODO use map instead
         println("generic queryParam currentTime: " + fixedTime.get)
         new FixedClock.Fixed(
