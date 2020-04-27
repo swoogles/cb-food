@@ -118,7 +118,7 @@ object MyApp extends App {
       0
     }
 
-  def updateUpcomingArrivalsForRoute(
+  def updateCurrentRestaurantInfoInCity(
     componentData: ComponentData,
     currentlySelectedRoute: ComponentData,
     now: Instant,
@@ -143,7 +143,7 @@ object MyApp extends App {
       } yield ()
     } else {
       println("Hiding other element: " + componentData.componentName)
-      DomManipulation.hideUpcomingBusSectionInsideElement(
+      DomManipulation.hideElement(
         componentData.componentName,
       )
     }
@@ -159,7 +159,7 @@ object MyApp extends App {
       else
         ZIO.sequence(
           components.map(
-            updateUpcomingArrivalsForRoute(
+            updateCurrentRestaurantInfoInCity(
               _,
               selectedRoute,
               now: Instant,

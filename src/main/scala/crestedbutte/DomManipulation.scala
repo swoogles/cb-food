@@ -63,7 +63,7 @@ object DomManipulation {
           }
       }
 
-  def hideUpcomingBusSectionInsideElement(
+  def hideElement(
     elementName: String,
   ): ZIO[Browser, Nothing, Unit] =
     ZIO
