@@ -166,8 +166,26 @@ object GunnisonRestaurants
             ),
           ),
           Some(
-            CompletelyUnstructedOperation(
-              "Carry-out Monday-Friday 10:30AM-2:00PM & 4:30PM-7:00PM",
+            StandardSchedule.carryOutOnly(
+              HoursOfOperation(
+                sunday = ClosedAllDay,
+                monday = HoursGrouping(
+                  Hours("10:30", "14:00", "16:30", "19:00"),
+                ),
+                tuesday = HoursGrouping(
+                  Hours("10:30", "14:00", "16:30", "19:00"),
+                ),
+                wednesday = HoursGrouping(
+                  Hours("10:30", "14:00", "16:30", "19:00"),
+                ),
+                thursday = HoursGrouping(
+                  Hours("10:30", "14:00", "16:30", "19:00"),
+                ),
+                friday = HoursGrouping(
+                  Hours("10:30", "14:00", "16:30", "19:00"),
+                ),
+                saturday = ClosedAllDay,
+              ),
             ),
           ),
         ),
