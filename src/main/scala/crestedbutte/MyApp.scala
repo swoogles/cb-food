@@ -60,15 +60,10 @@ object MyApp extends App {
       _ <- NotificationStuff.checkSubmittedAlarms
     } yield ()
 
-  val crestedButteRestaurants =
-    new TownRestaurants("Crested Butte",
-                        Seq(
-                          CbRestaurantsAndSchedules,
-                        ))
-
   private val components: Seq[ComponentData] =
-    crestedButteRestaurants.restaurantGroups
-      .map(ComponentData) ++: Seq(
+    Seq(
+      CbRestaurantsAndSchedules,
+    ).map(ComponentData) ++: Seq(
       ComponentData(
         GunnisonRestaurants,
       ),
