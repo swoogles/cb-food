@@ -2,6 +2,7 @@ package crestedbutte
 
 import java.time.{Instant, LocalDateTime, ZoneId, ZoneOffset}
 
+import crestedbutte.routes.RestaurantGroup
 import crestedbutte.time.{
   BusTime,
   ClosedForTheDay,
@@ -110,9 +111,9 @@ object TimeCalculations {
 
   def calculateUpcomingArrivalAtAllStops(
     now: Instant,
-    busRoute: NamedRestaurantGroup,
+    restaurantGroup: RestaurantGroup,
   ): Seq[RestaurantWithStatus] =
-    busRoute.restaurantGroup.allRestaurants.map(
+    restaurantGroup.allRestaurants.map(
       (scheduleAtStop: RestaurantWithSchedule) =>
         getUpcomingArrivalInfo(scheduleAtStop, now),
     )
@@ -126,7 +127,7 @@ object TimeCalculations {
     }
 
   def getUpComingArrivals(
-    namedRestaurantgroup: NamedRestaurantGroup,
+    restaurantgroup: RestaurantGroup,
   ): ZIO[Clock, Nothing, Seq[RestaurantWithStatus]] =
     for {
       clockProper <- ZIO.environment[Clock]
@@ -135,7 +136,7 @@ object TimeCalculations {
     } yield {
       TimeCalculations.calculateUpcomingArrivalAtAllStops(
         nowInstant,
-        namedRestaurantgroup,
+        restaurantgroup,
       )
     }
 

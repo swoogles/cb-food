@@ -135,10 +135,7 @@ object MyApp extends App {
       val restaurantsWithStatus =
         TimeCalculations.calculateUpcomingArrivalAtAllStops(
           now,
-          NamedRestaurantGroup(
-            componentData.restaurantGroup.restaurantGroupName,
-            componentData.restaurantGroup,
-          ),
+          componentData.restaurantGroup,
         )
       for {
         _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
