@@ -46,7 +46,7 @@ object MyApp extends App {
 
       _ <- ZIO.succeed(
         println(
-          "selectedComponent: " + selectedComponent.restaurantGroup.restaurantGroupName.userFriendlyName,
+          "selectedComponent: " + selectedComponent.restaurantGroup.restaurantGroupName.humanFriendlyName,
         ),
       )
       now <- TimeCalculations.now

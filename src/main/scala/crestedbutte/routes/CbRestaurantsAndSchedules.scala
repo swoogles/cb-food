@@ -12,7 +12,7 @@ import crestedbutte.time.{
 import crestedbutte.{
   AdvanceOrdersOnly,
   ExternalActionCollection,
-  Location,
+  Name,
   PhoneNumber,
   Restaurant,
   RestaurantGroupName,
@@ -24,10 +24,10 @@ import crestedbutte.{
 
 object CbRestaurantsAndSchedules
     extends RestaurantGroup(
-      RestaurantGroupName("Crested Butte Restaurants"),
+      Name("Crested Butte Restaurants"),
       Seq(
         Restaurant(
-          Location("The Brick Oven"),
+          Name("The Brick Oven"),
           PhoneNumber("970-349-5044", "Order!"),
           Website.global("http://brickovencb.com/"),
           Website.facebookPage(
@@ -41,7 +41,7 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
-          Location("Bonez"),
+          Name("Bonez"),
           PhoneNumber("970-349-5118", "Order!"),
           Website.global("https://www.bonez.co/"),
           Website.facebookPage(
@@ -60,7 +60,7 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
-          Location("Butte Bagels"),
+          Name("Butte Bagels"),
           PhoneNumber("970-349-5630", "Order!"),
           Website.global("https://butte-bagels.com/"),
           Website.facebookPage(
@@ -88,7 +88,7 @@ object CbRestaurantsAndSchedules
 //          ),
 //        ),
         Restaurant(
-          Location("The Divvy"),
+          Name("The Divvy"),
           PhoneNumber("970-787-5447", "Order!"),
           Website.global("https://thedivvycrestedbutte.com/"),
           Website.facebookPage(
@@ -102,7 +102,7 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
-          Location("Gas Cafe"),
+          Name("Gas Cafe"),
           PhoneNumber("970-349-9656", "Order!"),
           Website.global("https://www.gascafe1stop.com/"),
           Website.facebookPage(
@@ -130,7 +130,7 @@ object CbRestaurantsAndSchedules
 //          ),
 //        ),
         Restaurant(
-          Location("General Store"),
+          Name("General Store"),
           PhoneNumber("970-349-2783", "Order!"),
           Website.global("https://www.cbsouthgeneralstore.com/"),
           Website.facebookPage(
@@ -142,7 +142,7 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
-          Location("McGills"),
+          Name("McGills"),
           PhoneNumber("970-349-5240", "Order!"),
           Website.global("https://www.mcgillscrestedbutte.com/"),
           Website.facebookPage(
@@ -153,7 +153,7 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
-          Location("Mikey's Pizza"),
+          Name("Mikey's Pizza"),
           PhoneNumber("970-349-1110", "Order!"),
           Website.global("https://www.mikeyspizza.net/"),
           Website.facebookPage(
@@ -164,7 +164,7 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
-          Location("Montanya"),
+          Name("Montanya"),
           PhoneNumber("970-799-3206", "Order!"),
           Website.global("https://www.montanyarum.com/shop"),
           Website.facebookPage(
@@ -175,7 +175,7 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
-          Location("Niky's"),
+          Name("Niky's"),
           ExternalActionCollection(
             VisitHomePage(
               Website.global("https://www.nikysminidonuts.com/"),
@@ -198,7 +198,7 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
-          Location("Octopus Coffee"),
+          Name("Octopus Coffee"),
           PhoneNumber("970-312-5394", "Order!"),
           Website.global("https://www.octopuscoffeecb.com/"),
           Website.facebookPage(
@@ -217,7 +217,7 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
-          Location("Pitas in Paradise"),
+          Name("Pitas in Paradise"),
           PhoneNumber("970-349-0897", "Order!"),
           Website.global("http://pitasinparadise.com/"),
           Website.facebookPage(
@@ -228,7 +228,7 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
-          Location("Secret Stash"),
+          Name("Secret Stash"),
           PhoneNumber("970-209-5159", "Order!"),
           Website.global("http://www.secretstash.com/"),
           Website.facebookPage(
@@ -256,7 +256,7 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
-          Location("Slogar"),
+          Name("Slogar"),
           PhoneNumber("970-349-5765", "Order!"),
           Website.global("https://www.slogarcb.com/"),
           Website.facebookPage(
@@ -269,7 +269,7 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
-          Location("Soupcon"),
+          Name("Soupcon"),
           PhoneNumber("970-349-5448", "Order!"),
           Website.global("https://www.soupconcb.com/"),
           Website.facebookPage(
@@ -280,7 +280,7 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
-          Location("Tully's"),
+          Name("Tully's"),
           PhoneNumber("970-349-2444", "Order!"),
           Website.global("https://www.tullyscbsouth.com/"),
           Website.facebookPage(

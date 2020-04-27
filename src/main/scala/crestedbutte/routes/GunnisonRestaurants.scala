@@ -10,7 +10,7 @@ import crestedbutte.{
   CallLocation,
   CompletelyUnstructedOperation,
   ExternalActionCollection,
-  Location,
+  Name,
   PhoneNumber,
   Restaurant,
   RestaurantGroupName,
@@ -22,10 +22,10 @@ import crestedbutte.{
 
 object GunnisonRestaurants
     extends RestaurantGroup(
-      RestaurantGroupName("Gunnison Restaurants"),
+      Name("Gunnison Restaurants"),
       Seq(
         Restaurant(
-          Location("5 B's Bar-B-Q"),
+          Name("5 B's Bar-B-Q"),
           PhoneNumber("970-641-7360", "Order!"),
           Website.global("https://www.5bsbbq.com/"),
           Website.facebookPage(
@@ -44,7 +44,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Agave Family Mexican"),
+          Name("Agave Family Mexican"),
           PhoneNumber("970-641-3679"),
           Website.global("https://www.agavefamilymexican.com/"),
           Website.facebookPage(
@@ -55,7 +55,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Anjeo"),
+          Name("Anjeo"),
           ExternalActionCollection(
             CallLocation(PhoneNumber("970-641-1427")),
             Seq(
@@ -81,7 +81,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Arby's"),
+          Name("Arby's"),
           PhoneNumber("970-641-8851"),
           Website.global(
             "https://locations.arbys.com/co/gunnison/800-e-tomichi-ave-temp.html",
@@ -94,7 +94,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Blackstock Bistro"),
+          Name("Blackstock Bistro"),
           ExternalActionCollection(
             VisitHomePage(
               Website.onlineOrder(
@@ -141,7 +141,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Buckel Family Wine"),
+          Name("Buckel Family Wine"),
           PhoneNumber("970-349-2071"),
           Website.global("https://www.buckelfamilywine.com/"),
           Website.facebookPage(
@@ -154,7 +154,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Cafe Silvestri"),
+          Name("Cafe Silvestri"),
           ExternalActionCollection(
             CallLocation(PhoneNumber("970-642-4550")), // TODO confirm number. It's either this or 970-641-4001
             Seq(
@@ -172,7 +172,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Crumb de la Crumb"),
+          Name("Crumb de la Crumb"),
           PhoneNumber("970-596-8128"),
           Website.global("https://crumbdelacrumbbake.com/"),
           Website.facebookPage(
@@ -185,7 +185,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Dominos"),
+          Name("Dominos"),
           PhoneNumber("970-707-4199"),
           Website.global(
             "https://pizza.dominos.com/colorado/gunnison/",
@@ -206,7 +206,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("El Paraiso"),
+          Name("El Paraiso"),
           ExternalActionCollection(
             CallLocation(PhoneNumber("970-641-4957")),
             Seq(
@@ -232,7 +232,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Firebrand"),
+          Name("Firebrand"),
           ExternalActionCollection(
             CallLocation(PhoneNumber("970-641-6266")),
             Seq(
@@ -258,7 +258,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Garlic Mikes"),
+          Name("Garlic Mikes"),
           PhoneNumber("970-641-2493"),
           Website.global("https://garlicmikes.com/"),
           Website.facebookPage(
@@ -277,7 +277,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Gunnisack"),
+          Name("Gunnisack"),
           PhoneNumber("970-641-5445"),
           Website.global("https://www.thegunnisack.com/"),
           Website.facebookPage(
@@ -308,7 +308,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Gunnison Coffee Company"),
+          Name("Gunnison Coffee Company"),
           ExternalActionCollection(
             VisitFacebookPage(
               Website.facebookPage(
@@ -331,7 +331,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Gunnison Pizza Company"),
+          Name("Gunnison Pizza Company"),
           PhoneNumber("970-641-1110"),
           Website.global("https://www.gunnisonpizzaco.com/"),
           Website.facebookPage(
@@ -350,7 +350,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Gunnison Vitamin & Health Deli"), // TODO Might need to shrink the name
+          Name("Gunnison Vitamin & Health Deli"), // TODO Might need to shrink the name
           PhoneNumber("970-641-5928"),
           Website.global("https://gunnisonvitamin.net/"),
           Website.facebookPage(
@@ -371,7 +371,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("High Alpine Brewing Company"), // TODO Might need to shrink the name
+          Name("High Alpine Brewing Company"), // TODO Might need to shrink the name
           PhoneNumber("970-642-4500"),
           Website.global("http://highalpinebrewing.com/"),
           Website.facebookPage(
@@ -390,7 +390,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Mario's Pizza"),
+          Name("Mario's Pizza"),
           PhoneNumber("970-641-1374"),
           Website.global("http://mariosgunnison.com/"),
           Website.facebookPage(
@@ -421,7 +421,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("McDonald's"),
+          Name("McDonald's"),
           PhoneNumber("970-641-5050"),
           Website.global(
             "https://www.mcdonalds.com/us/en-us/location/co/gunnison/800-e-tomichi/6315.html",
@@ -434,7 +434,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Mocha's Drive Thru"),
+          Name("Mocha's Drive Thru"),
           PhoneNumber("970-641-2006"),
           Website.global(
             "https://mochascoffeehouse.com/",
@@ -450,7 +450,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Pie Zans"),
+          Name("Pie Zans"),
           PhoneNumber("970-641-5255"),
           Website.global("https://www.piezanspizzeria.com/"),
           Website.facebookPage(
@@ -461,7 +461,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Powerstop"),
+          Name("Powerstop"),
           PhoneNumber("970-641-2328"),
           Website.global("http://www.the-powerstop.com/"),
           Website.facebookPage(
@@ -472,7 +472,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Sherpa Cafe"),
+          Name("Sherpa Cafe"),
           PhoneNumber("970-641-7480"),
           Website.global("https://www.sherpascafe.com/"),
           Website.facebookPage(
@@ -484,7 +484,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Taco Bell"),
+          Name("Taco Bell"),
           ExternalActionCollection(
             CallLocation(PhoneNumber("970-641-0414")),
             Seq(
@@ -510,7 +510,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Taco Cat Taco Cart"),
+          Name("Taco Cat Taco Cart"),
           PhoneNumber("970-209-6707"),
           Website.global("https://www.tacocattacocart.com/"),
           Website.facebookPage(
@@ -529,7 +529,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("The Dive Pub"),
+          Name("The Dive Pub"),
           PhoneNumber("970-641-1375"),
           Website.global("https://www.thedivegunnison.com/"),
           Website.facebookPage(
@@ -560,7 +560,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("Tributary Coffee Roaster"),
+          Name("Tributary Coffee Roaster"),
           ExternalActionCollection(
             VisitHomePage(
               Website.global("https://www.tributarycoffee.com/"),
@@ -580,7 +580,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("W Cafe"),
+          Name("W Cafe"),
           PhoneNumber("970-641-1744"),
           Website.global("http://thewcafe.com/"),
           Website.facebookPage(
@@ -599,7 +599,7 @@ object GunnisonRestaurants
           ),
         ),
         Restaurant(
-          Location("The Burrito Kitchen of Gunnison"),
+          Name("The Burrito Kitchen of Gunnison"),
           ExternalActionCollection(
             CallLocation(
               PhoneNumber("970-641-9687"),

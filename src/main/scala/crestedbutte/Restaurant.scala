@@ -3,7 +3,7 @@ package crestedbutte
 import crestedbutte.time.HoursOfOperation
 
 case class Restaurant(
-  location: Location,
+  location: Name,
   externalActions: ExternalActionCollection,
   businessDetails: Option[BusinessDetails] = None,
 )
@@ -11,7 +11,7 @@ case class Restaurant(
 object Restaurant {
 
   def apply(
-    location: Location,
+    location: Name,
     phoneNumber: PhoneNumber,
     website: Website,
     facebookPage: Website,
@@ -26,7 +26,7 @@ object Restaurant {
   )
 
   def apply(
-    location: Location,
+    location: Name,
     phoneNumber: PhoneNumber,
     website: Website,
     facebookPage: Website,
@@ -41,7 +41,7 @@ object Restaurant {
     )
 
   def apply(
-    location: Location,
+    location: Name,
     phoneNumber: PhoneNumber,
     website: Website,
     facebookPage: Website,
