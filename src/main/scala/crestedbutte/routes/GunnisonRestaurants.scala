@@ -44,14 +44,14 @@ object GunnisonRestaurants
           ),
         ),
         RestaurantWithSchedule(
-          Location("Agave"),
-          PhoneNumber("970-417-7489", "Order!"),
+          Location("Agave Family Mexican"),
+          PhoneNumber("970-641-3679", "Order!"),
           Website.global("https://www.agavefamilymexican.com/"),
           Website.facebookPage(
             "https://www.facebook.com/agavefamilymexican/",
           ),
           StandardSchedule.carryOutOnly(
-            HoursOfOperation.everyDay("10:30", "20:00"),
+            HoursOfOperation.everyDay("11:00", "21:00"),
           ),
         ),
         RestaurantWithSchedule(
