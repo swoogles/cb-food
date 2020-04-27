@@ -228,6 +228,25 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
+          Name("Rumors Coffee & Tea House"),
+          PhoneNumber("970-349-7545"),
+          Website.global("http://www.rumorscoffeeandteahouse.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/towniebooks/",
+          ),
+          StandardSchedule.carryOutOnly(
+            HoursOfOperation(
+              sunday = ClosedAllDay,
+              monday = Hours("08:00", "17:00"),
+              tuesday = Hours("08:00", "17:00"),
+              wednesday = Hours("08:00", "17:00"),
+              thursday = Hours("08:00", "17:00"),
+              friday = Hours("08:00", "17:00"),
+              saturday = Hours("08:00", "17:00"),
+            ),
+          ),
+        ),
+        Restaurant(
           Name("Secret Stash"),
           PhoneNumber("970-209-5159", "Order!"),
           Website.global("http://www.secretstash.com/"),
