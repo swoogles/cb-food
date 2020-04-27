@@ -141,10 +141,8 @@ object MyApp extends App {
         _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
           componentData.componentName,
           TagsOnlyLocal.structuredSetOfUpcomingArrivals(
-            CurrentComponentData(
-              restaurantsWithStatus,
-              componentData.restaurantGroup.restaurantGroupName,
-            ),
+            restaurantsWithStatus,
+            componentData.restaurantGroup.restaurantGroupName,
           ),
         )
       } yield ()

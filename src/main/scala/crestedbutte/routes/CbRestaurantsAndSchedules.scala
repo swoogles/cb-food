@@ -14,8 +14,8 @@ import crestedbutte.{
   ExternalActionCollection,
   Location,
   PhoneNumber,
+  Restaurant,
   RestaurantGroupName,
-  RestaurantWithSchedule,
   StandardSchedule,
   VisitFacebookPage,
   VisitHomePage,
@@ -26,7 +26,7 @@ object CbRestaurantsAndSchedules
     extends RestaurantGroup(
       RestaurantGroupName("Crested Butte Restaurants"),
       Seq(
-        RestaurantWithSchedule(
+        Restaurant(
           Location("The Brick Oven"),
           PhoneNumber("970-349-5044", "Order!"),
           Website.global("http://brickovencb.com/"),
@@ -40,7 +40,7 @@ object CbRestaurantsAndSchedules
               HoursOfOperation.everyDay("11:00", "20:00"),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Bonez"),
           PhoneNumber("970-349-5118", "Order!"),
           Website.global("https://www.bonez.co/"),
@@ -59,7 +59,7 @@ object CbRestaurantsAndSchedules
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Butte Bagels"),
           PhoneNumber("970-349-5630", "Order!"),
           Website.global("https://butte-bagels.com/"),
@@ -87,7 +87,7 @@ object CbRestaurantsAndSchedules
 //            "https://www.facebook.com/CoalCreekGrillCB/",
 //          ),
 //        ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("The Divvy"),
           PhoneNumber("970-787-5447", "Order!"),
           Website.global("https://thedivvycrestedbutte.com/"),
@@ -101,7 +101,7 @@ object CbRestaurantsAndSchedules
               |Taking orders 7 days a week""".stripMargin,
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Gas Cafe"),
           PhoneNumber("970-349-9656", "Order!"),
           Website.global("https://www.gascafe1stop.com/"),
@@ -129,7 +129,7 @@ object CbRestaurantsAndSchedules
 //            "https://www.facebook.com/thedogwoodcb/",
 //          ),
 //        ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("General Store"),
           PhoneNumber("970-349-2783", "Order!"),
           Website.global("https://www.cbsouthgeneralstore.com/"),
@@ -141,7 +141,7 @@ object CbRestaurantsAndSchedules
               HoursOfOperation.everyDay("11:00", "19:00"),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("McGills"),
           PhoneNumber("970-349-5240", "Order!"),
           Website.global("https://www.mcgillscrestedbutte.com/"),
@@ -152,7 +152,7 @@ object CbRestaurantsAndSchedules
             HoursOfOperation.everyDay("09:00", "14:00"),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Mikey's Pizza"),
           PhoneNumber("970-349-1110", "Order!"),
           Website.global("https://www.mikeyspizza.net/"),
@@ -163,7 +163,7 @@ object CbRestaurantsAndSchedules
             HoursOfOperation.everyDay("10:00", "19:00"),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Montanya"),
           PhoneNumber("970-799-3206", "Order!"),
           Website.global("https://www.montanyarum.com/shop"),
@@ -174,7 +174,7 @@ object CbRestaurantsAndSchedules
             "Order by 4 pm on Thursday and your order will be ready for pick up on Friday between 4 - 7 pm.",
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Niky's"),
           ExternalActionCollection(
             VisitHomePage(
@@ -197,7 +197,7 @@ object CbRestaurantsAndSchedules
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Octopus Coffee"),
           PhoneNumber("970-312-5394", "Order!"),
           Website.global("https://www.octopuscoffeecb.com/"),
@@ -216,7 +216,7 @@ object CbRestaurantsAndSchedules
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Pitas in Paradise"),
           PhoneNumber("970-349-0897", "Order!"),
           Website.global("http://pitasinparadise.com/"),
@@ -227,7 +227,7 @@ object CbRestaurantsAndSchedules
             HoursOfOperation.everyDay("12:00", "18:00"),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Secret Stash"),
           PhoneNumber("970-209-5159", "Order!"),
           Website.global("http://www.secretstash.com/"),
@@ -255,7 +255,7 @@ object CbRestaurantsAndSchedules
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Slogar"),
           PhoneNumber("970-349-5765", "Order!"),
           Website.global("https://www.slogarcb.com/"),
@@ -268,7 +268,7 @@ object CbRestaurantsAndSchedules
               |to tell you what time to pick up your order on SUNDAY.""".stripMargin,
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Soupcon"),
           PhoneNumber("970-349-5448", "Order!"),
           Website.global("https://www.soupconcb.com/"),
@@ -279,7 +279,7 @@ object CbRestaurantsAndSchedules
             "Order by 5:00PM Friday. Pickup between 5:00 and 7:30 Saturday.",
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Tully's"),
           PhoneNumber("970-349-2444", "Order!"),
           Website.global("https://www.tullyscbsouth.com/"),

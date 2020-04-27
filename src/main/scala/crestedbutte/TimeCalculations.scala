@@ -54,7 +54,7 @@ object TimeCalculations {
     }
 
   def getUpcomingArrivalInfo(
-    restaurant: RestaurantWithSchedule,
+    restaurant: Restaurant,
     now: Instant,
   ): RestaurantWithStatus =
     restaurant.businessDetails match {
@@ -114,7 +114,7 @@ object TimeCalculations {
     restaurantGroup: RestaurantGroup,
   ): Seq[RestaurantWithStatus] =
     restaurantGroup.allRestaurants.map(
-      (scheduleAtStop: RestaurantWithSchedule) =>
+      (scheduleAtStop: Restaurant) =>
         getUpcomingArrivalInfo(scheduleAtStop, now),
     )
 

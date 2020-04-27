@@ -302,15 +302,16 @@ object TagsOnlyLocal {
     }
 
   def structuredSetOfUpcomingArrivals(
-    upcomingArrivalComponentData: CurrentComponentData,
+    upcomingArrivalInfo: Seq[RestaurantWithStatus],
+    routeName: RestaurantGroupName,
   ) =
     div(
       div(cls := "route-header")(
         span(cls := "route-header_name")(
-          upcomingArrivalComponentData.routeName.userFriendlyName,
+          routeName.userFriendlyName,
         ),
       ),
-      upcomingArrivalComponentData.upcomingArrivalInfo.map {
+      upcomingArrivalInfo.map {
         case restaurantWithStatus: RestaurantWithStatus => {
           val openForOrders =
             (restaurantWithStatus.carryOutStatus == Open || restaurantWithStatus.deliveryStatus == Open)

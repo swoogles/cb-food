@@ -12,8 +12,8 @@ import crestedbutte.{
   ExternalActionCollection,
   Location,
   PhoneNumber,
+  Restaurant,
   RestaurantGroupName,
-  RestaurantWithSchedule,
   StandardSchedule,
   VisitFacebookPage,
   VisitHomePage,
@@ -24,7 +24,7 @@ object GunnisonRestaurants
     extends RestaurantGroup(
       RestaurantGroupName("Gunnison Restaurants"),
       Seq(
-        RestaurantWithSchedule(
+        Restaurant(
           Location("5 B's Bar-B-Q"),
           PhoneNumber("970-641-7360", "Order!"),
           Website.global("https://www.5bsbbq.com/"),
@@ -43,7 +43,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Agave Family Mexican"),
           PhoneNumber("970-641-3679"),
           Website.global("https://www.agavefamilymexican.com/"),
@@ -54,7 +54,7 @@ object GunnisonRestaurants
             HoursOfOperation.everyDay("11:00", "21:00"),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Anjeo"),
           ExternalActionCollection(
             CallLocation(PhoneNumber("970-641-1427")),
@@ -80,7 +80,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Arby's"),
           PhoneNumber("970-641-8851"),
           Website.global(
@@ -93,7 +93,7 @@ object GunnisonRestaurants
             HoursOfOperation.everyDay("10:00", "20:00"),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Blackstock Bistro"),
           ExternalActionCollection(
             VisitHomePage(
@@ -140,7 +140,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Buckel Family Wine"),
           PhoneNumber("970-349-2071"),
           Website.global("https://www.buckelfamilywine.com/"),
@@ -153,7 +153,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Cafe Silvestri"),
           ExternalActionCollection(
             CallLocation(PhoneNumber("970-642-4550")), // TODO confirm number. It's either this or 970-641-4001
@@ -171,7 +171,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Crumb de la Crumb"),
           PhoneNumber("970-596-8128"),
           Website.global("https://crumbdelacrumbbake.com/"),
@@ -184,7 +184,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Dominos"),
           PhoneNumber("970-707-4199"),
           Website.global(
@@ -205,7 +205,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("El Paraiso"),
           ExternalActionCollection(
             CallLocation(PhoneNumber("970-641-4957")),
@@ -231,7 +231,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Firebrand"),
           ExternalActionCollection(
             CallLocation(PhoneNumber("970-641-6266")),
@@ -257,7 +257,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Garlic Mikes"),
           PhoneNumber("970-641-2493"),
           Website.global("https://garlicmikes.com/"),
@@ -276,7 +276,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Gunnisack"),
           PhoneNumber("970-641-5445"),
           Website.global("https://www.thegunnisack.com/"),
@@ -307,7 +307,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Gunnison Coffee Company"),
           ExternalActionCollection(
             VisitFacebookPage(
@@ -330,7 +330,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Gunnison Pizza Company"),
           PhoneNumber("970-641-1110"),
           Website.global("https://www.gunnisonpizzaco.com/"),
@@ -349,7 +349,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Gunnison Vitamin & Health Deli"), // TODO Might need to shrink the name
           PhoneNumber("970-641-5928"),
           Website.global("https://gunnisonvitamin.net/"),
@@ -370,7 +370,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("High Alpine Brewing Company"), // TODO Might need to shrink the name
           PhoneNumber("970-642-4500"),
           Website.global("http://highalpinebrewing.com/"),
@@ -389,7 +389,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Mario's Pizza"),
           PhoneNumber("970-641-1374"),
           Website.global("http://mariosgunnison.com/"),
@@ -420,7 +420,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("McDonald's"),
           PhoneNumber("970-641-5050"),
           Website.global(
@@ -433,7 +433,7 @@ object GunnisonRestaurants
             HoursOfOperation.everyDay("05:00", "23:00"),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Mocha's Drive Thru"),
           PhoneNumber("970-641-2006"),
           Website.global(
@@ -449,7 +449,7 @@ object GunnisonRestaurants
               HoursOfOperation.everyDay("06:30", "14:00"),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Pie Zans"),
           PhoneNumber("970-641-5255"),
           Website.global("https://www.piezanspizzeria.com/"),
@@ -460,7 +460,7 @@ object GunnisonRestaurants
             HoursOfOperation.everyDay("11:00", "9:00"),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Powerstop"),
           PhoneNumber("970-641-2328"),
           Website.global("http://www.the-powerstop.com/"),
@@ -471,7 +471,7 @@ object GunnisonRestaurants
             HoursOfOperation.everyDay("06:00", "23:00"),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Sherpa Cafe"),
           PhoneNumber("970-641-7480"),
           Website.global("https://www.sherpascafe.com/"),
@@ -483,7 +483,7 @@ object GunnisonRestaurants
               .everyDay("17:00", "20:00"), // TODO Confirm days
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Taco Bell"),
           ExternalActionCollection(
             CallLocation(PhoneNumber("970-641-0414")),
@@ -509,7 +509,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Taco Cat Taco Cart"),
           PhoneNumber("970-209-6707"),
           Website.global("https://www.tacocattacocart.com/"),
@@ -528,7 +528,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("The Dive Pub"),
           PhoneNumber("970-641-1375"),
           Website.global("https://www.thedivegunnison.com/"),
@@ -559,7 +559,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("Tributary Coffee Roaster"),
           ExternalActionCollection(
             VisitHomePage(
@@ -579,7 +579,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("W Cafe"),
           PhoneNumber("970-641-1744"),
           Website.global("http://thewcafe.com/"),
@@ -598,7 +598,7 @@ object GunnisonRestaurants
             ),
           ),
         ),
-        RestaurantWithSchedule(
+        Restaurant(
           Location("The Burrito Kitchen of Gunnison"),
           ExternalActionCollection(
             CallLocation(

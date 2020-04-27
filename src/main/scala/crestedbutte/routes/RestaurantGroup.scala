@@ -1,12 +1,12 @@
 package crestedbutte.routes
 
 import crestedbutte.{
+  Restaurant,
   RestaurantGroupName,
-  RestaurantWithSchedule,
   RestaurantWithStatus,
 }
 
 case class RestaurantGroup(
   restaurantGroupName: RestaurantGroupName,
-  allRestaurants: Seq[RestaurantWithSchedule],
+  allRestaurants: Seq[Restaurant],
 )

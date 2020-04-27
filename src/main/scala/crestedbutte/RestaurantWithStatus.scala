@@ -1,7 +1,7 @@
 package crestedbutte
 
 case class RestaurantWithStatus(
-  restaurantWithSchedule: RestaurantWithSchedule,
+  restaurantWithSchedule: Restaurant,
   carryOutStatus: RestaurantStatus,
   deliveryStatus: RestaurantStatus,
 )
