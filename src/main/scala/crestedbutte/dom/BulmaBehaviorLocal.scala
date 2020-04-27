@@ -16,9 +16,6 @@ object BulmaBehaviorLocal {
             "#main-menu",
           )
           .map { element =>
-            new DefaultRuntime {}
-              .unsafeRun(hideOnClickOutside(element).provide(browser))
-
             browser.browser
               .convertNodesToList(
                 element.querySelectorAll(".navbar-item"),
@@ -51,44 +48,6 @@ object BulmaBehaviorLocal {
 
             element
           }
-      }
-
-  // This isn't really Bulma specific, rather than the .is-active class
-  def hideOnClickOutside(element: Element) =
-    ZIO
-      .environment[Browser]
-      .map { browser =>
-        println("setting up click-outside-menu behavior")
-        def outsideClickListener(): MouseEvent => Unit =
-          (event: MouseEvent) => {
-            println(
-              "you might have clicked outside of the main-menu!",
-            )
-            // TODO Get rid of terrible cast! It probably doesn't even work anyways!
-//            if (!element.contains(*clickedElement*) && isVisible(
-            if (isVisible(
-                  element,
-                )) {
-              println(
-                "Just going to close the menu because you clicked on *anything*",
-              )
-              element.classList.remove("is-active")
-              removeClickListener() // TODO Make unsafe behavior more explicit
-            }
-          }
-
-        def removeClickListener() =
-          () =>
-            browser.browser
-              .window()
-              .document
-              .removeEventListener("click", outsideClickListener())
-
-      // TODO Re-enable when attempting to close the menu when you click outside of i
-//        browser.browser
-//          .window()
-//          .document
-//          .addEventListener("click", outsideClickListener())
       }
 
   val isVisible = (element: Element) =>

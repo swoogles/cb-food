@@ -63,11 +63,8 @@ object MyApp extends App {
   private val components: Seq[ComponentData] =
     Seq(
       CbRestaurantsAndSchedules,
-    ).map(ComponentData) ++: Seq(
-      ComponentData(
-        GunnisonRestaurants,
-      ),
-    )
+      GunnisonRestaurants,
+    ).map(ComponentData)
 
   def deserializeTimeString(rawTime: String): OffsetDateTime =
     OffsetDateTime.parse(
