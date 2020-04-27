@@ -45,7 +45,7 @@ object GunnisonRestaurants
         ),
         RestaurantWithSchedule(
           Location("Agave Family Mexican"),
-          PhoneNumber("970-641-3679", "Order!"),
+          PhoneNumber("970-641-3679"),
           Website.global("https://www.agavefamilymexican.com/"),
           Website.facebookPage(
             "https://www.facebook.com/agavefamilymexican/",
