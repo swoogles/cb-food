@@ -103,6 +103,37 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
+          Name("Elk Prime"),
+          ExternalActionCollection(
+            VisitHomePage(
+              Website.onlineOrder(
+                "https://order.tbdine.com/elk-ave-prime-s/pickup",
+              ),
+            ),
+            Seq(
+              CallLocation(PhoneNumber("970-349-1221")),
+              VisitHomePage(
+                Website.global(
+                  "https://elkaveprime.com/",
+                ),
+              ),
+            ),
+          ),
+          Some(
+            StandardSchedule.carryOutOnly(
+              HoursOfOperation(
+                sunday = Hours("17:00", "19:30"),
+                monday = Hours("17:00", "19:30"),
+                tuesday = ClosedAllDay,
+                wednesday = ClosedAllDay,
+                thursday = Hours("17:00", "19:30"),
+                friday = Hours("17:00", "19:30"),
+                saturday = Hours("17:00", "19:30"),
+              ),
+            ),
+          ),
+        ),
+        Restaurant(
           Name("Gas Cafe"),
           PhoneNumber("970-349-9656", "Order!"),
           Website.global("https://www.gascafe1stop.com/"),
