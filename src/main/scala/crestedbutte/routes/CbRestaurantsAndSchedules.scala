@@ -11,6 +11,7 @@ import crestedbutte.time.{
 }
 import crestedbutte.{
   AdvanceOrdersOnly,
+  CallLocation,
   ExternalActionCollection,
   Name,
   PhoneNumber,
@@ -229,20 +230,30 @@ object CbRestaurantsAndSchedules
         ),
         Restaurant(
           Name("Rumors Coffee & Tea House"),
-          PhoneNumber("970-349-7545"),
-          Website.global("http://www.rumorscoffeeandteahouse.com/"),
-          Website.facebookPage(
-            "https://www.facebook.com/towniebooks/",
+          ExternalActionCollection(
+            VisitHomePage( // TODO This is wrong now
+              Website.onlineOrder(
+                "https://rumorscoffee.square.site/",
+              ),
+            ),
+            Seq(CallLocation(PhoneNumber("970-349-7545")),
+                VisitFacebookPage(
+                  Website.facebookPage(
+                    "https://www.facebook.com/towniebooks/",
+                  ),
+                )),
           ),
-          StandardSchedule.carryOutOnly(
-            HoursOfOperation(
-              sunday = ClosedAllDay,
-              monday = Hours("08:00", "17:00"),
-              tuesday = Hours("08:00", "17:00"),
-              wednesday = Hours("08:00", "17:00"),
-              thursday = Hours("08:00", "17:00"),
-              friday = Hours("08:00", "17:00"),
-              saturday = Hours("08:00", "17:00"),
+          Some(
+            StandardSchedule.carryOutOnly(
+              HoursOfOperation(
+                sunday = ClosedAllDay,
+                monday = Hours("08:00", "17:00"),
+                tuesday = Hours("08:00", "17:00"),
+                wednesday = Hours("08:00", "17:00"),
+                thursday = Hours("08:00", "17:00"),
+                friday = Hours("08:00", "17:00"),
+                saturday = Hours("08:00", "17:00"),
+              ),
             ),
           ),
         ),

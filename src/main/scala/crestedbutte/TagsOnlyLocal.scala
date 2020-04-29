@@ -70,6 +70,7 @@ object TagsOnlyLocal {
 
   def renderWebsiteLink(
     website: Website,
+    openForOrders: Boolean,
   ): JsDom.TypedTag[Div] =
     div(cls := "call-button")(
       Bulma.Button.basic(
@@ -86,6 +87,10 @@ object TagsOnlyLocal {
       )(
         onclick :=
           s"window.location.href = '${website.url}';",
+        cls := (if (openForOrders && website.name == "Order") // TODO ugh. Stringly typed logic in rendering
+                  "button is-success" // TODO Should only be submitting extra classes to bulma lib, *not* re-writing them here.
+                else
+                  "button"),
       ),
     )
 
@@ -295,8 +300,10 @@ object TagsOnlyLocal {
   def renderExternalAction(externalAction: ExternalAction,
                            openForOrders: Boolean) =
     externalAction match {
-      case VisitHomePage(website)     => renderWebsiteLink(website)
-      case VisitFacebookPage(website) => renderWebsiteLink(website)
+      case VisitHomePage(website) =>
+        renderWebsiteLink(website, openForOrders)
+      case VisitFacebookPage(website) =>
+        renderWebsiteLink(website, openForOrders)
       case CallLocation(phoneNumber) =>
         phoneButton(phoneNumber, openForOrders)
     }
