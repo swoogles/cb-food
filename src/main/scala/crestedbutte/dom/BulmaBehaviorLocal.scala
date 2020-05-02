@@ -1,7 +1,6 @@
 package crestedbutte.dom
 
 import crestedbutte.Browser
-import org.scalajs.dom.{Element, Event}
 import org.scalajs.dom.raw.MouseEvent
 import zio.{DefaultRuntime, IO, ZIO}
 
@@ -49,8 +48,5 @@ object BulmaBehaviorLocal {
             element
           }
       }
-
-  val isVisible = (element: Element) =>
-    element.classList.contains("is-active")
 
 }

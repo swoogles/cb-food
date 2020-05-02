@@ -12,17 +12,6 @@ object UnsafeCallbacks {
       .map {
         // println("About to attach card behavior") // um, why does this code work if I restore this?
         browser =>
-//          browser.browser
-//            .querySelectorAll(".card")
-//            .collect { case x: HTMLElement => x } // TODO Move this into browser interface. I want it basically everywhere.
-//            .foreach { modalOpenButton: HTMLElement =>
-//              println("Found a card. Attaching click behavior.")
-//              modalOpenButton
-//                .addEventListener(
-//                  "click",
-//                  toggleSection(modalOpenButton),
-//                )
-//            }
           browser.browser
             .querySelectorAll(".restaurant-name")
             .collect { case x: HTMLElement => x } // TODO Move this into browser interface. I want it basically everywhere.
@@ -38,7 +27,6 @@ object UnsafeCallbacks {
             .querySelectorAll(".card-header-icon")
             .collect { case x: HTMLElement => x } // TODO Move this into browser interface. I want it basically everywhere.
             .foreach { modalOpenButton: HTMLElement =>
-              println("Found a card. Attaching click behavior.")
               modalOpenButton
                 .addEventListener(
                   "click",
