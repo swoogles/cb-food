@@ -52,12 +52,7 @@ object TagsOnlyLocal {
       ),
       if (pageMode == AppMode.Development) {
         div(
-          Bulma.Button.basic("Request Notifications Permission")(
-            id := ElementNames.Notifications.requestPermission,
-          ),
-          Bulma.Button.basic("SubmitMessage to SW")(
-            id := ElementNames.Notifications.submitMessageToServiceWorker,
-          ),
+          // Dev stuff here.
         )
       } else div(),
     )

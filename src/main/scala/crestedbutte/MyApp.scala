@@ -53,11 +53,9 @@ object MyApp extends App {
       _ <- updateUpcomingArrivalsOnPage(selectedComponent,
                                         components,
                                         now)
-      _ <- NotificationStuff.addAlarmBehaviorToTimes
       _ <- ModalBehavior.addModalOpenBehavior
       _ <- ModalBehavior.addModalCloseBehavior
       _ <- UnsafeCallbacks.attachCardClickBehavior
-      _ <- NotificationStuff.checkSubmittedAlarms
     } yield ()
 
   private val components: Seq[ComponentData] =
@@ -94,8 +92,6 @@ object MyApp extends App {
       } else
         new ColoradoClock.Live with Console.Live with BrowserLive
       _ <- registerServiceWorker()
-      _ <- NotificationStuff.addNotificationPermissionRequestToButton
-      _ <- NotificationStuff.displayNotificationPermission
       _ <- BulmaBehaviorLocal.addMenuBehavior(
         loopLogic(pageMode, components)
           .provide(
@@ -168,37 +164,25 @@ object MyApp extends App {
   def registerServiceWorker() =
     ZIO
       .environment[Browser]
-      .map { browser =>
-        // TODO Ew. Try to get this removed after first version of PWA is working
-        import scala.concurrent.ExecutionContext.Implicits.global
-
-        toServiceWorkerNavigator(browser.browser.window().navigator).serviceWorker
-          .register("./sw-opt.js")
-          .toFuture
-          .onComplete {
-            case Success(registration) =>
-              browser.browser
-                .querySelector(
-                  "#" + ElementNames.Notifications.submitMessageToServiceWorker,
-                )
-                .foreach(
-                  _.addEventListener(
-                    "click",
-                    (_: MouseEvent) => {
-                      println(
-                        "submitting message to service worker",
-                      )
-                      registration.active.postMessage(
-                        "Submitting a message to the serviceWorker!",
-                      )
-                    },
-                  ),
-                )
-              registration.update()
-            case Failure(error) =>
-              println(
-                s"registerServiceWorker: service worker registration failed > ${error.printStackTrace()}",
-              )
-          }
+      .map {
+        registerServiceWorkerLogic
       }
+
+  def registerServiceWorkerLogic(browser: Browser) = {
+    // TODO Ew. Try to get this removed after first version of PWA is working
+    import scala.concurrent.ExecutionContext.Implicits.global
+
+    toServiceWorkerNavigator(browser.browser.window().navigator).serviceWorker
+      .register("./sw-opt.js")
+      .toFuture
+      .onComplete {
+        case Success(registration) =>
+          registration.update()
+        case Failure(error) =>
+          println(
+            s"registerServiceWorker: service worker registration failed > ${error.printStackTrace()}",
+          )
+      }
+  }
+
 }
