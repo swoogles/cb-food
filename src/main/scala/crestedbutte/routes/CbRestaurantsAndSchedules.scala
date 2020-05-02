@@ -317,6 +317,18 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
+          Name("Sherpa Cafe"),
+          PhoneNumber("970-349-0443"),
+          Website.global("https://www.sherpascafe.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/sherpacafecb",
+          ),
+          StandardSchedule.carryOutOnly(
+            carryOutHours =
+              HoursOfOperation.everyDay("17:00", "20:00"),
+          ),
+        ),
+        Restaurant(
           Name("Slogar"),
           PhoneNumber("970-349-5765", "Order!"),
           Website.global("https://www.slogarcb.com/"),
