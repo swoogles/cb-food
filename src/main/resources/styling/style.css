@@ -143,6 +143,7 @@ body {
     display: inline-block;
     vertical-align: middle;
     text-align: right;
+    font-weight: bold;
 }
 .hours {
     grid-area: hours;
