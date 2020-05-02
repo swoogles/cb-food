@@ -1,11 +1,6 @@
 package crestedbutte.routes
 
-import crestedbutte.{
-  Name,
-  Restaurant,
-  RestaurantGroupName,
-  RestaurantWithStatus,
-}
+import crestedbutte.{Name, Restaurant}
 
 case class RestaurantGroup(
   restaurantGroupName: Name,

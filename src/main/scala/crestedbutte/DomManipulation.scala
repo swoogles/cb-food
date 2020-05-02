@@ -52,13 +52,13 @@ object DomManipulation {
           .querySelector(s"#$elementName") // TODO Handle case where this is missing
           .foreach { routeElementResult =>
             routeElementResult
-              .querySelector("#upcoming-buses")
+              .querySelector("#" + ElementNames.contentName)
               .innerHTML = ""
 
             routeElementResult.setAttribute("style", "display:box") // TODO or grid?
 
             routeElementResult
-              .querySelector("#upcoming-buses")
+              .querySelector("#" + ElementNames.contentName)
               .appendChild(newContent.render)
           }
       }

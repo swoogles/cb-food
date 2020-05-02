@@ -16,7 +16,6 @@ import crestedbutte.{
   Name,
   PhoneNumber,
   Restaurant,
-  RestaurantGroupName,
   StandardSchedule,
   VisitFacebookPage,
   VisitHomePage,

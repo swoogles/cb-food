@@ -125,12 +125,6 @@ object TagsOnlyLocal {
       phoneNumber.name,
     )
 
-  def renderWaitTime(duration: BusDuration) =
-    if (duration.toMinutes == 0)
-      "Leaving!"
-    else
-      duration.toMinutes + " min."
-
   def renderDeliverySchedule(
     hoursOfOperationOpt: Option[HoursOfOperation],
   ) =
@@ -283,14 +277,12 @@ object TagsOnlyLocal {
       .classList
       .add("is-active")
 
-  def modalContentElementNameTyped(location: Name,
-                                   routeName: RestaurantGroupName) =
+  def modalContentElementNameTyped(location: Name, routeName: Name) =
     data("schedule-modal") := modalContentElementName(location,
                                                       routeName)
 
-  def modalContentElementName(location: Name,
-                              routeName: RestaurantGroupName) =
-    "modal_content_" + routeName.name + "_" + location.elementName
+  def modalContentElementName(location: Name, routeName: Name) =
+    "modal_content_" + routeName.elementName + "_" + location.elementName
 
   def renderExternalAction(externalAction: ExternalAction,
                            openForOrders: Boolean) =
