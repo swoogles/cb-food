@@ -121,12 +121,12 @@ object MyApp extends App {
         "SelectedRoute: " + currentlySelectedRestaurantGroup.componentName,
       )
       val restaurantsWithStatus =
-        TimeCalculations.calculateUpcomingArrivalAtAllStops(
+        TimeCalculations.calculateCurrentRestaurantStatus(
           now,
           restaurantGroup,
         )
       for {
-        _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
+        _ <- DomManipulation.updateRestaurantSectionInsideElement(
           restaurantGroup.componentName,
           TagsOnlyLocal.structuredSetOfUpcomingArrivals(
             restaurantsWithStatus,

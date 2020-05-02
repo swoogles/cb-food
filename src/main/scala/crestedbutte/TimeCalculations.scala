@@ -53,7 +53,7 @@ object TimeCalculations {
           Closed
     }
 
-  def getUpcomingArrivalInfo(
+  def calculateCurrentRestaurantStatus(
     restaurant: Restaurant,
     now: Instant,
   ): RestaurantWithStatus =
@@ -109,13 +109,13 @@ object TimeCalculations {
                              deliveryStatus = Unknown)
     }
 
-  def calculateUpcomingArrivalAtAllStops(
+  def calculateCurrentRestaurantStatus(
     now: Instant,
     restaurantGroup: RestaurantGroup,
   ): Seq[RestaurantWithStatus] =
     restaurantGroup.allRestaurants.map(
       (scheduleAtStop: Restaurant) =>
-        getUpcomingArrivalInfo(scheduleAtStop, now),
+        calculateCurrentRestaurantStatus(scheduleAtStop, now),
     )
 
   val now: ZIO[Clock, Nothing, Instant] =
@@ -124,20 +124,6 @@ object TimeCalculations {
       now         <- clockProper.clock.currentDateTime
     } yield {
       now.toInstant
-    }
-
-  def getUpComingArrivals(
-    restaurantgroup: RestaurantGroup,
-  ): ZIO[Clock, Nothing, Seq[RestaurantWithStatus]] =
-    for {
-      clockProper <- ZIO.environment[Clock]
-      now         <- clockProper.clock.currentDateTime
-      nowInstant = now.toInstant // TODO This is where I get my time
-    } yield {
-      TimeCalculations.calculateUpcomingArrivalAtAllStops(
-        nowInstant,
-        restaurantgroup,
-      )
     }
 
 }

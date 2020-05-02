@@ -7,7 +7,6 @@ import scalatags.JsDom
 import zio.ZIO
 
 object DomManipulation {
-  import scalatags.JsDom.all._
 
   def createAndApplyPageStructure(
     pageMode: AppMode.Value,
@@ -28,21 +27,7 @@ object DomManipulation {
           )
       }
 
-  def appendMessageToPage(
-    message: String,
-  ): ZIO[Browser, Throwable, Unit] =
-    ZIO
-      .environment[Browser]
-      .map[Unit](
-        browser => {
-          println("Should show timezones: " + message)
-          browser.browser
-            .querySelector(".timezone")
-            .foreach(_.appendChild(div(message).render))
-        },
-      )
-
-  def updateUpcomingBusSectionInsideElement(
+  def updateRestaurantSectionInsideElement(
     elementName: String,
     newContent: JsDom.TypedTag[Div],
   ): ZIO[Browser, Nothing, Unit] =
