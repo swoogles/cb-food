@@ -1,5 +1,6 @@
 package crestedbutte
 
+import crestedbutte.routes.RestaurantGroup
 import org.scalajs.dom.html.Div
 import org.scalajs.dom.raw.Node
 import scalatags.JsDom
@@ -10,7 +11,7 @@ object DomManipulation {
 
   def createAndApplyPageStructure(
     pageMode: AppMode.Value,
-    componentData: Seq[ComponentData],
+    restaurantGroups: Seq[RestaurantGroup],
   ): ZIO[Browser, Nothing, Node] =
     ZIO
       .environment[Browser]
@@ -22,7 +23,7 @@ object DomManipulation {
           .body()
           .appendChild(
             TagsOnlyLocal
-              .overallPageLayout(pageMode, componentData)
+              .overallPageLayout(pageMode, restaurantGroups)
               .render,
           )
       }

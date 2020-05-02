@@ -27,42 +27,42 @@ object MyApp extends App {
 
   def loopLogic(
     pageMode: AppMode.Value,
-    components: Seq[ComponentData],
+    restaurantGroups: Seq[RestaurantGroup],
   ): ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
       serviceAreaOpt <- QueryParameters.getOptional(
         "route",
         x => Some(x),
       )
-      selectedComponent: ComponentData = serviceAreaOpt
+      selectedRestaurantGroup: RestaurantGroup = serviceAreaOpt
         .flatMap(
           serviceAreaParam =>
-            components.find(
-              _.restaurantGroup.restaurantGroupName
+            restaurantGroups.find(
+              _.name
                 .elementNameMatches(serviceAreaParam),
             ),
         )
-        .getOrElse(components.head)
+        .getOrElse(restaurantGroups.head)
 
       _ <- ZIO.succeed(
         println(
-          "selectedComponent: " + selectedComponent.restaurantGroup.restaurantGroupName.humanFriendlyName,
+          "selectedRestaurantGroup: " + selectedRestaurantGroup.name.humanFriendlyName,
         ),
       )
       now <- TimeCalculations.now
-      _ <- updateUpcomingArrivalsOnPage(selectedComponent,
-                                        components,
+      _ <- updateUpcomingArrivalsOnPage(selectedRestaurantGroup,
+                                        restaurantGroups,
                                         now)
       _ <- ModalBehavior.addModalOpenBehavior
       _ <- ModalBehavior.addModalCloseBehavior
       _ <- UnsafeCallbacks.attachCardClickBehavior
     } yield ()
 
-  private val components: Seq[ComponentData] =
+  private val restaurantGroups: Seq[RestaurantGroup] =
     Seq(
       CbRestaurantsAndSchedules,
       GunnisonRestaurants,
-    ).map(ComponentData)
+    )
 
   def deserializeTimeString(rawTime: String): OffsetDateTime =
     OffsetDateTime.parse(
@@ -79,7 +79,7 @@ object MyApp extends App {
         }
       _ <- DomManipulation.createAndApplyPageStructure(
         pageMode,
-        components,
+        restaurantGroups,
       )
       _ <- UnsafeCallbacks.attachMenuBehavior
       fixedTime <- QueryParameters.getRequired("time",
@@ -93,13 +93,13 @@ object MyApp extends App {
         new ColoradoClock.Live with Console.Live with BrowserLive
       _ <- registerServiceWorker()
       _ <- BulmaBehaviorLocal.addMenuBehavior(
-        loopLogic(pageMode, components)
+        loopLogic(pageMode, restaurantGroups)
           .provide(
             // TODO Try to provide *only* a clock here.
             environmentDependencies,
           ),
       )
-      _ <- loopLogic(pageMode, components)
+      _ <- loopLogic(pageMode, restaurantGroups)
         .provide(
           // TODO Try to provide *only* a clock here.
           environmentDependencies,
@@ -112,38 +112,40 @@ object MyApp extends App {
     }
 
   def updateCurrentRestaurantInfoInCity(
-    componentData: ComponentData,
-    currentlySelectedRoute: ComponentData,
+    restaurantGroup: RestaurantGroup,
+    currentlySelectedRestaurantGroup: RestaurantGroup,
     now: Instant,
   ) =
-    if (componentData == currentlySelectedRoute) {
+    if (restaurantGroup == currentlySelectedRestaurantGroup) {
       println(
-        "SelectedRoute: " + currentlySelectedRoute.componentName,
+        "SelectedRoute: " + currentlySelectedRestaurantGroup.componentName,
       )
       val restaurantsWithStatus =
         TimeCalculations.calculateUpcomingArrivalAtAllStops(
           now,
-          componentData.restaurantGroup,
+          restaurantGroup,
         )
       for {
         _ <- DomManipulation.updateUpcomingBusSectionInsideElement(
-          componentData.componentName,
+          restaurantGroup.componentName,
           TagsOnlyLocal.structuredSetOfUpcomingArrivals(
             restaurantsWithStatus,
-            componentData.restaurantGroup.restaurantGroupName,
+            restaurantGroup.name,
           ),
         )
       } yield ()
     } else {
-      println("Hiding other element: " + componentData.componentName)
+      println(
+        "Hiding other element: " + restaurantGroup.componentName,
+      )
       DomManipulation.hideElement(
-        componentData.componentName,
+        restaurantGroup.componentName,
       )
     }
 
   def updateUpcomingArrivalsOnPage(
-    selectedRoute: ComponentData,
-    components: Seq[ComponentData],
+    selectedRestaurantGroup: RestaurantGroup,
+    restaurantGroups: Seq[RestaurantGroup],
     now: Instant,
   ): ZIO[Browser with Clock with Console, Nothing, Unit] =
     for {
@@ -151,10 +153,10 @@ object MyApp extends App {
       _ <- if (modalIsOpen) ZIO.succeed()
       else
         ZIO.sequence(
-          components.map(
+          restaurantGroups.map(
             updateCurrentRestaurantInfoInCity(
               _,
-              selectedRoute,
+              selectedRestaurantGroup,
               now: Instant,
             ),
           ),

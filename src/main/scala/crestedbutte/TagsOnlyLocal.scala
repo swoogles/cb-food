@@ -5,6 +5,7 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 import crestedbutte.dom.Bulma
+import crestedbutte.routes.RestaurantGroup
 import crestedbutte.time.{
   BusDuration,
   BusTime,
@@ -21,20 +22,20 @@ object TagsOnlyLocal {
   import scalatags.JsDom.all._
 
   def overallPageLayout(pageMode: AppMode.Value,
-                        allComponentData: Seq[ComponentData]) =
+                        restaurantGroups: Seq[RestaurantGroup]) =
     div(id := "container")(
       // TODO Restore menu once Gunnison is added
       Bulma.menu(
-        allComponentData.map { componentData =>
+        restaurantGroups.map { restaurantGroup =>
           Bulma.Button.anchor(
-            componentData.restaurantGroup.restaurantGroupName.humanFriendlyName,
-          )(data("route") := componentData.componentName)
+            restaurantGroup.name.humanFriendlyName,
+          )(data("route") := restaurantGroup.componentName)
         },
         "Restaurants",
       ),
-      allComponentData.map(
-        singleComponentData =>
-          busScheduleDiv(singleComponentData.componentName),
+      restaurantGroups.map(
+        restaurantGroup =>
+          busScheduleDiv(restaurantGroup.componentName),
       ),
       div(cls := "contact-me")(
         div(
