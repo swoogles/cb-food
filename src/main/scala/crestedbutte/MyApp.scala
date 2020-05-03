@@ -4,10 +4,9 @@ import java.time.{Instant, OffsetDateTime}
 import java.util.concurrent.TimeUnit
 
 import com.billding.time.{ColoradoClock, FixedClock}
-import crestedbutte.dom.BulmaBehaviorLocal
+import crestedbutte.dom.{BulmaBehaviorLocal, ServiceWorkerBillding}
 import crestedbutte.routes._
 import org.scalajs.dom.experimental.serviceworkers._
-import org.scalajs.dom.raw.MouseEvent
 import zio.clock._
 import zio.console.Console
 import zio.duration.Duration
@@ -89,7 +88,7 @@ object MyApp extends App {
         ) with Console.Live with BrowserLive
       } else
         new ColoradoClock.Live with Console.Live with BrowserLive
-      _ <- registerServiceWorker()
+      _ <- ServiceWorkerBillding.register("./sw-opt.js")
       loopLogicInstantiated = loopLogic(pageMode, restaurantGroups)
         .provide(
           // TODO Try to provide *only* a clock here.
@@ -112,27 +111,19 @@ object MyApp extends App {
     now: Instant,
   ) =
     if (restaurantGroup == currentlySelectedRestaurantGroup) {
-      println(
-        "SelectedRoute: " + currentlySelectedRestaurantGroup.componentName,
-      )
       val restaurantsWithStatus =
         TimeCalculations.calculateCurrentRestaurantStatus(
           now,
           restaurantGroup,
         )
-      for {
-        _ <- DomManipulation.updateRestaurantSectionInsideElement(
-          restaurantGroup.componentName,
-          TagsOnlyLocal.structuredSetOfUpcomingArrivals(
-            restaurantsWithStatus,
-            restaurantGroup.name,
-          ),
-        )
-      } yield ()
-    } else {
-      println(
-        "Hiding other element: " + restaurantGroup.componentName,
+      DomManipulation.updateRestaurantSectionInsideElement(
+        restaurantGroup.componentName,
+        TagsOnlyLocal.structuredSetOfUpcomingArrivals(
+          restaurantsWithStatus,
+          restaurantGroup.name,
+        ),
       )
+    } else {
       DomManipulation.hideElement(
         restaurantGroup.componentName,
       )
@@ -157,29 +148,5 @@ object MyApp extends App {
           ),
         )
     } yield ()
-
-  def registerServiceWorker() =
-    ZIO
-      .environment[Browser]
-      .map {
-        registerServiceWorkerLogic
-      }
-
-  def registerServiceWorkerLogic(browser: Browser) = {
-    // TODO Ew. Try to get this removed after first version of PWA is working
-    import scala.concurrent.ExecutionContext.Implicits.global
-
-    toServiceWorkerNavigator(browser.browser.window().navigator).serviceWorker
-      .register("./sw-opt.js")
-      .toFuture
-      .onComplete {
-        case Success(registration) =>
-          registration.update()
-        case Failure(error) =>
-          println(
-            s"registerServiceWorker: service worker registration failed > ${error.printStackTrace()}",
-          )
-      }
-  }
 
 }
