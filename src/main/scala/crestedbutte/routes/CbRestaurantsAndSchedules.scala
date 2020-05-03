@@ -173,6 +173,20 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
+          Name("Last Steep"),
+          PhoneNumber("970-349-7007"),
+          Website.global("http://thelaststeep.com/"),
+          Website.facebookPage(
+            "https://www.facebook.com/TheLastSteep",
+          ),
+          StandardSchedule(
+            deliveryHours =
+              HoursOfOperation.everyDay("17:00", "20:00"),
+            carryOutHours =
+              HoursOfOperation.everyDay("11:30", "20:00"),
+          ),
+        ),
+        Restaurant(
           Name("McGills"),
           PhoneNumber("970-349-5240", "Order!"),
           Website.global("https://www.mcgillscrestedbutte.com/"),
