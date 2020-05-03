@@ -74,10 +74,7 @@ object MyApp extends App {
     for {
       pageMode <- QueryParameters
         .getOptional("mode", AppMode.fromString)
-        .map { paramAttempt =>
-          paramAttempt
-            .getOrElse(AppMode.Production)
-        }
+        .map { _.getOrElse(AppMode.Production) }
       _ <- DomManipulation.createAndApplyPageStructure(
         pageMode,
         restaurantGroups,
@@ -93,18 +90,15 @@ object MyApp extends App {
       } else
         new ColoradoClock.Live with Console.Live with BrowserLive
       _ <- registerServiceWorker()
-      _ <- BulmaBehaviorLocal.addMenuBehavior(
-        loopLogic(pageMode, restaurantGroups)
-          .provide(
-            // TODO Try to provide *only* a clock here.
-            environmentDependencies,
-          ),
-      )
-      _ <- loopLogic(pageMode, restaurantGroups)
+      loopLogicInstantiated = loopLogic(pageMode, restaurantGroups)
         .provide(
           // TODO Try to provide *only* a clock here.
           environmentDependencies,
         )
+      _ <- BulmaBehaviorLocal.addMenuBehavior(
+        loopLogicInstantiated,
+      )
+      _ <- loopLogicInstantiated
         .repeat(
           Schedule.spaced(Duration.apply(600, TimeUnit.SECONDS)),
         )
