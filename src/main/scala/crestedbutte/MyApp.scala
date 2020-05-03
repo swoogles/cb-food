@@ -3,6 +3,7 @@ package crestedbutte
 import java.time.{Instant, OffsetDateTime}
 import java.util.concurrent.TimeUnit
 
+import com.billding.time.{ColoradoClock, FixedClock}
 import crestedbutte.dom.BulmaBehaviorLocal
 import crestedbutte.routes._
 import org.scalajs.dom.experimental.serviceworkers._

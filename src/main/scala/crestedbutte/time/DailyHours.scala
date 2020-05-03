@@ -2,6 +2,8 @@ package crestedbutte.time
 
 import java.time.DayOfWeek
 
+import com.billding.time.BusTime
+
 sealed trait DailyInfo
 
 case class DailyHoursSegment(open: BusTime, close: BusTime)

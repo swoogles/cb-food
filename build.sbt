@@ -13,6 +13,7 @@ resolvers += Resolver.githubPackages("swoogles", "BulmaScala")
 
 libraryDependencies ++= Seq(
   "com.billding" %%% "bulmalibrary" % "0.2.14",
+  "com.billding" %%% "brieftime" % "0.0.3",
   "dev.zio" %%% "zio" % "1.0.0-RC17",
   "dev.zio" %%% "zio-streams" % "1.0.0-RC17",
   "com.lihaoyi" %%% "scalatags" % "0.8.6",
@@ -20,7 +21,7 @@ libraryDependencies ++= Seq(
   "io.github.cquiroz" %%% "scala-java-time" % "2.0.0-RC5",
 //  "io.github.cquiroz" %%% "scala-java-time-tzdb" % "2.0.0-RC3_2019a",
 //    libraryDependencies += "io.github.cquiroz" % "scala-java-time_2.13" % "2.0.0-RC3"
-  "dev.zio" %%% "zio-test"     % "1.0.0-RC17" % "tst",
+  "dev.zio" %%% "zio-test"     % "1.0.0-RC17" % "test",
   "dev.zio" %%% "zio-test-sbt" % "1.0.0-RC17" % "test",
   "com.lihaoyi" %%% "pprint" % "0.5.9",
   "com.github.japgolly.scalacss" %%% "core" % "0.6.0",

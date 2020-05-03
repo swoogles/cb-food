@@ -4,16 +4,10 @@ import java.time.DayOfWeek
 import java.time.format.TextStyle
 import java.util.Locale
 
+import com.billding.time.BusTime
 import crestedbutte.dom.Bulma
 import crestedbutte.routes.RestaurantGroup
-import crestedbutte.time.{
-  BusDuration,
-  BusTime,
-  ClosedForTheDay,
-  DailyHours,
-  DailyInfo,
-  HoursOfOperation,
-}
+import crestedbutte.time.{ClosedForTheDay, DailyHours, DailyInfo, HoursOfOperation}
 import org.scalajs.dom.html.{Anchor, Div}
 import scalatags.JsDom
 import scalatags.JsDom.TypedTag

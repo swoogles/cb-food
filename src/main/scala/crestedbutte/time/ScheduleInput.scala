@@ -2,6 +2,8 @@ package crestedbutte.time
 
 import java.time.DayOfWeek
 
+import com.billding.time.BusTime
+
 sealed trait ScheduleInput {
   def on(dayOfWeek: DayOfWeek): DailyInfo
 }
