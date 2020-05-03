@@ -4,7 +4,12 @@ import java.time.{Instant, LocalDateTime, ZoneId, ZoneOffset}
 
 import com.billding.time.BusTime
 import crestedbutte.routes.RestaurantGroup
-import crestedbutte.time.{ClosedForTheDay, DailyHours, DailyHoursSegment, DailyInfo}
+import crestedbutte.time.{
+  ClosedForTheDay,
+  DailyHours,
+  DailyHoursSegment,
+  DailyInfo,
+}
 import zio.ZIO
 import zio.clock.Clock
 

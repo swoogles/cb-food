@@ -7,7 +7,12 @@ import java.util.Locale
 import com.billding.time.BusTime
 import crestedbutte.dom.Bulma
 import crestedbutte.routes.RestaurantGroup
-import crestedbutte.time.{ClosedForTheDay, DailyHours, DailyInfo, HoursOfOperation}
+import crestedbutte.time.{
+  ClosedForTheDay,
+  DailyHours,
+  DailyInfo,
+  HoursOfOperation,
+}
 import org.scalajs.dom.html.{Anchor, Div}
 import scalatags.JsDom
 import scalatags.JsDom.TypedTag
