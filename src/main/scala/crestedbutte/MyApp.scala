@@ -82,7 +82,6 @@ object MyApp extends App {
       fixedTime <- QueryParameters.getRequired("time",
                                                deserializeTimeString)
       environmentDependencies = if (fixedTime.isDefined) { // TODO use map instead
-        println("generic queryParam currentTime: " + fixedTime.get)
         new FixedClock.Fixed(
           fixedTime.get.toString,
         ) with Console.Live with BrowserLive

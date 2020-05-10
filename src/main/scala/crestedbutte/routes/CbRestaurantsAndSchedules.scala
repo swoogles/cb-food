@@ -366,6 +366,29 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
+          Name("Teocalli Tamale"),
+          ExternalActionCollection(
+            VisitHomePage(
+              Website.onlineOrder(
+                "https://teocallitamale.revelup.com/weborder/?establishment=1",
+              ),
+            ),
+            Seq(
+              CallLocation(PhoneNumber("970-349-2005")),
+              VisitHomePage(
+                Website.facebookPage(
+                  "https://www.facebook.com/Teocalli-Tamale-55092301664/",
+                ),
+              ),
+            ),
+          ),
+          Some(
+            StandardSchedule.carryOutOnly(
+              HoursOfOperation.everyDay("11:00", "20:55"),
+            ),
+          ),
+        ),
+        Restaurant(
           Name("Tully's"),
           PhoneNumber("970-349-2444", "Order!"),
           Website.global("https://www.tullyscbsouth.com/"),
