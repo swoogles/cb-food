@@ -243,25 +243,6 @@ object CbRestaurantsAndSchedules
           ),
         ),
         Restaurant(
-          Name("Octopus Coffee"),
-          PhoneNumber("970-312-5394", "Order!"),
-          Website.global("https://www.octopuscoffeecb.com/"),
-          Website.facebookPage(
-            "https://www.facebook.com/octopuscoffeecb/",
-          ),
-          StandardSchedule.carryOutAndDelivery(
-            HoursOfOperation(
-              sunday = Hours("10:00", "15:00"),
-              monday = Hours("10:00", "15:00"),
-              tuesday = ClosedAllDay,
-              wednesday = ClosedAllDay,
-              thursday = ClosedAllDay,
-              friday = Hours("10:00", "15:00"),
-              saturday = Hours("10:00", "15:00"),
-            ),
-          ),
-        ),
-        Restaurant(
           Name("Pitas in Paradise"),
           PhoneNumber("970-349-0897", "Order!"),
           Website.global("http://pitasinparadise.com/"),
