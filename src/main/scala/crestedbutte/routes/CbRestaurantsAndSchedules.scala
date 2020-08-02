@@ -2,7 +2,6 @@ package crestedbutte.routes
 
 import java.time.DayOfWeek
 
-import crestedbutte.interpolators.PhoneNumberValueInterpolator
 import crestedbutte.time.{
   ClosedAllDay,
   ClosedForTheDay,
@@ -186,6 +185,19 @@ object CbRestaurantsAndSchedules
               HoursOfOperation.everyDay("11:30", "20:00"),
           ),
         ),
+        // TODO Get updated info from  Dana smith
+//        Restaurant(
+//          Name("Lil's Sushi Bar & Grill"),
+//          PhoneNumber("970-349-5457"),
+//          Website.global("http://lilssushibarandgrill.com/"),
+//          Website.facebookPage("https://www.facebook.com/Lils-Sushi-Bar-Grill-45523827961/"),
+//          StandardSchedule(
+//            deliveryHours =
+//              HoursOfOperation.everyDay("17:00", "20:00"),
+//            carryOutHours =
+//              HoursOfOperation.everyDay("11:30", "20:00"),
+//          )
+//        ) ,
         Restaurant(
           Name("McGills"),
           PhoneNumber("970-349-5240", "Order!"),

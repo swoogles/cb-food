@@ -118,12 +118,4 @@ object TimeCalculations {
         calculateCurrentRestaurantStatus(scheduleAtStop, now),
     )
 
-  val now: ZIO[Clock, Nothing, Instant] =
-    for {
-      clockProper <- ZIO.environment[Clock]
-      now         <- clockProper.clock.currentDateTime
-    } yield {
-      now.toInstant
-    }
-
 }

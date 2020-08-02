@@ -1,34 +1,47 @@
 package crestedbutte
 
-import java.time.{Instant, OffsetDateTime}
+import java.time.{DateTimeException, Instant, OffsetDateTime}
 import java.util.concurrent.TimeUnit
 
-import com.billding.time.{ColoradoClock, FixedClock}
-import crestedbutte.dom.{BulmaBehaviorLocal, ServiceWorkerBillding}
+import com.billding.time.{
+  BusTime,
+  ColoradoClock,
+  FixedClock,
+  TurboClock,
+}
+import crestedbutte.Browser.Browser
+import crestedbutte.dom.{
+  BulmaBehaviorLocal,
+  DomManipulation,
+  ServiceWorkerBillding,
+}
 import crestedbutte.routes._
 import org.scalajs.dom.experimental.serviceworkers._
+import org.scalajs.dom.raw.HTMLMediaElement
 import zio.clock._
 import zio.console.Console
 import zio.duration.Duration
-import zio.{App, Schedule, ZIO}
+import zio.{App, Has, Schedule, ZIO, ZLayer}
 
 import scala.util.{Failure, Success}
 
 object MyApp extends App {
+  HTMLMediaElement
 
   override def run(
     args: List[String],
-  ): ZIO[zio.ZEnv, Nothing, Int] = {
+  ): ZIO[zio.ZEnv, Nothing, zio.ExitCode] = {
     val myEnvironment =
-      new ColoradoClock.Live with Console.Live with BrowserLive
+      ZLayer.succeed(BrowserLive.browser) ++ Console.live ++
+      ZLayer.succeed(ColoradoClock.live)
 
-    fullApplicationLogic.provide(myEnvironment)
+    fullApplicationLogic.provideLayer(myEnvironment).exitCode
   }
 
   def loopLogic(
     pageMode: AppMode.Value,
     restaurantGroups: Seq[RestaurantGroup],
-  ): ZIO[Browser with Clock with Console, Nothing, Unit] =
+  ): ZIO[Browser with Clock, DateTimeException, Unit] =
     for {
       serviceAreaOpt <- QueryParameters.getOptional(
         "route",
@@ -44,15 +57,8 @@ object MyApp extends App {
         )
         .getOrElse(restaurantGroups.head)
 
-      _ <- ZIO.succeed(
-        println(
-          "selectedRestaurantGroup: " + selectedRestaurantGroup.name.humanFriendlyName,
-        ),
-      )
-      now <- TimeCalculations.now
       _ <- updateUpcomingArrivalsOnPage(selectedRestaurantGroup,
-                                        restaurantGroups,
-                                        now)
+                                        restaurantGroups)
       _ <- ModalBehavior.addModalOpenBehavior
       _ <- ModalBehavior.addModalCloseBehavior
       _ <- UnsafeCallbacks.attachCardClickBehavior
@@ -69,30 +75,41 @@ object MyApp extends App {
       s"2020-02-20T${rawTime}:00.00-07:00",
     )
 
-  val fullApplicationLogic: ZIO[Clock with Browser, Nothing, Int] =
+  val fullApplicationLogic
+    : ZIO[Clock with Has[Browser.Service] with Console,
+          Nothing,
+          Int] =
     for {
+      browser    <- ZIO.access[Browser](_.get)
+      console    <- ZIO.access[Console](_.get)
+      clockParam <- ZIO.access[Clock](_.get)
       pageMode <- QueryParameters
         .getOptional("mode", AppMode.fromString)
         .map { _.getOrElse(AppMode.Production) }
       _ <- DomManipulation.createAndApplyPageStructure(
-        pageMode,
-        restaurantGroups,
+        TagsOnlyLocal
+          .overallPageLayout(pageMode, restaurantGroups)
+          .render,
       )
       _ <- UnsafeCallbacks.attachMenuBehavior
       fixedTime <- QueryParameters.getRequired("time",
                                                deserializeTimeString)
-      environmentDependencies = if (fixedTime.isDefined) { // TODO use map instead
-        new FixedClock.Fixed(
-          fixedTime.get.toString,
-        ) with Console.Live with BrowserLive
-      } else
-        new ColoradoClock.Live with Console.Live with BrowserLive
+      clock = if (fixedTime.isDefined)
+        ZLayer.succeed(
+          TurboClock.TurboClock(
+            s"2020-02-20T${fixedTime.get.toString}:00.00-07:00",
+          ),
+        )
+      else ZLayer.succeed(clockParam)
+      environmentDependencies = ZLayer.succeed(browser) ++ ZLayer
+        .succeed(console) ++ clock
       _ <- ServiceWorkerBillding.register("./sw-opt.js")
       loopLogicInstantiated = loopLogic(pageMode, restaurantGroups)
-        .provide(
+        .provideLayer(
           // TODO Try to provide *only* a clock here.
           environmentDependencies,
         )
+        .catchAll(failure => throw new RuntimeException("ack!")) // TODO Improve this shiz
       _ <- BulmaBehaviorLocal.addMenuBehavior(
         loopLogicInstantiated,
       )
@@ -115,12 +132,15 @@ object MyApp extends App {
           now,
           restaurantGroup,
         )
-      DomManipulation.updateRestaurantSectionInsideElement(
+      DomManipulation.updateContentInsideElementAndReveal(
         restaurantGroup.componentName,
-        TagsOnlyLocal.structuredSetOfUpcomingArrivals(
-          restaurantsWithStatus,
-          restaurantGroup.name,
-        ),
+        TagsOnlyLocal
+          .structuredSetOfUpcomingArrivals(
+            restaurantsWithStatus,
+            restaurantGroup.name,
+          )
+          .render,
+        ElementNames.contentName,
       )
     } else {
       DomManipulation.hideElement(
@@ -131,18 +151,21 @@ object MyApp extends App {
   def updateUpcomingArrivalsOnPage(
     selectedRestaurantGroup: RestaurantGroup,
     restaurantGroups: Seq[RestaurantGroup],
-    now: Instant,
-  ): ZIO[Browser with Clock with Console, Nothing, Unit] =
+  ): ZIO[Browser with Clock, Nothing, Unit] =
     for {
+      clockProper <- ZIO.access[Clock](_.get)
+      now <- clockProper.currentDateTime
+        .catchAll(failure => throw new RuntimeException("ack!"))
+      localTime = new BusTime(now.toLocalTime)
       modalIsOpen <- DomMonitoring.modalIsOpen
       _ <- if (modalIsOpen) ZIO.succeed()
       else
-        ZIO.sequence(
+        ZIO.collectAll(
           restaurantGroups.map(
             updateCurrentRestaurantInfoInCity(
               _,
               selectedRestaurantGroup,
-              now: Instant,
+              now.toInstant,
             ),
           ),
         )

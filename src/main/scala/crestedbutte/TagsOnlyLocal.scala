@@ -31,6 +31,7 @@ object TagsOnlyLocal {
           )(data("route") := restaurantGroup.componentName)
         },
         "Restaurants",
+        "route  using-library", // TODO Check these values
       ),
       restaurantGroups.map(
         restaurantGroup =>
