@@ -296,7 +296,7 @@ object CbRestaurantsAndSchedules
         ),
         Restaurant(
           Name("Secret Stash"),
-          PhoneNumber("970-209-5159", "Order!"),
+          PhoneNumber("970-349-6245", "Order!"),
           Website.global("http://www.secretstash.com/"),
           Website.facebookPage(
             "https://www.facebook.com/TheSecretStashPizza",
